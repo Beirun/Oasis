@@ -2,7 +2,7 @@
 
 **Oasis: Hotel Reservation System** is a web-based application built on **Blazor Web App**, designed to streamline hotel booking and management processes. It is intended for hotel administrators, receptionists, and guests, providing an efficient platform for managing room reservations, guest check-ins and check-outs, and availability tracking. The system ensures a smooth and hassle-free booking experience while optimizing hotel operations.
 
-<b>
+
 # Features
 
 ## 🏨 Hotel Management  
