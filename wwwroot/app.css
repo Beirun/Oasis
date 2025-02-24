@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+@theme {
+    --font-montserrat: "Montserrat", "san-serif";
+    --font-yeseva-one: "Yeseva One", "san-serif";
+    --text-landing: clamp(2.5rem,5vw,100px);
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Yeseva One';
+    src: url('/fonts/YesevaOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

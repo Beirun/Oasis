@@ -1,0 +1,61 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Oasis.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Oasis.930cosnkbs.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.min.css",
+      "PackagePath": "staticwebassets\\app.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\Montserrat-VariableFont_wght.ttf",
+      "PackagePath": "staticwebassets\\fonts\\Montserrat-VariableFont_wght.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\YesevaOne-Regular.ttf",
+      "PackagePath": "staticwebassets\\fonts\\YesevaOne-Regular.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\icons\\arrow-left.png",
+      "PackagePath": "staticwebassets\\icons\\arrow-left.png"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
+      "PackagePath": "staticwebassets\\js\\landing.js"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\landing.png",
+      "PackagePath": "staticwebassets\\landing.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Oasis.props",
+      "PackagePath": "build\\Oasis.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Oasis.props",
+      "PackagePath": "buildMultiTargeting\\Oasis.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Oasis.props",
+      "PackagePath": "buildTransitive\\Oasis.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

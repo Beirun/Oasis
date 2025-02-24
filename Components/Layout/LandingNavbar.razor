@@ -1,0 +1,30 @@
+﻿@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+<script src="js/landing.js"></script>
+
+<div class="absolute top-0 w-full h-20 bg-[rgba(0,41,107,.20)] flex justify-between items-center px-5 ">
+    <div class="pl-40 text-2xl font-bold text-white">
+        Oasis
+    </div>
+    <div class="flex h-full w-150 justify-evenly items-center font-semibold text-white font-montserrat">
+        <p class="cursor-pointer">Home</p>
+        <p @onclick='() => ScrollToSection("rooms")' class="cursor-pointer">Rooms</p>
+        <p @onclick='() => ScrollToSection("services")' class="cursor-pointer">Services</p>
+        <p @onclick='() => ScrollToSection("about")' class="cursor-pointer">About</p>
+        <p @onclick='() => ScrollToSection("contact")' class="cursor-pointer">Contact</p>
+        <NavLink href="signin">
+        <button class="cursor-pointer w-30 h-10 rounded-full bg-[#00296B] hover:bg-[#00296B]/75 transition-colors duration-300">
+            Sign In
+        </button>
+        </NavLink>
+    </div>
+</div>
+
+
+@code {
+    private async Task ScrollToSection(string id)
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToSection", id);
+    }
+
+}
