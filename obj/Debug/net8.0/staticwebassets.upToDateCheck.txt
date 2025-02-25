@@ -1,8 +1,10 @@
 wwwroot\app.css
-wwwroot\app.min.css
+wwwroot\base.css
+wwwroot\clouds.png
 wwwroot\favicon.png
 wwwroot\fonts\Montserrat-VariableFont_wght.ttf
 wwwroot\fonts\YesevaOne-Regular.ttf
 wwwroot\icons\arrow-left.png
 wwwroot\js\landing.js
 wwwroot\landing.png
+wwwroot\signin-bg.jpg

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G3Rc33IEWSOyYX2shalHGJHzYdPsT+y0Z40bJw38B0U=",
+  "Hash": "m1FbK8u8/Md6NDlr+PhayEx6RNfgTD13AIvOmNtBbyM=",
   "Source": "Oasis",
   "BasePath": "_content/Oasis",
   "Mode": "Default",
@@ -73,19 +73,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "t764dm9u0x",
-      "Integrity": "eU2hlfUJeXtJgQaV6a7UbLaUH9jJy2BJyX8rS8V4xok=",
+      "Fingerprint": "3tfih0kwp8",
+      "Integrity": "ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.min.css",
+      "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
       "SourceId": "Oasis",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\",
       "BasePath": "_content/Oasis",
-      "RelativePath": "app.min#[.{fingerprint}]?.css",
+      "RelativePath": "base#[.{fingerprint}]?.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -94,11 +94,32 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "7jwwap1emn",
-      "Integrity": "TbVFKRAWM1LiP836XPl+ztfl4tlta0cFV/bXjV0/HNg=",
+      "Fingerprint": "6xmhc0ayv7",
+      "Integrity": "tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\app.min.css"
+      "OriginalItemSpec": "wwwroot\\base.css"
+    },
+    {
+      "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
+      "SourceId": "Oasis",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\",
+      "BasePath": "_content/Oasis",
+      "RelativePath": "clouds#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "sw61ien3ig",
+      "Integrity": "PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\clouds.png"
     },
     {
       "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\favicon.png",
@@ -225,9 +246,75 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\landing.png"
+    },
+    {
+      "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "SourceId": "Oasis",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\",
+      "BasePath": "_content/Oasis",
+      "RelativePath": "signin-bg#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "b7du2v8clk",
+      "Integrity": "qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\signin-bg.jpg"
     }
   ],
   "Endpoints": [
+    {
+      "Route": "app.3tfih0kwp8.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "648"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 11:16:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3tfih0kwp8"
+        },
+        {
+          "Name": "label",
+          "Value": "app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs="
+        }
+      ]
+    },
     {
       "Route": "app.css",
       "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
@@ -239,7 +326,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "588"
+          "Value": "648"
         },
         {
           "Name": "Content-Type",
@@ -247,11 +334,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eU2hlfUJeXtJgQaV6a7UbLaUH9jJy2BJyX8rS8V4xok=\""
+          "Value": "\"ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 23 Feb 2025 09:02:34 GMT"
+          "Value": "Mon, 24 Feb 2025 11:16:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -261,13 +348,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-eU2hlfUJeXtJgQaV6a7UbLaUH9jJy2BJyX8rS8V4xok="
+          "Value": "sha256-ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs="
         }
       ]
     },
     {
-      "Route": "app.min.7jwwap1emn.css",
-      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.min.css",
+      "Route": "base.6xmhc0ayv7.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -276,7 +363,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "51846"
+          "Value": "66176"
         },
         {
           "Name": "Content-Type",
@@ -284,11 +371,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"TbVFKRAWM1LiP836XPl+ztfl4tlta0cFV/bXjV0/HNg=\""
+          "Value": "\"tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 23 Feb 2025 09:04:02 GMT"
+          "Value": "Tue, 25 Feb 2025 11:55:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -298,21 +385,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "7jwwap1emn"
+          "Value": "6xmhc0ayv7"
         },
         {
           "Name": "label",
-          "Value": "app.min.css"
+          "Value": "base.css"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-TbVFKRAWM1LiP836XPl+ztfl4tlta0cFV/bXjV0/HNg="
+          "Value": "sha256-tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo="
         }
       ]
     },
     {
-      "Route": "app.min.css",
-      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.min.css",
+      "Route": "base.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -321,7 +408,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "51846"
+          "Value": "66176"
         },
         {
           "Name": "Content-Type",
@@ -329,11 +416,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"TbVFKRAWM1LiP836XPl+ztfl4tlta0cFV/bXjV0/HNg=\""
+          "Value": "\"tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 23 Feb 2025 09:04:02 GMT"
+          "Value": "Tue, 25 Feb 2025 11:55:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -343,13 +430,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-TbVFKRAWM1LiP836XPl+ztfl4tlta0cFV/bXjV0/HNg="
+          "Value": "sha256-tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo="
         }
       ]
     },
     {
-      "Route": "app.t764dm9u0x.css",
-      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
+      "Route": "clouds.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -358,19 +445,56 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "588"
+          "Value": "581578"
         },
         {
           "Name": "Content-Type",
-          "Value": "text/css"
+          "Value": "image/png"
         },
         {
           "Name": "ETag",
-          "Value": "\"eU2hlfUJeXtJgQaV6a7UbLaUH9jJy2BJyX8rS8V4xok=\""
+          "Value": "\"PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 23 Feb 2025 09:02:34 GMT"
+          "Value": "Mon, 24 Feb 2025 10:50:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg="
+        }
+      ]
+    },
+    {
+      "Route": "clouds.sw61ien3ig.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "581578"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:50:09 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -380,15 +504,15 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "t764dm9u0x"
+          "Value": "sw61ien3ig"
         },
         {
           "Name": "label",
-          "Value": "app.css"
+          "Value": "clouds.png"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-eU2hlfUJeXtJgQaV6a7UbLaUH9jJy2BJyX8rS8V4xok="
+          "Value": "sha256-PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg="
         }
       ]
     },
@@ -1045,6 +1169,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-dQNcj6sAovVCQB+mHBJ5efQbBE9lpDombFiupk/0kbw="
+        }
+      ]
+    },
+    {
+      "Route": "signin-bg.b7du2v8clk.jpg",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "148948"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:38:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b7du2v8clk"
+        },
+        {
+          "Name": "label",
+          "Value": "signin-bg.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ="
+        }
+      ]
+    },
+    {
+      "Route": "signin-bg.jpg",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "148948"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:38:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ="
         }
       ]
     }

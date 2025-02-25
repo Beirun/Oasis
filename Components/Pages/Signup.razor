@@ -1,0 +1,65 @@
+﻿@page "/signup"
+@rendermode InteractiveServer
+@using Oasis.Components.ui
+<div class="h-screen w-screen flex justify-center items-center bg-[url('clouds.png')] bg-cover">
+    <div class="h-6/7 w-2/3 bg-[#e8e8e8] flex rounded-lg shadow-md shadow-gray-600/50">
+        <div class="rounded-l-md h-full w-1/2 bg-[url('signin-bg.jpg')] bg-cover "></div>
+        <div class="h-full w-1/2 flex flex-col items-center justify-center">
+            <div class="text-4xl text-primary mb-5 mt-2.5 font-montserrat font-bold">
+                SIGN UP
+            </div>
+            <div class="w-100 flex flex-col gap-7.5 justify-center items-center">
+                <div class="w-85 flex justify-between">
+                    <Input type="text" placeholder="First Name" class="w-[45%]" />
+                    <Input type="text" placeholder="Last Name" class="w-[45%]" />
+                </div>
+
+                <Input type="text" placeholder="Contact Number" class="w-85" />
+                <Input type="text" placeholder="Email" class="w-85" />
+
+                <div class="flex justify-between items-center w-85 mt-2.5">
+                    <Select placeholder="Gender" options="@genders" class="w-[45%]"/>
+                    <Select placeholder="Age" options="@GenerateAges()" class="w-[45%]"/>
+                    @* <select value="" class="peer outline-none focus:outline-none border-b-2 border-gray-500 w-[45%]"> *@
+                    @*     <option value="value">Male</option> *@
+                    @*     <option value="value">Female</option> *@
+                    @*     <option value="value">Other</option> *@
+                    @* </select> *@
+                    @* <select value="" class="outline-none focus:outline-none border-b-2 border-gray-500 w-[45%]"> *@
+                    @*     @for (int i = 14; i <= 100; i++) *@
+                    @*     { *@
+                    @*         <option value="@i">@i</option> *@
+                    @*     } *@
+                    @* </select> *@
+                </div>
+                <div class="flex justify-between items-center w-85">
+                    <Input type="password" placeholder="Password" class="w-[45%]" />
+                    <Input type="password" placeholder="Confirm Password" class="w-[45%]" />
+
+                </div>
+            </div>
+            <div class="flex flex-col justify-center items-center w-100 my-10 h-10">
+                <button type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 transition-colors duration-300 cursor-pointer">Sign In</button>
+            </div>
+            <div>
+                Already have an account? <NavLink href="signin" class="text-primary transition-colors duration-200 hover:underline hover:text-primary/80 ">Sign In Here!</NavLink>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@code {
+    private List<string> genders = new List<string> { "Male", "Female", "Prefer not to say" };
+    private List<string> GenerateAges()
+    {
+        List<string> ages = new();
+        for (int i = 14; i <= 100; i++)
+        {
+            ages.Add(i.ToString());
+        }
+        return ages;
+    }
+
+}

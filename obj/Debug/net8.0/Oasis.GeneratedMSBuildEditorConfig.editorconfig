@@ -52,12 +52,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTaWduSW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Signup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTaWdudXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Weather.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/Input.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxJbnB1dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/Select.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxTZWxlY3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/_Imports.razor]

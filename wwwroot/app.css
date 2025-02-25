@@ -8,6 +8,7 @@
 
 
 @theme {
+    --color-primary: #0040a6;
     --font-montserrat: "Montserrat", "san-serif";
     --font-yeseva-one: "Yeseva One", "san-serif";
     --text-landing: clamp(2.5rem,5vw,100px);
@@ -16,7 +17,7 @@
 @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
-    font-weight: normal;
+    font-weight: 100 200 300 400 500 600 700 800 900;
     font-style: normal;
 }
 

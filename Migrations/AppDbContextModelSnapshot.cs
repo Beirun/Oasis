@@ -21,6 +21,9 @@ namespace Oasis.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("guest_age")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("guest_contactno")
                         .HasColumnType("TEXT");
 
@@ -41,7 +44,7 @@ namespace Oasis.Migrations
 
                     b.HasKey("guest_id");
 
-                    b.ToTable("Guests");
+                    b.ToTable("Guest");
                 });
 #pragma warning restore 612, 618
         }

@@ -161,3 +161,4 @@ C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.csproj.A
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.csproj.Up2Date
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\package.json
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\package-lock.json
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.sourcelink.json

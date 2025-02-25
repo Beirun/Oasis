@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Oasis.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250223093602_InitialCreate")]
+    [Migration("20250225124948_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -23,6 +23,9 @@ namespace Oasis.Migrations
                     b.Property<int>("guest_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("guest_age")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("guest_contactno")
                         .HasColumnType("TEXT");
@@ -44,7 +47,7 @@ namespace Oasis.Migrations
 
                     b.HasKey("guest_id");
 
-                    b.ToTable("Guests");
+                    b.ToTable("Guest");
                 });
 #pragma warning restore 612, 618
         }

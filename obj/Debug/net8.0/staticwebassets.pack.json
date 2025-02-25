@@ -9,8 +9,12 @@
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.min.css",
-      "PackagePath": "staticwebassets\\app.min.css"
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
+      "PackagePath": "staticwebassets\\base.css"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
+      "PackagePath": "staticwebassets\\clouds.png"
     },
     {
       "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\favicon.png",
@@ -35,6 +39,10 @@
     {
       "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\landing.png",
       "PackagePath": "staticwebassets\\landing.png"
+    },
+    {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "PackagePath": "staticwebassets\\signin-bg.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
