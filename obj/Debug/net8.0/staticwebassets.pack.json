@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\icons\\arrow-left.png"
     },
     {
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "PackagePath": "staticwebassets\\js\\date-picker.js"
+    },
+    {
       "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
       "PackagePath": "staticwebassets\\js\\landing.js"
     },

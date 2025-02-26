@@ -1,30 +1,36 @@
 ﻿@rendermode InteractiveServer
 <div class="relative @Class">
-    <input 
-        type="@Type" 
-        class="peer w-full py-2 pl-2 bg-transparent border-b-2 
-               border-gray-500 focus:text-primary focus:outline-none 
-               transition-all duration-300 placeholder-transparent" 
-    placeholder="" />
-    <span 
-        class="w-full pointer-events-none absolute left-2 top-3.25 text-gray-600 
+    <input value="@Value"
+           @oninput="OnInput"
+           type="@Type"
+           class="peer w-full py-2 pl-2 bg-transparent border-b-2
+               border-gray-500 focus:text-primary focus:outline-none
+               transition-all duration-300 placeholder-transparent"
+           placeholder="" />
+    <span class="w-full pointer-events-none absolute left-2 top-3.25 text-gray-600
                transition-all duration-300 peer-focus:text-xs peer-focus:-top-2.75
-               peer-focus:left-0 peer-focus:text-primary peer-[:not(:placeholder-shown)]:text-xs 
-               peer-[:not(:placeholder-shown)]:-top-2.75 peer-[:not(:placeholder-shown)]:left-0 
-               peer-placeholder-shown:text-base peer-placeholder-shown:top-3.25 peer-placeholder-shown:left-2"
-    >
+               peer-focus:left-0 peer-focus:text-primary peer-[:not(:placeholder-shown)]:text-xs
+               peer-[:not(:placeholder-shown)]:-top-2.75 peer-[:not(:placeholder-shown)]:left-0
+               peer-placeholder-shown:text-base peer-placeholder-shown:top-3.25 peer-placeholder-shown:left-2">
         @Placeholder
     </span>
-    <div 
-        class="absolute bottom-0 left-0 w-full h-[1px] 
-               border-b-2 border-primary/75 bg-primary/75 
-               scale-x-0 transition-transform duration-300 
-                peer-focus:scale-x-100"
-    ></div>
+    <div class="absolute bottom-0 left-0 w-full h-[1px]
+               border-b-2 border-primary/75 bg-primary/75
+               scale-x-0 transition-transform duration-300
+                peer-focus:scale-x-100">
+    </div>
 </div>
 
 @code {
     [Parameter] public string Type { get; set; } = "text";
     [Parameter] public string Placeholder { get; set; } = "";
     [Parameter] public string Class { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    private async Task OnInput(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? string.Empty;
+        await ValueChanged.InvokeAsync(Value);
+    }
 }

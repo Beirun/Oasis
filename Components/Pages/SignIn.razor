@@ -1,4 +1,8 @@
 ﻿@page "/signin"
+@inject AppDbContext context
+@inject NavigationManager Navigation
+@using Data.Models
+@using Microsoft.EntityFrameworkCore
 @rendermode InteractiveServer
 @using Oasis.Components.ui
 <div class="h-screen w-screen flex justify-center items-center bg-[url('clouds.png')] bg-cover">
@@ -8,12 +12,12 @@
                 SIGN IN
             </div>
             <div class="flex flex-col gap-10 justify-center items-center w-100">
-                <Input type="text" placeholder="Email" class="w-85"/>
-                <Input type="password" placeholder="Password" class="w-85" />
+                <Input @bind-Value="email" type="text" placeholder="Email" class="w-85"/>
+                <Input @bind-Value="password" type="password" placeholder="Password" class="w-85" />
 
             </div>
             <div class="flex flex-col gap-10 justify-center items-center w-100 my-15 h-10">
-                <button type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 transition-colors duration-300 cursor-pointer">Sign In</button>
+                <button @onclick="LoginGuest" type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 transition-colors duration-300 cursor-pointer">Sign In</button>
             </div>
             <div>
                 Don't have an account? <NavLink href="signup" class="text-primary transition-colors duration-200 hover:underline hover:text-primary/80 ">Sign Up Here!</NavLink>
@@ -24,9 +28,27 @@
         </div>
     </div>
 
-        
+
 </div> 
 
 @code {
+    private string email = "";
+    private string password = "";
+
+    private async Task LoginGuest()
+    {
+        Console.WriteLine(email);
+        var guests = await context.Guest.Where(c => c.guest_email == email).ToListAsync();
+        if (guests == null || guests.Count == 0)
+        {
+            Console.WriteLine("Email not registered");
+            return;
+        }
+        if(guests[0].guest_password != password){
+            Console.WriteLine("Incorrect Password");
+            return;
+        }
+        Navigation.NavigateTo("/dashboard");
+    }
 
 }

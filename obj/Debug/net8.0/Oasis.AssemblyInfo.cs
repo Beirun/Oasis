@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Oasis")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1fbc172a4b9cf23c3a7b56af53ce3d1dbdb60c8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc349ed450bbd86de210b9cb21dcf66307842fcb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Oasis")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Oasis")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

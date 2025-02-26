@@ -10,7 +10,7 @@ namespace Oasis.Data.Models
         public string? guest_fname { get; set; }
         public string? guest_lname { get; set; }
         public string? guest_gender { get; set; }
-        public string? guest_age { get; set; }
+        public DateOnly? guest_dob { get; set; }
         public string? guest_email { get; set; }
         public string? guest_contactno { get; set; }
         public string? guest_password { get; set; }

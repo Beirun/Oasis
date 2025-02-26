@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "m1FbK8u8/Md6NDlr+PhayEx6RNfgTD13AIvOmNtBbyM=",
+  "Hash": "Nd6/ME9DzVJMB4OJNxTk0Dg27T+z7Ps74OsEZ3LbpxI=",
   "Source": "Oasis",
   "BasePath": "_content/Oasis",
   "Mode": "Default",
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "3tfih0kwp8",
-      "Integrity": "ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs=",
+      "Fingerprint": "8dsvprqc9q",
+      "Integrity": "pLnVHjyOCHmrSu/xTvWCLKF8aZRTtwS5xeYYmRWxrig=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
@@ -94,8 +94,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6xmhc0ayv7",
-      "Integrity": "tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo=",
+      "Fingerprint": "qdwt0o3rwr",
+      "Integrity": "0mYhSzUyOEj4WSktjtyri61gKcILQMbgL6exEv5Yvfc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\base.css"
@@ -206,6 +206,27 @@
       "OriginalItemSpec": "wwwroot\\icons\\arrow-left.png"
     },
     {
+      "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "SourceId": "Oasis",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\",
+      "BasePath": "_content/Oasis",
+      "RelativePath": "js/date-picker#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ej11dfdsk3",
+      "Integrity": "CldQ0TOJd00GvstYOPMda/i2RAkwN37SeKfW6/Y02Pg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\date-picker.js"
+    },
+    {
       "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
       "SourceId": "Oasis",
       "SourceType": "Discovered",
@@ -271,7 +292,7 @@
   ],
   "Endpoints": [
     {
-      "Route": "app.3tfih0kwp8.css",
+      "Route": "app.8dsvprqc9q.css",
       "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -281,7 +302,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "648"
+          "Value": "650"
         },
         {
           "Name": "Content-Type",
@@ -289,11 +310,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs=\""
+          "Value": "\"pLnVHjyOCHmrSu/xTvWCLKF8aZRTtwS5xeYYmRWxrig=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 24 Feb 2025 11:16:40 GMT"
+          "Value": "Wed, 26 Feb 2025 08:21:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -303,7 +324,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "3tfih0kwp8"
+          "Value": "8dsvprqc9q"
         },
         {
           "Name": "label",
@@ -311,7 +332,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs="
+          "Value": "sha256-pLnVHjyOCHmrSu/xTvWCLKF8aZRTtwS5xeYYmRWxrig="
         }
       ]
     },
@@ -326,7 +347,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "648"
+          "Value": "650"
         },
         {
           "Name": "Content-Type",
@@ -334,11 +355,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs=\""
+          "Value": "\"pLnVHjyOCHmrSu/xTvWCLKF8aZRTtwS5xeYYmRWxrig=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 24 Feb 2025 11:16:40 GMT"
+          "Value": "Wed, 26 Feb 2025 08:21:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -348,52 +369,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ee6Awwt/mhr8/cE1NM46CVE7ddTX4hjWymR1eos5UTs="
-        }
-      ]
-    },
-    {
-      "Route": "base.6xmhc0ayv7.css",
-      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "66176"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 25 Feb 2025 11:55:32 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6xmhc0ayv7"
-        },
-        {
-          "Name": "label",
-          "Value": "base.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo="
+          "Value": "sha256-pLnVHjyOCHmrSu/xTvWCLKF8aZRTtwS5xeYYmRWxrig="
         }
       ]
     },
@@ -408,7 +384,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "66176"
+          "Value": "60881"
         },
         {
           "Name": "Content-Type",
@@ -416,11 +392,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo=\""
+          "Value": "\"0mYhSzUyOEj4WSktjtyri61gKcILQMbgL6exEv5Yvfc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Feb 2025 11:55:32 GMT"
+          "Value": "Wed, 26 Feb 2025 08:50:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -430,7 +406,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-tsUJQf90iyzm37nGeFHu0xEF6n+OGyG8XmvZ7F5dtoo="
+          "Value": "sha256-0mYhSzUyOEj4WSktjtyri61gKcILQMbgL6exEv5Yvfc="
+        }
+      ]
+    },
+    {
+      "Route": "base.qdwt0o3rwr.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60881"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0mYhSzUyOEj4WSktjtyri61gKcILQMbgL6exEv5Yvfc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 08:50:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "qdwt0o3rwr"
+        },
+        {
+          "Name": "label",
+          "Value": "base.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-0mYhSzUyOEj4WSktjtyri61gKcILQMbgL6exEv5Yvfc="
         }
       ]
     },
@@ -841,6 +862,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Kx6lhCEUSsV0cUeKQoJLvXiSxb9QabRYgd5yTfSP6Ns="
+        }
+      ]
+    },
+    {
+      "Route": "js/date-picker.ej11dfdsk3.js",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "702"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CldQ0TOJd00GvstYOPMda/i2RAkwN37SeKfW6/Y02Pg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 07:43:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ej11dfdsk3"
+        },
+        {
+          "Name": "label",
+          "Value": "js/date-picker.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CldQ0TOJd00GvstYOPMda/i2RAkwN37SeKfW6/Y02Pg="
+        }
+      ]
+    },
+    {
+      "Route": "js/date-picker.js",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "702"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CldQ0TOJd00GvstYOPMda/i2RAkwN37SeKfW6/Y02Pg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 07:43:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CldQ0TOJd00GvstYOPMda/i2RAkwN37SeKfW6/Y02Pg="
         }
       ]
     },

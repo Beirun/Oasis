@@ -5,6 +5,7 @@ wwwroot\favicon.png
 wwwroot\fonts\Montserrat-VariableFont_wght.ttf
 wwwroot\fonts\YesevaOne-Regular.ttf
 wwwroot\icons\arrow-left.png
+wwwroot\js\date-picker.js
 wwwroot\js\landing.js
 wwwroot\landing.png
 wwwroot\signin-bg.jpg

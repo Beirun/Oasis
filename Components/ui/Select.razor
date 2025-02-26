@@ -3,25 +3,25 @@
                border-gray-500 focus:outline-none
                transition-all duration-300 appearance-none
                 @(IsFocused ? "text-primary" : "text-gray-600")"
-            @bind="SelectedValue"
+            @onchange="OnValueChanged"
             @onfocus="() => IsFocused = true"
             @onblur="() => IsFocused = false"
-            >
-        <option value="" disabled hidden></option>
+            value="@Value">
+        <option value="" selected disabled hidden></option>
         @foreach (var option in Options)
         {
-            <option @onselect="() => IsFocused = false" value="@option">@option</option>
+            <option value="@option">@option</option>
         }
     </select>
 
     <span class="pointer-events-none absolute left-3 text-gray-600 transition-all duration-300
-               @(IsFocused || !string.IsNullOrEmpty(SelectedValue) ? "-top-2.75 text-xs" : "top-2 text-base")
+               @(IsFocused || !string.IsNullOrEmpty(Value) ? "-top-2.75 text-xs" : "top-2 text-base")
                 @(IsFocused ? "text-primary" : "")">
         @Placeholder
     </span>
 
     <div class="absolute bottom-0 left-0 w-full h-[1px]
-               border-b-2 border-primary/75 bg-primary/75 scale-x-0 transition-transform duration-300 peer-focus:scale-x-100 origin-center"></div>
+               border-b-2 border-primary/75 bg-primary/75 peer-focus:scale-x-100 scale-x-0 transition-transform duration-300  origin-center"></div>
 
     <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
         <svg class="w-4 h-4 text-gray-400 @(IsFocused ? "text-primary" : "")" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -34,6 +34,13 @@
     [Parameter] public string Placeholder { get; set; } = "";
     [Parameter] public List<string> Options { get; set; } = new();
     [Parameter] public string Class { get; set; } = "";
-    private string SelectedValue { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
     private bool IsFocused { get; set; } = false;
+
+    private async Task OnValueChanged(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? string.Empty;
+        await ValueChanged.InvokeAsync(Value);
+    }
 }
