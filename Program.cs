@@ -1,6 +1,7 @@
 using Oasis.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Sysinfocus.AspNetCore.Components;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,7 +10,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=app.db"));
-
+builder.Services.AddSysinfocus(false);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

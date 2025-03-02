@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Sysinfocus.AspNetCore.Components" Version="0.0.2.4" />
   </ItemGroup>
 
   <ItemGroup>

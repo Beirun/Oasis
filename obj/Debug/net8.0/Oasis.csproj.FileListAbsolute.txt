@@ -162,3 +162,11 @@ C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.csproj.U
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\package.json
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\package-lock.json
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.sourcelink.json
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\libman.json
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspNetCore.Components.dll
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.JSInterop.dll
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Sysinfocus.AspNetCore.Components.dll

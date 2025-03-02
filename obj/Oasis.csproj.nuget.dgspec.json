@@ -65,6 +65,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.2, )"
+            },
+            "Sysinfocus.AspNetCore.Components": {
+              "target": "Package",
+              "version": "[0.0.2.4, )"
             }
           },
           "imports": [

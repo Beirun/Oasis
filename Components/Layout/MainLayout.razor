@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject Initialization init
 
-<div class="page">
+<div class="page light" @onclick="init.HandleMainLayoutClickEvent">
     @Body
 </div>
 
@@ -9,3 +10,13 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // This initializes the theme for the components.
+        // Then you can use init.ToggleTheme() to toggle between light and dark modes.
+        if (firstRender) await init.InitializeTheme();
+    }
+}

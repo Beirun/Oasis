@@ -64,16 +64,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/DatePicker.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxEYXRlUGlja2VyLnJhem9y
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/CustomDatePicker.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxDdXN0b21EYXRlUGlja2VyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/Input.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxJbnB1dC5yYXpvcg==
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/CustomInput.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxDdXN0b21JbnB1dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/Select.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxTZWxlY3QucmF6b3I=
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/CustomSelect.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxDdXN0b21TZWxlY3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/_Imports.razor]

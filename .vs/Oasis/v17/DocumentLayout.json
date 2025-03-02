@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\wwwroot\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:wwwroot\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\pages\\signup.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\pages\\signup.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -11,24 +27,24 @@
       "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\pages\\signin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\ui\\datepicker.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\ui\\datepicker.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\ui\\custominput.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\ui\\custominput.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\ui\\select.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\ui\\select.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\ui\\customselect.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\ui\\customselect.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\ui\\input.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\ui\\input.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\ui\\customdatepicker.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\ui\\customdatepicker.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Migrations\\20250226094927_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20250226094927_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\data\\models\\guest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -51,28 +67,16 @@
       "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:wwwroot\\js\\date-picker.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\wwwroot\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:wwwroot\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Migrations\\20250225124948_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20250225124948_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\tailwind.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:tailwind.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|c:\\users\\beirun\\desktop\\my coding projects\\oasis\\migrations\\20250226094927_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}|Oasis.csproj|solutionrelative:migrations\\20250226094927_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -82,8 +86,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 17,
+          "SelectedChildIndex": 20,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_Imports.razor",
+              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\_Imports.razor",
+              "RelativeDocumentMoniker": "Components\\_Imports.razor",
+              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\_Imports.razor",
+              "RelativeToolTip": "Components\\_Imports.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-02T13:31:52.97Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
@@ -102,7 +119,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 18,
               "Title": "20250226094927_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Migrations\\20250226094927_InitialCreate.cs",
               "RelativeDocumentMoniker": "Migrations\\20250226094927_InitialCreate.cs",
@@ -115,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "date-picker.js",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\date-picker.js",
@@ -128,77 +145,75 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DatePicker.razor",
-              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\DatePicker.razor",
-              "RelativeDocumentMoniker": "Components\\ui\\DatePicker.razor",
-              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\DatePicker.razor",
-              "RelativeToolTip": "Components\\ui\\DatePicker.razor",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAABsAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "CustomDatePicker.razor",
+              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\CustomDatePicker.razor",
+              "RelativeDocumentMoniker": "Components\\ui\\CustomDatePicker.razor",
+              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\CustomDatePicker.razor",
+              "RelativeToolTip": "Components\\ui\\CustomDatePicker.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAIBJwBQAAABsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-26T03:45:54.899Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "20250225124948_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Migrations\\20250225124948_InitialCreate.cs",
               "RelativeDocumentMoniker": "Migrations\\20250225124948_InitialCreate.cs",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Migrations\\20250225124948_InitialCreate.cs",
               "RelativeToolTip": "Migrations\\20250225124948_InitialCreate.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-25T12:49:48.62Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T12:49:48.62Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Input.razor",
-              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\Input.razor",
-              "RelativeDocumentMoniker": "Components\\ui\\Input.razor",
-              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\Input.razor",
-              "RelativeToolTip": "Components\\ui\\Input.razor",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAABwAAAAEAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "CustomInput.razor",
+              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\CustomInput.razor",
+              "RelativeDocumentMoniker": "Components\\ui\\CustomInput.razor",
+              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\CustomInput.razor",
+              "RelativeToolTip": "Components\\ui\\CustomInput.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-24T09:31:52.049Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 3,
               "Title": "app.css",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
               "RelativeDocumentMoniker": "wwwroot\\app.css",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
               "RelativeToolTip": "wwwroot\\app.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-02-23T03:46:04.783Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "SignIn.razor",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Pages\\SignIn.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\SignIn.razor",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Pages\\SignIn.razor",
               "RelativeToolTip": "Components\\Pages\\SignIn.razor",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACoAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-23T09:07:07.241Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Select.razor",
-              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\Select.razor",
-              "RelativeDocumentMoniker": "Components\\ui\\Select.razor",
-              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\Select.razor",
-              "RelativeToolTip": "Components\\ui\\Select.razor",
+              "DocumentIndex": 7,
+              "Title": "CustomSelect.razor",
+              "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\CustomSelect.razor",
+              "RelativeDocumentMoniker": "Components\\ui\\CustomSelect.razor",
+              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\ui\\CustomSelect.razor",
+              "RelativeToolTip": "Components\\ui\\CustomSelect.razor",
               "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-25T00:32:56.392Z",
@@ -206,46 +221,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "Guest.cs",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Data\\Models\\Guest.cs",
               "RelativeDocumentMoniker": "Data\\Models\\Guest.cs",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Data\\Models\\Guest.cs",
               "RelativeToolTip": "Data\\Models\\Guest.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAswBAAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA9wBAAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-23T09:19:40.825Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABCAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Program.cs*",
+              "RelativeToolTip": "Program.cs*",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-23T02:06:05.904Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 1,
               "Title": "App.razor",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\App.razor",
               "RelativeDocumentMoniker": "Components\\App.razor",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\App.razor",
               "RelativeToolTip": "Components\\App.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAB+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-23T01:42:29.226Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
@@ -258,33 +273,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "LandingNavbar.razor",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Layout\\LandingNavbar.razor",
               "RelativeDocumentMoniker": "Components\\Layout\\LandingNavbar.razor",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Layout\\LandingNavbar.razor",
               "RelativeToolTip": "Components\\Layout\\LandingNavbar.razor",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAUAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAIBJwAUAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-23T06:03:57.906Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Signup.razor",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Pages\\Signup.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\Signup.razor",
-              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Pages\\Signup.razor",
-              "RelativeToolTip": "Components\\Pages\\Signup.razor",
-              "ViewState": "AgIAABMAAAAAAAAAAAAAACYAAAAOAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Pages\\Signup.razor*",
+              "RelativeToolTip": "Components\\Pages\\Signup.razor*",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAABkAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-24T13:21:14.99Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "Home.razor",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Pages\\Home.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\Home.razor",
@@ -297,20 +312,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 0,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Layout\\MainLayout.razor",
               "RelativeDocumentMoniker": "Components\\Layout\\MainLayout.razor",
               "ToolTip": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Components\\Layout\\MainLayout.razor",
               "RelativeToolTip": "Components\\Layout\\MainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-02-23T04:12:02.721Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "landing.js",
               "DocumentMoniker": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\landing.js",
@@ -331,7 +346,8 @@
               "RelativeToolTip": "tailwind.config.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-02-23T03:45:44.476Z"
+              "WhenOpened": "2025-02-23T03:45:44.476Z",
+              "EditorCaption": ""
             }
           ]
         }

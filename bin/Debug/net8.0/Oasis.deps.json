@@ -10,7 +10,8 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "9.0.2",
           "Microsoft.EntityFrameworkCore.Sqlite": "9.0.2",
-          "Microsoft.EntityFrameworkCore.Tools": "9.0.2"
+          "Microsoft.EntityFrameworkCore.Tools": "9.0.2",
+          "Sysinfocus.AspNetCore.Components": "0.0.2.4"
         },
         "runtime": {
           "Oasis.dll": {}
@@ -21,6 +22,67 @@
           "lib/net6.0/Humanizer.dll": {
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authorization/8.0.12": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Metadata": "8.0.12",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.2",
+          "Microsoft.Extensions.Options": "9.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authorization.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1224.60312"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components/8.0.12": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "8.0.12",
+          "Microsoft.AspNetCore.Components.Analyzers": "8.0.12"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Components.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1224.60312"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components.Analyzers/8.0.12": {},
+      "Microsoft.AspNetCore.Components.Forms/8.0.12": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "8.0.12"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Components.Forms.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1224.60312"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components.Web/8.0.12": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "8.0.12",
+          "Microsoft.AspNetCore.Components.Forms": "8.0.12",
+          "Microsoft.Extensions.DependencyInjection": "9.0.2",
+          "Microsoft.Extensions.Primitives": "9.0.2",
+          "Microsoft.JSInterop": "8.0.12",
+          "System.IO.Pipelines": "9.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Components.Web.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1224.60312"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Metadata/8.0.12": {
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Metadata.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1224.60312"
           }
         }
       },
@@ -539,6 +601,14 @@
           }
         }
       },
+      "Microsoft.JSInterop/8.0.12": {
+        "runtime": {
+          "lib/net8.0/Microsoft.JSInterop.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1224.60312"
+          }
+        }
+      },
       "Mono.TextTemplating/3.0.0": {
         "dependencies": {
           "System.CodeDom": "6.0.0"
@@ -693,6 +763,17 @@
           }
         }
       },
+      "Sysinfocus.AspNetCore.Components/0.0.2.4": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "8.0.12"
+        },
+        "runtime": {
+          "lib/net8.0/Sysinfocus.AspNetCore.Components.dll": {
+            "assemblyVersion": "0.0.2.4",
+            "fileVersion": "0.0.2.4"
+          }
+        }
+      },
       "System.CodeDom/6.0.0": {
         "runtime": {
           "lib/net6.0/System.CodeDom.dll": {
@@ -828,6 +909,48 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authorization/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-x3E6p69tEktHakgch0cR771EGvJmxRz86HD3YAg0Mag8IimC/OcZtPBwp48zLJvnxj3W4ZELSQ+gZStgClzuRg==",
+      "path": "microsoft.aspnetcore.authorization/8.0.12",
+      "hashPath": "microsoft.aspnetcore.authorization.8.0.12.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oNKQXyuEpfGGcG8bRbl4kKzkTENkAWTZWmT7W69j2srrpbruM9JCguxBZeOqT1ER48hSEdxuMB0EtR0sL/6EKA==",
+      "path": "microsoft.aspnetcore.components/8.0.12",
+      "hashPath": "microsoft.aspnetcore.components.8.0.12.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Analyzers/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pZVRMJrtscHDxZE9JvdlIWin5zPHhbCod/J6g7hP4tyLyxFI7w+2XT9KRR9oo5pSGBHOWl9SHvSoRTh6UVihBg==",
+      "path": "microsoft.aspnetcore.components.analyzers/8.0.12",
+      "hashPath": "microsoft.aspnetcore.components.analyzers.8.0.12.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Forms/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2AuVSp77xo3N6wvmAdP7bhxXdy5nKJiypCVEfSXqtd+oNQZxdZ/dKtbs8bYtDwSXpBN/fukaKt/3WjME1J9pDw==",
+      "path": "microsoft.aspnetcore.components.forms/8.0.12",
+      "hashPath": "microsoft.aspnetcore.components.forms.8.0.12.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Web/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7dw3N6kH9FNUmJIQgvDtwcVCEdrN0GBwv1Dsej2B+GoaTRtCLuA1tkPm0Vyk+LpLHa0p9CTOUYvRJa07+ksXAw==",
+      "path": "microsoft.aspnetcore.components.web/8.0.12",
+      "hashPath": "microsoft.aspnetcore.components.web.8.0.12.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Metadata/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TVB3Kcm8CBvFJ3roOCJ4XcTCiY/G2pUjKIm6M1QyslJYlJGmL6WFdr6o8OsT4jdqDnB2Heu+MQtQsyWMpTaAlw==",
+      "path": "microsoft.aspnetcore.metadata/8.0.12",
+      "hashPath": "microsoft.aspnetcore.metadata.8.0.12.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
       "type": "package",
@@ -1025,6 +1148,13 @@
       "path": "microsoft.extensions.primitives/9.0.2",
       "hashPath": "microsoft.extensions.primitives.9.0.2.nupkg.sha512"
     },
+    "Microsoft.JSInterop/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zpSj954QMEIc9AHxFKQSP+WXGJSdbrnZrGwJ65vvT2XQGQ7h5rSfif7JLFXhxuuFkRbboTms/Y74yafRhQUd8w==",
+      "path": "microsoft.jsinterop/8.0.12",
+      "hashPath": "microsoft.jsinterop.8.0.12.nupkg.sha512"
+    },
     "Mono.TextTemplating/3.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1059,6 +1189,13 @@
       "sha512": "sha512-uZVTi02C1SxqzgT0HqTWatIbWGb40iIkfc3FpFCpE/r7g6K0PqzDUeefL6P6HPhDtc6BacN3yQysfzP7ks+wSQ==",
       "path": "sqlitepclraw.provider.e_sqlite3/2.1.10",
       "hashPath": "sqlitepclraw.provider.e_sqlite3.2.1.10.nupkg.sha512"
+    },
+    "Sysinfocus.AspNetCore.Components/0.0.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2fOlsNkyUuS1piASOfNMnjbQZx4XcthB27D5JHtZETiLd1oC15qs1tgzuAJZ/q8G5TBmLKjht1SPcXCFghsw1w==",
+      "path": "sysinfocus.aspnetcore.components/0.0.2.4",
+      "hashPath": "sysinfocus.aspnetcore.components.0.0.2.4.nupkg.sha512"
     },
     "System.CodeDom/6.0.0": {
       "type": "package",
