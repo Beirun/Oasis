@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Oasis.csproj": {}
+    "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\Oasis.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Oasis.csproj": {
+    "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\Oasis.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Oasis.csproj",
+        "projectUniqueName": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\Oasis.csproj",
         "projectName": "Oasis",
-        "projectPath": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\Oasis.csproj",
-        "packagesPath": "C:\\Users\\Beirun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\",
+        "projectPath": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\Oasis.csproj",
+        "packagesPath": "C:\\Users\\tinay\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Beirun\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\tinay\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,8 +39,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -90,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

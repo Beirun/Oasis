@@ -1,3 +1,11 @@
 ﻿function scrollToSection(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    element.scrollIntoView({ behavior: 'smooth', block:'end' });
 }
+
+window.addScrollEvent = (dotnetHelper) => {
+    window.addEventListener("scroll", () => {
+        let scrollPos = window.scrollY;
+        dotnetHelper.invokeMethodAsync("OnScroll", scrollPos);
+    });
+};

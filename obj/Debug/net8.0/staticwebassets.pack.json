@@ -1,56 +1,52 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Oasis.bundle.scp.css",
-      "PackagePath": "staticwebassets\\Oasis.930cosnkbs.bundle.scp.css"
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Oasis.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Oasis.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\base.css",
       "PackagePath": "staticwebassets\\base.css"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\clouds.png",
       "PackagePath": "staticwebassets\\clouds.png"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\Montserrat-VariableFont_wght.ttf",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\fonts\\Montserrat-VariableFont_wght.ttf",
       "PackagePath": "staticwebassets\\fonts\\Montserrat-VariableFont_wght.ttf"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\YesevaOne-Regular.ttf",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\fonts\\YesevaOne-Regular.ttf",
       "PackagePath": "staticwebassets\\fonts\\YesevaOne-Regular.ttf"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\icons\\arrow-left.png",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\icons\\arrow-left.png",
       "PackagePath": "staticwebassets\\icons\\arrow-left.png"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\js\\date-picker.js",
       "PackagePath": "staticwebassets\\js\\date-picker.js"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\js\\landing.js",
       "PackagePath": "staticwebassets\\js\\landing.js"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\landing.png",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\landing.png",
       "PackagePath": "staticwebassets\\landing.png"
     },
     {
-      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\signin-bg.jpg",
       "PackagePath": "staticwebassets\\signin-bg.jpg"
-    },
-    {
-      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
-      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssets.props",
