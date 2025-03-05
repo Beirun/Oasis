@@ -49,6 +49,14 @@
       "PackagePath": "staticwebassets\\signin-bg.jpg"
     },
     {
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\spa_booking.png",
+      "PackagePath": "staticwebassets\\spa_booking.png"
+    },
+    {
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\standard_room.jpeg",
+      "PackagePath": "staticwebassets\\standard_room.jpeg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

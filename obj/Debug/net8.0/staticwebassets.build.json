@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KBYQHnnjYSDkpQezJdMF6q3qeHlDcjUBEc0tUvNWqEE=",
+  "Hash": "+g3u4QBVFhmGbEeWEzhJ3i5C731uKoNoCDvPNVp2yb4=",
   "Source": "Oasis",
   "BasePath": "_content/Oasis",
   "Mode": "Default",
@@ -566,6 +566,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\signin-bg.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\spa_booking.png",
+      "SourceId": "Oasis",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\",
+      "BasePath": "_content/Oasis",
+      "RelativePath": "spa_booking.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\spa_booking.png"
+    },
+    {
+      "Identity": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\standard_room.jpeg",
+      "SourceId": "Oasis",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\",
+      "BasePath": "_content/Oasis",
+      "RelativePath": "standard_room.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\standard_room.jpeg"
     }
   ]
 }
