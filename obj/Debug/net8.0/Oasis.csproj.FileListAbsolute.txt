@@ -25,7 +25,6 @@ C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\staticwebasset
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Oasis.props
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Oasis.props
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.dll
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\refint\Oasis.dll
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\Oasis.pdb
@@ -170,6 +169,7 @@ C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspN
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Microsoft.JSInterop.dll
 C:\Users\Beirun\Desktop\My Coding projects\Oasis\bin\Debug\net8.0\Sysinfocus.AspNetCore.Components.dll
+<<<<<<< Updated upstream
 C:\Users\tinay\OneDrive\Desktop\ElNet\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\tinay\OneDrive\Desktop\ElNet\bin\Debug\net8.0\appsettings.json
 C:\Users\tinay\OneDrive\Desktop\ElNet\bin\Debug\net8.0\libman.json
@@ -338,3 +338,6 @@ C:\Users\tinay\OneDrive\Desktop\ElNet\obj\Debug\net8.0\refint\Oasis.dll
 C:\Users\tinay\OneDrive\Desktop\ElNet\obj\Debug\net8.0\Oasis.pdb
 C:\Users\tinay\OneDrive\Desktop\ElNet\obj\Debug\net8.0\Oasis.genruntimeconfig.cache
 C:\Users\tinay\OneDrive\Desktop\ElNet\obj\Debug\net8.0\ref\Oasis.dll
+=======
+C:\Users\Beirun\Desktop\My Coding projects\Oasis\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+>>>>>>> Stashed changes

@@ -61,6 +61,7 @@
       "PackagePath": "staticwebassets\\signin-bg.jpg"
     },
     {
+<<<<<<< Updated upstream
       "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\spa_booking.png",
       "PackagePath": "staticwebassets\\spa_booking.png"
     },
@@ -71,6 +72,14 @@
     {
       "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\transportation.png",
       "PackagePath": "staticwebassets\\transportation.png"
+=======
+      "Id": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\suite.jpg",
+      "PackagePath": "staticwebassets\\suite.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+>>>>>>> Stashed changes
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssets.props",

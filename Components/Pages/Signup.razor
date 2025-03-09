@@ -1,9 +1,9 @@
 ﻿@page "/signup"
-@inject AppDbContext context
+@inject SignUpService SignUpService
 @rendermode InteractiveServer
-@attribute [StreamRendering]
 @using Microsoft.EntityFrameworkCore
-@using Data.Models
+@using Oasis.Library
+@using Oasis.Data.Models
 @using Oasis.Components.ui
 
 <div class="h-screen w-screen flex justify-center items-center bg-[url('clouds.png')] bg-cover">
@@ -15,19 +15,19 @@
             </div>
             <div class="w-100 flex flex-col gap-7.5 justify-center items-center">
                 <div class="w-85 flex justify-between">
-                    <CustomInput @bind-Value="newGuest.guest_fname" type="text" placeholder="First Name" class="w-[45%]" />
-                    <CustomInput @bind-Value="newGuest.guest_lname" type="text" placeholder="Last Name" class="w-[45%]" />
+                    <CustomInput @bind-Value="newGuest.user_fname" type="text" placeholder="First Name" class="w-[45%]" />
+                    <CustomInput @bind-Value="newGuest.user_lname" type="text" placeholder="Last Name" class="w-[45%]" />
                 </div>
 
-                <CustomInput @bind-Value="newGuest.guest_contactno" type="text" placeholder="Contact Number" class="w-85" />
-                <CustomInput @bind-Value="newGuest.guest_email" type="text" placeholder="Email" class="w-85" />
+                <CustomInput @bind-Value="newGuest.user_contactno" type="text" placeholder="Contact Number" class="w-85" />
+                <CustomInput @bind-Value="newGuest.user_email" type="text" placeholder="Email" class="w-85" />
 
                 <div class="flex justify-between items-center w-85 mt-2.5">
-                    <CustomSelect @bind-Value="@newGuest.guest_gender" placeholder="Gender" options="@genders" class="w-[45%]" />
-                    <CustomDatePicker @bind-Value="@newGuest.guest_dob" placeholder="Date of Birth" class="w-[45%]" />
+                    <CustomSelect @bind-Value="@newGuest.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" />
+                    <CustomDatePicker @bind-Value="@newGuest.user_dob" placeholder="Date of Birth" class="w-[45%]" />
                 </div>
                 <div class="flex justify-between items-center w-85">
-                    <CustomInput @bind-Value="newGuest.guest_password" type="password" placeholder="Password" class="w-[45%]" />
+                    <CustomInput @bind-Value="newGuest.user_password" type="password" placeholder="Password" class="w-[45%]" />
                     <CustomInput @bind-Value="confirmPassword" type="password" placeholder="Confirm Password" class="w-[45%]" />
                 </div>
             </div>
@@ -44,32 +44,48 @@
 @code {
     private List<string> genders = new List<string> { "Male", "Female", "Prefer not to say" };
     private string confirmPassword = "";
-    private List<Guest> guests = new();
-    private Guest newGuest = new Guest();
+    private User newGuest = new User();
 
-    protected override async Task OnInitializedAsync()
-    {
-        guests = await context.Guest.ToListAsync();
-    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     guests = await context.Guest.ToListAsync();
+    // }
 
-    private void RegisterGuest()
+    private async Task RegisterGuest()
     {
-        if (string.IsNullOrEmpty(newGuest.guest_fname) || string.IsNullOrEmpty(newGuest.guest_lname) || 
-        string.IsNullOrEmpty(newGuest.guest_gender) || string.IsNullOrEmpty(newGuest.guest_contactno) || 
-        string.IsNullOrEmpty(newGuest.guest_email) || string.IsNullOrEmpty(newGuest.guest_password) || 
-        string.IsNullOrEmpty(newGuest.guest_dob.ToString()))
+        if (string.IsNullOrEmpty(newGuest.user_fname) || string.IsNullOrEmpty(newGuest.user_lname) || 
+        string.IsNullOrEmpty(newGuest.user_gender) || string.IsNullOrEmpty(newGuest.user_contactno) || 
+        string.IsNullOrEmpty(newGuest.user_email) || string.IsNullOrEmpty(newGuest.user_password) || 
+        string.IsNullOrEmpty(newGuest.user_dob.ToString()))
         {
+            Console.WriteLine("Empty");
             return;
         }
-        if(newGuest.guest_password != confirmPassword){
+        if(newGuest.user_password != confirmPassword){
+            Console.WriteLine("Password Mismatch");
             return;
         }
-        Console.WriteLine(newGuest.guest_dob.ToString());
+        bool emailTaken = await SignUpService.checkEmail(newGuest.user_email);
+        if(emailTaken){
+            Console.WriteLine("Email Taken");
+
+            return;
+        }
+        bool success = await SignUpService.RegisterGuest(newGuest);
+        if(!success){
+            Console.WriteLine("Failed");
+            return;
+        }
+        Console.WriteLine(newGuest.user_fname);
+        Console.WriteLine(newGuest.user_lname);
+        Console.WriteLine(newGuest.user_gender);
+        Console.WriteLine(newGuest.user_contactno);
+        Console.WriteLine(newGuest.user_email);
+        Console.WriteLine(newGuest.user_password);
+        Console.WriteLine(newGuest.user_dob.ToString());
         Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(newGuest));
         Console.WriteLine("Test");
-        context.Guest.Add(newGuest);
-        context.SaveChanges();
-        newGuest = new Guest();
+        newGuest = new User();
         confirmPassword = "";
     }
 }

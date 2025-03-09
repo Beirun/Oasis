@@ -1,7 +1,8 @@
 ﻿@page "/signin"
-@inject AppDbContext context
+@inject SignInService SignInService
 @inject NavigationManager Navigation
 @using Data.Models
+@using Oasis.Library
 @using Microsoft.EntityFrameworkCore
 @rendermode InteractiveServer
 @using Oasis.Components.ui
@@ -28,26 +29,40 @@
         </div>
     </div>
 
-
+    <Sonner OnActionClick="() => showSonner = false" show="@showSonner" ActionName="Close" title="@sonnerTitle" Description="@sonnerMessage"  />
 </div> 
 
 @code {
     private string email = "";
+    private string sonnerTitle = "";
+    private string sonnerMessage = "";
+    private bool showSonner = false;
+    private void ShowSonner(string title, string message){
+        sonnerTitle = title;
+        sonnerMessage = message;
+        showSonner = true;
+    }
     private string password = "";
-
+     
     private async Task LoginGuest()
     {
-        Console.WriteLine(email);
-        var guests = await context.Guest.Where(c => c.guest_email == email).ToListAsync();
-        if (guests == null || guests.Count == 0)
+        bool emailExists = await SignInService.checkEmail(email);
+        if (!emailExists)
         {
-            Console.WriteLine("Email not registered");
+            Console.WriteLine("Email does not exist");
+            ShowSonner("Login Failed", "Email does not exist");
+            return;
+            
+
+        }
+        bool passwordMatch = await SignInService.checkPassword(email, password);
+        if (!passwordMatch)
+        {
+            ShowSonner("Login Failed", "Password does not match");
+            Console.WriteLine("Password does not match");
             return;
         }
-        if(guests[0].guest_password != password){
-            Console.WriteLine("Incorrect Password");
-            return;
-        }
+        ShowSonner("Login Success", "Logged in successfully");
         Navigation.NavigateTo("/dashboard");
     }
 

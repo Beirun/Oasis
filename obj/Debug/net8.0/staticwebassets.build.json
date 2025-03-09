@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< Updated upstream
   "Hash": "xXA713thvWIx8B/22EbhyWBuPzFFRIN7+m9EsETVKjc=",
+=======
+  "Hash": "pyB9qhrrMKui4Vot8X4OPG3A3KkT2OG3uYYJ401cU84=",
+>>>>>>> Stashed changes
   "Source": "Oasis",
   "BasePath": "_content/Oasis",
   "Mode": "Default",
@@ -373,6 +377,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+<<<<<<< Updated upstream
+=======
+      "Fingerprint": "1d5nsamm42",
+      "Integrity": "G6FmP8ImzyzrRdTVh2t4qoSscIUz/cKEppi5Cpthf1Y=",
+>>>>>>> Stashed changes
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
@@ -392,6 +401,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+<<<<<<< Updated upstream
+=======
+      "Fingerprint": "rensy5ubwb",
+      "Integrity": "fWTShoEe9B7ElRa4EwZ74tgBbKxYAfcKew2ZunUCka0=",
+>>>>>>> Stashed changes
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\base.css"
@@ -623,6 +637,77 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\signin-bg.jpg"
+<<<<<<< Updated upstream
+=======
+    },
+    {
+      "Identity": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\suite.jpg",
+      "SourceId": "Oasis",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\",
+      "BasePath": "_content/Oasis",
+      "RelativePath": "suite#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8t19jmdlp3",
+      "Integrity": "bIy7Z97VScwzR8MMQJRrnCFPvn+aSBbA6DiR9JyVGy4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\suite.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/echarts.min.hl67lj4a17.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\echarts.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1030900"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"28Fem5ymDSqzEVlTzELpKnDVQDiKJ9TQrPz4w0ZLags=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "hl67lj4a17"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-28Fem5ymDSqzEVlTzELpKnDVQDiKJ9TQrPz4w0ZLags="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/echarts.min.js"
+        }
+      ]
+>>>>>>> Stashed changes
     },
     {
       "Identity": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\spa_booking.png",
@@ -663,6 +748,7 @@
       "OriginalItemSpec": "wwwroot\\standard_room.jpeg"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\transportation.png",
       "SourceId": "Oasis",
       "SourceType": "Discovered",
@@ -680,6 +766,2302 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\transportation.png"
+=======
+      "Route": "_content/Sysinfocus.AspNetCore.Components/enable-push-notifications.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\enable-push-notifications.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "844"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9dgdhq+mP1iIgVdQ6WnHmdTSkV1IoDfjnUCHRH0bINc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Feb 2025 09:27:26 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-9dgdhq+mP1iIgVdQ6WnHmdTSkV1IoDfjnUCHRH0bINc="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/layers.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\layers.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "696"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Hbvp0CjikvNvy6j4s6KNXokydU/CIVuaxp5M3s9RB8Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Hbvp0CjikvNvy6j4s6KNXokydU/CIVuaxp5M3s9RB8Y="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/layers.ptvguihtoq.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\layers.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "696"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Hbvp0CjikvNvy6j4s6KNXokydU/CIVuaxp5M3s9RB8Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ptvguihtoq"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Hbvp0CjikvNvy6j4s6KNXokydU/CIVuaxp5M3s9RB8Y="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/images/layers.png"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/layers-2x.ef5uc09gvw.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\layers-2x.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1259"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Bm2sqFDY/77wB68AsG6sABVyje4nnFHzy2xxbffELt8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ef5uc09gvw"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Bm2sqFDY/77wB68AsG6sABVyje4nnFHzy2xxbffELt8="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/images/layers-2x.png"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/layers-2x.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\layers-2x.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1259"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Bm2sqFDY/77wB68AsG6sABVyje4nnFHzy2xxbffELt8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Bm2sqFDY/77wB68AsG6sABVyje4nnFHzy2xxbffELt8="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/marker-icon.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\marker-icon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1466"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V0w6XMqF9BFAhbaEFZbWLwDXyJLHsD8oy/owHesdxDc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-V0w6XMqF9BFAhbaEFZbWLwDXyJLHsD8oy/owHesdxDc="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/marker-icon.vq9wvlav5t.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\marker-icon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1466"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V0w6XMqF9BFAhbaEFZbWLwDXyJLHsD8oy/owHesdxDc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "vq9wvlav5t"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-V0w6XMqF9BFAhbaEFZbWLwDXyJLHsD8oy/owHesdxDc="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/images/marker-icon.png"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/marker-icon-2x.0gkuypkyzq.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\marker-icon-2x.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2464"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ABecTB7oMNOhCEEq4NKU9Vd2z+sIXGASmjmqb8SuJSg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0gkuypkyzq"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ABecTB7oMNOhCEEq4NKU9Vd2z+sIXGASmjmqb8SuJSg="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/images/marker-icon-2x.png"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/marker-icon-2x.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\marker-icon-2x.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2464"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ABecTB7oMNOhCEEq4NKU9Vd2z+sIXGASmjmqb8SuJSg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ABecTB7oMNOhCEEq4NKU9Vd2z+sIXGASmjmqb8SuJSg="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/marker-shadow.enp07i83pd.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\marker-shadow.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "618"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Jk9cZAM58ELdcpBiz8BMF/jqDymIK1OOOEjtjxDttNo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "enp07i83pd"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Jk9cZAM58ELdcpBiz8BMF/jqDymIK1OOOEjtjxDttNo="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/images/marker-shadow.png"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/images/marker-shadow.png",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\images\\marker-shadow.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "618"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Jk9cZAM58ELdcpBiz8BMF/jqDymIK1OOOEjtjxDttNo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Jk9cZAM58ELdcpBiz8BMF/jqDymIK1OOOEjtjxDttNo="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/index.min.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\index.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "336008"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"18yPad1wvc86wAya5XK/KsufQTK6N5xy34QuTbkYZS0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-18yPad1wvc86wAya5XK/KsufQTK6N5xy34QuTbkYZS0="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/index.min.zhxhl1z4uu.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\index.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "336008"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"18yPad1wvc86wAya5XK/KsufQTK6N5xy34QuTbkYZS0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zhxhl1z4uu"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-18yPad1wvc86wAya5XK/KsufQTK6N5xy34QuTbkYZS0="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/index.min.js"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/JsBarcode.all.min.81ksiyidjs.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\JsBarcode.all.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60818"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bM4mmrM+ldU88LcLi0/FBzx0P98DqDWWBUyxKBnYhAI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "81ksiyidjs"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bM4mmrM+ldU88LcLi0/FBzx0P98DqDWWBUyxKBnYhAI="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/JsBarcode.all.min.js"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/JsBarcode.all.min.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\JsBarcode.all.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60818"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bM4mmrM+ldU88LcLi0/FBzx0P98DqDWWBUyxKBnYhAI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bM4mmrM+ldU88LcLi0/FBzx0P98DqDWWBUyxKBnYhAI="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/leaflet.7888sfn8yc.css",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\leaflet.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "14806"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 18 Nov 2024 04:57:16 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7888sfn8yc"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/leaflet.css"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/leaflet.css",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\leaflet.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "14806"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 18 Nov 2024 04:57:16 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/leaflet.j35snbr7ye.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\leaflet.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "147557"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MQS1JlBNDWH9MJmkUh6H9zLMwxdN7FTgjea6i94+Ff8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "j35snbr7ye"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MQS1JlBNDWH9MJmkUh6H9zLMwxdN7FTgjea6i94+Ff8="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/leaflet.js"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/leaflet.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\leaflet.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "147557"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MQS1JlBNDWH9MJmkUh6H9zLMwxdN7FTgjea6i94+Ff8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MQS1JlBNDWH9MJmkUh6H9zLMwxdN7FTgjea6i94+Ff8="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/lottie-player.gwh616p14b.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\lottie-player.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "380290"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4BYra4NvMevv8UBvHczMXMRD7O3J7lwJri5YaIsuX6M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "gwh616p14b"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4BYra4NvMevv8UBvHczMXMRD7O3J7lwJri5YaIsuX6M="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/lottie-player.js"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/lottie-player.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\lottie-player.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "380290"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4BYra4NvMevv8UBvHczMXMRD7O3J7lwJri5YaIsuX6M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4BYra4NvMevv8UBvHczMXMRD7O3J7lwJri5YaIsuX6M="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/qrcode.min.h5gslb8p3n.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\qrcode.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "19927"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xUHvBjJ4hahBW8qN9gceFBibSFUzbe9PNttUvehITzY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "h5gslb8p3n"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xUHvBjJ4hahBW8qN9gceFBibSFUzbe9PNttUvehITzY="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/qrcode.min.js"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/qrcode.min.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\qrcode.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "19927"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xUHvBjJ4hahBW8qN9gceFBibSFUzbe9PNttUvehITzY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xUHvBjJ4hahBW8qN9gceFBibSFUzbe9PNttUvehITzY="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/Sortable.min.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\Sortable.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "44606"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VwnL80K5w0cgSmHhWSzKTzGCe+gRFW8ccp4eZgGANpA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-VwnL80K5w0cgSmHhWSzKTzGCe+gRFW8ccp4eZgGANpA="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/Sortable.min.z5wu7xsffu.js",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\Sortable.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "44606"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VwnL80K5w0cgSmHhWSzKTzGCe+gRFW8ccp4eZgGANpA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 26 Sep 2024 13:23:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "z5wu7xsffu"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-VwnL80K5w0cgSmHhWSzKTzGCe+gRFW8ccp4eZgGANpA="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/Sortable.min.js"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/styles.css",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "11147"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HUrfMc7HQZ0U9waEixZAHdQ+w4eDRToWcOCIeJ/IzTE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Feb 2025 04:55:05 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-HUrfMc7HQZ0U9waEixZAHdQ+w4eDRToWcOCIeJ/IzTE="
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/styles.hvvr8uflm3.css",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "11147"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HUrfMc7HQZ0U9waEixZAHdQ+w4eDRToWcOCIeJ/IzTE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Feb 2025 04:55:05 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "hvvr8uflm3"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-HUrfMc7HQZ0U9waEixZAHdQ+w4eDRToWcOCIeJ/IzTE="
+        },
+        {
+          "Name": "label",
+          "Value": "_content/Sysinfocus.AspNetCore.Components/styles.css"
+        }
+      ]
+    },
+    {
+      "Route": "_content/Sysinfocus.AspNetCore.Components/Sysinfocus.AspNetCore.Components.bundle.scp.css",
+      "AssetFile": "C:\\Users\\Beirun\\.nuget\\packages\\sysinfocus.aspnetcore.components\\0.0.2.4\\staticwebassets\\Sysinfocus.AspNetCore.Components.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "86874"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SQX3PxUBzeqCrVDENEbQl8DkBT6xJRQG6hGsA5nzxT8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Feb 2025 03:20:05 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SQX3PxUBzeqCrVDENEbQl8DkBT6xJRQG6hGsA5nzxT8="
+        }
+      ]
+    },
+    {
+      "Route": "app.1d5nsamm42.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "646"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"G6FmP8ImzyzrRdTVh2t4qoSscIUz/cKEppi5Cpthf1Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 09 Mar 2025 16:00:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1d5nsamm42"
+        },
+        {
+          "Name": "label",
+          "Value": "app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-G6FmP8ImzyzrRdTVh2t4qoSscIUz/cKEppi5Cpthf1Y="
+        }
+      ]
+    },
+    {
+      "Route": "app.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "646"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"G6FmP8ImzyzrRdTVh2t4qoSscIUz/cKEppi5Cpthf1Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 09 Mar 2025 16:00:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-G6FmP8ImzyzrRdTVh2t4qoSscIUz/cKEppi5Cpthf1Y="
+        }
+      ]
+    },
+    {
+      "Route": "base.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "62618"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fWTShoEe9B7ElRa4EwZ74tgBbKxYAfcKew2ZunUCka0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 09 Mar 2025 16:00:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-fWTShoEe9B7ElRa4EwZ74tgBbKxYAfcKew2ZunUCka0="
+        }
+      ]
+    },
+    {
+      "Route": "base.rensy5ubwb.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\base.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "62618"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fWTShoEe9B7ElRa4EwZ74tgBbKxYAfcKew2ZunUCka0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 09 Mar 2025 16:00:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rensy5ubwb"
+        },
+        {
+          "Name": "label",
+          "Value": "base.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-fWTShoEe9B7ElRa4EwZ74tgBbKxYAfcKew2ZunUCka0="
+        }
+      ]
+    },
+    {
+      "Route": "clouds.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "581578"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:50:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg="
+        }
+      ]
+    },
+    {
+      "Route": "clouds.sw61ien3ig.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\clouds.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "581578"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:50:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "sw61ien3ig"
+        },
+        {
+          "Name": "label",
+          "Value": "clouds.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PFMaa/f7dv1xEnaJPwhOFhBP0/doS75Tq+4htOMu9Jg="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.ifv42okdf2.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\favicon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1148"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 01:26:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ifv42okdf2"
+        },
+        {
+          "Name": "label",
+          "Value": "favicon.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\favicon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1148"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 01:26:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg="
+        }
+      ]
+    },
+    {
+      "Route": "fonts/Montserrat-VariableFont_wght.ttf",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\Montserrat-VariableFont_wght.ttf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "688600"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/x-font-ttf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4SKIwD5Po3IaynyphPJcBCCJ3DWQ4gfEOlcZnXtKXNs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 06:50:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4SKIwD5Po3IaynyphPJcBCCJ3DWQ4gfEOlcZnXtKXNs="
+        }
+      ]
+    },
+    {
+      "Route": "fonts/Montserrat-VariableFont_wght.tx639h9f9h.ttf",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\Montserrat-VariableFont_wght.ttf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "688600"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/x-font-ttf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4SKIwD5Po3IaynyphPJcBCCJ3DWQ4gfEOlcZnXtKXNs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 06:50:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tx639h9f9h"
+        },
+        {
+          "Name": "label",
+          "Value": "fonts/Montserrat-VariableFont_wght.ttf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4SKIwD5Po3IaynyphPJcBCCJ3DWQ4gfEOlcZnXtKXNs="
+        }
+      ]
+    },
+    {
+      "Route": "fonts/YesevaOne-Regular.17rj3jlhyq.ttf",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\YesevaOne-Regular.ttf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "104252"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/x-font-ttf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ba9Nm1TgdHQEWukQGDkXBP1zu9dEOpSeYGPRkrcecJU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 06:51:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "17rj3jlhyq"
+        },
+        {
+          "Name": "label",
+          "Value": "fonts/YesevaOne-Regular.ttf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ba9Nm1TgdHQEWukQGDkXBP1zu9dEOpSeYGPRkrcecJU="
+        }
+      ]
+    },
+    {
+      "Route": "fonts/YesevaOne-Regular.ttf",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\fonts\\YesevaOne-Regular.ttf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "104252"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/x-font-ttf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ba9Nm1TgdHQEWukQGDkXBP1zu9dEOpSeYGPRkrcecJU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 06:51:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ba9Nm1TgdHQEWukQGDkXBP1zu9dEOpSeYGPRkrcecJU="
+        }
+      ]
+    },
+    {
+      "Route": "icons/arrow-left.36t2ivzroh.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\icons\\arrow-left.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "212"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Kx6lhCEUSsV0cUeKQoJLvXiSxb9QabRYgd5yTfSP6Ns=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 06:36:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "36t2ivzroh"
+        },
+        {
+          "Name": "label",
+          "Value": "icons/arrow-left.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Kx6lhCEUSsV0cUeKQoJLvXiSxb9QabRYgd5yTfSP6Ns="
+        }
+      ]
+    },
+    {
+      "Route": "icons/arrow-left.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\icons\\arrow-left.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "212"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Kx6lhCEUSsV0cUeKQoJLvXiSxb9QabRYgd5yTfSP6Ns=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 06:36:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Kx6lhCEUSsV0cUeKQoJLvXiSxb9QabRYgd5yTfSP6Ns="
+        }
+      ]
+    },
+    {
+      "Route": "js/date-picker.6dsnzw1p71.js",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "721"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pj3LFyyBCmmjg7721ykPqdBU/yzT/aGj3ZiaoLIixeE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 14:16:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6dsnzw1p71"
+        },
+        {
+          "Name": "label",
+          "Value": "js/date-picker.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-pj3LFyyBCmmjg7721ykPqdBU/yzT/aGj3ZiaoLIixeE="
+        }
+      ]
+    },
+    {
+      "Route": "js/date-picker.js",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\date-picker.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "721"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pj3LFyyBCmmjg7721ykPqdBU/yzT/aGj3ZiaoLIixeE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 14:16:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-pj3LFyyBCmmjg7721ykPqdBU/yzT/aGj3ZiaoLIixeE="
+        }
+      ]
+    },
+    {
+      "Route": "js/landing.8hv1g9xgyl.js",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "110"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nDmmBD4VUZhH95VIhSnbVX9E1594zatIzMUtqvp0120=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 07:14:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8hv1g9xgyl"
+        },
+        {
+          "Name": "label",
+          "Value": "js/landing.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nDmmBD4VUZhH95VIhSnbVX9E1594zatIzMUtqvp0120="
+        }
+      ]
+    },
+    {
+      "Route": "js/landing.js",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\js\\landing.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "110"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nDmmBD4VUZhH95VIhSnbVX9E1594zatIzMUtqvp0120=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 07:14:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-nDmmBD4VUZhH95VIhSnbVX9E1594zatIzMUtqvp0120="
+        }
+      ]
+    },
+    {
+      "Route": "landing.npok7gbyfs.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\landing.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5682270"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5W5q0pPsiB2AeHLQZ9GEbpydb7Go5A59ejr3OY2CdlI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 05:59:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "npok7gbyfs"
+        },
+        {
+          "Name": "label",
+          "Value": "landing.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5W5q0pPsiB2AeHLQZ9GEbpydb7Go5A59ejr3OY2CdlI="
+        }
+      ]
+    },
+    {
+      "Route": "landing.png",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\landing.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5682270"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5W5q0pPsiB2AeHLQZ9GEbpydb7Go5A59ejr3OY2CdlI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 05:59:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5W5q0pPsiB2AeHLQZ9GEbpydb7Go5A59ejr3OY2CdlI="
+        }
+      ]
+    },
+    {
+      "Route": "Oasis.930cosnkbs.bundle.scp.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Oasis.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5893"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dQNcj6sAovVCQB+mHBJ5efQbBE9lpDombFiupk/0kbw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 01:33:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "930cosnkbs"
+        },
+        {
+          "Name": "label",
+          "Value": "Oasis.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-dQNcj6sAovVCQB+mHBJ5efQbBE9lpDombFiupk/0kbw="
+        }
+      ]
+    },
+    {
+      "Route": "Oasis.bundle.scp.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Oasis.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5893"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dQNcj6sAovVCQB+mHBJ5efQbBE9lpDombFiupk/0kbw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 23 Feb 2025 01:33:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-dQNcj6sAovVCQB+mHBJ5efQbBE9lpDombFiupk/0kbw="
+        }
+      ]
+    },
+    {
+      "Route": "Oasis.rp8gq8ka7p.styles.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Oasis.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5997"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4TVOHKugKaLimRYdvxPOHl0Oz95IUPQuwoXdacKZshs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Mar 2025 13:38:12 GMT"
+        },
+        {
+          "Name": "Link",
+          "Value": "<_content/Sysinfocus.AspNetCore.Components/Sysinfocus.AspNetCore.Components.bundle.scp.css>; rel=\"preload\"; as=\"style\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rp8gq8ka7p"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4TVOHKugKaLimRYdvxPOHl0Oz95IUPQuwoXdacKZshs="
+        },
+        {
+          "Name": "label",
+          "Value": "Oasis.styles.css"
+        }
+      ]
+    },
+    {
+      "Route": "Oasis.styles.css",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Oasis.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5997"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4TVOHKugKaLimRYdvxPOHl0Oz95IUPQuwoXdacKZshs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Mar 2025 13:38:12 GMT"
+        },
+        {
+          "Name": "Link",
+          "Value": "<_content/Sysinfocus.AspNetCore.Components/Sysinfocus.AspNetCore.Components.bundle.scp.css>; rel=\"preload\"; as=\"style\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4TVOHKugKaLimRYdvxPOHl0Oz95IUPQuwoXdacKZshs="
+        }
+      ]
+    },
+    {
+      "Route": "signin-bg.b7du2v8clk.jpg",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "148948"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:38:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b7du2v8clk"
+        },
+        {
+          "Name": "label",
+          "Value": "signin-bg.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ="
+        }
+      ]
+    },
+    {
+      "Route": "signin-bg.jpg",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\signin-bg.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "148948"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 24 Feb 2025 10:38:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qcPEptX4M72BWb7quISflX8ZxX10rqGPmJOY5ZnkxuQ="
+        }
+      ]
+    },
+    {
+      "Route": "suite.8t19jmdlp3.jpg",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\suite.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "26345"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bIy7Z97VScwzR8MMQJRrnCFPvn+aSBbA6DiR9JyVGy4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 04 Mar 2025 13:47:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8t19jmdlp3"
+        },
+        {
+          "Name": "label",
+          "Value": "suite.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bIy7Z97VScwzR8MMQJRrnCFPvn+aSBbA6DiR9JyVGy4="
+        }
+      ]
+    },
+    {
+      "Route": "suite.jpg",
+      "AssetFile": "C:\\Users\\Beirun\\Desktop\\My Coding projects\\Oasis\\wwwroot\\suite.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "26345"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bIy7Z97VScwzR8MMQJRrnCFPvn+aSBbA6DiR9JyVGy4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 04 Mar 2025 13:47:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bIy7Z97VScwzR8MMQJRrnCFPvn+aSBbA6DiR9JyVGy4="
+        }
+      ]
+>>>>>>> Stashed changes
     }
   ]
 }

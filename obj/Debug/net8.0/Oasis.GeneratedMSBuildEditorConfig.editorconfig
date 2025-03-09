@@ -17,71 +17,77 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Oasis
 build_property.RootNamespace = Oasis
-build_property.ProjectDir = C:\Users\tinay\OneDrive\Desktop\ElNet\
+build_property.ProjectDir = C:\Users\Beirun\Desktop\My Coding projects\Oasis\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\tinay\OneDrive\Desktop\ElNet
+build_property.MSBuildProjectDirectory = C:\Users\Beirun\Desktop\My Coding projects\Oasis
 build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/App.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/App.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Layout/LandingNavbar.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Layout/LandingNavbar.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTGFuZGluZ05hdmJhci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Pages/Error.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Pages/Home.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Guest/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHdWVzdFxEYXNoYm9hcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Pages/SignIn.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Receptionist/Rooms.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWNlcHRpb25pc3RcUm9vbXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/SignIn.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTaWduSW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Pages/Signup.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Pages/Signup.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTaWdudXAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Routes.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/ui/CustomDatePicker.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/CustomDatePicker.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxDdXN0b21EYXRlUGlja2VyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/ui/CustomInput.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/CustomInput.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxDdXN0b21JbnB1dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/ui/CustomSelect.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/CustomSelect.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxDdXN0b21TZWxlY3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/_Imports.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/ui/RoomCard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1x1aVxSb29tQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Layout/MainLayout.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-o165a5gyeu
 
-[C:/Users/tinay/OneDrive/Desktop/ElNet/Components/Layout/NavMenu.razor]
+[C:/Users/Beirun/Desktop/My Coding projects/Oasis/Components/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-k9sdmistlf

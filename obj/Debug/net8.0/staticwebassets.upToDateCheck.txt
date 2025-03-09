@@ -9,3 +9,4 @@ wwwroot\js\date-picker.js
 wwwroot\js\landing.js
 wwwroot\landing.png
 wwwroot\signin-bg.jpg
+wwwroot\suite.jpg

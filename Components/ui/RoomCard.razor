@@ -1,0 +1,22 @@
+﻿<div class="w-75 h-100 bg-[#fcfcfc] shadow-md shadow-gray-600/50 rounded-md flex flex-col">
+    <div class="w-full h-75 bg-[url('suite.jpg')] bg-cover bg-center rounded-t-md">
+
+    </div>
+    <div>
+
+    <div>@number</div>
+    <div>@type</div>
+    <div>@price</div>
+    <div>@status</div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter] public string number { get; set; } = "";
+    [Parameter] public string type { get; set; } = "";
+    [Parameter] public string price { get; set; } = "";
+    [Parameter] public string status { get; set; } = "";
+
+}
