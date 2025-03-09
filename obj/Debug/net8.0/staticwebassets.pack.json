@@ -45,6 +45,18 @@
       "PackagePath": "staticwebassets\\landing.png"
     },
     {
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\net_access.png",
+      "PackagePath": "staticwebassets\\net_access.png"
+    },
+    {
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\pet.png",
+      "PackagePath": "staticwebassets\\pet.png"
+    },
+    {
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\room.png",
+      "PackagePath": "staticwebassets\\room.png"
+    },
+    {
       "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\signin-bg.jpg",
       "PackagePath": "staticwebassets\\signin-bg.jpg"
     },
@@ -55,6 +67,10 @@
     {
       "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\standard_room.jpeg",
       "PackagePath": "staticwebassets\\standard_room.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\tinay\\OneDrive\\Desktop\\ElNet\\wwwroot\\transportation.png",
+      "PackagePath": "staticwebassets\\transportation.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Oasis.Microsoft.AspNetCore.StaticWebAssets.props",
