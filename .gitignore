@@ -30,7 +30,7 @@ bld/
 [Oo]bj/
 
 wwwroot/base.css
-bin/Debug/net8.0
+bin/Debug/net8.0/
 
 
 # Visual Studo 2015 cache/options directory
