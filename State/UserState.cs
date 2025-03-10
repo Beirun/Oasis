@@ -7,6 +7,8 @@ public class UserState : INotifyPropertyChanged
 {
     private User _user = new User();
 
+    private string _user_type = "";
+
     public User User
     {
         get { return _user; }
@@ -19,13 +21,14 @@ public class UserState : INotifyPropertyChanged
 
     public string UserType
     {
-        get { return _user.user_type ?? ""; }
+        get { return _user_type; }
         set
         {
-            _user.user_type = value;
+            _user_type = value;
             NotifyStateChanged();
         }
     }
+    
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

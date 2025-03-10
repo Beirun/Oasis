@@ -27,7 +27,9 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddScoped<SignUpService>();
 builder.Services.AddScoped<SignInService>();
+builder.Services.AddScoped<StaffService>();
 builder.Services.AddSysinfocus(false);
+
 
 
 var app = builder.Build();
