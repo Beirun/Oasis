@@ -29,20 +29,20 @@
         </div>
     </div>
 
-    <Sonner OnActionClick="() => showSonner = false" show="@showSonner" ActionName="Close" title="@sonnerTitle" Description="@sonnerMessage"  />
+    @* <Sonner OnActionClick="() => showSonner = false" show="@showSonner" ActionName="Close" title="@sonnerTitle" Description="@sonnerMessage"  /> *@
 </div> 
 
 @code {
     private string email = "";
-    private string sonnerTitle = "";
-    private string sonnerMessage = "";
-    private bool showSonner = false;
-    private void ShowSonner(string title, string message){
-        sonnerTitle = title;
-        sonnerMessage = message;
-        showSonner = true;
-    }
     private string password = "";
+    // private string sonnerTitle = "";
+    // private string sonnerMessage = "";
+    // private bool showSonner = false;
+    // private void ShowSonner(string title, string message){
+    //     sonnerTitle = title;
+    //     sonnerMessage = message;
+    //     showSonner = true;
+    // }
      
     private async Task LoginGuest()
     {
@@ -50,7 +50,7 @@
         if (!emailExists)
         {
             Console.WriteLine("Email does not exist");
-            ShowSonner("Login Failed", "Email does not exist");
+            // ShowSonner("Login Failed", "Email does not exist");
             return;
             
 
@@ -58,12 +58,12 @@
         bool passwordMatch = await SignInService.checkPassword(email, password);
         if (!passwordMatch)
         {
-            ShowSonner("Login Failed", "Password does not match");
+            // ShowSonner("Login Failed", "Password does not match");
             Console.WriteLine("Password does not match");
             return;
         }
-        ShowSonner("Login Success", "Logged in successfully");
-        Navigation.NavigateTo("/dashboard");
+        // ShowSonner("Login Success", "Logged in successfully");
+        Navigation.NavigateTo("/dashboard/guest");
     }
 
 }
