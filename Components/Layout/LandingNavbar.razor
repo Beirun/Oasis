@@ -2,12 +2,12 @@
 @inject IJSRuntime JSRuntime
 <script src="js/landing.js"></script>
 
-<div class="z-10 absolute fixed bg-white top-0 w-full transition-all duration-300 @((IsScrolled)?"h-40":"h-56") pt-20 flex flex-col justify-between items-center px-5">
-    <div class="text-5xl font-bold text-primary transition-all duration-300 @((IsScrolled)?"-mt-10":"")">
+<div class="shadow-md shadow-gray-300/50 z-10 absolute fixed bg-white top-0 w-full transition-all duration-300 @((IsScrolled)?"h-40":"h-56") pt-20 flex flex-col justify-between items-center px-5">
+    <div class="text-5xl font-bold text-primary transition-all duration-300 font-wittgenstein @((IsScrolled)?"-mt-15":"-mt-5")">
         Oasis
     </div>
     <div class="flex h-full  transition-all duration-400 @((IsScrolled)? "w-150 text-1xl":"w-200 text-xl") justify-evenly items-center text-primary font-montserrat">
-        <p class="cursor-pointer">Home</p>
+        <p @onclick='() => ScrollToSection("home")' class="cursor-pointer">Home</p>
         <p @onclick='() => ScrollToSection("rooms")' class="cursor-pointer">Rooms</p>
         <p @onclick='() => ScrollToSection("services")' class="cursor-pointer">Services</p>
         <p @onclick='() => ScrollToSection("about")' class="cursor-pointer">About</p>

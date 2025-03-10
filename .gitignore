@@ -29,9 +29,12 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+wwwroot/base.css
+bin/Debug/net8.0
+
+
 # Visual Studo 2015 cache/options directory
 .vs/
-
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
