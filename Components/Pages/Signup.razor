@@ -5,6 +5,7 @@
 @using Oasis.Library
 @using Oasis.Data.Models
 @using Oasis.Components.ui
+@inject NavigationManager NavigationManager
 
 <div class="h-screen w-screen flex justify-center items-center bg-[url('clouds.png')] bg-cover">
     <div class="h-6/7 w-2/3 bg-[#e8e8e8] flex rounded-lg shadow-md shadow-gray-600/50">
@@ -86,5 +87,6 @@
         Console.WriteLine("Test");
         newGuest = new User();
         confirmPassword = "";
+        NavigationManager.NavigateTo("/signin");
     }
 }

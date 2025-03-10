@@ -14,7 +14,9 @@ namespace Oasis.Library
         public async Task<bool> RegisterGuest(User user)
         {
             try { 
+
                 Guest guest = new Guest();
+                user.user_type = "Guest";
                 _context.User.Add(user);
                 await _context.SaveChangesAsync();
                 guest.guest_id = user.user_id;
