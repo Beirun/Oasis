@@ -10,6 +10,7 @@
     --color-primary: #0040a6;
     --font-montserrat: "Montserrat", "san-serif";
     --font-yeseva-one: "Yeseva One", "san-serif";
+    --font-wittgenstein: "Wittgenstein", "san-serif";
     --text-landing: clamp(2.5rem,5vw,100px);
 }
 
@@ -23,6 +24,13 @@
 @font-face {
     font-family: 'Yeseva One';
     src: url('/fonts/YesevaOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Wittgenstein';
+    src: url('/fonts/Wittgenstein-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
