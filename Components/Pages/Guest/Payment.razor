@@ -1,0 +1,17 @@
+﻿@page "/payment"
+@inject NavigationManager Navigation
+
+<div class="w-screen h-screen">
+	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
+		<Icon Name="Arrow_Back" Class="stroke-4" />
+		<p class="text-xl -ml-3">Back</p>
+	</div>
+</div>
+
+@code {
+	private void GoBack()
+	{
+		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+		Navigation.NavigateTo("javascript:history.back()", true);
+	}
+}

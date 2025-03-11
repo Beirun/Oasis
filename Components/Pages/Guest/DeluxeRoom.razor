@@ -1,5 +1,6 @@
 ﻿@rendermode InteractiveServer
 @using Oasis.Components.Layout
+@inject NavigationManager Navigation
 
 <div class="w-full h-screen flex justify-center bg-[#0040a6] text-white">
 	<div class="w-1/2 h-screen flex justify-center font-montserrat">
@@ -17,7 +18,7 @@
 					<li class="mb-2">Complimentary coffee and tea station</li>
 				</ul>
 			</div>
-			<Button class="self-start " style="background-color: white; color: #0040a6; padding: 20px 40px 20px 40px; border-radius: 40px; font-size:24px; font-family:Montserrat,serif; ">See room</Button>
+			<NavLink href="/reservation/new/deluxe" class="self-start " style="background-color: white; color: #0040a6; padding: 20px 40px 20px 40px; border-radius: 40px; font-size:24px; font-family:Montserrat,serif; ">See room</NavLink>
 		</div>
 	</div>
 	<div class="w-1/4 h-screen flex justify-center">
@@ -26,5 +27,9 @@
 	</div>
 </div>
 @code {
+	private void GoTo()
+	{
+		Navigation.NavigateTo("/reservation/new/deluxe");
+	}
 
 }
