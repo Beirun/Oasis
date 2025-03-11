@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oasis", "Oasis.csproj", "{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oasis", "Oasis.csproj", "{9815D63A-FA29-4E2C-AA73-CEBACAD7D740}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5016E47-851E-46AB-BF41-71696F351E28}
 	EndGlobalSection
 EndGlobal

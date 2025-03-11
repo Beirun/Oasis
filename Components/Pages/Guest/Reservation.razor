@@ -1,5 +1,19 @@
 ﻿@page "/reservation/new"
-<h3>Reservation</h3>
+
+@rendermode InteractiveServer
+@using Oasis.Components.Layout
+
+<div class="w-screen min-h-screen">
+	<section id="standardRoom" class="h-screen w-screen">
+		<StandardRoom/>
+	</section>
+	<section id="deluxeRoom">
+		<DeluxeRoom/>
+	</section>
+	<section id="suiteRoom">
+		<SuiteRoom/>
+	</section>
+</div>
 
 @code {
 

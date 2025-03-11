@@ -1,6 +1,8 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @using Oasis.Components.Layout
+@inject IJSRuntime JSRuntime
+<script src="js/landing.js"></script>
 
 <PageTitle>Home</PageTitle>
 
@@ -18,51 +20,62 @@
              <div class="w-full">
 
             <button class="text-md transition-colors duration-300 font-semibold mt-10 bg-primary hover:bg-primary/80 cursor-pointer text-white w-40 h-12 rounded-full">
-                    <NavLink href="signup">
+                    <NavLink href="signup" style="font-family:Montserrat,sans-serif">
                         Book Now <img src="/icons/arrow-left.png" class="w-5 h-5 inline-block" />
                     </NavLink>
                 </button>
              </div>    
         </div>
     </section>
-    <section id="rooms" class="h-[calc(100vh-calc(.25rem*40))] w-screen flex flex-col justify-center">
+    <section id="rooms" class="h-[calc(100vh-calc(.25rem*40))] w-screen flex flex-col justify-center font-montserrat">
         <div class="mb-10 text-5xl font-wittgenstein font-bold">
             Rooms
         </div>
-        <div class="flex flex-row w-2/3 justify-around">
+        <div class="flex flex-row w-4/5 justify-around">
         <div class="flex flex-row justify-between">
-            <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-85 hover:scale-105 transition-all duration-400">
-                <img src="/standard_room.jpeg" alt="Alternate Text" style="width:300px" class="rounded-xl" />
-                <div class="flex flex-row justify-between mt-8">
-                    <div>
-                        <p class=" text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Standard</p>
-                        <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 1,500</p>
-                    </div>
-                        <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button>
+            <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
+               <div class="bg-[url('/standard_room.jpeg')] h-100 bg-cover rounded-2xl"></div>
+                <div class="flex flex-col justify-between mt-8">
+                    <div class="flex flex-row justify-between w-full">
+                            <p class=" font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Standard</p>
+                            <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 1,500</p>
+                            </div>
+                    <div class="self-start">
+                            <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Basic Bed Setup, Private Bathroom, Essential Amenities</p>
+
+                        </div>
+                        @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
                 </div>
             </div>
         </div>
         <div class="flex flex-row justify-between">
-                <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-85 hover:scale-105 transition-all duration-400">
-                <img src="/standard_room.jpeg" alt="Alternate Text" style="width:300px" class="rounded-xl" />
-                    <div class="flex flex-row justify-between mt-8">
-                    <div>
-                        <p class="text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Suite</p>
-                        <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 5,200</p>
+                <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
+                    <div class="bg-[url('/suite.jpg')] h-100 bg-cover rounded-2xl"></div>
+                    <div class="flex flex-col justify-between mt-8">
+                    <div class="flex flex-row justify-between w-full">
+                            <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Suite</p>
+                            <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 5,200</p>
+                            </div>
+
+                    <div class="self-start">
+                            <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Upgraded Bed, Enhanced Bathroom, Additional Comforts</p>
                     </div>
-                        <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button>
+                        @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
                 </div>
             </div>
         </div>
         <div class="flex flex-row justify-between">
-                <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-85 hover:scale-105 transition-all duration-400">
-                <img src="/standard_room.jpeg" alt="Alternate Text" style="width:300px" class="rounded-xl" />
-                    <div class="flex flex-row justify-between mt-8">
-                    <div>
-                        <p class="text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Deluxe</p>
+                <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
+                    <div class="bg-[url('/deluxe.png')] h-102 bg-cover rounded-2xl"></div>
+                    <div class="flex flex-col justify-between mt-8">
+                     <div class="flex flex-row justify-between w-full">
+                            <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Deluxe</p>
                         <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 2,500</p>
                     </div>
-                        <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button>
+                    <div class="self-start">
+                        <p class=" text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Separate Living Space, Luxury Bathroom, Exclusive Perks</p>
+                     </div>
+                        @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
                 </div>
             </div>
         </div>
@@ -73,7 +86,7 @@
         <div class="w-5/6 flex flex-wrap flex-row justify-center gap-10">
 
 
-            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 cursor-pointer hover:scale-105 transition-all duration-400">
+            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 hover:scale-105 transition-all duration-400">
 
             <div class="size-30 bg-[#0040a6] rounded-full flex py-8 pl-6 pr-6">
                 <img src="/spa_booking.png" alt="Spa Booking" style="height-8px" classs="bg-black"/>
@@ -85,7 +98,7 @@
             </div>
             
         </div>
-            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 cursor-pointer hover:scale-105 transition-all duration-400">
+            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 hover:scale-105 transition-all duration-400">
             <div class=" size-30 bg-[#0040a6] rounded-full flex justify-center py-7.5 px-8">
                 <img src="/transportation.png" alt="Spa Booking" style="height-8px" classs="bg-black"/>
 
@@ -97,7 +110,7 @@
                     </div>
                 </div>
         </div>
-            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 cursor-pointer hover:scale-105 transition-all duration-400">
+            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 hover:scale-105 transition-all duration-400">
             <div class=" size-30 bg-[#0040a6] rounded-full flex justify-center py-9 px-7">
                 <img src="/room.png" alt="Spa Booking" style="height-8px" classs="bg-black"/>
 
@@ -107,7 +120,7 @@
                     <div>Delivery of food and beverages directly to your room.</div>
                 </div>
         </div>
-            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 cursor-pointer hover:scale-105 transition-all duration-400">
+            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 hover:scale-105 transition-all duration-400">
             <div class=" size-30 bg-[#0040a6] rounded-full flex justify-center py-8.5 px-5">
                 <img src="/net_access.png" alt="Spa Booking" style="height-8px" classs="bg-black"/>
 
@@ -117,7 +130,7 @@
                     <div>High-speed internet either in the rooms or in common areas.</div>
                 </div>
         </div>
-            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 cursor-pointer hover:scale-105 transition-all duration-400">
+            <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 hover:scale-105 transition-all duration-400">
             <div class=" size-30 bg-[#0040a6] rounded-full flex justify-center py-8 px-7.5">
                 <img src="/pet.png" alt="Spa Booking" style="height-8px" classs="bg-black"/>
 
@@ -130,7 +143,7 @@
         </div>
     </section>
     <section id="about" class="h-[calc(100vh-calc(.25rem*40))] w-screen bg-[#0040A6] flex flex-row text-white">
-        <div class="w-1/2 h-full bg-[url('/about-pic.bg.png')]">
+        <div class="w-1/2 h-full bg-[url('/about-pic.bg.png')] bg-cover">
         </div>
         <div class="w-1/2 h-full flex flex-col justify-center">
             <div class="w-2/3 flex flex-col">
@@ -184,11 +197,11 @@
                 <input name="email" id="email" class="border rounded-lg border-gray-300 bg-white h-10 w-7/8 mb-2" required />
                 <label for="message" class="w-full ml-18 -mb-3">Message*</label>
                 <textarea name="message" id="message" class="border rounded-lg border-gray-300 bg-white h-50 w-7/8 mb-2 resize-none p-2" required />
-                <button type="submit" class="bg-[#2563EB] text-white w-7/8 rounded-lg h-15">Send Message</button>
+                <button type="submit" class="bg-[#0040a6] text-white w-7/8 rounded-lg h-15">Send Message</button>
             </form>
             </div>
     </section>
-    <section id="contact" class="h-1/12 w-screen flex justify-center flex-col font-montserrat bg-[#0C0C0C] text-white">
+    <section id="footer" class="h-1/12 w-screen flex justify-center flex-col font-montserrat bg-[#0C0C0C] text-white">
         <div class="h-4/5 w-9/10 flex flex-row">
             <div class="w-1/5 h-full pt-12 mx-10 flex flex-col">
                 <p class="w-full font-bold text-xl">Oasis</p>
@@ -196,10 +209,10 @@
             </div>
             <div class="w-1/5 h-full flex flex-col">
                 <p class=" pt-12 self-start font-bold text-xl">Quick Links</p>
-                <a class="text-[#9CA3AF] self-start hover:underline" href="#">Home</a>
-                <a class="text-[#9CA3AF] self-start hover:underline" href="#">Rooom</a>
-                <a class="text-[#9CA3AF] self-start hover:underline" href="#">Services</a>
-                <a class="text-[#9CA3AF] self-start hover:underline" href="#">About</a>
+                <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("home")'>Home</p>
+                <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("rooms")'>Rooms</p>
+                <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("services")'>Services</p>
+                <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("about")'>About</p>
                 
             </div>
             <div class="w-1/5 h-full flex flex-col">
@@ -212,12 +225,26 @@
             <div class="w-1/5 h-full flex flex-col">
                 <p class="w-full pt-12 font-bold text-xl">Follow Us</p>
                 <div class="flex self-start">
-                    <img src="/icons/fb.png" alt="FB" class="cursor-pointer" />
-                    <img src="/icons/x.png" alt="X" class="cursor-pointer" />
-                    <img src="/icons/ig.png" alt="IG" class="cursor-pointer" />
+                    <a href="https://www.facebook.com/bernardjay.dono" target="_blank" rel="noopener noreferrer">
+                        <img src="/icons/fb.png" style="height:24px" alt="FB" class="cursor-pointer" />
+                    </a>
+                    <a href="https://x.com/beirunshi" target="_blank" rel="noopener noreferrer">
+                        <img src="/icons/x_icon.png" style="height:20px" alt="X" class="cursor-pointer" />
+                    </a>
+                    <a href="https://www.instagram.com/bynib_/" target="_blank" rel="noopener noreferrer">
+                        <img src="/icons/ig.png" style="height:20px" alt="IG" class="cursor-pointer" />
+                    </a>
                 </div>
             </div>
         </div>
         <div class="w-full flex border-t border-[#1F2937] text-[#9CA3AF] pt-5 pb-5 justify-center">© 2025 Oasis Resort and Hotel. All rights reserved.</div>
     </section>
 </div>
+
+@code {
+
+    private async Task ScrollToSection(string id)
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToSection", id);
+    }
+}

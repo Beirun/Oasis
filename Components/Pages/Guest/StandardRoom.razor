@@ -1,0 +1,45 @@
+﻿@rendermode InteractiveServer
+@using Oasis.Components.Layout
+@inject NavigationManager Navigation
+
+<div class="w-full h-screen flex justify-center">
+	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
+		@* <img src="/icons/back-arrow.png" alt="Alternate Text" class=" top-5 left-5 h-10 -mr-4 transition-all duration-400 hover:stroke-[3px]" /> *@
+		<Icon Name="Arrow_Back" Class="stroke-4" />
+		<p class="text-xl -ml-3">Back</p>
+	</div>
+	<div class="w-1/4 h-screen flex justify-center">
+		<div class="bg-[url('/standard_room.jpeg')] bg-cover bg-center rounded-2xl h-3/5 w-full"></div>
+		
+	</div>
+	<div class="w-1/2 h-screen flex justify-center font-montserrat pl-35">
+		<div class="w-full h-3/5 flex flex-col justify-between">
+			<div class="w-full">
+
+			<p class="self-start font-wittgenstein text-5xl font-extrabold underline underline-offset-40" style="text-decoration-thickness:1px">Standard Room&nbsp;&nbsp;</p>
+			<p class="self-start mt-12"><span class="text-4xl font-bold">₱1,500</span> per night</p>
+			<p class="self-start mt-5">Our <b>Standard Room</b> provides a cozy and well-equipped space designed for comfort and convenience.</p>
+			<ul class="self-start ml-10 mt-5 list-disc">
+				<li class="mb-2">Cozy bed with fresh linens</li>
+				<li class="mb-2">Private bathroom with toiletries</li>
+				<li class="mb-2">Flat-screen TV and free Wi-Fi</li>
+				<li class="mb-2">Air conditioning</li>
+				</ul>
+			</div>
+			<NavLink href="/reservation/new/standard" class="self-start " style="background-color: #0040a6; color: white;padding: 20px 40px 20px 40px; border-radius: 40px; font-size:24px; font-family:Montserrat,serif; ">See room</NavLink>
+		</div>
+	</div>
+</div> 
+
+@code {
+	private void GoBack()
+	{
+		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+		Navigation.NavigateTo("javascript:history.back()", true);
+	}
+	private void GoTo()
+	{
+
+		Navigation.NavigateTo("/reservation/new/standard");
+	}
+}
