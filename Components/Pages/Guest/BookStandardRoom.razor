@@ -1,6 +1,7 @@
 ﻿@page "/reservation/new/standard"
 @rendermode InteractiveServer
 @using Oasis.Components.Layout
+@using Oasis.Components.ui
 @inject NavigationManager Navigation
 
 <div class="w-full h-screen flex justify-center">
@@ -9,12 +10,28 @@
 		<Icon Name="Arrow_Back" />
 		<p class="text-xl -ml-3">Back</p>
 	</div>
-	<div class="w-1/4 h-screen flex justify-center">
-		<div class="bg-[url('/standard_room.jpeg')] bg-cover bg-center rounded-2xl h-3/5 w-full"></div>
-		
+	<div class="w-[calc(25%+10rem)] h-screen flex flex-col justify-center">
+		<div class="transition-all duration-500 bg-center rounded-2xl h-3/5 w-full"
+			 style="background-image: url('@hoveredImage'); background-size: cover;">
+		</div>
+		<div class="w-full flex h-40 justify-between">
+			<div @onmouseover='()=> hoveredImage = "standard-1.jpg"'
+				 style="background-image: url('standard-1.jpg'); background-size: cover;"
+				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+			</div>
+			<div @onmouseover='()=> hoveredImage = "standard-2.jpg"'
+				 style="background-image: url('standard-2.jpg'); background-size: cover;"
+				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+			</div>
+			<div @onmouseover='()=> hoveredImage = "standard-3.jpg"'
+				 style="background-image: url('standard-3.jpg'); background-size: cover;"
+				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+			</div>
+		</div>
 	</div>
+
 	<div class="w-1/2 h-screen flex justify-center font-montserrat pl-35">
-		<div class="w-full h-3/5 flex flex-col justify-between">
+		<div class="w-full h-3/5 flex flex-col justify-start">
 			<div class="w-full">
 
 			<p class="self-start font-wittgenstein text-5xl font-extrabold underline underline-offset-40" style="text-decoration-thickness:1px">Standard Room&nbsp;&nbsp;</p>
@@ -28,34 +45,39 @@
 				</ul>
 			</div>
 			<div class="w-full h-1/5 flex">
-				<div class="w-1/5 h-full">
-					<div class="flex -mt-0.5">
-						<img src="/icons/person.png" style="width:40px" alt="Alternate Text" />
-						<p class="-ml-4">Guest</p>
-					</div>
-					put here
-				</div>
-				<div class="w-1/5 h-full">
-					<div class="flex">
-						<img src="/icons/calendar.png" style="width:35px" alt="Alternate Text" />
-						<p class="-ml-3">Check-In</p>
-					</div>
-					put here
-				</div>
-				<div class="w-1/5 h-full">
-					<div class="flex">
-						<img src="/icons/calendar.png" style="width:35px" alt="Alternate Text" />
-						<p class="-ml-3">Check-Out</p>
-					</div>
-					put here
+				<div class="w-2/5 h-full flex">
+				@* 	<div class="flex -mt-0.5"> *@
+				@* 		<img src="/icons/person.png" style="width:40px" alt="Alternate Text" /> *@
+				@* 		<p class="-ml-4">Guest</p> *@
+				@* 	</div> *@
+				@* 	put here *@
+				@* </div> *@
+				@* <div class="w-1/5 h-full"> *@
+				@* 	<div class="flex"> *@
+				@* 		<img src="/icons/calendar.png" style="width:35px" alt="Alternate Text" /> *@
+				@* 		<p class="-ml-3">Check-In</p> *@
+				@* 	</div> *@
+				@* 	put here *@
+				@* </div> *@
+				@* <div class="w-1/5 h-full"> *@
+				@* 	<div class="flex"> *@
+				@* 		<img src="/icons/calendar.png" style="width:35px" alt="Alternate Text" /> *@
+				@* 		<p class="-ml-3">Check-Out</p> *@
+				@* 	</div> *@
+				@* 	put here *@
+					<CustomDatePicker Placeholder="Check-In Date" Value="checkInDate" Class="mx-2" />
+					<CustomDatePicker Placeholder="Check-Out Date" Value="checkOutDate" Class="mx-2" />
 				</div>
 			</div>
-			<Button class="self-start " style="background-color: #0040a6;padding: 20px 40px 20px 40px; border-radius: 40px; font-size:24px; font-family:Montserrat,serif; ">Book room</Button>
+			<NavLink href="/payment" class="self-start bg-primary hover:bg-primary/80 transition-all font-bold duration-300 cursor-pointer px-20 py-4 rounded-xl font-montserrat text-white text-lg" >Book</NavLink>
 		</div>
 	</div>
 </div> 
 
 @code {
+	private DateOnly? checkInDate;
+	private DateOnly? checkOutDate;
+    string hoveredImage = "standard-1.jpg";
 	private void GoBack()
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);

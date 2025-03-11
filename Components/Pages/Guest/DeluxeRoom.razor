@@ -4,7 +4,7 @@
 
 <div class="w-full h-screen flex justify-center bg-[#0040a6] text-white">
 	<div class="w-1/2 h-screen flex justify-center font-montserrat">
-		<div class="w-full h-3/5 flex flex-col justify-between">
+		<div class="w-full h-3/5 flex flex-col justify-start">
 			<div class="w-full">
 
 				<p class="self-start font-wittgenstein text-5xl font-extrabold underline underline-offset-40" style="text-decoration-thickness:1px">Deluxe Room&nbsp;&nbsp;</p>
@@ -18,15 +18,33 @@
 					<li class="mb-2">Complimentary coffee and tea station</li>
 				</ul>
 			</div>
-			<NavLink href="/reservation/new/deluxe" class="self-start " style="background-color: white; color: #0040a6; padding: 20px 40px 20px 40px; border-radius: 40px; font-size:24px; font-family:Montserrat,serif; ">See room</NavLink>
+			<NavLink href="/reservation/new/deluxe" class="mt-5 self-start bg-white hover:bg-white/80 transition-all font-bold duration-300 cursor-pointer px-20 py-4 rounded-xl font-montserrat text-primary text-lg">See room</NavLink>
 		</div>
 	</div>
-	<div class="w-1/4 h-screen flex justify-center">
-		<div class="bg-[url('/standard_room.jpeg')] bg-cover bg-center rounded-2xl h-3/5 w-full"></div>
-
+	<div class="w-[calc(25%+10rem)] h-screen flex flex-col justify-center">
+		<div class="transition-all duration-500 bg-center rounded-2xl h-3/5 w-full"
+			 style="background-image: url('@hoveredImage'); background-size: cover;">
+		</div>
+		<div class="w-full flex h-40 justify-between">
+			<div @onmouseover='()=> hoveredImage = "deluxe-1.jpg"'
+				 style="background-image: url('deluxe-1.jpg'); background-size: cover;"
+				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+			</div>
+			<div @onmouseover='()=> hoveredImage = "deluxe-2.jpg"'
+				 style="background-image: url('deluxe-2.jpg'); background-size: cover;"
+				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+			</div>
+			<div @onmouseover='()=> hoveredImage = "deluxe-3.jpg"'
+				 style="background-image: url('deluxe-3.jpg'); background-size: cover;"
+				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+			</div>
+		</div>
 	</div>
+
 </div>
 @code {
+
+    private string hoveredImage = "deluxe-1.jpg";
 	private void GoTo()
 	{
 		Navigation.NavigateTo("/reservation/new/deluxe");
