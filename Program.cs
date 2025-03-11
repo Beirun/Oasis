@@ -1,15 +1,19 @@
 using Oasis.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
+
 using Sysinfocus.AspNetCore.Components;
 using Oasis.Data;
 
 using Oasis.Library;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+//builder.Services.AddRazorComponents()
+//    .AddInteractiveWebAssemblyRenderMode();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=app.db"));
