@@ -2,6 +2,8 @@
 <script src="js/date-picker.js"></script>
 <div class="relative @Class">
     <input type="date"
+           @bind-value="Value"
+           @bind-value:event="oninput"
            id="dateInput"
            @onchange="OnDateChanged"
            @onclick="ShowDatePicker"
@@ -9,10 +11,11 @@
            class="peer w-full py-2 block pl-10 bg-transparent border-b-2 border-gray-500
                   @((Value.ToString() == "1 Jan 0001" || string.IsNullOrEmpty(Value.ToString())) ? "text-transparent" :
                   IsFocused ? "text-primary [&::-webkit-datetime-edit-month-field]:text-primary [&::-webkit-datetime-edit-day-field]:text-primary [&::-webkit-datetime-edit-year-field]:text-primary" :
-                  "[&::-webkit-datetime-edit-month-field]:text-gray-600 [&::-webkit-datetime-edit-day-field]:text-gray-600 [&::-webkit-datetime-edit-year-field]:text-gray-600 text-gray-600")
+                  @*"*@
+                    "[&::-webkit-datetime-edit-month-field]:text-black [&::-webkit-datetime-edit-day-field]:text-black [&::-webkit-datetime-edit-year-field]:text-black text-black")
                   [&::-webkit-datetime-edit-month-field]:bg-transparent
                   [&::-webkit-datetime-edit-day-field]:bg-transparent
-                  [&::-webkit-datetime-edit-year-field]:bg-
+                  [&::-webkit-datetime-edit-year-field]:bg-transparent
                   focus:outline-none transition-all duration-300
                   appearance-none [&::-webkit-calendar-picker-indicator]:opacity-0
                   @(Value.ToString() == "1 Jan 0001" || string.IsNullOrEmpty(Value.ToString()) ? "[&::-webkit-datetime-edit-fields-wrapper]:opacity-0": "")" />
@@ -27,7 +30,7 @@
                 @(IsFocused ? "scale-x-100" : "scale-x-0")"></div>
 
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <svg class="w-5 h-5 @(IsFocused ? "text-primary" : " text-gray-500")" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        <svg class="w-5 h-5 @(IsFocused ? "text-primary" : (Value.ToString() == "1 Jan 0001" || string.IsNullOrEmpty(Value.ToString())) ? " text-gray-500" : "")" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
              fill="currentColor" viewBox="0 0 20 20">
             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
         </svg>
@@ -55,6 +58,14 @@
     }
 
     private async Task OnDateChanged(ChangeEventArgs e)
+    {
+        if (e.Value != null && DateOnly.TryParse(e.Value.ToString(), out var newDate))
+        {
+            Value = newDate;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+    private async Task OnInput(ChangeEventArgs e)
     {
         if (e.Value != null && DateOnly.TryParse(e.Value.ToString(), out var newDate))
         {

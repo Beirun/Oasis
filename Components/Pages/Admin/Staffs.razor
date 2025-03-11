@@ -3,45 +3,88 @@
 @inject NavigationManager NavigationManager
 @inject StaffService StaffService
 @inject Initialization init
+@using Oasis.Components.ui
 @using Oasis.Library
+@using Oasis.Components.Layout
 @using Oasis.Data.Object
-<div class="w-screen min-h-screen flex flex-col justify-center bg-background">
+@using Oasis.Data.Models
+@using Microsoft.EntityFrameworkCore
+
+<div class="w-screen min-h-screen flex flex-col justify-start bg-background">
+    <div class="bg-[#fafafa] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
+        <div class="h-full flex justify-center items-center">Logo</div>
+        <div class="h-full flex justify-center items-center">Welcome, Guest <button class="cursor-pointer justify-center items-center"><NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1" Color="black hover:stroke-red-900"/></NavLink></button></div>
+    </div>
+
+
+    <div class="w-[85%] flex justify-between items-center my-4">
+        <div class="flex flex-col items-start">
+            <div class="text-5xl font-bold text-gray-800 font-montserrat w-full -mb-3">
+                STAFFS (@totalStaff)
+            </div>
+            <div class="text-xl text-gray-600 font-montserrat w-full">
+                All of the Staffs are listed here
+            </div>
+        </div>
+        <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
+
+    </div>
     <div class="w-[85%] flex justify-between">
         <div class="flex">
             <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none"/>
-            <input type="text" name="name" placeholder="Search Staff" class="transition-all duration-300 focus:outline-none w-125 pl-15 text-lg p-2 px-4 rounded-md border-2 border-gray-300 focus:border-gray-500"/>
-            <button class="flex justify-center items-center focus:outline-none border-2 border-gray-300 p-2 rounded-md px-6"> <Icon Name="Filter_List" Size="30px"/> Filter</button>
+            <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Staff"
+            class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white/50 focus:outline-none w-125 pl-12.5 text-lg p-2 px-4 rounded-md border-2 border-gray-400 focus:border-gray-700" />
+            @if(selectedFilter != ""){
+                <div class=" ml-97 pr-2 absolute text-white flex w-27.5 justify-end">
+                    <div class="bg-primary px-4 py-2 rounded-[20px] text-xs flex">
+                        @selectedFilter
+                        <Icon onclick='() => RemoveFilter()' Name="Close" Color="White" Size="16px" class="cursor-pointer -ml-2 -mr-1" />
+                    </div>
+                </div>
+            }
+            <div class="flex flex-col">
+                <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'>
+                </div>
+
+                <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                    @foreach(var position in staffPositions)
+                    {
+                        <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li>
+                    }
+                </ul>
+                <button @onclick="OpenDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white/50 shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-2 border-gray-400 p-2 rounded-md px-6"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
+            </div>
         </div>
-        <button onclick="() => IsOpen = true" class="flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-300"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
+
     </div>
-    <div class="w-[85%] flex flex-wrap justify-start h-[80%] ">
+    <div class="w-[85%] flex flex-wrap justify-start h-[80%] items-start content-start">
         @for (int i = 0; i < filteredStaffs.Count; i++)
         {
-        var staff = filteredStaffs[i];
-            <div class="h-75 w-90 bg-gray-200/40 rounded-xl @(i % 4 == 3 ? "": "mr-9") @(i % 4 != 0 ? "ml-3": "") my-4 shadow-gray-500/50 shadow-md">
-            <div class="w-full flex p-4 h-20 mt-4">
+            var staff = filteredStaffs[i];
+            <div class="h-75 w-90 bg-white/70 rounded-xl @(i % 4 == 3 ? "": "mr-9") @(i % 4 != 0 ? "ml-3": "") my-4 shadow-gray-500/50 shadow-md">
+                <div class="w-full flex p-4 h-20 mt-4">
 
-                <div class="flex justify-center items-center size-20 bg-white/50 rounded-full overflow-hidden border-6 border-white shadow-sm shadow-gray-400/50">
-                    <img class="size-full" src="@(staff.position == "HouseKeeper" ? "/housekeeper.png" : "/receptionist.png")"
-                         alt="@($"{staff.position} Image")" />
+                    <div class="flex justify-center items-center size-20 bg-white/50 rounded-full overflow-hidden border-6 border-white shadow-sm shadow-gray-400/80">
+                        <img class="size-full" src="@(staff.position == "HouseKeeper" ? staff.user_gender == "Male" ? "/male-housekeeper.png" : "/female-housekeeper.png" : staff.user_gender == "Male" ? "/male-receptionist.png" : "/female-receptionist.png")"
+                        alt="@($"{staff.position} Image")" />
+                    </div>
+                    <div class="flex flex-col items-start justify-center h-20 ">
+                        <div class=" text-lg font-semibold w-full leading-none">@staff.user_fname  @staff.user_lname</div>
+                        <div class="  bg-primary/10 px-3 py-2 rounded-sm text-md leading-none text-primary self-start">@staff.position</div>
+                    </div>
                 </div>
-                <div class="flex flex-col items-start justify-center h-20 ">
-                    <div class=" text-lg font-semibold w-full leading-none">@staff.user_fname  @staff.user_lname</div>
-                    <div class=" text-md w-full leading-none text-primary">@staff.position</div>
+                <div class="w-full px-4 pt-8 flex">
+                    <div class="font-bold">Email: </div>
+                    <div>
+                        @staff.user_email
+                    </div>
                 </div>
-            </div>
-            <div class="w-full px-4 pt-8 flex">
-                <div class="font-bold">Email: </div>
-                <div>
-                    @staff.user_email
+                <div class="w-full px-4 pt-4 flex">
+                    <div class="font-bold">Contact: </div>
+                    <div>
+                        @staff.user_contactno
+                    </div>
                 </div>
-            </div>
-            <div class="w-full px-4 pt-4 flex">
-                <div class="font-bold">Contact: </div>
-                <div>
-                    @staff.user_contactno
-                </div>
-            </div>
 
                 <div class="w-full px-4 pt-4 flex">
                     <div class="font-bold">Hire Date: </div>
@@ -49,23 +92,255 @@
                         @staff.employment_date
                     </div>
                 </div>
-                <div class="w-full flex justify-end items-center h-10 mt-4 px-4"><button class="p-1 px-5  text-primary rounded-sm border-2 border-primary hover:bg-primary hover:border-transparent hover:text-white transition-all duration-300 cursor-pointer">Edit</button></div>
-        </div>
+                <div class="w-full flex justify-end items-center mt-4 px-4"><button @onclick='() => OpenEditStaffDialog(staff)' class="p-1 px-5  text-primary rounded-md border-2 border-primary hover:bg-primary/80 active:bg-primary/90 active:border-primary hover:border-transparent hover:text-white transition-all duration-200 cursor-pointer">Edit</button></div>
+            </div>
         }
     </div>
-    
+
+    @* Dialog Backdrop *@
+
+    <div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(IsNewStaffDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick="NewStaffBackdropClick">
+        <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(75%+4rem)] z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(IsNewStaffDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+
+            @*Header*@
+            <div class="w-full text-4xl pt-10 font-montserrat font-bold text-gray-800 justify-center items-center flex">
+                NEW STAFF
+            </div>
+            <div class="w-120 flex flex-col h-full">
+                <div class="w-105 mt-10 flex justify-between">
+                    <CustomInput @bind-Value="newStaff.user_fname" type="text" placeholder="First Name" class="w-[45%]" />
+                    <CustomInput @bind-Value="newStaff.user_lname" type="text" placeholder="Last Name" class="w-[45%]" />
+                </div>
+
+                <CustomSelect @bind-Value="@staffPosition" placeholder="Staff Position" options="@staffPositions" class="w-105 mt-5" @key="staffPosition" />
+                <CustomInput @bind-Value="newStaff.user_contactno" type="text" placeholder="Contact Number" class="w-105 mt-5" />
+                <CustomInput @bind-Value="newStaff.user_email" type="text" placeholder="Email" class="w-105 mt-5" />
+
+                <div class="flex justify-between items-center w-105 mt-5">
+                    <CustomSelect @bind-Value="@newStaff.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" @key="newStaff.user_gender" />
+                    <CustomDatePicker @bind-Value="@newStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" />
+                </div>
+                <div class="flex justify-between items-center w-105 mt-5">
+                    <CustomInput @bind-Value="newStaff.user_password" type="password" placeholder="Password" class="w-[45%]" />
+                    <CustomInput @bind-Value="confirmPassword" type="password" placeholder="Confirm Password" class="w-[45%]" />
+                </div>
+                <button @onclick="AddNewStaff" class="cursor-pointer p-4 w-105 mt-10 bg-primary text-white text-lg rounded-md hover:bg-primary/80 active:bg-primary/90 active:border-primary hover:border-transparent hover:text-white transition-all duration-200"> ADD STAFF </button>
+                <Icon Name="Close" @onclick="CloseNewStaffDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer"/>
+            </div>
+
+        </div>
+    </div>
+
+
+    @*EDIT STAFF*@
+
+    <div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(IsEditStaffDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick="EditStaffBackdropClick">
+        <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(75%)] z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(IsEditStaffDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+
+            @*Header*@
+            <div class="w-full text-4xl pt-10 font-montserrat font-bold text-gray-800 justify-center items-center flex">
+                EDIT STAFF
+            </div>
+            <div class="w-120 flex flex-col h-full">
+                <div class="w-105 mt-10 flex justify-between">
+                    <CustomInput @bind-Value="editStaff.user_fname" type="text" placeholder="First Name" class="w-[45%]" />
+                    <CustomInput @bind-Value="editStaff.user_lname" type="text" placeholder="Last Name" class="w-[45%]" />
+                </div>
+
+                <CustomSelect @bind-Value="editStaffPosition" placeholder="Staff Position" options="@staffPositions" class="w-105 mt-5" @key="editStaffPosition" />
+                <CustomInput @bind-Value="editStaff.user_contactno" type="text" placeholder="Contact Number" class="w-105 mt-5" />
+                <CustomInput @bind-Value="editStaff.user_email" type="text" placeholder="Email" class="w-105 mt-5" />
+
+                <div class="flex justify-between items-center w-105 mt-5">
+                    <CustomSelect @bind-Value="@editStaff.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" @key="editStaff.user_gender" />
+                    <CustomDatePicker @bind-Value="@editStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" />
+                </div>
+                <button @onclick="EditCurrentStaff" class="cursor-pointer p-4 w-105 mt-10 bg-primary text-white text-lg rounded-md hover:bg-primary/80 active:bg-primary/90 active:border-primary hover:border-transparent hover:text-white transition-all duration-200"> EDIT STAFF </button>
+                <Icon Name="Close" @onclick="CloseEditStaffDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer"/>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 
-
 @code {
-    private bool IsOpen = false;
-
+    private List<StaffInformation> baseStaffs = new List<StaffInformation>();
     private List<StaffInformation> staffs = new List<StaffInformation>();
     private List<StaffInformation> filteredStaffs = new List<StaffInformation>();
+    private User newStaff = new User();
+    private User editStaff = new User();
+    private List<string> genders = new List<string> { "Male", "Female" };
+    private List<string> staffPositions = new List<string> { "HouseKeeper", "Receptionist" };
+    private string staffPosition = "";
+    private string editStaffPosition="";
+    private string confirmPassword = "";
+    private string search = "";
+    private string selectedFilter = "";
+    private int totalStaff = 0;
+    private string Search
+    {
+        get => search;
+        set
+        {
+            search = value;
+            FilterStaffs();
+        }
+    }
+
+    private void FilterStaffs()
+    {
+        if (string.IsNullOrWhiteSpace(search))
+        {
+            filteredStaffs = staffs;
+        }
+        else
+        {
+            filteredStaffs = staffs.Where(s =>
+                s.user_fname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                s.user_lname.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                s.position.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                s.user_email.Contains(search, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+        }
+    }
+
+
 
     protected override async Task OnInitializedAsync(){
-        staffs = await StaffService.GetStaffs();
+        baseStaffs = await StaffService.GetStaffs();
+        staffs = baseStaffs;
+        totalStaff = staffs.Count;
         filteredStaffs = staffs;
     }
+
+    private bool IsNewStaffDialogOpen = false;
+
+    private void OpenNewStaffDialog()
+    {
+
+        IsNewStaffDialogOpen = true;
+        StateHasChanged();
+        Console.WriteLine("Open Dialog");
+    }
+
+    private void CloseNewStaffDialog()
+    {
+        IsNewStaffDialogOpen = false;
+        StateHasChanged();
+
+    }
+
+    private void NewStaffBackdropClick(MouseEventArgs e)
+    {
+        CloseNewStaffDialog();
+    }
+
+    private async Task AddNewStaff()
+    {
+        bool success = await StaffService.AddStaff(newStaff,staffPosition);
+        if (success){
+
+            baseStaffs = await StaffService.GetStaffs();
+            staffs = baseStaffs;
+            totalStaff = staffs.Count;
+            newStaff = new User();
+            staffPosition = "";
+            confirmPassword = "";
+            if (selectedFilter != "")
+            {
+                staffs = staffs.Where(s => s.position == selectedFilter).ToList();
+            }
+            filteredStaffs = staffs;    
+            CloseNewStaffDialog();
+        }
+    }
+
+    //Edit staff
+
+    private bool IsEditStaffDialogOpen = false;
+
+    private void OpenEditStaffDialog(StaffInformation staff)
+    {
+        User tempUser = new User();
+        tempUser.user_id = staff.staff_id;
+        tempUser.user_fname = staff.user_fname;
+        tempUser.user_lname = staff.user_lname;
+        tempUser.user_contactno = staff.user_contactno;
+        tempUser.user_email = staff.user_email;
+        tempUser.user_gender = staff.user_gender;
+        tempUser.user_dob = staff.user_dob;
+        Console.WriteLine(tempUser.user_dob);
+        editStaffPosition = staff.position;
+        editStaff = tempUser;
+        IsEditStaffDialogOpen = true;
+        StateHasChanged();
+        Console.WriteLine("Open Dialog");
+    }
+
+    private void CloseEditStaffDialog()
+    {
+        editStaff = new User();
+        editStaffPosition = "";
+
+        IsEditStaffDialogOpen = false;
+        StateHasChanged();
+
+    }
+
+    private void EditStaffBackdropClick(MouseEventArgs e)
+    {
+        CloseEditStaffDialog();
+    }
+        
+    private async Task EditCurrentStaff()
+    {
+        bool success = await StaffService.EditStaff(editStaff, editStaffPosition);
+        if (success)
+        {
+
+            baseStaffs = await StaffService.GetStaffs();
+            staffs = baseStaffs;
+            totalStaff = staffs.Count;
+            editStaff = new User();
+            editStaffPosition = "";
+            if (selectedFilter != "")
+            {
+                staffs = staffs.Where(s => s.position == selectedFilter).ToList();
+            }
+            filteredStaffs = staffs;
+            CloseEditStaffDialog();
+        }
+        else{
+            Console.WriteLine("Failed");
+        }
+    }
+
+    private bool IsDropdownOpen = false;
+    private void CloseDropdown(){
+        IsDropdownOpen = false;
+        StateHasChanged();
+    }
+    private void OpenDropdown(){
+        IsDropdownOpen = true;
+        StateHasChanged();
+    }
+
+    private void SelectFilter(string filter){
+        selectedFilter = filter;
+        staffs = baseStaffs;
+        totalStaff = staffs.Count;
+        staffs = staffs.Where(s => s.position == filter).ToList();
+        FilterStaffs();
+        CloseDropdown();
+    }
+
+    private void RemoveFilter(){
+        selectedFilter = "";
+        staffs = baseStaffs;
+        totalStaff = staffs.Count;
+        filteredStaffs = staffs;
+    }
+
 }

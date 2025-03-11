@@ -2,7 +2,7 @@
     <select class="peer w-full py-2 pl-3 bg-transparent border-b-2
                border-gray-500 focus:outline-none
                transition-all duration-300 appearance-none
-                @(IsFocused ? "text-primary" : "text-gray-600")"
+                @(IsFocused ? "text-primary" : "")"
             @onchange="OnValueChanged"
             @onfocus="() => IsFocused = true"
             @onblur="() => IsFocused = false"
@@ -10,7 +10,7 @@
         <option value="" selected disabled hidden></option>
         @foreach (var option in Options)
         {
-            <option value="@option">@option</option>
+            <option class="py-10" value="@option">@option</option>
         }
     </select>
 

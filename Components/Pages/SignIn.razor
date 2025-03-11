@@ -43,27 +43,33 @@
     //     sonnerMessage = message;
     //     showSonner = true;
     // }
-     
+
     private async Task LoginGuest()
     {
-        bool emailExists = await SignInService.checkEmail(email);
-        if (!emailExists)
-        {
-            Console.WriteLine("Email does not exist");
-            // ShowSonner("Login Failed", "Email does not exist");
-            return;
-            
+        KeyValuePair<bool, string> result = await SignInService.checkUser(email,password);
+        // if (!emailExists)
+        // {
+        //     Console.WriteLine("Email does not exist");
+        //     ShowSonner("Login Failed", "Email does not exist");
+        //     return;
 
-        }
-        bool passwordMatch = await SignInService.checkPassword(email, password);
-        if (!passwordMatch)
-        {
-            // ShowSonner("Login Failed", "Password does not match");
-            Console.WriteLine("Password does not match");
+
+        // }
+        // bool passwordMatch = await SignInService.checkPassword(email, password);
+        // if (!passwordMatch)
+        // {
+        //     ShowSonner("Login Failed", "Password does not match");
+        //     Console.WriteLine("Password does not match");
+        //     return;
+        // }
+        // ShowSonner("Login Success", "Logged in successfully");
+        // string userType = await SignInService.getUserType(email);
+        if (!result.Key){
+            // ShowSonner("Login Failed", result.Value);
+            Console.WriteLine(result.Value);
             return;
         }
-        // ShowSonner("Login Success", "Logged in successfully");
-        Navigation.NavigateTo("/dashboard/guest");
+        Navigation.NavigateTo("/dashboard/" + result.Value.ToLower());
     }
 
 }
