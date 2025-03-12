@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Oasis.Data.Models;
-
-public partial class Amenity
+﻿namespace Oasis.Data.Models
 {
-    public int amenity_id { get; set; }
-    public string? amenity_name { get; set; }
-    public float? amenity_price { get; set; }
+    public class Amenity
+    {
+        public int amenity_id { get; set; }
+        public int type_id { get; set; }
+        public int item_id { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public virtual AmenityItem amenityItem { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+
+        public virtual RoomType roomType { get; set; }
+    }
 }

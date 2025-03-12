@@ -19,7 +19,32 @@ namespace Oasis.Migrations
 
             modelBuilder.Entity("Oasis.Data.Models.Amenity", b =>
                 {
+                    b.Property<int>("item_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("item_id");
+
                     b.Property<int>("amenity_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("amenity_id");
+
+                    b.Property<int>("type_id")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("type_id");
+
+                    b.HasKey("item_id");
+
+                    b.HasIndex("amenity_id");
+
+                    b.HasIndex("type_id");
+
+                    b.ToTable("Amenity", (string)null);
+                });
+
+            modelBuilder.Entity("Oasis.Data.Models.AmenityItem", b =>
+                {
+                    b.Property<int>("item_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("amenity_id");
@@ -32,9 +57,9 @@ namespace Oasis.Migrations
                         .HasColumnType("REAL")
                         .HasColumnName("amenity_price");
 
-                    b.HasKey("amenity_id");
+                    b.HasKey("item_id");
 
-                    b.ToTable("Amenity", (string)null);
+                    b.ToTable("AmenityItem", (string)null);
                 });
 
             modelBuilder.Entity("Oasis.Data.Models.Discount", b =>
@@ -414,6 +439,25 @@ namespace Oasis.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("Oasis.Data.Models.Amenity", b =>
+                {
+                    b.HasOne("Oasis.Data.Models.AmenityItem", "amenityItem")
+                        .WithMany("amenity")
+                        .HasForeignKey("amenity_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Oasis.Data.Models.RoomType", "roomType")
+                        .WithMany("amenity")
+                        .HasForeignKey("type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("amenityItem");
+
+                    b.Navigation("roomType");
+                });
+
             modelBuilder.Entity("Oasis.Data.Models.Guest", b =>
                 {
                     b.HasOne("Oasis.Data.Models.User", "user")
@@ -539,6 +583,11 @@ namespace Oasis.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("Oasis.Data.Models.AmenityItem", b =>
+                {
+                    b.Navigation("amenity");
+                });
+
             modelBuilder.Entity("Oasis.Data.Models.Discount", b =>
                 {
                     b.Navigation("payment");
@@ -569,6 +618,8 @@ namespace Oasis.Migrations
 
             modelBuilder.Entity("Oasis.Data.Models.RoomType", b =>
                 {
+                    b.Navigation("amenity");
+
                     b.Navigation("room");
                 });
 

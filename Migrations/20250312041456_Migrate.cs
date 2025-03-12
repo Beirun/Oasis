@@ -12,7 +12,7 @@ namespace Oasis.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Amenity",
+                name: "AmenityItem",
                 columns: table => new
                 {
                     amenity_id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -22,7 +22,7 @@ namespace Oasis.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Amenity", x => x.amenity_id);
+                    table.PrimaryKey("PK_AmenityItem", x => x.amenity_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,6 +84,32 @@ namespace Oasis.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Amenity",
+                columns: table => new
+                {
+                    item_id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    amenity_id = table.Column<int>(type: "INTEGER", nullable: false),
+                    type_id = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Amenity", x => x.item_id);
+                    table.ForeignKey(
+                        name: "FK_Amenity_AmenityItem_amenity_id",
+                        column: x => x.amenity_id,
+                        principalTable: "AmenityItem",
+                        principalColumn: "amenity_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Amenity_RoomType_type_id",
+                        column: x => x.type_id,
+                        principalTable: "RoomType",
+                        principalColumn: "type_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -308,6 +334,16 @@ namespace Oasis.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Amenity_amenity_id",
+                table: "Amenity",
+                column: "amenity_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Amenity_type_id",
+                table: "Amenity",
+                column: "type_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HouseKeeping_room_id",
                 table: "HouseKeeping",
                 column: "room_id");
@@ -398,6 +434,9 @@ namespace Oasis.Migrations
 
             migrationBuilder.DropTable(
                 name: "Service");
+
+            migrationBuilder.DropTable(
+                name: "AmenityItem");
 
             migrationBuilder.DropTable(
                 name: "Discount");

@@ -24,6 +24,7 @@ public partial class AppDbContext : DbContext
     public DbSet<RoomType> RoomType { get; set; }
     public DbSet<Service> Service { get; set; }
     public DbSet<ServiceType> ServiceType { get; set; }
+    public DbSet<AmenityItem> AmenityItem { get; set; }
     public DbSet<Amenity> Amenity { get; set; }
     public DbSet<Discount> Discount { get; set; }
     public DbSet<HouseKeeping> HouseKeeping { get; set; }
@@ -34,17 +35,38 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Amenity>(entity =>
+        modelBuilder.Entity<AmenityItem>(entity =>
         {
-            entity.HasKey(e => e.amenity_id);
-            entity.ToTable("Amenity");
+            entity.HasKey(e => e.item_id);
+            entity.ToTable("AmenityItem");
 
-            entity.Property(e => e.amenity_id)
+            entity.Property(e => e.item_id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("amenity_id");
             entity.Property(e => e.amenity_name).HasColumnName("amenity_name");
             entity.Property(e => e.amenity_price).HasColumnName("amenity_price");
         });
+
+        modelBuilder.Entity<Amenity>(entity =>
+        {
+            entity.HasKey(e => e.item_id);
+            entity.ToTable("Amenity");
+
+            entity.Property(e => e.amenity_id)
+                .ValueGeneratedOnAdd()  // Automatically generates the value for amenity_id (typically identity column)
+                .HasColumnName("amenity_id");
+
+            entity.Property(e => e.type_id)
+                .HasColumnName("type_id");
+
+            entity.Property(e => e.item_id)
+                .HasColumnName("item_id");
+
+            entity.HasOne(d => d.amenityItem).WithMany(p => p.amenity).HasForeignKey(d => d.amenity_id);
+            entity.HasOne(d => d.roomType).WithMany(p => p.amenity).HasForeignKey(d => d.type_id);
+
+        });
+
 
         modelBuilder.Entity<Discount>(entity =>
         {

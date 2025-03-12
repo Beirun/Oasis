@@ -10,4 +10,7 @@ public partial class RoomType
     public double? type_price { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<Room> room { get; set; } = new List<Room>();
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual ICollection<Amenity> amenity { get; set; } = new List<Amenity>();
+
 }
