@@ -9,11 +9,9 @@ public partial class Guest
     public DateTime? registration_date { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
 
-    public virtual User user { get; set; } = null!;
+    public virtual User? user { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<Reservation> reservation { get; set; } = new List<Reservation>();
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<Review> review { get; set; } = new List<Review>();
-    [System.Text.Json.Serialization.JsonIgnore]
-    public virtual ICollection<Room> room { get; set; } = new List<Room>();
 }

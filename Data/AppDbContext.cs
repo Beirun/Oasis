@@ -197,14 +197,29 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.room_id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("room_id");
-            entity.Property(e => e.guest_id).HasColumnName("guest_id");
             entity.Property(e => e.room_no).HasColumnName("room_no");
             entity.Property(e => e.room_status).HasColumnName("room_status");
             entity.Property(e => e.type_id).HasColumnName("type_id");
 
-            entity.HasOne(d => d.guest).WithMany(p => p.room).HasForeignKey(d => d.guest_id);
-
             entity.HasOne(d => d.roomtype).WithMany(p => p.room).HasForeignKey(d => d.type_id);
+            List<Room> rooms = new List<Room>();
+            int room_id = 1;
+            for (int i = 0; i < 15; i++)
+            {
+                int roomNumber = (i + 1) * 100;
+                for (int j = 0; j < 15; j++)
+                {
+                    rooms.Add(new Room
+                    {
+                        room_id = room_id,
+                        room_no = roomNumber + (j + 1),
+                        type_id = j < 7 ? 1 : j < 12 ? 2 : 3,
+                        room_status = "Available",
+                    });
+                    room_id++;
+                }
+            }
+            entity.HasData(rooms);
         });
 
         modelBuilder.Entity<RoomType>(entity =>
@@ -218,6 +233,23 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("type_id");
             entity.Property(e => e.type_category).HasColumnName("type_category");
             entity.Property(e => e.type_price).HasColumnName("type_price");
+            List<RoomType> roomTypes = new List<RoomType>();
+            roomTypes.Add(new RoomType{
+                type_id = 1,
+                type_category = "Standard",
+                type_price = 2500
+            });
+            roomTypes.Add(new RoomType{
+                type_id = 2,
+                type_category = "Deluxe",
+                type_price = 5000
+            });
+            roomTypes.Add(new RoomType{ 
+                type_id = 3,
+                type_category = "Suite",
+                type_price = 7500
+            });
+            entity.HasData(roomTypes);
         });
 
         modelBuilder.Entity<Service>(entity =>
