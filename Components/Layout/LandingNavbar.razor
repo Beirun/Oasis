@@ -9,7 +9,7 @@
     <div class="flex h-full  transition-all duration-400 @((IsScrolled)? "w-150 text-1xl":"w-200 text-xl") justify-evenly items-center text-primary font-montserrat">
         <p @onclick='() => ScrollToSection("home")' class="cursor-pointer">Home</p>
         <p @onclick='() => ScrollToSection("rooms")' class="cursor-pointer">Rooms</p>
-        <p @onclick='() => ScrollToSection("services")' class="cursor-pointer">Services</p>
+        @* <p @onclick='() => ScrollToSection("services")' class="cursor-pointer">Services</p> *@
         <p @onclick='() => ScrollToSection("about")' class="cursor-pointer">About</p>
         <p @onclick='() => ScrollToSection("contact")' class="cursor-pointer">Contact</p>
         <NavLink href="signin">
