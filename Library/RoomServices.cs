@@ -4,10 +4,10 @@ using Oasis.Data;
 using Oasis.Data.Models;
 namespace Oasis.Library
 {
-    public class RoomService
+    public class RoomServices
     {
         private readonly AppDbContext _context;
-        public RoomService(AppDbContext context)
+        public RoomServices(AppDbContext context)
         {
             _context = context;
         }

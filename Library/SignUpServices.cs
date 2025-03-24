@@ -4,10 +4,10 @@ using Oasis.Data;
 using Oasis.Data.Models;
 namespace Oasis.Library
 {
-    public class SignUpService
+    public class SignUpServices
     {
         private readonly AppDbContext _context;
-        public SignUpService( AppDbContext context)
+        public SignUpServices( AppDbContext context)
         {
             _context = context;
         }
