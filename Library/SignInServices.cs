@@ -40,10 +40,10 @@ namespace Oasis.Library
                 else
                 {
                     var staff = await _context.Staff.FirstOrDefaultAsync(s => s.staff_id == user.user_id);
-                    return staff.position;
+                    return staff?.position?? "";
                 }
             }
-            return null;
+            return "";    
         }
 
         public async Task<KeyValuePair<bool, string>> checkUser(string email, string password)
@@ -61,7 +61,7 @@ namespace Oasis.Library
                 else
                 {
                     var staff = await _context.Staff.FirstOrDefaultAsync(s => s.staff_id == user.user_id);
-                    return new KeyValuePair<bool, string>(true, staff.position);
+                    return new KeyValuePair<bool, string>(true, staff?.position?? "");
                 }
             }
             return new KeyValuePair<bool, string>(false, "Email doesn't exist");

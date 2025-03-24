@@ -30,7 +30,7 @@ builder.Services.AddRazorPages()
     });
 
 builder.Services.AddScoped<SignUpService>();
-builder.Services.AddScoped<SignInService>();
+builder.Services.AddScoped<SignInServices>();
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddSysinfocus(false);
 
