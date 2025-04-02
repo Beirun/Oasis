@@ -5,10 +5,10 @@ using Oasis.Data.Models;
 using Oasis.Data.Object;
 namespace Oasis.Library
 {
-    public class StaffService
+    public class StaffServices
     {
         private readonly AppDbContext _context;
-        public StaffService(AppDbContext context)
+        public StaffServices(AppDbContext context)
         {
             _context = context;
         }

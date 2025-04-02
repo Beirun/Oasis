@@ -8,10 +8,8 @@ public partial class Room
     public int room_id { get; set; }
     public int? room_no { get; set; }
     public int? type_id { get; set; }
-    public int? room_status { get; set; }
-    public int? guest_id { get; set; }
-    [System.Text.Json.Serialization.JsonIgnore]
-    public virtual Guest? guest { get; set; }
+    public string? room_status { get; set; }
+
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<HouseKeeping> housekeeping { get; set; } = new List<HouseKeeping>();
     [System.Text.Json.Serialization.JsonIgnore]

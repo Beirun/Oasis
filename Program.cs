@@ -29,9 +29,9 @@ builder.Services.AddRazorPages()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     });
 
-builder.Services.AddScoped<SignUpService>();
-builder.Services.AddScoped<SignInService>();
-builder.Services.AddScoped<StaffService>();
+builder.Services.AddScoped<SignUpServices>();
+builder.Services.AddScoped<SignInServices>();
+builder.Services.AddScoped<StaffServices>();
 builder.Services.AddSysinfocus(false);
 
 

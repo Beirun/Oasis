@@ -45,11 +45,90 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("amenity_id");
             entity.Property(e => e.amenity_name).HasColumnName("amenity_name");
             entity.Property(e => e.amenity_price).HasColumnName("amenity_price");
+            List<AmenityItem> amenityItems = new List<AmenityItem>();
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 1,
+                amenity_name = "Air Conditioning (AC)",
+                amenity_price = 375
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 2,
+                amenity_name = "Mini Fridge",
+                amenity_price = 188
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 3,
+                amenity_name = "Electric Kettle",
+                amenity_price = 113
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 4,
+                amenity_name = "Iron & Ironing Board",
+                amenity_price = 113
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 5,
+                amenity_name = "Desk Fan",
+                amenity_price = 75
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 6,
+                amenity_name = "Universal Adapter",
+                amenity_price = 75
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 7,
+                amenity_name = "Smart TV Upgrade",
+                amenity_price = 375
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 8,
+                amenity_name = "Hair Dryer",
+                amenity_price = 188
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 9,
+                amenity_name = "Portable Heater",
+                amenity_price = 450
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 10,
+                amenity_name = "Microwave",
+                amenity_price = 525
+            });
+
+            amenityItems.Add(new AmenityItem
+            {
+                item_id = 11,
+                amenity_name = "Coffee Maker",
+                amenity_price = 450
+            });
+            entity.HasData(amenityItems);
         });
 
         modelBuilder.Entity<Amenity>(entity =>
         {
-            entity.HasKey(e => e.item_id);
+            entity.HasKey(e => e.amenity_id);
             entity.ToTable("Amenity");
 
             entity.Property(e => e.amenity_id)
@@ -62,9 +141,43 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.item_id)
                 .HasColumnName("item_id");
 
-            entity.HasOne(d => d.amenityItem).WithMany(p => p.amenity).HasForeignKey(d => d.amenity_id);
+            entity.HasOne(d => d.amenityItem).WithMany(p => p.amenity).HasForeignKey(d => d.item_id);
             entity.HasOne(d => d.roomType).WithMany(p => p.amenity).HasForeignKey(d => d.type_id);
+            List<Amenity> amenities = new List<Amenity>();
 
+            // Standard Room Amenities (type_id = 1)
+            amenities.Add(new Amenity { amenity_id = 1, type_id = 1, item_id = 1 }); // Air Conditioning (AC)
+            amenities.Add(new Amenity { amenity_id = 2, type_id = 1, item_id = 2 }); // Mini Fridge
+            amenities.Add(new Amenity { amenity_id = 3, type_id = 1, item_id = 3 }); // Electric Kettle
+            amenities.Add(new Amenity { amenity_id = 4, type_id = 1, item_id = 4 }); // Iron & Ironing Board
+            amenities.Add(new Amenity { amenity_id = 5, type_id = 1, item_id = 5 }); // Desk Fan
+            amenities.Add(new Amenity { amenity_id = 6, type_id = 1, item_id = 6 }); // Universal Adapter
+            amenities.Add(new Amenity { amenity_id = 7, type_id = 1, item_id = 7 }); // Smart TV Upgrade
+
+            // Deluxe Room Amenities (type_id = 2)
+            amenities.Add(new Amenity { amenity_id = 8, type_id = 2, item_id = 1 }); // Air Conditioning (AC)
+            amenities.Add(new Amenity { amenity_id = 9, type_id = 2, item_id = 2 }); // Mini Fridge
+            amenities.Add(new Amenity { amenity_id = 10, type_id = 2, item_id = 3 }); // Electric Kettle
+            amenities.Add(new Amenity { amenity_id = 11, type_id = 2, item_id = 8 }); // Hair Dryer
+            amenities.Add(new Amenity { amenity_id = 12, type_id = 2, item_id = 4 }); // Iron & Ironing Board
+            amenities.Add(new Amenity { amenity_id = 13, type_id = 2, item_id = 5 }); // Desk Fan
+            amenities.Add(new Amenity { amenity_id = 14, type_id = 2, item_id = 9 }); // Portable Heater
+            amenities.Add(new Amenity { amenity_id = 15, type_id = 2, item_id = 6 }); // Universal Adapter
+            amenities.Add(new Amenity { amenity_id = 16, type_id = 2, item_id = 7 }); // Smart TV Upgrade
+
+            // Suite Room Amenities (type_id = 3)
+            amenities.Add(new Amenity { amenity_id = 17, type_id = 3, item_id = 1 }); // Air Conditioning (AC)
+            amenities.Add(new Amenity { amenity_id = 18, type_id = 3, item_id = 10 }); // Microwave
+            amenities.Add(new Amenity { amenity_id = 19, type_id = 3, item_id = 2 }); // Mini Fridge
+            amenities.Add(new Amenity { amenity_id = 20, type_id = 3, item_id = 11 }); // Coffee Maker
+            amenities.Add(new Amenity { amenity_id = 21, type_id = 3, item_id = 3 }); // Electric Kettle
+            amenities.Add(new Amenity { amenity_id = 22, type_id = 3, item_id = 8 }); // Hair Dryer
+            amenities.Add(new Amenity { amenity_id = 23, type_id = 3, item_id = 4 }); // Iron & Ironing Board
+            amenities.Add(new Amenity { amenity_id = 24, type_id = 3, item_id = 5 }); // Desk Fan
+            amenities.Add(new Amenity { amenity_id = 25, type_id = 3, item_id = 9 }); // Portable Heater
+            amenities.Add(new Amenity { amenity_id = 26, type_id = 3, item_id = 6 }); // Universal Adapter
+            amenities.Add(new Amenity { amenity_id = 27, type_id = 3, item_id = 7 }); // Smart TV Upgrade
+            entity.HasData(amenities);
         });
 
 
@@ -197,14 +310,29 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.room_id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("room_id");
-            entity.Property(e => e.guest_id).HasColumnName("guest_id");
             entity.Property(e => e.room_no).HasColumnName("room_no");
             entity.Property(e => e.room_status).HasColumnName("room_status");
             entity.Property(e => e.type_id).HasColumnName("type_id");
 
-            entity.HasOne(d => d.guest).WithMany(p => p.room).HasForeignKey(d => d.guest_id);
-
             entity.HasOne(d => d.roomtype).WithMany(p => p.room).HasForeignKey(d => d.type_id);
+            List<Room> rooms = new List<Room>();
+            int room_id = 1;
+            for (int i = 0; i < 15; i++)
+            {
+                int roomNumber = (i + 1) * 100;
+                for (int j = 0; j < 15; j++)
+                {
+                    rooms.Add(new Room
+                    {
+                        room_id = room_id,
+                        room_no = roomNumber + (j + 1),
+                        type_id = j < 7 ? 1 : j < 12 ? 2 : 3,
+                        room_status = "Available",
+                    });
+                    room_id++;
+                }
+            }
+            entity.HasData(rooms);
         });
 
         modelBuilder.Entity<RoomType>(entity =>
@@ -218,6 +346,23 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("type_id");
             entity.Property(e => e.type_category).HasColumnName("type_category");
             entity.Property(e => e.type_price).HasColumnName("type_price");
+            List<RoomType> roomTypes = new List<RoomType>();
+            roomTypes.Add(new RoomType{
+                type_id = 1,
+                type_category = "Standard",
+                type_price = 2500
+            });
+            roomTypes.Add(new RoomType{
+                type_id = 2,
+                type_category = "Deluxe",
+                type_price = 5000
+            });
+            roomTypes.Add(new RoomType{ 
+                type_id = 3,
+                type_category = "Suite",
+                type_price = 7500
+            });
+            entity.HasData(roomTypes);
         });
 
         modelBuilder.Entity<Service>(entity =>
