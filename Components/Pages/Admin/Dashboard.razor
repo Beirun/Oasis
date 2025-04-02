@@ -1,7 +1,49 @@
 ﻿@page "/dashboard/admin"
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar/>
+    <div class="w-4/5 flex justify-evenly items-stretch">
+        <div class="w-4/5 flex flex-col">
+            <div class="w-full h-40 flex justify-center">
+                <div class="w-full bg-primary h-full rounded-2xl flex justify-evenly">
+                    <div class="w-full h-4/5 flex justify-evenly">
+                        <div class="w-3/5 h-full ml-5">
+                            <p>Total Guests</p>
+                            <p class="text-2xl">-</p>
+                            <p>-</p>
+                        </div>
+                        <div class="w-1/7 h-full ml-10 bg-white">
+                            <div class="bg-black">...</div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="w-full bg-primary h-full rounded-2xl">test</div>
+                <div class="w-full bg-primary h-full rounded-2xl">testt</div>
+                <div class="w-full bg-primary h-full rounded-2xl">test</div>
+            </div>
+            <div class="w-full h-100 bg-primary rounded-2xl">
+                <p>Total Income</p>
+                <p class="h-full">Graph Here</p>
+            </div>
+            <div class="w-full h-100 flex">
+                <div class="w-1/2 h-full bg-primary rounded-2xl">Booked Rooms</div>
+                <div class="w-1/2 h-full bg-primary rounded-2xl">New Guests</div>
+            </div>
+            <div class="w-full bg-primary h-50 mb-10 rounded-2xl">
+                <p class="h-full">Recent Check-Ins</p>
+            </div>
+        </div>
+        @* right div >> *@
+        <div class="w-2/5 h-full flex flex-col">
+            <div class="w-full h-[60%] bg-primary rounded-2xl">
+                <p>Discounts & Promotions</p>
+            </div>
+            <div class="w-full flex-1 bg-primary rounded-2xl">
+                <p>New Staffs</p>
+            </div>
+        </div>
 
+    </div>
 </div>
 
 @code {
