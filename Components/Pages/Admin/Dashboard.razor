@@ -1,45 +1,115 @@
 ﻿@page "/dashboard/admin"
+
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar/>
-    <div class="w-4/5 flex justify-evenly items-stretch">
+    <div class="w-4/5 flex justify-evenly items-stretch font-montserrat">
         <div class="w-4/5 flex flex-col">
             <div class="w-full h-40 flex justify-center">
-                <div class="w-full bg-primary h-full rounded-2xl flex justify-evenly">
+                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
                     <div class="w-full h-4/5 flex justify-evenly">
-                        <div class="w-3/5 h-full ml-5">
-                            <p>Total Guests</p>
-                            <p class="text-2xl">-</p>
-                            <p>-</p>
+                        <div class="w-3/5 h-full ml-5 flex flex-col items-start">
+                            <p class="w-full">Total Guests</p>
+                            <p class="text-2xl w-full">-</p>
+                            <p class="w-full">-</p>
                         </div>
-                        <div class="w-1/7 h-full ml-10 bg-white">
-                            <div class="bg-black">...</div>
+                        <div class="w-1/7 h-full mr-3">
+                            <div class="bg-[#DBEAFE] flex justify-center w-full rounded">
+                                <img src="icons/group.png" alt="..." class="p-1"/>
+                            </div>
                         </div>
                     </div>
                     
                 </div>
-                <div class="w-full bg-primary h-full rounded-2xl">test</div>
-                <div class="w-full bg-primary h-full rounded-2xl">testt</div>
-                <div class="w-full bg-primary h-full rounded-2xl">test</div>
+                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
+                    <div class="w-full h-4/5 flex justify-evenly">
+                        <div class="w-3/5 h-full ml-5 flex flex-col items-start">
+                            <p class="w-full">Daily Income</p>
+                            <p class="text-2xl w-full">-</p>
+                            <p class="w-full">-</p>
+                        </div>
+                        <div class="w-1/7 h-full mr-3">
+                            <div class="bg-[#D1FAE5] flex justify-center w-full rounded">
+                                <img src="icons/dollar.png" alt="..." class="p-1"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
+                    <div class="w-full h-4/5 flex justify-evenly">
+                        <div class="w-3/5 h-full ml-5 flex flex-col items-start">
+                            <p class="w-full">Room Occupancy</p>
+                            <p class="text-2xl w-full">-</p>
+                            <p class="w-full">-</p>
+                        </div>
+                        <div class="w-1/7 h-full mr-3">
+                            <div class="bg-[#EDE9FE] flex justify-center w-full rounded">
+                                <img src="icons/bed.png" alt="..." class="p-1"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
+                    <div class="w-full h-4/5 flex justify-evenly">
+                        <div class="w-3/5 h-full ml-5 flex flex-col items-start">
+                            <p class="w-full ">Reservations</p>
+                            <p class="text-2xl w-full">-</p>
+                            <p class="w-full">-</p>
+                        </div>
+                        <div class="w-1/7 h-full mr-3">
+                            <div class="bg-[#FFEDD5] flex justify-center w-full rounded">
+                                <img src="icons/reservation_calendar.png" alt="..." class="p-1"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-            <div class="w-full h-100 bg-primary rounded-2xl">
-                <p>Total Income</p>
-                <p class="h-full">Graph Here</p>
+            <div class="w-full h-100 bg-white rounded-2xl font-montserrat">
+                <div class="w-full p-5 flex flex-col">
+                    <p class="text-3xl font-bold w-full">Total Income</p>
+
+                </div>
             </div>
             <div class="w-full h-100 flex">
-                <div class="w-1/2 h-full bg-primary rounded-2xl">Booked Rooms</div>
-                <div class="w-1/2 h-full bg-primary rounded-2xl">New Guests</div>
+                <div class="w-1/2 h-full bg-white rounded-2xl flex flex-col p-5">
+                    <p class="text-3xl font-bold w-full">Booked Rooms</p>
+                </div>
+                <div class="w-1/2 h-full bg-white rounded-2xl flex flex-col p-5">
+                    <p class="text-3xl font-bold w-full">New Guests</p>
+                </div>
             </div>
-            <div class="w-full bg-primary h-50 mb-10 rounded-2xl">
-                <p class="h-full">Recent Check-Ins</p>
+            <div class="w-full bg-white h-60 mb-10 rounded-2xl flex flex-col p-5">
+                <p class="text-3xl font-bold w-full">Recent Check-Ins</p>
+                <table class="w-full">
+                    <tr class="w-full">
+                        <td>Guest</td>
+                        <td>Room</td>
+                        <td>Check In</td>
+                        <td>Check Out</td>
+                        <td>Status</td>
+                    </tr>
+                </table>
             </div>
         </div>
         @* right div >> *@
         <div class="w-2/5 h-full flex flex-col">
-            <div class="w-full h-[60%] bg-primary rounded-2xl">
-                <p>Discounts & Promotions</p>
+            <div class="w-full h-200 bg-white rounded-2xl flex flex-col p-5">
+                <p class="text-3xl font-bold w-full">New Members</p>
             </div>
-            <div class="w-full flex-1 bg-primary rounded-2xl">
-                <p>New Staffs</p>
+            <div class="w-full h-108 bg-white rounded-2xl flex flex-col p-5">
+                <p class="text-3xl font-bold w-full">New Staffs</p>
+                <div class="w-full flex justify-between mt-5">
+                    <div class="flex ml-2">
+                        <img src="#" alt="dp" />
+                        <p>Name</p>
+                    </div>
+                    <div class="mr-2">
+                        Role
+                    </div>
+                </div>
+                <div class="w-full h-[1px] bg-gray-300"></div>
             </div>
         </div>
 
@@ -47,10 +117,4 @@
 </div>
 
 @code {
-
-
-    // protected override async Task OnInitializedAsync()
-    // {
-        
-    // }
 }

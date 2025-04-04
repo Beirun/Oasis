@@ -13,24 +13,25 @@
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
 
-    <div class="w-[85%] flex justify-between items-center my-4">
-        <div class="flex flex-col items-start">
-            <div class="text-5xl font-bold text-gray-800 font-montserrat w-full -mb-3">
-                STAFFS (@totalStaff)
+    <div class="w-[85%] flex flex-col justify-between items-center my-4">
+        <div class="w-3/4 flex flex-row items-start">
+            <div class="font-bold text-gray-800 font-montserrat w-1/4 h-35 bg-white p-5 shadow-sm shadow-gray-500 rounded">
+                <p class="text-2xl w-full">Total Staff</p>
+                <p class="text-6xl ml-5 text-[#2563EB]">@totalStaff<span class="text-2xl ml-2">staffs</span></p>
             </div>
-            <div class="text-xl text-gray-600 font-montserrat w-full">
-                All of the Staffs are listed here
+            <div class=" font-bold text-gray-800 font-montserrat w-full h-35 bg-white p-5 shadow-sm shadow-gray-500 rounded">
+                <p class="text-2xl w-full">Staff</p>
             </div>
         </div>
-        <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
+        <div class="w-3/4 flex justify-between">
+            <div class="flex">
 
-    </div>
-    <div class="w-[85%] flex justify-between">
-        <div class="flex">
-            <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none"/>
+            
+            <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
             <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Staff"
-            class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white/50 focus:outline-none w-125 pl-12.5 text-lg p-2 px-4 rounded-md border-2 border-gray-400 focus:border-gray-700" />
-            @if(selectedFilter != ""){
+                   class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white/50 focus:outline-none w-125 pl-12.5 text-lg p-2 px-4 rounded-md border-2 border-gray-400 focus:border-gray-700" />
+            @if (selectedFilter != "")
+            {
                 <div class=" ml-97 pr-2 absolute text-white flex w-27.5 justify-end">
                     <div class="bg-primary px-4 py-2 rounded-[20px] text-xs flex">
                         @selectedFilter
@@ -43,16 +44,20 @@
                 </div>
 
                 <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
-                    @foreach(var position in staffPositions)
+                    @foreach (var position in staffPositions)
                     {
                         <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li>
                     }
                 </ul>
                 <button @onclick="OpenDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white/50 shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-2 border-gray-400 p-2 rounded-md px-6"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
             </div>
+            </div>
+            <div>
+        <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
+            </div>
         </div>
-
     </div>
+
     <div class="w-[85%] flex flex-wrap justify-start h-[80%] items-start content-start">
         @for (int i = 0; i < filteredStaffs.Count; i++)
         {
