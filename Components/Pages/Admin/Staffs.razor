@@ -13,23 +13,23 @@
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
 
-    <div class="w-[85%] flex flex-col justify-between items-center my-4">
-        <div class="w-3/4 flex flex-row items-start">
-            <div class="font-bold text-gray-800 font-montserrat w-1/4 h-35 bg-white p-5 shadow-sm shadow-gray-500 rounded">
+    <div class="w-[75%] flex flex-col justify-between items-center my-4">
+        <div class="w-full flex flex-row items-start">
+            <div class="font-bold text-gray-800 font-montserrat w-1/4 h-45 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Total Staff</p>
-                <p class="text-6xl ml-5 text-[#2563EB]">@totalStaff<span class="text-2xl ml-2">staffs</span></p>
+                <p class="text-8xl ml-5 text-[#2563EB]">@totalStaff<span class="text-2xl ml-2">staffs</span></p>
             </div>
-            <div class=" font-bold text-gray-800 font-montserrat w-full h-35 bg-white p-5 shadow-sm shadow-gray-500 rounded">
+            <div class=" font-bold text-gray-800 font-montserrat w-full h-45 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Staff</p>
             </div>
         </div>
-        <div class="w-3/4 flex justify-between">
+        <div class="w-full flex justify-between">
             <div class="flex">
 
             
             <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
             <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Staff"
-                   class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white/50 focus:outline-none w-125 pl-12.5 text-lg p-2 px-4 rounded-md border-2 border-gray-400 focus:border-gray-700" />
+                   class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-200 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
             @if (selectedFilter != "")
             {
                 <div class=" ml-97 pr-2 absolute text-white flex w-27.5 justify-end">
@@ -49,51 +49,63 @@
                         <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li>
                     }
                 </ul>
-                <button @onclick="OpenDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white/50 shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-2 border-gray-400 p-2 rounded-md px-6"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
+                <button @onclick="OpenDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
             </div>
             </div>
             <div>
-        <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
+            <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
             </div>
         </div>
     </div>
-
-    <div class="w-[85%] flex flex-wrap justify-start h-[80%] items-start content-start">
+    <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
+    <div class="w-[75%] flex flex-wrap justify-start h-[80%] items-start content-start">
         @for (int i = 0; i < filteredStaffs.Count; i++)
         {
             var staff = filteredStaffs[i];
-            <div class="h-75 w-90 bg-white/70 rounded-xl @(i % 4 == 3 ? "": "mr-9") @(i % 4 != 0 ? "ml-3": "") my-4 shadow-gray-500/50 shadow-md">
-                <div class="w-full flex p-4 h-20 mt-4">
+            <div class="flex flex-col justify-between h-90 w-85 bg-white rounded-xl @(i % 4 == 3 ? "": "mr-2") @(i % 4 != 0 ? "mr-2": "") my-4 shadow-gray-500/50 shadow-md">
+                <div class="w-full flex p-4 h-20 mt-10">
 
-                    <div class="flex justify-center items-center size-20 bg-white/50 rounded-full overflow-hidden border-6 border-white shadow-sm shadow-gray-400/80">
+                    <div class="flex justify-center items-center size-30 w-50 bg-white rounded-full overflow-hidden border-6 border-white shadow-sm shadow-gray-400/80">
                         <img class="size-full" src="@(staff.position == "HouseKeeper" ? staff.user_gender == "Male" ? "/male-housekeeper.png" : "/female-housekeeper.png" : staff.user_gender == "Male" ? "/male-receptionist.png" : "/female-receptionist.png")"
                         alt="@($"{staff.position} Image")" />
                     </div>
-                    <div class="flex flex-col items-start justify-center h-20 ">
+                    <div class="flex flex-col items-start justify-end h-20 w-full">
                         <div class=" text-lg font-semibold w-full leading-none">@staff.user_fname  @staff.user_lname</div>
-                        <div class="  bg-primary/10 px-3 py-2 rounded-sm text-md leading-none text-primary self-start">@staff.position</div>
+                        <div class="flex flex-row w-full">
+                            <img src="icons/suitcase.png" class="w-5" />
+                            <div class="text-md leading-none text-primary self-start -ml-3 mt-1">@staff.position</div>
+                        </div>
                     </div>
                 </div>
-                <div class="w-full px-4 pt-8 flex">
-                    <div class="font-bold">Email: </div>
-                    <div>
-                        @staff.user_email
+                <div class="w-full pl-5">
+                    <div class=" px-4 pt-8 flex">
+                        <img src="icons/mail.png" class="w-5"/>
+                        <div class="-ml-3 text-sm">
+                            @staff.user_email
+                        </div>
                     </div>
-                </div>
-                <div class="w-full px-4 pt-4 flex">
-                    <div class="font-bold">Contact: </div>
-                    <div>
-                        @staff.user_contactno
+                    <div class="w-full px-4 pt-3 flex">
+                        <img src="icons/phone_black.png" class="w-5"/>
+                        <div class="-ml-3 text-sm">
+                            @staff.user_contactno
+                        </div>
                     </div>
-                </div>
 
-                <div class="w-full px-4 pt-4 flex">
-                    <div class="font-bold">Hire Date: </div>
-                    <div>
-                        @staff.employment_date
+                    <div class="w-full px-4 py-3 flex">
+                        <img src="icons/calendar.png" class="w-5"/>
+                        <div class="-ml-3">Hired: </div>
+                        <div class="-ml-3 text-sm">
+                            @staff.employment_date
+                        </div>
                     </div>
                 </div>
-                <div class="w-full flex justify-end items-center mt-4 px-4"><button @onclick='() => OpenEditStaffDialog(staff)' class="p-1 px-5  text-primary rounded-md border-2 border-primary hover:bg-primary/80 active:bg-primary/90 active:border-primary hover:border-transparent hover:text-white transition-all duration-200 cursor-pointer">Edit</button></div>
+                <div class="w-full h-[1px] flex justify-center">
+                    <div class="w-[90%] h-full bg-[#C0C0C0]"></div>
+                </div>
+                <div class="w-full flex justify-end items-center px-4 mb-5">
+                    <img src="icons/pen.png" class="w-5 -mr-4"/>
+                    <button @onclick='() => OpenEditStaffDialog(staff)' class="p-1  text-primary cursor-pointer">Edit Profile</button>
+                </div>
             </div>
         }
     </div>
