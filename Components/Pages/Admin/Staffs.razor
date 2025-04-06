@@ -29,7 +29,7 @@
             
             <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
             <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Staff"
-                   class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-200 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+                   class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
             @if (selectedFilter != "")
             {
                 <div class=" ml-97 pr-2 absolute text-white flex w-27.5 justify-end">
