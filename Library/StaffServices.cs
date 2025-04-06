@@ -23,7 +23,7 @@ namespace Oasis.Library
                     staff_id = s.staff_id,
                     position = s.position,
                     employment_date = s.employment_date,
-                    user_id = s.user.user_id,
+                    user_id = s.user!.user_id,
                     user_fname = s.user.user_fname,
                     user_lname = s.user.user_lname,
                     user_gender = s.user.user_gender,

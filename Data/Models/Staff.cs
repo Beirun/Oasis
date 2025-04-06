@@ -15,5 +15,5 @@ public partial class Staff
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<Service> service { get; set; } = new List<Service>();
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual User? user { get; set; } 
+    public virtual User? user { get; set; }
 }

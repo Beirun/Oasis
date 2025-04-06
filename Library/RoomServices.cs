@@ -12,6 +12,21 @@ namespace Oasis.Library
             _context = context;
         }
         
+        public async Task<List<Room>> getRooms(){
+            var rooms = await _context.Room.ToListAsync();
+            return rooms;
+        }
+
+        public async Task setRoomStatus(int roomId, string status){
+            var room = await _context.Room.FindAsync(roomId);
+            if (room != null){
+                room.room_status = status;
+                await _context.SaveChangesAsync();
+            }
+        }
+        
+        
+
         // public async Task<bool> checkEmail(string email)
         // {
         //     var user = await _context.User.FirstOrDefaultAsync(u => u.user_email == email);

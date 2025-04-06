@@ -15,9 +15,9 @@ public partial class User
     public string? user_password { get; set; }
     public string? user_type { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual Guest? guest { get; set; }
+    public virtual Guest? guest { get; set; } 
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<Notification> notification { get; set; } = new List<Notification>();
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual Staff? staff { get; set; }
+    public virtual Staff? staff { get; set; } 
 }

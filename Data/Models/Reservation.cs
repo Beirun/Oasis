@@ -8,8 +8,8 @@ public partial class Reservation
     public int rsv_id { get; set; }
     public int? room_id { get; set; }
     public int? guest_id { get; set; }
-    public DateTime? rsv_checkin { get; set; }
-    public DateTime? rsv_checkout { get; set; }
+    public DateOnly? rsv_checkin { get; set; }
+    public DateOnly? rsv_checkout { get; set; }
     public int? payment_id { get; set; }
     public string? rsv_status { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]

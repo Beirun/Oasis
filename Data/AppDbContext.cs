@@ -26,7 +26,6 @@ public partial class AppDbContext : DbContext
     public DbSet<ServiceType> ServiceType { get; set; }
     public DbSet<AmenityItem> AmenityItem { get; set; }
     public DbSet<Amenity> Amenity { get; set; }
-    public DbSet<Discount> Discount { get; set; }
     public DbSet<HouseKeeping> HouseKeeping { get; set; }
     public DbSet<User> User { get; set; }
 
@@ -181,18 +180,6 @@ public partial class AppDbContext : DbContext
         });
 
 
-        modelBuilder.Entity<Discount>(entity =>
-        {
-            entity.HasKey(e => e.discount_id);
-            entity.ToTable("Discount");
-
-            entity.Property(e => e.discount_id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("discount_id");
-            entity.Property(e => e.discount_name).HasColumnName("discount_name");
-            entity.Property(e => e.discount_rate).HasColumnName("discount_rate");
-        });
-
         modelBuilder.Entity<Guest>(entity =>
         {
             entity.HasKey(e => e.guest_id);
@@ -251,13 +238,11 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.payment_id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("payment_id");
-            entity.Property(e => e.discount_id).HasColumnName("discount_id");
             entity.Property(e => e.payment_amount).HasColumnName("payment_amount");
             entity.Property(e => e.payment_date).HasColumnName("payment_date");
             entity.Property(e => e.payment_method).HasColumnName("payment_method");
             entity.Property(e => e.staff_id).HasColumnName("staff_id");
 
-            entity.HasOne(d => d.discount).WithMany(p => p.payment).HasForeignKey(d => d.discount_id);
 
             entity.HasOne(d => d.staff).WithMany(p => p.payment).HasForeignKey(d => d.staff_id);
         });
