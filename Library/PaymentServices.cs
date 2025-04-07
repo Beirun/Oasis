@@ -28,6 +28,16 @@ namespace Oasis.Library
             await _context.SaveChangesAsync();
             return payment.payment_id;
         }
+
+        public async Task<double> GetTotalIncome()
+        {
+            var totalIncome = await _context.Payment.SumAsync(p => p.payment_amount);
+            if (totalIncome != null)
+            {
+                return totalIncome.Value;
+            }
+            return 0;
+        }
         
     }
 }

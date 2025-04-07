@@ -4,10 +4,10 @@ using Oasis.Data;
 using Oasis.Data.Models;
 namespace Oasis.Library
 {
-    public class SignUpServices
+    public class GuestServices
     {
         private readonly AppDbContext _context;
-        public SignUpServices( AppDbContext context)
+        public GuestServices( AppDbContext context)
         {
             _context = context;
         }
@@ -33,7 +33,10 @@ namespace Oasis.Library
 
             return true;
         }
-
+        public async Task<List<Guest>> GetGuests()
+        {
+            return await _context.Guest.ToListAsync();
+        }
         public async Task<bool> checkEmail(string email)
         {
             var user = await _context.User.FirstOrDefaultAsync(u => u.user_email == email);
