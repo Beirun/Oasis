@@ -4,6 +4,7 @@ using Oasis.Data;
 using Oasis.Data.Models;
 namespace Oasis.Library
 {
+
     public class GuestServices
     {
         private readonly AppDbContext _context;
