@@ -1,9 +1,99 @@
 ﻿@page "/guests"
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
-    <div class="w-4/5 flex justify-evenly items-stretch font-montserrat">
-        Guests
+    <div class="w-[75%] flex flex-col justify-between items-center my-4">
+        <div class="w-full flex flex-row items-start">
+            <div class="font-bold text-gray-800 font-montserrat w-1/4 h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <p class="text-2xl w-full">Total Guests</p>
+                <p class="w-full text-9xl ml-5 flex flex-col items-start justify-start text-[#2563EB]">
+                    <span class="w-full mt-2"></span>
+                    @* <span class="w-full text-2xl -mt-5">staffs</span> *@
+                </p>
+            </div>
+            <div class=" font-bold text-gray-800 font-montserrat w-full h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <p class="text-2xl w-full">Registered Guests</p>
+                @* <div class="relative h-10"> *@
 
+                @*     <PSC.Blazor.Components.Chartjs.Chart Config="_config" @ref="_chart"></PSC.Blazor.Components.Chartjs.Chart> *@
+                @* </div> *@
+            </div>
+        </div>
+        <div class="w-full flex justify-between">
+            <div class="flex">
+
+
+                <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
+                <input  type="text" name="name" placeholder="Search Guest..."
+                       class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+            
+                @* <div class="flex flex-col">
+                    <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'>
+                    </div>
+
+                    <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                        @foreach (var position in staffPositions)
+                        {
+                            <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li>
+                        }
+                    </ul> *@
+                    <button  class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
+                @* </div> *@
+            </div>
+            <div>
+                @* <button  class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button> *@
+            </div>
+        </div>
+    </div>
+    <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
+    <div class="w-[75%] flex flex-wrap justify-start h-[80%] items-start content-start">
+        @* @for (int i = 0; i < filteredStaffs.Count; i++) *@
+        @* { *@
+        @*     var staff = filteredStaffs[i]; *@
+            <div class="flex flex-col justify-between h-90 w-85 bg-white rounded-xl  my-4 shadow-gray-500/50 shadow-md">
+                <div class="w-full flex p-4 h-20 mt-10">
+
+                    <div class="flex justify-center items-center size-30 w-50 bg-white rounded-full overflow-hidden border-6 border-white shadow-sm shadow-gray-400/80">
+                        @* <img class="size-full" src="@(staff.position == "HouseKeeper" ? staff.user_gender == "Male" ? "/male-housekeeper.png" : "/female-housekeeper.png" : staff.user_gender == "Male" ? "/male-receptionist.png" : "/female-receptionist.png")" *@
+                        @*      alt="@($"{staff.position} Image")" /> *@
+                    </div>
+                    <div class="flex flex-col items-start justify-start h-20 w-full">
+                        name
+                        @* <div class=" text-lg font-semibold w-full leading-none">@staff.user_fname  @staff.user_lname</div> *@
+                        
+                    </div>
+                </div>
+                <div class="w-full pl-5">
+                    <div class=" px-4 pt-8 flex">
+                        <img src="icons/mail.png" class="w-5" />
+                        <div class="-ml-3 text-sm">
+                            email@gmail.com
+                            @* @staff.user_email *@
+                        </div>
+                    </div>
+                    <div class="w-full px-4 pt-3 flex">
+                        <img src="icons/phone_black.png" class="w-5" />
+                        <div class="-ml-3 text-sm">
+                            09112223333
+                            @* @staff.user_contactno *@
+                        </div>
+                    </div>
+
+                    <div class="w-full px-4 py-3 flex">
+                        <img src="icons/calendar.png" class="w-5" />
+                        <div class="-ml-3 text-sm">
+                            membershipdate
+                            @* @staff.employment_date *@
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full h-[1px] flex justify-center">
+                    <div class="w-[90%] h-full bg-[#C0C0C0]"></div>
+                </div>
+                <div class="w-full flex justify-end items-center px-4 mb-5">
+                    @* <img src="icons/pen.png" class="w-5 -mr-4" /> *@
+                    <button class="p-1  text-primary cursor-pointer">View Profile</button>
+                </div>
+            </div>
     </div>
 </div>
 
