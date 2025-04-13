@@ -13,7 +13,7 @@
     </div>
     <div class="w-full h-25 flex justify-center -mt-10">
         <div class="z-1 rounded-full h-full w-1/2 bg-gray-300 flex justify-center">
-        <div class="z-10 rounded-full h-full -mt-5 w-[96%] font-semibold text-5xl bg-primary text-white flex justify-center">Available Rooms</div>
+            <div class="z-10 rounded-full h-full -mt-5 w-[96%] font-semibold text-5xl bg-primary text-white flex justify-center">Available Rooms</div>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
         <CustomCarousel img="@standardImages" />
         <div class="flex justify-between items-start w-275 py-10 z-10">
             <ul class="h-full list-disc text-white">
-                
+
                 <li>Comfortable bed with quality linens</li>
                 <li>Functional workspace and seating area</li>
                 <li>Flat-screen TV, high-speed Wi-Fi, and minibar</li>
@@ -37,7 +37,9 @@
             </ul>
         </div>
         <div class="z-10">
+            <NavLink href="/book/standard">
             <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
+            </NavLink>
         </div>
         <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
             <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
@@ -46,7 +48,7 @@
                     <div style="clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 100%);" class="w-1/2 h-full bg-primary"></div>
                     <div style="clip-path: polygon(0% 30%, 100% 0%, 100% 100%, 100% 100%);" class="w-1/2 h-full bg-primary"></div>
                 </div>
-            <div class="flex-shrink-0 bg-primary rounded-[100%] w-[105vw] h-350 -mt-300 z-1"></div>
+                <div class="flex-shrink-0 bg-primary rounded-[100%] w-[105vw] h-350 -mt-300 z-1"></div>
             </div>
         </div>
     </div>
@@ -71,7 +73,9 @@
             </ul>
         </div>
         <div class="z-10">
+            <NavLink href="/book/deluxe">
             <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
+            </NavLink>
         </div>
         <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
             <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
@@ -108,7 +112,9 @@
             </ul>
         </div>
         <div class="z-10">
+            <NavLink href="/book/suite">
             <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
+            </NavLink>
         </div>
         <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
             <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
@@ -121,7 +127,7 @@
             </div>
         </div>
     </div>
- </div> 
+</div> 
 
 @code {
     List<string> standardImages = new List<string>() { "standard/standard-1.jpg", "standard/standard-2.jpg", "standard/standard-3.jpg", "standard/standard-4.jpg", "standard/standard-5.jpg"};
