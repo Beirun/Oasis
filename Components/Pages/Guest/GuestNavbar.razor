@@ -6,7 +6,6 @@
             <img src="logo.png" alt="Alternate Text" class="pb-2 h-10" />
             <p class="ml-10 @GetNavLinkClass("/dashboard/guest")"><NavLink href="/dashboard/guest">Home</NavLink></p>
             <p class="ml-10 @GetNavLinkClass("/bookings")"><NavLink href="/bookings">Bookings</NavLink></p>
-            <p class="ml-10">Services</p>
         </div>
     </div>
     <div class="h-full flex justify-center items-center">
@@ -23,7 +22,7 @@
     private string GetNavLinkClass(string route)
     {
         return NavigationManager.Uri.Contains(route)
-            ? "text-green-800  font-bold"  // Active style
+            ? "text-[#0040A6]  font-bold"  // Active style
             : "text-gray-700 hover:text-blue-500"; // Default style
     }
 }
