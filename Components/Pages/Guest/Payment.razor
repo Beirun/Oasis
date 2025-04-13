@@ -2,10 +2,94 @@
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-<div class="w-screen h-screen">
+<div class="w-full h-screen overflow-hidden flex flex-col justify-center font-montserrat">
 	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
-		<Icon Name="Arrow_Back" Class="stroke-4" />
+		@* <img src="/icons/back-arrow.png" alt="Alternate Text" class=" top-5 left-5 h-10 -mr-4 transition-all duration-400 hover:stroke-[3px]" /> *@
+		<Icon Name="Arrow_Back" />
 		<p class="text-xl -ml-3">Back</p>
+	</div>
+	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+		<div class="w-full flex flex-row justify-center">
+			<div class="w-1/8 flex flex-col justify-center -mr-5">
+				<div class="flex flex-row w-full">
+					<div class="w-[84px] h-[60px] bg-[#2563EB] rounded-full flex justify-center ml-2">
+						<Icon Name="check" Size="50px" Color="white"/>
+					</div>
+					<div class="w-full h-[10px] bg-[#2563EB] -ml-5"></div>
+				</div>
+				<p class="text-gray-400 text-sm font-medium self-start">Select Date</p>
+			</div>
+			<div class="w-1/8 flex flex-col justify-center">
+				<div class="flex flex-row w-full">
+					<div class="w-full h-[10px] bg-[#2563EB] -mr-4.5"></div>
+					<div class="w-[80px] h-[60px] bg-[#2563EB] rounded-full flex justify-center ">
+						<p class="text-4xl">2</p>
+					</div>
+				</div>
+				<p class="text-gray-400 text-sm font-medium self-end">Payment</p>
+			</div>
+		</div>
+
+		<div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
+	</div>
+	<div class=" w-4/5 flex flex-row justify-center mt-30 pl-20">
+	</div>
+	<div class="w-1/3 h-160 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5">
+		<div class="w-full h-10 mb-2">
+			<p class="text-2xl font-bold">Payment Details</p>
+			<p class="text-sm text-gray-400">Order #ORD-2025-0123</p>
+		</div>
+		<div class="w-full flex justify-between bg-[#F9FAFB] border-t border-b border-gray-400 h-12">
+			<p class="text-sm text-gray-400">Total Amount</p>
+			<p class="text-lg font-bold">P-,---.--</p>
+		</div>
+		<p class="w-full -mb-3">Select Payment Method</p>
+		<div class="w-full flex flex-row">
+			<div @onclick="CardClicked" class="w-1/2 h-20 flex flex-row border-2 border-gray-200 rounded-lg p-3 cursor-pointer @(card ? "bg-[#EFF6FF]" : "")">
+				<Icon Name="credit_card" Color="#2563EB" />
+				<div class="w-full flex flex-col justify-start">
+					<p class="w-full -mb-5">Credit/Debit Card</p>
+					<p class="w-full text-sm text-gray-400">Pay securely with your card</p>
+				</div>
+			</div>
+			<div @onclick="WalletClicked" class="w-1/2 h-20 flex flex-row border-2 border-gray-200 rounded-lg p-3 cursor-pointer @(digital_wallet ? "bg-[#EFF6FF]":"")">
+				<Icon Name="wallet" Color="#2563EB" />
+				<div class="w-full flex flex-col justify-start">
+					<p class="w-full -mb-5">Digital Wallet</p>
+					<p class="w-full text-sm text-gray-400">GCash</p>
+				</div>
+			</div>
+		</div>
+		<p class="w-full -mb-3">Card Number</p>
+		<div class="w-full h-12 flex flex-row justify-between border-2 border-gray-200 px-2 rounded-lg">
+			<input @bind="cardNumber" type="text" name="name" placeholder="" class="@(card ? "w-5/6":"w-full")  h-full  focus-visible:outline-none " />
+			@if (card)
+			{
+				<div class=" flex flex-row ">
+					<img src="icons/visa.png" alt="visa"/>
+					<img src="icons/mastercard.png" alt="mastercard"/>
+				</div>
+			}
+		</div>
+		<div class="w-full h-25  flex flex-row">
+			<div class="w-1/2 h-full flex flex-col justify-center">
+				<p class="w-full -mb-3 @(digital_wallet ? "text-gray-400": "")">Expiry Date</p>
+				<input @bind="expiryDate" type="text" name="name" placeholder="" class="w-full  h-12  focus-visible:outline-none border-2 @(isDisabled ? "border-gray-100":"border-gray-200") px-2 rounded-lg" disabled="@isDisabled" />
+			</div>
+			<div class="w-1/2 h-full flex flex-col justify-center">
+				<p class="w-full -mb-3 @(digital_wallet ? "text-gray-400": "")">CVV</p>
+				<input @bind="cvv" type="text" name="name" placeholder="" class="w-full  h-12  focus-visible:outline-none border-2 @(isDisabled ? "border-gray-100":"border-gray-200")  px-2 rounded-lg" disabled="@isDisabled" />
+			</div>
+		</div>
+		<p class="w-full -mb-3">Cardholder Name</p>
+		<input @bind="cardholder_name" type="text" name="name" placeholder="" class="w-full  h-12  focus-visible:outline-none border-2 border-gray-200 px-2 rounded-lg" />
+		<button class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">
+			<p>Pay P-,---.--</p>
+		</button>
+		<div class="w-full flex flex-row justify-center text-gray-400">
+			<Icon Name="lock"/>
+			<p>Your payment information is secure</p>
+		</div>
 	</div>
 </div>
 
@@ -14,5 +98,48 @@
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
 		Navigation.NavigateTo("javascript:history.back()", true);
+	}
+
+	private bool card = true;
+	private bool digital_wallet = false;
+	private bool isDisabled = false;
+	private string cardNumber = "";
+	private string expiryDate = "";
+	private string cvv = "";
+	private string cardholder_name = "";
+
+	private void CardClicked()
+	{
+		if (card == true)
+		{
+			digital_wallet = false;
+			isDisabled = false;
+		}
+		else
+		{
+			card = true;
+			digital_wallet = false;
+			isDisabled = false;
+			cardNumber = "";
+			cardholder_name = "";
+		}
+	}
+	private void WalletClicked()
+	{
+		if (digital_wallet == true)
+		{
+			card = false;
+			isDisabled = true;
+		}
+		else
+		{
+			card = false;
+			digital_wallet = true;
+			isDisabled = true;
+			cardNumber = "";
+			expiryDate = "";
+			cvv = "";
+			cardholder_name = "";
+		}
 	}
 }
