@@ -1,121 +1,130 @@
 ﻿@page "/dashboard/guest"
 @inject NavigationManager NavigationManager
-
-<div class="bg-[#e8e8e8] w-screen h-screen min-h-screen flex flex-col pt-20 justify-start items-start font-montserrat">
+@using Oasis.Components.ui
+<div class="bg-[#fafafa] w-screen min-h-screen flex flex-col py-20 font-montserrat ">
 
     @* Navbar *@
     <GuestNavbar/>
 
     @* Content *@
-    @* <div class="flex w-[85%] h-50  justify-between my-5"> *@
-    @*     <div class="w-4/13 h-full bg-[#f0f0f0] rounded-xl shadow-md shadow-gray-400/50 p-5"> *@
-    @*         <div class="w-full h-1/3 flex justify-between font-bold text-2xl">My Bookings <img src="div.png" class="rounded-xl border-2 border-green-700/40" alt="Alternate Text" /></div> *@
-    @*         <div class="w-full h-1/3 flex text-gray-500 text-xl"> *@
-    @*             View and manage your current reservations *@
 
-    @*         </div> *@
-    @*         <div class="w-full h-1/3 flex text-blue-500 font-semibold text-xl"> *@
-    @*             <NavLink class="cursor-pointer" href="/bookings"> *@
-    @*                 View Details -> *@
-    @*             </NavLink> *@
-
-    @*         </div> *@
-    @*     </div> *@
-    @*     <div class="w-4/13 h-full bg-[#f0f0f0] rounded-xl shadow-md shadow-gray-400/50 p-5"> *@
-    @*         <div class="w-full h-1/3 flex justify-between font-bold text-2xl">New Reservations <img src="booking.png" class="rounded-xl border-2 border-blue-700/40" alt="Alternate Text" /></div> *@
-    @*         <div class="w-full h-1/3 flex text-gray-500 text-xl"> *@
-    @*             Book a new room for your vacation trip *@
-
-    @*         </div> *@
-    @*         <div class="w-full h-1/3 flex text-blue-500 font-semibold text-xl"> *@
-    @*             <NavLink class="cursor-pointer" href="/reservation/new"> *@
-    @*                 Book Now -> *@
-    @*             </NavLink> *@
-
-    @*         </div> *@
-    @*     </div> *@
-    @*     <div class="w-4/13 h-full bg-[#f0f0f0] rounded-xl shadow-md shadow-gray-400/50 p-5"> *@
-    @*         <div class="w-full h-1/3 flex justify-between font-bold text-2xl">Special Offers <img src="offer.png" class="size-12 p-1 rounded-xl bg-red-400/10 border-2 border-red-700/40" alt="Alternate Text" /></div> *@
-    @*         <div class="w-full h-1/3 flex text-gray-500 text-xl"> *@
-    @*             Check out our latest deals and promotions *@
-
-    @*         </div> *@
-    @*         <div class="w-full h-1/3 flex text-blue-500 font-semibold text-xl"> *@
-    @*             <NavLink class="cursor-pointer" href="/offers"> *@
-    @*                 View Offers -> *@
-    @*             </NavLink> *@
-
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
-
-
-    @* * Rooms *@
-    @* <div class="flex w-[85%] text-3xl font-bold text-gray-800">Available Rooms</div> *@
-    @* <div class="flex w-[85%] h-130  justify-between mb-10"> *@
-    @*     <div class="w-4/13 h-full bg-[#f0f0f0] rounded-xl shadow-md shadow-gray-400/50 flex flex-col"> *@
-    @*         <div class="w-full h-[67.5%] bg-[url('standard-1.jpg')] rounded-t-xl bg-center"></div> *@
-    @*         <div class="w-full text-2xl font-semibold  px-5">Standard</div> *@
-    @*         <div class="w-full text-lg font-semibold text-gray-500  px-5"> *@
-    @*             1 Queen Bed *@
-    @*         </div> *@
-    @*         <div class="w-full flex justify-between px-5"> *@
-    @*             <div class=" font-bold text-xl text-blue-500 "> *@
-    @*                 P 4,500 / Night *@
-    @*             </div> *@
-    @*             <NavLink href="/reservation/new/standard" *@
-    @*                      class="focus:outline-none bg-primary/90  transition-all duration-300 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-md font-semibold"> *@
-    @*                 Book *@
-    @*                 Now</NavLink> *@
-    @*         </div> *@
-    @*     </div> *@
-    @*     <div class="w-4/13 h-full bg-[#f0f0f0] rounded-xl shadow-md shadow-gray-400/50 flex flex-col"> *@
-    @*         <div class="w-full h-[67.5%] bg-[url('deluxe-1.jpg')] rounded-t-xl bg-cover bg-center"></div> *@
-    @*         <div class="w-full text-2xl font-semibold  px-5">Deluxe</div> *@
-    @*         <div class="w-full text-lg font-semibold text-gray-500  px-5"> *@
-    @*             2 Queen Bed *@
-    @*         </div> *@
-    @*         <div class="w-full flex justify-between px-5"> *@
-    @*             <div class=" font-bold text-xl text-blue-500 "> *@
-    @*                 P 5,500 / Night *@
-    @*             </div> *@
-    @*             <NavLink href="/reservation/new/deluxe" *@
-    @*                      class="focus:outline-none hover:bg-primary/70 transition-all duration-300 bg-primary/90 p-2 px-4 text-center text-white rounded-md text-md font-semibold"> *@
-    @*                 Book *@
-    @*                 Now</NavLink> *@
-    @*         </div> *@
-    @*     </div> *@
-    @*     <div class="w-4/13 h-full bg-[#f0f0f0] rounded-xl shadow-md shadow-gray-400/50 flex flex-col"> *@
-    @*         <div class="w-full h-[67.5%] bg-[url('suite-1.jpg')] rounded-t-xl bg-center"></div> *@
-    @*         <div class="w-full text-2xl font-semibold  px-5">Suite</div> *@
-    @*         <div class="w-full text-lg font-semibold text-gray-500  px-5"> *@
-    @*             1 King Bed *@
-    @*         </div> *@
-    @*         <div class="w-full flex justify-between px-5"> *@
-    @*             <div class=" font-bold text-xl text-blue-500 "> *@
-    @*                 P 7,500 / Night *@
-    @*             </div> *@
-    @*             <NavLink href="/reservation/new/suite" *@
-    @*                 class="focus:outline-none hover:bg-primary/70 transition-all duration-300 bg-primary/90 p-2 px-4 text-center text-white rounded-md text-md font-semibold">Book *@
-    @*                 Now</NavLink> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
-    @* <div class="flex w-[85%] text-3xl font-bold text-gray-800">Recent Activities</div> *@
-    @* <div class="flex w-[85%] min-h-50  justify-center items-center text-2xl font-bold mb-10"> *@
-    @*     NO RECENT ACTIVITIES *@
-    @* </div> *@
-    <div class="w-full h-5/7 bg-red-400">
+    <div class="w-full h-150 bg-red-400">
 
     </div>
-    <div class="w-full h-25 bg-green-400 flex flex-col items-center">
-        <div class="z-1 rounded-full h-full w-[calc(50vw + 100px)] bg-gray-300">
-        <div class="z-10 rounded-full h-full w-[50vw] p-4 text-md font-semibold text-5xl bg-primary text-white flex justify-center">Available Rooms</div>
-            
+    <div class="w-full h-25 flex justify-center -mt-10">
+        <div class="z-1 rounded-full h-full w-1/2 bg-gray-300 flex justify-center">
+        <div class="z-10 rounded-full h-full -mt-5 w-[96%] font-semibold text-5xl bg-primary text-white flex justify-center">Available Rooms</div>
+        </div>
+    </div>
+
+    @* Standard *@
+    <div class="flex flex-col w-full py-25">
+        <div class="font-wittgenstein font-bold font-bold text-5xl">Standard Room</div>
+        <div class="text-primary font-semibold text-xl">P 4,500 per night</div>
+        <div class="h-[2px] bg-gray-400 w-100"></div>
+        <div class="flex tracking-wider text-2xl font-wittgenstein py-2 mb-12.5">Our<p class="text-primary italic font-bold -mx-2">Standard Room</p>provides a cozy and well-equipped space designed for comfort and convenience.</div>
+        <CustomCarousel img="@standardImages" />
+        <div class="flex justify-between items-start w-275 py-10 z-10">
+            <ul class="h-full list-disc text-white">
+                
+                <li>Comfortable bed with quality linens</li>
+                <li>Functional workspace and seating area</li>
+                <li>Flat-screen TV, high-speed Wi-Fi, and minibar</li>
+            </ul>
+            <ul class="h-full list-disc  text-white">
+                <li>Ensuite bathroom with essential toiletries</li>
+                <li>Ideal for both short and extended stays</li>
+            </ul>
+        </div>
+        <div class="z-10">
+            <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
+        </div>
+        <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
+            <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
+            <div class="h-105 bg-[#fafafa] w-full flex flex-col justify-center">
+                <div class="flex justify-between h-50 w-full z-3 -mt-5">
+                    <div style="clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 100%);" class="w-1/2 h-full bg-primary"></div>
+                    <div style="clip-path: polygon(0% 30%, 100% 0%, 100% 100%, 100% 100%);" class="w-1/2 h-full bg-primary"></div>
+                </div>
+            <div class="flex-shrink-0 bg-primary rounded-[100%] w-[105vw] h-350 -mt-300 z-1"></div>
+            </div>
+        </div>
+    </div>
+
+    @* Deluxe *@
+    <div class="flex flex-col w-full py-25">
+        <div class="font-wittgenstein font-bold font-bold text-5xl">Deluxe Room</div>
+        <div class="text-primary font-semibold text-xl">P 5,500 per night</div>
+        <div class="h-[2px] bg-gray-400 w-100"></div>
+        <div class="flex tracking-wider text-2xl font-wittgenstein py-2 mb-12.5">Our<p class="text-primary italic font-bold -mx-2">Deluxe Room</p>offers a perfect blend of comfort, style, and modern amenities for both relaxation and productivity.</div>
+        <CustomCarousel img="@deluxeImages" />
+        <div class="flex justify-between items-start w-275 py-10 z-10">
+            <ul class="h-full list-disc text-white">
+
+                <li>King-sized bed with high-quality linens</li>
+                <li>Elegant sitting area with scenic views</li>
+                <li>Flat-screen TV, high-speed Wi-Fi, minibar, and safe</li>
+            </ul>
+            <ul class="h-full list-disc  text-white">
+                <li>Well-appointed bathroom with rainfall shower or soaking tub</li>
+                <li>Luxurious toiletries and plush bathrobes</li>
+            </ul>
+        </div>
+        <div class="z-10">
+            <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
+        </div>
+        <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
+            <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
+            <div class="h-105 bg-[#fafafa] w-full flex flex-col justify-center">
+                <div class="flex justify-between h-50 w-full z-3 -mt-5">
+                    <div style="clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 100%);" class="w-1/2 h-full bg-primary"></div>
+                    <div style="clip-path: polygon(0% 30%, 100% 0%, 100% 100%, 100% 100%);" class="w-1/2 h-full bg-primary"></div>
+                </div>
+                <div class="flex-shrink-0 bg-primary rounded-[100%] w-[105vw] h-350 -mt-300 z-1"></div>
+            </div>
+        </div>
+    </div>
+
+    @* Suite *@
+    <div class="flex flex-col w-full py-25">
+        <div class="font-wittgenstein font-bold font-bold text-5xl">Suite Room</div>
+        <div class="text-primary font-semibold text-xl">P 7,500 per night</div>
+        <div class="h-[2px] bg-gray-400 w-100"></div>
+        <div class="flex tracking-wider text-2xl font-wittgenstein py-2 mb-12.5">Our<p class="text-primary italic font-bold -mx-2">Suite Room</p>is a spacious and well-appointed accommodation that typically includes a separate living area and a bedroom.</div>
+        <CustomCarousel img="@suiteImages" />
+        <div class="flex justify-between items-start w-275 py-10 z-10">
+            <ul class="h-full list-disc text-white">
+
+                <li>Sofa, coffee table, and sometimes a dining space</li>
+                <li>King or queen-sized bed with premium bedding</li>
+                <li>Ensuite with luxury amenities, bathtub, or walk-in shower</li>
+            </ul>
+            <ul class="h-full list-disc  text-white">
+                <li>TV, minibar, Wi-Fi, work desk, and sometimes a kitchenette</li>
+                <li>
+                    Private balcony, city/sea views, and exclusive services in
+                    upscale hotels
+                </li>
+            </ul>
+        </div>
+        <div class="z-10">
+            <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
+        </div>
+        <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
+            <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
+            <div class="h-105 bg-[#fafafa] w-full flex flex-col justify-center">
+                <div class="flex justify-between h-50 w-full z-3 -mt-5">
+                    <div style="clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 100%);" class="w-1/2 h-full bg-primary"></div>
+                    <div style="clip-path: polygon(0% 30%, 100% 0%, 100% 100%, 100% 100%);" class="w-1/2 h-full bg-primary"></div>
+                </div>
+                <div class="flex-shrink-0 bg-primary rounded-[100%] w-[105vw] h-350 -mt-300 z-1"></div>
+            </div>
         </div>
     </div>
  </div> 
 
 @code {
-    
+    List<string> standardImages = new List<string>() { "standard/standard-1.jpg", "standard/standard-2.jpg", "standard/standard-3.jpg", "standard/standard-4.jpg", "standard/standard-5.jpg"};
+    List<string> deluxeImages = new List<string>() { "deluxe/deluxe-1.jpg", "deluxe/deluxe-2.jpg", "deluxe/deluxe-3.jpg", "deluxe/deluxe-4.jpg", "deluxe/deluxe-5.jpg"};
+    List<string> suiteImages = new List<string>() { "suite/suite-1.jpg", "suite/suite-2.jpg", "suite/suite-3.jpg", "suite/suite-4.jpg", "suite/suite-5.jpg"};
 }
