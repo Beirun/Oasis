@@ -36,10 +36,12 @@ builder.Services.AddScoped<GuestServices>();
 builder.Services.AddScoped<SignInServices>();
 builder.Services.AddScoped<StaffServices>();
 builder.Services.AddScoped<RoomServices>();
+builder.Services.AddScoped<PaymentServices>();
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<UserState>();
 builder.Services.AddScoped<CheckInState>();
+builder.Services.AddScoped<PaymentState>();
  builder.Services.AddSysinfocus(false);
 
 

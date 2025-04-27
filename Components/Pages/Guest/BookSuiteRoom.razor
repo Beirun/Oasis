@@ -2,7 +2,9 @@
 @rendermode InteractiveServer
 @using Oasis.Components.Layout
 @using Oasis.Components.ui
+@using Oasis.State
 @inject NavigationManager Navigation
+@inject CheckInState CheckIn
 
 <div class="w-full h-screen overflow-hidden flex flex-col justify-center">
 	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
@@ -61,27 +63,22 @@
 				<div class="w-full">
 
 					<p class="self-start font-wittgenstein text-5xl font-extrabold underline underline-offset-40" style="text-decoration-thickness:1px">Suite Room&nbsp;&nbsp;</p>
-					<p class="self-start mt-12 text-[#0040A6]"><span class="text-4xl font-bold">₱7,500</span> per night</p>
-					<p class="self-start mt-5">
-						Our <b>Suite Room</b> provides a luxurious experience with spacious elegance and premium amenities.
-					</p>
+					<p class="self-start mt-12 text-[#0040A6]"><span class=" text-4xl font-bold">₱7,500</span> per night</p>
+					<p class="self-start mt-5">Our <b>Suite Room</b> provides a cozy and well-equipped space designed for comfort and convenience.</p>
 					<ul class="self-start ml-10 mt-5 list-disc">
-						<li class="mb-2">King-size bed with high-quality linens</li>
-						<li class="mb-2">Private bathroom with a bathtub and luxury toiletries</li>
-						<li class="mb-2">Smart TV, free high-speed Wi-Fi"</li>
-						<li class="mb-2">Separate living area for added comfort</li>
-						<li class="mb-2">
-							Air conditioning with personalized climate control
-						</li>
+						<li class="mb-2">Cozy bed with fresh linens</li>
+						<li class="mb-2">Private bathroom with toiletries</li>
+						<li class="mb-2">Flat-screen TV and free Wi-Fi</li>
+						<li class="mb-2">Air conditioning</li>
 					</ul>
 				</div>
 				<div class="w-full h-1/5 flex">
 					<div class="w-2/5 h-full flex">
-						<CustomDatePicker Placeholder="Check-In Date" Value="checkInDate" Class="mx-2" />
-						<CustomDatePicker Placeholder="Check-Out Date" Value="checkOutDate" Class="mx-2" />
+						<CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="mx-2" Id="1" />
+						<CustomDatePicker Placeholder="Check-Out Date" @bind-Value="checkOutDate" Class="mx-2" Id="2" />
 					</div>
 				</div>
-				<NavLink href="/payment" class="self-start bg-primary hover:bg-primary/80 transition-all font-bold duration-300 cursor-pointer px-10 py-4 rounded-[20px] font-montserrat text-white text-lg">Book Now</NavLink>
+				<button @onclick="GoTo" class="self-start bg-primary hover:bg-primary/80 transition-all font-bold duration-300 cursor-pointer px-10 py-4 rounded-[20px] font-montserrat text-white text-lg">Book Now</button>
 			</div>
 		</div>
 	</div>
@@ -95,5 +92,26 @@
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
 		Navigation.NavigateTo("javascript:history.back()", true);
+	}
+
+	private async Task GoTo()
+	{
+		if (checkInDate == null || checkOutDate == null)
+		{
+			Console.WriteLine("null");
+			return;
+		}
+		if (checkInDate < DateOnly.FromDateTime(DateTime.Now))
+		{
+			Console.WriteLine("past");
+			return;
+		}
+		if (checkInDate > checkOutDate)
+		{
+			Console.WriteLine("invalid");
+			return;
+		}
+		await CheckIn.SetCheckInAsync(checkInDate, checkOutDate);
+		Navigation.NavigateTo("/payment");
 	}
 }

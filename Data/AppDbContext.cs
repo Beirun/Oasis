@@ -243,8 +243,12 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.payment_method).HasColumnName("payment_method");
             entity.Property(e => e.staff_id).HasColumnName("staff_id");
 
-
             entity.HasOne(d => d.staff).WithMany(p => p.payment).HasForeignKey(d => d.staff_id);
+
+            entity.HasOne(d => d.reservation).WithOne(p => p.payment)
+                .HasForeignKey<Reservation>(d => d.rsv_id)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
         });
 
         modelBuilder.Entity<Reservation>(entity =>

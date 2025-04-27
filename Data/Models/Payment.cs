@@ -10,6 +10,9 @@ public partial class Payment
     public string? payment_method { get; set; }
     public DateTime? payment_date { get; set; }
     public int? staff_id { get; set; }
+    
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual Staff? staff { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual Reservation? reservation { get; set; }
 }

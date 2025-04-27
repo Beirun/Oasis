@@ -13,6 +13,8 @@ public partial class Reservation
     public int? payment_id { get; set; }
     public string? rsv_status { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
+    public virtual Payment? payment { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual Guest? guest { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual Room? room { get; set; }
