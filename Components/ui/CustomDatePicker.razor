@@ -4,7 +4,7 @@
     <input type="date"
            @bind-value="Value"
            @bind-value:event="oninput"
-           id="dateInput"
+           id=@("dateInput-"+Id)
            @onchange="OnDateChanged"
            @onclick="ShowDatePicker"
            @onblur="() => IsFocused = false"
@@ -38,6 +38,7 @@
 </div>
 
 @code {
+    [Parameter] public string? Id { get; set; }
     [Parameter] public string? Class { get; set; } = "";
     [Parameter] public string? Placeholder { get; set; } = "";
     [Parameter] public DateOnly? Value { get; set; }
@@ -49,7 +50,7 @@
         try
         {
             IsFocused = true;
-            await JSRuntime.InvokeVoidAsync("showDatePicker");
+            await JSRuntime.InvokeVoidAsync("showDatePicker", Id);
         }
         catch (Exception)
         {

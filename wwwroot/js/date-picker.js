@@ -1,9 +1,10 @@
-﻿window.showDatePicker = function () {
-    document.getElementById("dateInput").showPicker();
+﻿window.showDatePicker = function (id) {
+
+    document.getElementById("dateInput-"+id).showPicker();
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-    const dateInput = document.getElementById("dateInput");
+    const dateInput = document.getElementById("dateInput-"+ id);
 
     if (dateInput) {
         dateInput.addEventListener("mousedown", function (event) {

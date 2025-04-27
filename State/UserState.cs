@@ -1,39 +1,34 @@
-﻿using Oasis.Data.Models;
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Blazored.LocalStorage;
+using Oasis.Data.Models;
 
-public class UserState : INotifyPropertyChanged
+namespace Oasis.State
 {
-    private User _user = new User();
-
-    private string _user_type = "";
-
-    public User User
+    public class UserState
     {
-        get { return _user; }
-        set
+        private readonly ILocalStorageService _localStorage;
+
+        public UserState(ILocalStorageService localStorage)
         {
-            _user = value;
-            NotifyStateChanged();
+            _localStorage = localStorage;
         }
-    }
 
-    public string UserType
-    {
-        get { return _user_type; }
-        set
+        public User? CurrentUser { get; private set; }
+
+        public async Task SetCurrentUserAsync(User username)
         {
-            _user_type = value;
-            NotifyStateChanged();
+            CurrentUser = username;
+            await _localStorage.SetItemAsync("currentUser", username);
         }
-    }
-    
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+        public async Task LoadUserAsync()
+        {
+            CurrentUser = await _localStorage.GetItemAsync<User>("currentUser");
+        }
 
-    private void NotifyStateChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public async Task ClearUserAsync()
+        {
+            CurrentUser = null;
+            await _localStorage.RemoveItemAsync("currentUser");
+        }
     }
 }

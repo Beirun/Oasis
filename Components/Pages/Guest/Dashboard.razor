@@ -1,5 +1,12 @@
 ﻿@page "/dashboard/guest"
+@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+@inject CheckInState CheckIn
+@inject RoomServices RoomService
+@using Oasis.Data.Models
+@using Oasis.Library
+@using Oasis.State
+
 @using Oasis.Components.ui
 <div class="bg-[#fafafa] w-screen min-h-screen flex flex-col py-20 font-montserrat ">
 
@@ -37,9 +44,7 @@
             </ul>
         </div>
         <div class="z-10">
-            <NavLink href="/book/standard">
-            <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
-            </NavLink>
+                <button @onclick='async () => await SetRoomType("standard")' class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
         </div>
         <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
             <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
@@ -73,9 +78,7 @@
             </ul>
         </div>
         <div class="z-10">
-            <NavLink href="/book/deluxe">
-            <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
-            </NavLink>
+                <button @onclick='async () => await SetRoomType("deluxe")' class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
         </div>
         <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
             <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
@@ -112,9 +115,7 @@
             </ul>
         </div>
         <div class="z-10">
-            <NavLink href="/book/suite">
-            <button class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
-            </NavLink>
+                <button @onclick='async () => await SetRoomType("suite")' class="bg-white border-white border-2 text-primary font-semibold hover:bg-primary/80 active:bg-primary/95 hover:text-white w-150 rounded-full p-5 transition-all duration-250 cursor-pointer">Book Now</button>
         </div>
         <div class="bg-primary h-200 w-full absolute mt-125 z-5 flex  flex-col item-center overflow-hidden">
             <div class="flex-shrink-0 bg-[#fafafa] rounded-[100%] w-[105vw] h-260 -mt-165 z-2"></div>
@@ -133,4 +134,11 @@
     List<string> standardImages = new List<string>() { "standard/standard-1.jpg", "standard/standard-2.jpg", "standard/standard-3.jpg", "standard/standard-4.jpg", "standard/standard-5.jpg"};
     List<string> deluxeImages = new List<string>() { "deluxe/deluxe-1.jpg", "deluxe/deluxe-2.jpg", "deluxe/deluxe-3.jpg", "deluxe/deluxe-4.jpg", "deluxe/deluxe-5.jpg"};
     List<string> suiteImages = new List<string>() { "suite/suite-1.jpg", "suite/suite-2.jpg", "suite/suite-3.jpg", "suite/suite-4.jpg", "suite/suite-5.jpg"};
+
+    private async Task SetRoomType(string roomType)
+    {
+        Console.WriteLine(roomType);
+        await CheckIn.SetRoomTypeAsync(roomType);
+        NavigationManager.NavigateTo("/book/" + roomType);
+    }
 }

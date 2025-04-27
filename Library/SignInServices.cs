@@ -56,8 +56,10 @@ namespace Oasis.Library
                    return new KeyValuePair<bool, string>(false, "Incorrect Password");
 
                 }
-                
-                if (user.user_type == "Guest") return new KeyValuePair<bool, string>(true, "Guest");
+
+                if (user.user_type == "Guest")
+                    
+                    return new KeyValuePair<bool, string>(true, "Guest");
                 else
                 {
                     var staff = await _context.Staff.FirstOrDefaultAsync(s => s.staff_id == user.user_id);
@@ -65,6 +67,11 @@ namespace Oasis.Library
                 }
             }
             return new KeyValuePair<bool, string>(false, "Email doesn't exist");
+        }
+        public async Task<User> getUser(string email)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(u => u.user_email == email);
+            return user;
         }
     }
 }

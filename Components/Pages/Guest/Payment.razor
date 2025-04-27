@@ -1,5 +1,10 @@
 ﻿@page "/payment"
 @inject NavigationManager Navigation
+@inject CheckInState CheckIn
+@inject RoomServices RoomService;
+@using Oasis.State;
+@using Oasis.Data.Models;
+@using Oasis.Library;
 @rendermode InteractiveServer
 
 <div class="w-full h-screen overflow-hidden flex flex-col justify-center font-montserrat">
@@ -41,7 +46,7 @@
 		</div>
 		<div class="w-full flex justify-between bg-[#F9FAFB] border-t border-b border-gray-400 h-12">
 			<p class="text-sm text-gray-400">Total Amount</p>
-			<p class="text-lg font-bold">P-,---.--</p>
+			<p class="text-lg font-bold">P@(roomPrice)</p>
 		</div>
 		<p class="w-full -mb-3">Select Payment Method</p>
 		<div class="w-full flex flex-row">
@@ -84,7 +89,7 @@
 		<p class="w-full -mb-3">Cardholder Name</p>
 		<input @bind="cardholder_name" type="text" name="name" placeholder="" class="w-full  h-12  focus-visible:outline-none border-2 border-gray-200 px-2 rounded-lg" />
 		<button class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">
-			<p>Pay P-,---.--</p>
+			<p>Pay P@(roomPrice)</p>
 		</button>
 		<div class="w-full flex flex-row justify-center text-gray-400">
 			<Icon Name="lock"/>
@@ -94,12 +99,11 @@
 </div>
 
 @code {
-	private void GoBack()
-	{
-		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
-		Navigation.NavigateTo("javascript:history.back()", true);
-	}
-
+	private DateOnly? checkInDate { get; set; }
+	private DateOnly? checkOutDate { get; set; }
+	private string? roomType { get; set; }
+	private string roomPrice { get; set; } = "";
+	private RoomType roomTypeObj { get; set; } = new RoomType();
 	private bool card = true;
 	private bool digital_wallet = false;
 	private bool isDisabled = false;
@@ -107,6 +111,28 @@
 	private string expiryDate = "";
 	private string cvv = "";
 	private string cardholder_name = "";
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await CheckIn.LoadCheckInAsync();
+		roomType = CheckIn.roomType;
+		checkInDate = CheckIn.checkInDate;
+		checkOutDate = CheckIn.checkOutDate;
+		roomTypeObj = await RoomService.getRoomType(roomType);
+		roomPrice = Convert.ToString((roomTypeObj.type_price * (checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber)))+".00";
+		Console.WriteLine(roomPrice);
+		StateHasChanged();
+	}
+
+
+	private void GoBack()
+	{
+		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+		Navigation.NavigateTo("javascript:history.back()", true);
+	}
+
+
+
 
 	private void CardClicked()
 	{
@@ -141,5 +167,11 @@
 			cvv = "";
 			cardholder_name = "";
 		}
+	}
+
+	private void PaymentClicked()
+	{
+
+		Navigation.NavigateTo("/payment/success");
 	}
 }
