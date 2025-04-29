@@ -4,6 +4,7 @@
 @inject CheckInState CheckIn
 @inject PaymentState payment
 @inject UserState user
+@inject ReservationServices ReservationService
 @inject PaymentServices PaymentService
 @inject RoomServices RoomService;
 @using Oasis.State;
@@ -148,12 +149,9 @@
 			<div class="w-full flex flex-col justify-center items-center">
 				<div class="flex">
 					<p>User</p>
-                    <p>@(currentUser.user_fname + " " + currentUser.user_lname)</p>
+					<p>@(currentUser.user_fname + " " + currentUser.user_lname)</p>
 				</div>
-				<div class="flex">
-					<p>Room</p>
-					<p>@room.room_no</p>
-				</div>
+
 				<div class="flex">
 					<p>Check In Date</p>
 					<p>@checkInDate</p>
@@ -163,11 +161,11 @@
 					<p>@checkOutDate</p>
 				</div>
 				<div class="flex">
-                    <p>Price Amount</p>
+					<p>Price Amount</p>
 					<p>P@(FormatCurrency(roomPrice))</p>
 
 				</div>
-				<button @onclick='()=>{ Navigation.NavigateTo("/payment/success"); }' class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Confirm Payment</button>
+				<button @onclick="ConfirmPaymentClick" class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Confirm Payment</button>
 			</div>
 
 		</div>
@@ -275,10 +273,10 @@
 
 
 	private void CloseConfirmationDialog()
-    {
-        confirmationOpen = false;
-        StateHasChanged();
-    }
+	{
+		confirmationOpen = false;
+		StateHasChanged();
+	}
 
 	private void HandleCVVKeyDown(KeyboardEventArgs e)
 	{
@@ -385,7 +383,17 @@
 		StateHasChanged();
 	}
 
-	private async Task PaymentClicked()
+	private async Task ConfirmPaymentClick()
+	{
+		room = await RoomService.getRandomRoomFromType(roomType!);
+		int payment_id = await PaymentService.AddPayment(Convert.ToDouble(roomPrice!), DateTime.Now);
+		bool successReservation = await ReservationService.AddReservation(checkInDate ?? DateOnly.MinValue, checkOutDate ?? DateOnly.MinValue,currentUser.user_id,room.room_id,payment_id);
+		await payment.SetRoomNumberAsync(room.room_no.ToString()!);
+		
+		if(successReservation) Navigation.NavigateTo("/payment/success");
+		
+	}
+	private void PaymentClicked()
 	{
 		if (card)
 		{
@@ -402,15 +410,12 @@
 			}
 		}
 
-		if (digital_wallet && string.IsNullOrEmpty(cardNumber))
+		if (digital_wallet && string.IsNullOrEmpty(cardNumber) && string.IsNullOrEmpty(cardholder_name))
 		{
 			Console.WriteLine("ERROR: Digital wallet requires card number");
 			return;
 		}
 		confirmationOpen = true;
-		room = await RoomService.getRandomRoomFromType(roomType!);
-		Console.WriteLine("Room Data: " + System.Text.Json.JsonSerializer.Serialize(room));
-		// await payment.SetRoomNumberAsync(room.room_no.ToString()!);
 		double priceDouble = Convert.ToDouble(roomPrice!);
 		Console.WriteLine($"Room Price: {priceDouble}");
 		// await PaymentService.AddPayment()

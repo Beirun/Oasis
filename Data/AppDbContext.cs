@@ -240,7 +240,6 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("payment_id");
             entity.Property(e => e.payment_amount).HasColumnName("payment_amount");
             entity.Property(e => e.payment_date).HasColumnName("payment_date");
-            entity.Property(e => e.payment_method).HasColumnName("payment_method");
             entity.Property(e => e.staff_id).HasColumnName("staff_id");
 
             entity.HasOne(d => d.staff).WithMany(p => p.payment).HasForeignKey(d => d.staff_id);
