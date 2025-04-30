@@ -1,18 +1,497 @@
 ﻿@page "/payment"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inject NavigationManager Navigation
-@rendermode InteractiveServer
+@inject CheckInState CheckIn
+@inject PaymentState payment
+@inject UserState user
+@inject ReservationServices ReservationService
+@inject PaymentServices PaymentService
+@inject RoomServices RoomService;
+@using Oasis.State;
+@using Oasis.Data.Models;
+@using Oasis.Library;
+@using System.Text;
 
-<div class="w-screen h-screen">
+<div class="w-full h-screen overflow-hidden flex flex-col justify-center font-montserrat">
 	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
-		<Icon Name="Arrow_Back" Class="stroke-4" />
+		@* <img src="/icons/back-arrow.png" alt="Alternate Text" class=" top-5 left-5 h-10 -mr-4 transition-all duration-400 hover:stroke-[3px]" /> *@
+		<Icon Name="Arrow_Back" />
 		<p class="text-xl -ml-3">Back</p>
+	</div>
+	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+		<div class="w-full flex flex-row justify-center">
+			<div class="w-1/8 flex flex-col justify-center -mr-5">
+				<div class="flex flex-row w-full">
+					<div class="w-[84px] h-[60px] bg-[#2563EB] rounded-full flex justify-center ml-2">
+						<Icon Name="check" Size="50px" Color="white"/>
+					</div>
+					<div class="w-full h-[10px] bg-[#2563EB] -ml-5"></div>
+				</div>
+				<p class="text-gray-400 text-sm font-medium self-start">Select Date</p>
+			</div>
+			<div class="w-1/8 flex flex-col justify-center">
+				<div class="flex flex-row w-full">
+					<div class="w-full h-[10px] bg-[#2563EB] -mr-4.5"></div>
+					<div class="w-[80px] h-[60px] bg-[#2563EB] rounded-full flex justify-center ">
+						<p class="text-4xl">2</p>
+					</div>
+				</div>
+				<p class="text-gray-400 text-sm font-medium self-end">Payment</p>
+			</div>
+		</div>
+
+		<div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
+	</div>
+	<div class=" w-4/5 flex flex-row justify-center mt-30 pl-20">
+	</div>
+	<div class="w-1/3 h-160 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5">
+		<div class="w-full h-10 mb-2">
+			<p class="text-3xl font-bold">Payment Details</p>
+			@* <p class="text-sm text-gray-400">Order #ORD-2025-0123</p> *@
+		</div>
+		<div class="w-full flex justify-between bg-[#F9FAFB] border-t border-b border-gray-400 h-12">
+			<p class="text-sm text-gray-400">Total Amount</p>
+			<p class="text-lg font-bold">P@(FormatCurrency(roomPrice))</p>
+		</div>
+		<p class="w-full -mb-3">Select Payment Method</p>
+		<div class="w-full flex flex-row">
+			<div @onclick="CardClicked" class="w-1/2 h-20 flex flex-row border-2 border-gray-200 rounded-lg p-3 cursor-pointer @(card ? "bg-[#EFF6FF]" : "")">
+				<Icon Name="credit_card" Color="#2563EB" />
+				<div class="w-full flex flex-col justify-start">
+					<p class="w-full -mb-5">Credit/Debit Card</p>
+					<p class="w-full text-sm text-gray-400">Pay securely with your card</p>
+				</div>
+			</div>
+			<div @onclick="WalletClicked" class="w-1/2 h-20 flex flex-row border-2 border-gray-200 rounded-lg p-3 cursor-pointer @(digital_wallet ? "bg-[#EFF6FF]":"")">
+				<Icon Name="wallet" Color="#2563EB" />
+				<div class="w-full flex flex-col justify-start">
+					<p class="w-full -mb-5">Digital Wallet</p>
+					<p class="w-full text-sm text-gray-400">GCash</p>
+				</div>
+			</div>
+		</div>
+		<p class="w-full -mb-3">Card Number</p>
+		<div class="w-full h-12 flex flex-row justify-between border-2 border-gray-200 px-2 rounded-lg">
+			<input @bind="cardNumber" 
+			@bind:event="oninput"
+			@onkeydown="HandleCardNumberKeyDown"
+			maxlength="19" 
+			type="text"
+			inputmode="numeric"
+			placeholder="1234 5678 9012 3456"
+			class="@(card ? "w-5/6":"w-full") h-full focus-visible:outline-none" />
+			@if (card)
+			{
+				<div class=" flex flex-row ">
+					@if (cardNumber.Length > 0 && cardNumber[0] == '4')
+					{
+						<img src="icons/selected-visa.png" alt="visa"/>
+						<img src="icons/mastercard.png" alt="mastercard"/>
+					}
+					else if (cardNumber.Length > 0 && (cardNumber[0] == '5' || cardNumber[0] == '2')){
+						<img src="icons/visa.png" alt="visa"/>
+						<img src="icons/selected-mastercard.png" alt="mastercard"/>
+					}else
+					{
+						<img src="icons/visa.png" alt="visa" />
+						<img src="icons/mastercard.png" alt="mastercard" />
+					}
+				</div>
+			}
+		</div>
+		<div class="w-full h-25  flex flex-row">
+			<div class="w-1/2 h-full flex flex-col justify-center">
+				<p class="w-full -mb-3 @(digital_wallet ? "text-gray-400": "")">Expiry Date</p>
+				<input @bind="expiryDate"
+				@bind:event="oninput"
+				@onkeydown="HandleExpiryKeyDown"
+				maxlength="5"
+				type="text"
+				placeholder="MM/YY"
+				class="w-full h-12 focus-visible:outline-none border-2 @(isDisabled ? "border-gray-100":"border-gray-200") px-2 rounded-lg"
+				disabled="@isDisabled" />
+			</div>
+			<div class="w-1/2 h-full flex flex-col justify-center">
+				<p class="w-full -mb-3 @(digital_wallet ? "text-gray-400": "")">CVV</p>
+				<input @bind="cvv"
+				@bind:event="oninput"
+				@onkeydown="HandleCVVKeyDown"
+				placeholder="1234"
+				maxlength="4"
+				type="text"
+				inputmode="numeric"
+				pattern="[0-9]*"
+				class="w-full h-12 focus-visible:outline-none border-2 @(isDisabled ? "border-gray-100":"border-gray-200") px-2 rounded-lg"
+				disabled="@isDisabled" />
+			</div>
+		</div>
+		<p class="w-full -mb-3">Cardholder Name</p>
+		<input @oninput="CardholderNameChanged" type="text" name="name" placeholder="John Doe" class="w-full  h-12  focus-visible:outline-none border-2 border-gray-200 px-2 rounded-lg" />
+		<button @onclick="PaymentClicked" class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">
+			<p>Pay P@(FormatCurrency(roomPrice))</p>
+		</button>
+		<div class="w-full flex flex-row justify-center text-gray-400">
+			<Icon Name="lock"/>
+			<p>Your payment information is secure</p>
+		</div>
+		@* <div>@cardNumber</div> *@
+	</div>
+	<div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(confirmationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick="CloseConfirmationDialog">
+		<div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(75%+4rem)] z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(confirmationOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+			<Icon Name="Close" @onclick="CloseConfirmationDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+
+			@*Header*@
+			<div class="w-full text-4xl pt-10 font-montserrat font-bold text-gray-800 justify-center items-center flex">
+				PAYMENT CONFIRMATION
+			</div>
+
+			@*Body*@
+			<div class="w-full flex flex-col justify-center items-center">
+				<div class="flex">
+					<p>User</p>
+					<p>@(currentUser.user_fname + " " + currentUser.user_lname)</p>
+				</div>
+
+				<div class="flex">
+					<p>Check In Date</p>
+					<p>@checkInDate</p>
+				</div>
+				<div class="flex">
+					<p>Check Out Date</p>
+					<p>@checkOutDate</p>
+				</div>
+				<div class="flex">
+					<p>Price Amount</p>
+					<p>P@(FormatCurrency(roomPrice))</p>
+
+				</div>
+				<button @onclick="ConfirmPaymentClick" class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Confirm Payment</button>
+			</div>
+
+		</div>
 	</div>
 </div>
 
 @code {
+	private User currentUser = new User();
+	private Room room = new Room();
+	private DateOnly? checkInDate { get; set; }
+	private DateOnly? checkOutDate { get; set; }
+	private string? roomType { get; set; }
+	private bool confirmationOpen = false;
+	private string roomPrice { get; set; } = "0.00";
+	private RoomType roomTypeObj { get; set; } = new RoomType();
+	private bool card = true;
+	private bool digital_wallet = false;
+	private bool isDisabled = false;
+	private string _cardNumber = "";
+	private string _expiryDate = "";
+	private string cardholder_name = "";
+	private bool isLoaded = false;
+	private string _cvv = "";
+	private string cvv
+	{
+		get => _cvv;
+		set
+		{
+			// Filter to only digits and limit to 4 characters
+			var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+			_cvv = digitsOnly.Length > 4 ? digitsOnly[..4] : digitsOnly;
+		}
+	}
+
+	private string expiryDate
+	{
+		get => _expiryDate;
+		set
+		{
+			// Remove all non-digits
+			var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+
+			// Limit to 4 digits (MMYY)
+			if (digitsOnly.Length > 4)
+			{
+				digitsOnly = digitsOnly[..4];
+			}
+
+			// Format as MM/YY
+			_expiryDate = digitsOnly.Length switch
+			{
+				> 2 => $"{digitsOnly[..2]}/{digitsOnly[2..]}",
+				_ => digitsOnly
+			};
+		}
+	}
+	private string cardNumber
+	{
+		get => _cardNumber;
+		set
+		{
+			// Remove all non-digits
+			var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+
+			// Limit to 16 digits
+			if (digitsOnly.Length > 16)
+			{
+				digitsOnly = digitsOnly[..16];
+			}
+
+			// Format with spaces every 4 digits
+			var formatted = new StringBuilder();
+			for (int i = 0; i < digitsOnly.Length; i++)
+			{
+				if (i > 0 && i % 4 == 0)
+				{
+					formatted.Append(' ');
+				}
+				formatted.Append(digitsOnly[i]);
+			}
+
+			_cardNumber = formatted.ToString();
+		}
+	}
+
+
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await user.LoadUserAsync();
+			await CheckIn.LoadCheckInAsync();
+			currentUser = user.CurrentUser;
+			roomType = CheckIn.roomType;
+			checkInDate = CheckIn.checkInDate;
+			checkOutDate = CheckIn.checkOutDate;
+			roomTypeObj = await RoomService.getRoomType(roomType);
+			roomPrice = Convert.ToString((roomTypeObj.type_price * (checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber)))+".00";
+			Console.WriteLine(roomPrice);
+			await payment.SetRoomPriceAsync(roomPrice);
+			StateHasChanged();
+		}
+	}
+
+
+	private void CloseConfirmationDialog()
+	{
+		confirmationOpen = false;
+		StateHasChanged();
+	}
+
+	private void HandleCVVKeyDown(KeyboardEventArgs e)
+	{
+		// Allow: backspace, delete, tab, arrows
+		var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight" };
+		if (allowedKeys.Contains(e.Key)) return;
+
+		// Prevent if not a digit or if at max length
+		if (cvv.Length >= 4 || !char.IsDigit(e.Key[0]))
+		{
+			return;
+		}
+	}
+
+
+	private void HandleExpiryKeyDown(KeyboardEventArgs e)
+	{
+		// Allow control keys
+		var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight" };
+		if (allowedKeys.Contains(e.Key)) return;
+
+		// Prevent if not a digit or if at max length (4 digits = 5 chars with slash)
+		if (_expiryDate.Replace("/", "").Length >= 4 || !char.IsDigit(e.Key[0]))
+		{
+			return;
+		}
+	}
+
+	private void HandleCardNumberKeyDown(KeyboardEventArgs e)
+	{
+		// Allow control keys
+		var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", " " };
+		if (allowedKeys.Contains(e.Key)) return;
+
+		// Prevent if not a digit or if at max length (16 digits)
+		if (_cardNumber.Replace(" ", "").Length >= 16 || !char.IsDigit(e.Key[0]))
+		{
+			return;
+		}
+	}
+
 	private void GoBack()
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
 		Navigation.NavigateTo("javascript:history.back()", true);
 	}
+
+
+
+
+	private void CardClicked()
+	{
+		if (card == true)
+		{
+			digital_wallet = false;
+			isDisabled = false;
+		}
+		else
+		{
+			card = true;
+			digital_wallet = false;
+			isDisabled = false;
+			cardNumber = "";
+			cardholder_name = "";
+
+		}
+	}
+	private void WalletClicked()
+	{
+		if (digital_wallet == true)
+		{
+			card = false;
+			isDisabled = true;
+		}
+		else
+		{
+			card = false;
+			digital_wallet = true;
+			isDisabled = true;
+			cardNumber = "";
+			expiryDate = "";
+			cvv = "";
+			cardholder_name = "";
+		}
+	}
+
+
+
+	private void CardNumberChanged(ChangeEventArgs e)
+	{
+		cardNumber = e.Value?.ToString() ?? "";
+		StateHasChanged();
+	}
+
+	private void ExpiryDateChanged(ChangeEventArgs e)
+	{
+		expiryDate = e.Value?.ToString() ?? "";
+		StateHasChanged();
+	}
+
+	private void CardholderNameChanged(ChangeEventArgs e)
+	{
+		cardholder_name = e.Value?.ToString() ?? "";
+		StateHasChanged();
+	}
+
+	private async Task ConfirmPaymentClick()
+	{
+		room = await RoomService.getRandomRoomFromType(roomType!);
+		int payment_id = await PaymentService.AddPayment(Convert.ToDouble(roomPrice!), DateTime.Now);
+		bool successReservation = await ReservationService.AddReservation(checkInDate ?? DateOnly.MinValue, checkOutDate ?? DateOnly.MinValue,currentUser.user_id,room.room_id,payment_id);
+		await payment.SetRoomNumberAsync(room.room_no.ToString()!);
+		
+		if(successReservation) Navigation.NavigateTo("/payment/success");
+		
+	}
+	private void PaymentClicked()
+	{
+		if (card)
+		{
+			Console.WriteLine("=== VALIDATION RESULTS ===");
+			Console.WriteLine($"Card Number Valid: {IsValidCardNumber()} (Length: {cardNumber.Replace(" ", "").Length})");
+			Console.WriteLine($"Expiry Date Valid: {IsValidExpiryDate()} (Value: {expiryDate})");
+			Console.WriteLine($"CVV Valid: {!string.IsNullOrEmpty(cvv)} (Length: {cvv.Length})");
+			Console.WriteLine($"Cardholder Valid: {!string.IsNullOrEmpty(cardholder_name)}");
+
+			if (!IsValidCard())
+			{
+				Console.WriteLine("ERROR: Invalid card details - see above for specific failures");
+				return;
+			}
+		}
+
+		if (digital_wallet && string.IsNullOrEmpty(cardNumber) && string.IsNullOrEmpty(cardholder_name))
+		{
+			Console.WriteLine("ERROR: Digital wallet requires card number");
+			return;
+		}
+		confirmationOpen = true;
+		double priceDouble = Convert.ToDouble(roomPrice!);
+		Console.WriteLine($"Room Price: {priceDouble}");
+		// await PaymentService.AddPayment()
+		// Navigation.NavigateTo("/payment/success");
+		StateHasChanged();
+	}
+
+	private bool IsValidCardNumber()
+	{
+		// Basic checks
+		var cleanNumber = cardNumber.Replace(" ", "");
+		if (string.IsNullOrWhiteSpace(cleanNumber) || cleanNumber.Length != 16)
+			return false;
+
+		// Optional: Luhn algorithm validation
+		return IsValidLuhn(cleanNumber) && (cleanNumber.StartsWith("4") || cleanNumber.StartsWith("5") || cleanNumber.StartsWith("2"));
+	}
+
+	// Luhn algorithm implementation for proper card validation
+	private bool IsValidLuhn(string digits)
+	{
+		int sum = 0;
+		bool alternate = false;
+		for (int i = digits.Length - 1; i >= 0; i--)
+		{
+			if (!char.IsDigit(digits[i]))
+				return false;
+
+			int n = digits[i] - '0';
+			if (alternate)
+			{
+				n *= 2;
+				if (n > 9)
+				{
+					n = (n % 10) + 1;
+				}
+			}
+			sum += n;
+			alternate = !alternate;
+		}
+		return (sum % 10 == 0);
+	}
+	private bool IsValidExpiryDate()
+	{
+		if (string.IsNullOrWhiteSpace(_expiryDate) || _expiryDate.Length < 5)
+			return false;
+
+		var parts = _expiryDate.Split('/');
+		if (parts.Length != 2) return false;
+
+		if (!int.TryParse(parts[0], out var month) || month < 1 || month > 12)
+			return false;
+
+		if (!int.TryParse(parts[1], out var year) || year < 0 || year > 99)
+			return false;
+
+		// Optional: Check if date is in the future
+		var currentYear = DateTime.Now.Year % 100;
+		var currentMonth = DateTime.Now.Month;
+
+		if (year < currentYear || (year == currentYear && month < currentMonth))
+			return false;
+
+		return true;
+	}
+	private bool IsValidCard()
+	{
+		
+		return IsValidCardNumber() &&
+						IsValidExpiryDate() &&
+						!string.IsNullOrEmpty(cvv) &&
+						!string.IsNullOrEmpty(cardholder_name);
+	}
+
+	private string FormatCurrency(string value)
+    {
+        return Convert.ToDouble(value).ToString("N2");
+    }
 }

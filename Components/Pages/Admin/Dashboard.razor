@@ -1,7 +1,14 @@
 ﻿@page "/dashboard/admin"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@using Oasis.Components.ui
+@using Oasis.Library
+@using Oasis.Components.Layout
+@using Oasis.Data.Object
+@using Oasis.Data.Models
+@using Microsoft.EntityFrameworkCore
 
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
-    <Navbar/>
+    <Navbar />
     <div class="w-4/5 flex justify-evenly items-stretch font-montserrat">
         <div class="w-4/5 flex flex-col">
             <div class="w-full h-40 flex justify-center">
@@ -117,4 +124,6 @@
 </div>
 
 @code {
+    // private int totalGuests = 
+
 }

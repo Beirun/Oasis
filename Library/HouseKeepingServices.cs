@@ -21,5 +21,16 @@ namespace Oasis.Library
             await _context.SaveChangesAsync();
         }
         
+        public async Task UpdateHouseKeeping(HouseKeeping houseKeeping)
+        {
+            var existingHouseKeeping = await _context.HouseKeeping.FindAsync(houseKeeping.housekeeping_id);
+            if (existingHouseKeeping != null)
+            {
+                existingHouseKeeping.room_id = houseKeeping.room_id;
+                existingHouseKeeping.staff_id = houseKeeping.staff_id;
+                existingHouseKeeping.housekeeping_date = houseKeeping.housekeeping_date;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

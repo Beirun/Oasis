@@ -1,5 +1,7 @@
 ﻿@page "/"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inject UserState userState
+@using Oasis.State;
 @using Oasis.Components.Layout
 @inject IJSRuntime JSRuntime
 <script src="js/landing.js"></script>
@@ -17,14 +19,14 @@
                     A refreshing <br /> stay, every <br /> time.
                 </p>
             </div>
-             <div class="w-full">
+            <div class="w-full">
 
-            <button class="text-md transition-colors duration-300 font-semibold mt-10 bg-primary hover:bg-primary/80 cursor-pointer text-white w-40 h-12 rounded-full">
+                <button class="text-md transition-colors duration-300 font-semibold mt-10 bg-primary hover:bg-primary/80 cursor-pointer text-white w-40 h-12 rounded-full">
                     <NavLink href="signup" style="font-family:Montserrat,sans-serif">
                         Book Now <img src="/icons/arrow-left.png" class="w-5 h-5 inline-block" />
                     </NavLink>
                 </button>
-             </div>    
+            </div>    
         </div>
     </section>
     <section id="rooms" class="h-[calc(100vh-calc(.25rem*40))] w-screen flex flex-col justify-center font-montserrat">
@@ -32,53 +34,53 @@
             Rooms
         </div>
         <div class="flex flex-row w-4/5 justify-around">
-        <div class="flex flex-row justify-between">
-            <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
-               <div class="bg-[url('/standard-1.jpg')] h-100 bg-cover bg-center rounded-2xl"></div>
-                <div class="flex flex-col justify-between mt-8">
-                    <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row justify-between">
+                <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
+                    <div class="bg-[url('/standard/standard-1.jpg')] h-100 bg-cover bg-center rounded-2xl"></div>
+                    <div class="flex flex-col justify-between mt-8">
+                        <div class="flex flex-row justify-between w-full">
                             <p class=" font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Standard</p>
                             <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 1,500</p>
-                            </div>
-                    <div class="self-start">
+                        </div>
+                        <div class="self-start">
                             <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Basic Bed Setup, Private Bathroom, Essential Amenities</p>
 
                         </div>
                         @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="flex flex-row justify-between">
+            <div class="flex flex-row justify-between">
                 <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
-                    <div class="bg-[url('/suite-1.jpg')] h-100 bg-cover bg-center rounded-2xl"></div>
+                    <div class="bg-[url('/suite/suite-3.jpg')] h-100 bg-cover bg-center rounded-2xl"></div>
                     <div class="flex flex-col justify-between mt-8">
-                    <div class="flex flex-row justify-between w-full">
+                        <div class="flex flex-row justify-between w-full">
                             <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Suite</p>
                             <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 5,200</p>
-                            </div>
+                        </div>
 
-                    <div class="self-start">
+                        <div class="self-start">
                             <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Upgraded Bed, Enhanced Bathroom, Additional Comforts</p>
-                    </div>
+                        </div>
                         @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="flex flex-row justify-between">
+            <div class="flex flex-row justify-between">
                 <div class="group rounded-2xl border border-gray-300 p-5 bg-white w-100 hover:scale-105 transition-all duration-400">
-                    <div class="bg-[url('/deluxe-1.jpg')] h-102 bg-cover bg-center rounded-2xl"></div>
+                    <div class="bg-[url('/deluxe/deluxe-3.jpg')] h-102 bg-cover bg-center rounded-2xl"></div>
                     <div class="flex flex-col justify-between mt-8">
-                     <div class="flex flex-row justify-between w-full">
+                        <div class="flex flex-row justify-between w-full">
                             <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Deluxe</p>
-                        <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 2,500</p>
-                    </div>
-                    <div class="self-start">
-                        <p class=" text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Separate Living Space, Luxury Bathroom, Exclusive Perks</p>
-                     </div>
+                            <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 2,500</p>
+                        </div>
+                        <div class="self-start">
+                            <p class=" text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Separate Living Space, Luxury Bathroom, Exclusive Perks</p>
+                        </div>
                         @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
     @* <section id="services" class="h-[calc(100vh-calc(.25rem*40))] w-screen bg-[#f5f5f5] flex flex-col justify-center">
@@ -90,13 +92,13 @@
 
             <div class="size-30 bg-[#0040a6] rounded-full flex py-8 pl-6 pr-6">
                 <img src="/spa_booking.png" alt="Spa Booking" style="height-8px" classs="bg-black"/>
-                
+
             </div>
             <div class="flex flex-col w-55 font-montserrat">
                     <div class=" w-full font-bold text-2xl">Spa Bookings</div>
                 <div>Massages, facials, and other relaxation treatments.</div>
             </div>
-            
+
         </div>
             <div class="flex h-50 justify-center items-center flex-wrap border-2 border-gray-300 rounded-2xl m-5 p-8 w-2/7 hover:scale-105 transition-all duration-400">
             <div class=" size-30 bg-[#0040a6] rounded-full flex justify-center py-7.5 px-8">
@@ -148,9 +150,9 @@
         <div class="w-1/2 h-full flex flex-col justify-center">
             <div class="w-2/3 flex flex-col">
 
-            <p class="w-full font-poppins text-5xl font-extrabold mb-10">About Our Hotel</p>
-            <p class="font-montserrat leading-8">
-                Welcome to <b>Oasis Hotel</b>, your haven of relaxation and luxury. We offer an escape from the ordinary, where comfort meets elegance in a setting designed to soothe and inspire.
+                <p class="w-full font-poppins text-5xl font-extrabold mb-10">About Our Hotel</p>
+                <p class="font-montserrat leading-8">
+                    Welcome to <b>Oasis Hotel</b>, your haven of relaxation and luxury. We offer an escape from the ordinary, where comfort meets elegance in a setting designed to soothe and inspire.
 
                     <br /><br />At <b>Oasis Hotel</b>, every detail is crafted with care. Whether you're here for a peaceful retreat, a business trip, or an adventure, our beautifully appointed rooms, world-class amenities, and dedicated team ensure an unforgettable stay. Unwind by the pool, savor exquisite cuisine, or explore the vibrant surroundings—whatever your journey, we’re here to make it extraordinary.
 
@@ -170,7 +172,7 @@
                 </div>
                 <div class="ml-23 flex w-full">
                     <p>F. Roska Street, Santa Fe, Cebu</p>
-                    </div>
+                </div>
                 <div class="flex w-full">
                     <img src="/icons/phone.png" class="w-8 h-8 inline-block" />
                     <p class="font-bold text-3xl">Phone</p>
@@ -185,11 +187,11 @@
                 </div>
 
                 <div class="ml-23 flex w-full">
-                <p>oasis@gmail.com</p>
+                    <p>oasis@gmail.com</p>
                 </div>
             </div>
         </div>
-            <div class="w-1/3 h-full flex flex-col justify-center">
+        <div class="w-1/3 h-full flex flex-col justify-center">
             @* <form action="/" method="post" class="flex flex-col justify-center border rounded-2xl w-20/21 h-4/5 border-gray-300 bg-[#F9FAFB] shadow-md shadow-gray-400/50 border-t-0"> *@
             @*     <label for="name" class="w-full ml-18 -mb-3">Name*</label> *@
             @*     <input name="name" id="name" class="border rounded-lg border-gray-300 bg-white h-10 w-7/8 mb-2" required/> *@
@@ -199,8 +201,8 @@
             @*     <textarea name="message" id="message" class="border rounded-lg border-gray-300 bg-white h-50 w-7/8 mb-2 resize-none p-2" required /> *@
             @*     <button type="submit" class="bg-[#0040a6] text-white w-7/8 rounded-lg h-15 cursor-pointer hover:bg-primary/75 transition-colors duration-300">Send Message</button> *@
             @* </form> *@
-                <img src="logo-transparent.png" alt="Alternate Text" class="h-1/3" />
-            </div>
+            <img src="logo-transparent.png" alt="Alternate Text" class="h-1/3" />
+        </div>
     </section>
     <section id="footer" class="h-1/11 w-screen flex justify-center flex-col font-montserrat bg-[#0C0C0C] text-white">
         <div class="h-4/5 w-9/10 flex flex-row">
@@ -214,7 +216,7 @@
                 <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("rooms")'>Rooms</p>
                 @* <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("services")'>Services</p> *@
                 <p class="text-[#9CA3AF] self-start hover:underline cursor-pointer" @onclick='() => ScrollToSection("about")'>About</p>
-                
+
             </div>
             <div class="w-1/5 h-full flex flex-col">
                 <p class="w-full pt-12 font-bold text-xl">Contact</p>
@@ -245,6 +247,7 @@
 </div>
 
 @code {
+    
 
     private async Task ScrollToSection(string id)
     {

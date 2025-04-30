@@ -1,4 +1,4 @@
-﻿
+﻿@rendermode @(new InteractiveServerRenderMode(prerender: false))
 
 <div class="bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
     <div class="h-full w-1/2 flex justify-start items-center">
@@ -10,6 +10,7 @@
             <div class="mx-3"><NavLink href="/payments/all" class="nav-link" activeClass="font-bold">Payments</NavLink></div>
             <div class="mx-3"><NavLink href="/feedback/all" class="nav-link" activeClass="font-bold">Review</NavLink></div>
             <div class="mx-3"><NavLink href="/membership/all" class="nav-link" activeClass="font-bold">Membership</NavLink></div>
+            <div class="mx-3"><NavLink href="/guests" class="nav-link" activeClass="font-bold">Guests</NavLink></div>
         </div>
     </div>
     <div class="h-full flex justify-center items-center">

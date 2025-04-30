@@ -1,12 +1,14 @@
-﻿@inject NavigationManager NavigationManager
+﻿@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inject NavigationManager NavigationManager
+@inject UserState UserState
+@using Oasis.State;
 
-<div class="bg-[#fafafa] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
+<div class="bg-[#fafafa] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 top-0 absolute z-1">
     <div class="h-full w-1/2 flex justify-start items-center">
         <div class="flex h-full justify-center items-center">
             <img src="logo.png" alt="Alternate Text" class="pb-2 h-10" />
             <p class="ml-10 @GetNavLinkClass("/dashboard/guest")"><NavLink href="/dashboard/guest">Home</NavLink></p>
             <p class="ml-10 @GetNavLinkClass("/bookings")"><NavLink href="/bookings">Bookings</NavLink></p>
-            <p class="ml-10">Services</p>
         </div>
     </div>
     <div class="h-full flex justify-center items-center">
@@ -15,15 +17,49 @@
         @* <button class="cursor-pointer hover:bg-red-300/40 p-1 px-3 rounded-md transition-all duration-300">
         <NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1 " Color="black" /></NavLink>
         </button> *@
-        <img src="/female-receptionist.png" alt="Alternate Text" class="w-9" />
+        <div class="flex flex-col ">
+
+            <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleDropdown'>
+            </div>
+
+            <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+
+                <li @onclick='() => NavigationManager.NavigateTo("/profile")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Account Profile</li>
+                <li @onclick="() => Logout()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 cursor-pointer transition-all duration-200">Logout</li>
+
+            </ul>
+            @* <button  class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Sort" Size="30px" /> Sort</button> *@
+            <img @onclick="ToggleDropdown" src="/female-receptionist.png" alt="Alternate Text" class="w-9" />
+        </div>
     </div>
 </div>
 
 @code {
+    private bool IsDropdownOpen { get; set; } = false;
+    protected override async Task OnInitializedAsync()
+    {
+        await UserState.LoadUserAsync();
+
+        if (UserState.CurrentUser == null)
+        {
+            NavigationManager.NavigateTo("/signin");
+        }
+    }
     private string GetNavLinkClass(string route)
     {
         return NavigationManager.Uri.Contains(route)
-            ? "text-green-800  font-bold"  // Active style
+            ? "text-[#0040A6]  font-bold"  // Active style
             : "text-gray-700 hover:text-blue-500"; // Default style
+    }
+
+    private void ToggleDropdown()
+    {
+        IsDropdownOpen = !IsDropdownOpen;
+    }
+
+    private async Task Logout()
+    {
+        await UserState.ClearUserAsync();
+        NavigationManager.NavigateTo("/signin");
     }
 }

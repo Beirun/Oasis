@@ -1,77 +1,85 @@
-﻿@page "/reservation/new/suite"
-@rendermode InteractiveServer
+﻿@page "/book/suite"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @using Oasis.Components.Layout
-@inject NavigationManager Navigation
 @using Oasis.Components.ui
-<div class="w-full h-screen flex justify-center">
+@using Oasis.State
+@inject NavigationManager Navigation
+@inject CheckInState CheckIn
+
+<div class="w-full h-screen overflow-hidden flex flex-col justify-center">
 	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
-		<Icon Name="Arrow_Back" Class="stroke-4" />
+		@* <img src="/icons/back-arrow.png" alt="Alternate Text" class=" top-5 left-5 h-10 -mr-4 transition-all duration-400 hover:stroke-[3px]" /> *@
+		<Icon Name="Arrow_Back" />
 		<p class="text-xl -ml-3">Back</p>
 	</div>
-	<div class="w-[calc(25%+10rem)] h-screen flex flex-col justify-center">
-		<div class="transition-all duration-500 bg-center rounded-2xl h-3/5 w-full"
-			 style="background-image: url('@hoveredImage'); background-size: cover;">
+	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+		<div class="w-full flex flex-row justify-center">
+			<div class="w-1/8 flex flex-col justify-center -mr-5">
+				<div class="flex flex-row w-full">
+					<div class="w-[84px] h-[60px] bg-[#2563EB] rounded-full flex justify-center ml-2">
+						<p class="text-4xl">1</p>
+					</div>
+					<div class="w-full h-[10px] bg-[#2563EB] -ml-5"></div>
+				</div>
+				<p class="text-gray-400 text-sm font-medium self-start">Select Date</p>
+			</div>
+			<div class="w-1/8 flex flex-col justify-center">
+				<div class="flex flex-row w-full">
+					<div class="w-full h-[10px] bg-gray-400 -mr-4.5"></div>
+					<div class="w-[80px] h-[60px] bg-gray-400 rounded-full flex justify-center ">
+						<p class="text-4xl">2</p>
+					</div>
+				</div>
+				<p class="text-gray-400 text-sm font-medium self-end">Payment</p>
+			</div>
 		</div>
-		<div class="w-full flex h-40 justify-between">
-			<div @onmouseover='()=> hoveredImage = "suite-1.jpg"'
-				 style="background-image: url('suite-1.jpg'); background-size: cover;"
-				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
-			</div>
-			<div @onmouseover='()=> hoveredImage = "suite-2.jpg"'
-				 style="background-image: url('suite-2.jpg'); background-size: cover;"
-				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
-			</div>
-			<div @onmouseover='()=> hoveredImage = "suite-3.jpg"'
-				 style="background-image: url('suite-3.jpg'); background-size: cover;"
-				 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
-			</div>
-		</div>
-	</div>
-	<div class="w-1/2 h-screen flex justify-center font-montserrat pl-35">
-		<div class="w-full h-3/5 flex flex-col justify-between">
-			<div class="w-full">
 
-				<p class="self-start font-wittgenstein text-5xl font-extrabold underline underline-offset-40" style="text-decoration-thickness:1px">Suite Room&nbsp;&nbsp;</p>
-				<p class="self-start mt-12"><span class="text-4xl font-bold">₱5,200</span> per night</p>
-				<p class="self-start mt-5">
-					Our <b>Suite Room</b> provides a luxurious experience with spacious elegance and premium amenities.
-				</p>
-				<ul class="self-start ml-10 mt-5 list-disc">
-					<li class="mb-2">King-size bed with high-quality linens</li>
-					<li class="mb-2">Private bathroom with a bathtub and luxury toiletries</li>
-					<li class="mb-2">Smart TV, free high-speed Wi-Fi"</li>
-					<li class="mb-2">Separate living area for added comfort</li>
-					<li class="mb-2">
-						Air conditioning with personalized climate control
-					</li>
-				</ul>
+		<div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
+	</div>
+	<div class=" w-4/5 flex flex-row justify-center mt-20 pl-20">
+		<div class="w-[calc(25%+10rem)] h-screen flex flex-col justify-center">
+
+			<div class="transition-all duration-500 bg-center rounded-2xl h-1/2 w-full"
+				 style="background-image: url('@hoveredImage'); background-size: cover;">
 			</div>
-			<div class="w-full h-1/5 flex">
-				<div class="w-2/5 h-full flex">
-				@* 	<div class="flex -mt-0.5"> *@
-				@* 		<img src="/icons/person.png" style="width:40px" alt="Alternate Text" /> *@
-				@* 		<p class="-ml-4">Guest</p> *@
-				@* 	</div> *@
-				@* 	put here *@
-				@* </div> *@
-				@* <div class="w-1/5 h-full"> *@
-				@* 	<div class="flex"> *@
-				@* 		<img src="/icons/calendar.png" style="width:35px" alt="Alternate Text" /> *@
-				@* 		<p class="-ml-3">Check-In</p> *@
-				@* 	</div> *@
-				@* 	put here *@
-				@* </div> *@
-				@* <div class="w-1/5 h-full"> *@
-				@* 	<div class="flex"> *@
-				@* 		<img src="/icons/calendar.png" style="width:35px" alt="Alternate Text" /> *@
-				@* 		<p class="-ml-3">Check-Out</p> *@
-				@* 	</div> *@
-				@* 	put here *@
-					<CustomDatePicker Placeholder="Check-In Date" Value="checkInDate" Class="mx-2" />
-					<CustomDatePicker Placeholder="Check-Out Date" Value="checkOutDate" Class="mx-2" />
+			<div class="w-full flex h-40 justify-between -mb-20">
+				<div @onmouseover='()=> hoveredImage = "/suite/suite-1.jpg"'
+					 style="background-image: url('/suite/suite-1.jpg'); background-size: cover;"
+					 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+				</div>
+				<div @onmouseover='()=> hoveredImage = "/suite/suite-2.jpg"'
+					 style="background-image: url('/suite/suite-2.jpg'); background-size: cover;"
+					 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+				</div>
+				<div @onmouseover='()=> hoveredImage = "/suite/suite-3.jpg"'
+					 style="background-image: url('/suite/suite-3.jpg'); background-size: cover;"
+					 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
 				</div>
 			</div>
-			<NavLink href="/payment" class="self-start bg-primary hover:bg-primary/80 transition-all font-bold duration-300 cursor-pointer px-20 py-4 rounded-xl font-montserrat text-white text-lg">Book</NavLink>
+		</div>
+
+		<div class="w-1/2 h-screen flex justify-center font-montserrat pl-25 overflow-hidden">
+			<div class="w-full h-3/5 flex flex-col justify-start">
+				<div class="w-full">
+
+					<p class="self-start font-wittgenstein text-5xl font-extrabold underline underline-offset-40" style="text-decoration-thickness:1px">Suite Room&nbsp;&nbsp;</p>
+					<p class="self-start mt-12 text-[#0040A6]"><span class=" text-4xl font-bold">₱7,500</span> per night</p>
+					<p class="self-start mt-5">Our <b>Suite Room</b> provides a cozy and well-equipped space designed for comfort and convenience.</p>
+					<ul class="self-start ml-10 mt-5 list-disc">
+						<li class="mb-2">Cozy bed with fresh linens</li>
+						<li class="mb-2">Private bathroom with toiletries</li>
+						<li class="mb-2">Flat-screen TV and free Wi-Fi</li>
+						<li class="mb-2">Air conditioning</li>
+					</ul>
+				</div>
+				<div class="w-full h-1/5 flex">
+					<div class="w-2/5 h-full flex">
+						<CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="mx-2" Id="1" />
+						<CustomDatePicker Placeholder="Check-Out Date" @bind-Value="checkOutDate" Class="mx-2" Id="2" />
+					</div>
+				</div>
+				<button @onclick="GoTo" class="self-start bg-primary hover:bg-primary/80 transition-all font-bold duration-300 cursor-pointer px-10 py-4 rounded-[20px] font-montserrat text-white text-lg">Book Now</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -79,14 +87,31 @@
 @code {
 	private DateOnly? checkInDate;
 	private DateOnly? checkOutDate;
-    string hoveredImage = "suite-1.jpg";
+	string hoveredImage = "/suite/suite-1.jpg";
 	private void GoBack()
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
 		Navigation.NavigateTo("javascript:history.back()", true);
 	}
-	private void GoTo()
+
+	private async Task GoTo()
 	{
+		if (checkInDate == null || checkOutDate == null)
+		{
+			Console.WriteLine("null");
+			return;
+		}
+		if (checkInDate < DateOnly.FromDateTime(DateTime.Now))
+		{
+			Console.WriteLine("past");
+			return;
+		}
+		if (checkInDate > checkOutDate)
+		{
+			Console.WriteLine("invalid");
+			return;
+		}
+		await CheckIn.SetCheckInAsync(checkInDate, checkOutDate);
 		Navigation.NavigateTo("/payment");
 	}
 }

@@ -1,5 +1,5 @@
 ﻿@page "/staffs"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inject NavigationManager NavigationManager
 @inject StaffServices StaffService
 @inject Initialization init
@@ -10,7 +10,6 @@
 @using Oasis.Data.Models
 @using Microsoft.EntityFrameworkCore
 @using System.Drawing
-
 
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
@@ -24,7 +23,7 @@
                     @* <span class="w-full text-2xl -mt-5">staffs</span> *@
                 </p>
             </div>
-            <div class=" font-bold text-gray-800 font-montserrat w-full h-55 bg-white p-5 shadow-sm shadow-gray-500 rounded">
+            <div class=" font-bold text-gray-800 font-montserrat w-full h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Staff</p>
                 <div class="relative h-10">
 
@@ -140,7 +139,7 @@
 
                 <div class="flex justify-between items-center w-105 mt-5">
                     <CustomSelect @bind-Value="@newStaff.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" @key="newStaff.user_gender" />
-                    <CustomDatePicker @bind-Value="@newStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" />
+                    <CustomDatePicker @bind-Value="@newStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" Id="1"/>
                 </div>
                 <div class="flex justify-between items-center w-105 mt-5">
                     <CustomInput @bind-Value="newStaff.user_password" type="password" placeholder="Password" class="w-[45%]" />
@@ -175,7 +174,7 @@
 
                 <div class="flex justify-between items-center w-105 mt-5">
                     <CustomSelect @bind-Value="@editStaff.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" @key="editStaff.user_gender" />
-                    <CustomDatePicker @bind-Value="@editStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" />
+                    <CustomDatePicker @bind-Value="@editStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" Id="1" />
                 </div>
                 <button @onclick="EditCurrentStaff" class="cursor-pointer p-4 w-105 mt-10 bg-primary text-white text-lg rounded-md hover:bg-primary/80 active:bg-primary/90 active:border-primary hover:border-transparent hover:text-white transition-all duration-200"> EDIT STAFF </button>
                 <Icon Name="Close" @onclick="CloseEditStaffDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer"/>

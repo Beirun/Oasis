@@ -1,9 +1,188 @@
 ﻿@page "/payments/all"
-<div class="w-screen min-h-screen flex flex-col justify-start bg-background">
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@using Oasis.Library;
+@using Microsoft.EntityFrameworkCore;
+@inject NavigationManager NavigationManager
+@inject PaymentServices PaymentService
+<div class="w-screen min-h-screen flex flex-col justify-start bg-background font-montserrat">
     <Navbar />
+    <div class="w-[75%] flex flex-col justify-between items-center my-4">
+        <div class="w-full flex flex-row items-start">
+            <div class="font-bold text-gray-800 font-montserrat w-[35%] h-45 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <p class="text-2xl w-full">Total Income</p>
+                <p class="text-8xl ml-5 text-[#2563EB]"><span class="text-5xl ml-2">@(payments.Sum(p => p.payment_amount).ToString("N2")) <span class="text-sm">PHP</span></span></p>
+            </div>
+            <div class=" font-bold text-gray-800 font-montserrat w-full h-45 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <p class="text-2xl w-full">Income</p>
+            </div>
+        </div>
+        <div class="w-full flex justify-between">
+            <div class="flex">
 
+
+                <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
+                <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Payment"
+                class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+
+                @* <div class="flex flex-col"> *@
+                @*     <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'> *@
+                @*     </div> *@
+
+                @*     <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")"> *@
+                @*         @foreach (var position in staffPositions) *@
+                @*         { *@
+                @*             <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li> *@
+                @*         } *@
+                @*     </ul> *@
+
+                <div class="flex flex-col ">
+
+                    <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleDropdown'>
+                    </div>
+
+                    <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+
+                        <li @onclick="() => FilterByNewest()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Newest</li>
+                        <li @onclick="() => FilterByOldest()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Oldest</li>
+                        <li @onclick="() => FilterByLowestPayment()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Lowest Payment</li>
+                        <li @onclick="() => FilterByHighestPayment()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Highest Payment</li>
+
+                    </ul>
+                    <button @onclick="ToggleDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Sort" Size="30px" /> Sort</button>
+                </div>
+                @* </div> *@
+            </div>
+        </div>
+    </div>
+
+    <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
+    <div class="w-[75%] bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+        <table class="w-full text-sm rounded-2xl divide-y divide-gray-300">
+            <tr class="w-full text-[#6B7280] ">
+                <td class="h-10 pl-14">Guest</td>
+                <td class="h-10">Room</td>
+                <td class="h-10">Room Type</td>
+                <td class="h-10">Processed By</td>
+                <td class="h-10">Payment Date</td>
+                <td class="h-10">Amount</td>
+            </tr>
+            @foreach (var payment in filteredPayments)
+            {
+                <tr class="h-20 ">
+                    <td class="flex flex-row h-20 justify-center">
+                        <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                        <div class="flex flex-col justify-between w-full">
+                            <p class="w-full -mb-4 font-semibold">@payment.user_fname @payment.user_lname</p>
+                            <p class="w-full text-[#6B7280]">@payment.user_email</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="w-full">Room @payment.room_no</p>
+                    </td>
+                    <td>
+                        <p class="w-full">@payment.type_category</p>
+                    </td>
+                    <td>
+                        <p class="w-full">
+                            @(!string.IsNullOrEmpty(@payment.staff_fname) ? @payment.staff_fname + " " + @payment.staff_lname : "None")
+                        </p>
+                    </td>
+                    <td>
+                        <p class="w-full">@payment.payment_date</p>
+                    </td>
+                    <td>
+                        <p class="w-full">P@(payment.payment_amount.ToString("N2"))</p>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 </div>
 
 @code {
+    public List<Oasis.Data.Object.Payment> payments = new List<Oasis.Data.Object.Payment>();
+    public List<Oasis.Data.Object.Payment> filteredPayments = new List<Oasis.Data.Object.Payment>();
+    public bool IsDropdownOpen { get; set; } = false;
+    public string currentFilter { get; set; } = "";
+    public string _search = "";
+    private string Search
+    {
+        get => _search;
+        set
+        {
+            _search = value;
+            FilterBySearch(_search);
+        }
+    }    //OnInitializedAsync
+    protected override async Task OnInitializedAsync()
+    {
+        payments = await PaymentService.GetPayments();
+        filteredPayments = payments;
+        Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(payments));
+    }
+
+    private void ToggleDropdown()
+    {
+        IsDropdownOpen = !IsDropdownOpen;
+    }
+
+    //filter payments by newest via the payment_id
+    private void FilterByNewest()
+    {
+        filteredPayments = payments.OrderBy(p => p.payment_id).ToList();
+        currentFilter = "Newest";
+        ToggleDropdown();
+    }
+    //filter payments by oldest via the payment_id
+    private void FilterByOldest()
+    {
+        filteredPayments = payments.OrderByDescending(p => p.payment_id).ToList();
+        currentFilter = "Oldest";
+        ToggleDropdown();
+    }
+    //filter payments by lowest payment amount
+    private void FilterByLowestPayment()
+    {
+        filteredPayments = payments.OrderBy(p => p.payment_amount).ToList();
+        currentFilter = "Lowest Payment";
+        ToggleDropdown();
+    }
+    //filter payments by highest payment amount
+    private void FilterByHighestPayment()
+    {
+        filteredPayments = payments.OrderByDescending(p => p.payment_amount).ToList();
+        currentFilter = "Highest Payment";
+        ToggleDropdown();
+    }
+
+    //filter payments by search
+    private void FilterBySearch(string search)
+    {
+        if (string.IsNullOrEmpty(search.Trim()))
+        {
+            if (currentFilter == "Newest") filteredPayments = payments.OrderBy(p => p.payment_id).ToList();
+            else if (currentFilter == "Oldest") filteredPayments = payments.OrderByDescending(p => p.payment_id).ToList();
+            else if (currentFilter == "Lowest Payment") filteredPayments = payments.OrderBy(p => p.payment_amount).ToList();
+            else if (currentFilter == "Highest Payment") filteredPayments = payments.OrderByDescending(p => p.payment_amount).ToList();
+            else payments = payments.OrderBy(p => p.payment_id).ToList();
+        }
+        else if ("None".ToLower().Contains(search.ToLower()))
+        {
+            filteredPayments = payments.Where(p => String.IsNullOrEmpty(p.staff_fname)).ToList();
+        }
+        else
+        {
+            filteredPayments = payments.Where(p => 
+                p.payment_amount.ToString("N2").Contains(search) ||
+                p.type_category.ToLower().Contains(search.ToLower()) ||
+                String.Format($"Room {p.room_no.ToString()}").ToLower().Contains(search.ToLower()) ||
+                p.payment_date.ToString().ToLower().Contains(search.ToLower()) ||
+                String.Format($"{p.user_fname} {p.user_lname}").ToLower().Contains(search.ToLower()) ||
+                String.Format($"{p.staff_fname} {p.staff_lname}").ToLower().Contains(search.ToLower())
+            ).ToList();
+        }
+    }
+
 
 }

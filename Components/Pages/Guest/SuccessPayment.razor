@@ -1,0 +1,46 @@
+﻿@page "/payment/success"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@using Oasis.Components.Layout  
+@using Oasis.State
+@using System.Drawing;
+@using System.Drawing.Drawing2D;
+@using System.Drawing.Imaging;
+@using System.Drawing.Text;
+@using System.Text;
+@inject PaymentState payment
+
+<div class="w-full h-screen flex justify-center items-center">
+	<div class="w-1/3 h-4/5 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5">
+		<div>
+			Payment Successful
+		</div>
+		<div>
+			<p>Your Room: (room #)</p>
+			<p>Room Number: <span class="font-bold">@(roomNumber)</span></p>
+			<p>Amount: <span class="font-bold">P@(roomPrice)</span></p>
+		</div>
+	</div>
+</div>
+
+@code {
+	private string roomPrice { get; set; }
+	private string roomNumber {get; set; }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await payment.LoadPaymentAsync();
+			roomPrice = payment.roomPrice;
+			roomNumber = payment.roomNumber;
+			// roomType = CheckIn.roomType;
+			// checkInDate = CheckIn.checkInDate;
+			// checkOutDate = CheckIn.checkOutDate;
+			// roomTypeObj = await RoomService.getRoomType(roomType);
+			// roomPrice = Convert.ToString((roomTypeObj.type_price * (checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber))) + ".00";
+			// Console.WriteLine(roomPrice);
+			StateHasChanged();
+		}
+	}
+
+
+}

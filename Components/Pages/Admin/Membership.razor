@@ -1,6 +1,76 @@
 ﻿@page "/membership/all"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
+    <div class="w-[75%] flex flex-col justify-between items-center my-4">
+        <div class="w-full flex flex-row items-start">
+            <div class="font-bold text-gray-800 font-montserrat w-1/4 h-45 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <p class="text-lg w-full">Total Memberships Used</p>
+                <p class="text-8xl ml-5 text-[#2563EB]"><span class="text-2xl ml-2">members</span></p>
+            </div>
+            <div class=" font-bold text-gray-800 font-montserrat w-full h-45 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <p class="text-lg w-full">Weekly Discount Usage</p>
+            </div>
+        </div>
+        <div class="w-full flex justify-between">
+            <div class="flex justify-between">
+
+
+                <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
+                <input type="text" name="name" placeholder="Search Member..."
+                       class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+
+                @* <div class="flex flex-col"> *@
+                @*     <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'> *@
+                @*     </div> *@
+
+                @*     <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")"> *@
+                @*         @foreach (var position in staffPositions) *@
+                @*         { *@
+                @*             <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li> *@
+                @*         } *@
+                @*     </ul> *@
+                <button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
+                <button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-3 ml-10"> <Icon Name="swap_vert" Size="30px" /> Sort by</button>
+                @* </div> *@
+                
+            </div>
+            <button class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Member</button>
+
+        </div>
+    </div>
+
+    <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
+    <div class="w-[75%] bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+        <table class="w-full text-sm rounded-2xl">
+            <tr class="w-full text-[#6B7280]">
+                <td class="h-10">Guest</td>
+                <td class="h-10">Email</td>
+                <td class="h-10">Contact Number</td>
+                <td class="h-10">Membership Date</td>
+                <td class="h-10">Expiration Date</td>
+            </tr>
+            <tr class="h-20 border-b border-gray-300">
+                <td class="flex flex-row h-20 justify-center">
+                    <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                    <p class="w-full font-semibold">Name</p>
+                </td>
+                <td>
+                    <p class="w-full">guest@gmail.com</p>
+                </td>
+                <td>
+                    <p class="w-full">09112223333</p>
+                </td>
+                <td>
+                    <p class="w-full">startdate</p>
+                </td>
+                <td>
+                    <p class="w-full">enddate</p>
+                </td>
+            </tr>
+        </table>
+    </div>
 
 </div>
 @code {

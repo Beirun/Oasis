@@ -4,8 +4,11 @@ using System;
 
 using Sysinfocus.AspNetCore.Components;
 using Oasis.Data;
+using Oasis.State;
+
 
 using Oasis.Library;
+using Blazored.LocalStorage;
 var builder = WebApplication.CreateBuilder(args);
 
 //// Add services to the container.
@@ -29,10 +32,18 @@ builder.Services.AddRazorPages()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     });
 
-builder.Services.AddScoped<SignUpServices>();
+builder.Services.AddScoped<GuestServices>();
 builder.Services.AddScoped<SignInServices>();
 builder.Services.AddScoped<StaffServices>();
-builder.Services.AddSysinfocus(false);
+builder.Services.AddScoped<RoomServices>();
+builder.Services.AddScoped<PaymentServices>();
+builder.Services.AddScoped<ReservationServices>();
+
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<UserState>();
+builder.Services.AddScoped<CheckInState>();
+builder.Services.AddScoped<PaymentState>();
+ builder.Services.AddSysinfocus(false);
 
 
 

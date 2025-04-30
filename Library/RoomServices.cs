@@ -18,15 +18,23 @@ namespace Oasis.Library
         }
 
         public async Task setRoomStatus(int roomId, string status){
-            var room = await _context.Room.FindAsync(roomId);
+            var room = await _context.Room.FirstOrDefaultAsync(r => r.room_id == roomId);
             if (room != null){
                 room.room_status = status;
                 await _context.SaveChangesAsync();
             }
         }
-        
-        
 
+        public async Task<RoomType> getRoomType(string roomType) {
+            var roomTypeObj = await _context.RoomType.FirstOrDefaultAsync(r => r.type_category.ToLower() == roomType);
+            return roomTypeObj;
+        }
+
+        public async Task<Room> getRandomRoomFromType(string roomType)
+        {
+            var rooms = await _context.Room.Where(r => r.roomtype!.type_category.ToLower() == roomType && r.room_status == "Available").ToListAsync();
+            return rooms[new Random().Next(rooms.Count)];
+        }
         // public async Task<bool> checkEmail(string email)
         // {
         //     var user = await _context.User.FirstOrDefaultAsync(u => u.user_email == email);

@@ -1,6 +1,6 @@
 ﻿@page "/reservation/new"
 
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @using Oasis.Components.Layout
 
 <div class="w-screen min-h-screen">
