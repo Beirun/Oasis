@@ -139,7 +139,7 @@
 
                 <div class="flex justify-between items-center w-105 mt-5">
                     <CustomSelect @bind-Value="@newStaff.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" @key="newStaff.user_gender" />
-                    <CustomDatePicker @bind-Value="@newStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" />
+                    <CustomDatePicker @bind-Value="@newStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" Id="1"/>
                 </div>
                 <div class="flex justify-between items-center w-105 mt-5">
                     <CustomInput @bind-Value="newStaff.user_password" type="password" placeholder="Password" class="w-[45%]" />
@@ -174,7 +174,7 @@
 
                 <div class="flex justify-between items-center w-105 mt-5">
                     <CustomSelect @bind-Value="@editStaff.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" @key="editStaff.user_gender" />
-                    <CustomDatePicker @bind-Value="@editStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" />
+                    <CustomDatePicker @bind-Value="@editStaff.user_dob" placeholder="Date of Birth" class="w-[45%]" Id="1" />
                 </div>
                 <button @onclick="EditCurrentStaff" class="cursor-pointer p-4 w-105 mt-10 bg-primary text-white text-lg rounded-md hover:bg-primary/80 active:bg-primary/90 active:border-primary hover:border-transparent hover:text-white transition-all duration-200"> EDIT STAFF </button>
                 <Icon Name="Close" @onclick="CloseEditStaffDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer"/>
