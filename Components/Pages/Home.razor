@@ -1,5 +1,5 @@
 ﻿@page "/"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inject UserState userState
 @using Oasis.State;
 @using Oasis.Components.Layout

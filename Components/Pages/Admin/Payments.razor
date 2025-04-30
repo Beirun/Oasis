@@ -1,5 +1,5 @@
 ﻿@page "/payments/all"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @using Oasis.Library;
 @using Microsoft.EntityFrameworkCore;
 @inject NavigationManager NavigationManager

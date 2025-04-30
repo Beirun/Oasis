@@ -1,6 +1,6 @@
 ﻿@page "/signup"
 @inject GuestServices SignUpService
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @using Microsoft.EntityFrameworkCore
 @using Oasis.Library
 @using Oasis.Data.Models
