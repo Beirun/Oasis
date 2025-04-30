@@ -1,0 +1,27 @@
+﻿@inject NavigationManager NavigationManager
+
+<div class="bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
+    <div class="h-full w-1/2 flex justify-start items-center">
+        <div class="flex h-full justify-center items-center text-white">
+            <img src="logo_white.png" alt="Alternate Text" class="pb-2 h-10" />
+            <p class="ml-10 @GetNavLinkClass("/dashboard/receptionist")"><NavLink href="/dashboard/receptionist">Home</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/bookings")"><NavLink href="/dashboard/receptionist">Bookings</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/services")"><NavLink href="/dashboard/receptionist">Services</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/history")"><NavLink href="/dashboard/receptionist">History</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/services")"><NavLink href="/dashboard/receptionist">Services</NavLink></p>
+        </div>
+    </div>
+    <div class="h-full flex justify-center items-center text-white">
+        <Icon Name="notifications"  Size="30px" Color="White"/>
+        <img src="/female-receptionist.png" alt="Alternate Text" class="w-9" />
+    </div>
+</div>
+
+@code {
+    private string GetNavLinkClass(string route)
+    {
+        return NavigationManager.Uri.Contains(route)
+            ? "text-white-800  font-bold"  // Active style
+        : "text-white-700 hover:text-blue-500"; // Default style
+    }
+}
