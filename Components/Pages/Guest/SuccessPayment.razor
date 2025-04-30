@@ -2,6 +2,11 @@
 @rendermode InteractiveServer
 @using Oasis.Components.Layout  
 @using Oasis.State
+@using System.Drawing;
+@using System.Drawing.Drawing2D;
+@using System.Drawing.Imaging;
+@using System.Drawing.Text;
+@using System.Text;
 @inject PaymentState payment
 
 <div class="w-full h-screen flex justify-center items-center">
@@ -11,7 +16,7 @@
 		</div>
 		<div>
 			<p>Your Room: (room #)</p>
-            <p>Room Number: <span class="font-bold">@(roomNumber)</span></p>
+			<p>Room Number: <span class="font-bold">@(roomNumber)</span></p>
 			<p>Amount: <span class="font-bold">P@(roomPrice)</span></p>
 		</div>
 	</div>
@@ -26,7 +31,7 @@
 		{
 			await payment.LoadPaymentAsync();
 			roomPrice = payment.roomPrice;
-            roomNumber = payment.roomNumber;
+			roomNumber = payment.roomNumber;
 			// roomType = CheckIn.roomType;
 			// checkInDate = CheckIn.checkInDate;
 			// checkOutDate = CheckIn.checkOutDate;
@@ -36,5 +41,6 @@
 			StateHasChanged();
 		}
 	}
+
 
 }
