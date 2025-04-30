@@ -1,10 +1,9 @@
 ﻿@page "/bookings"
-<div class="w-full h-screen bg-[#F5F5F5] font-montserrat">
-
+<div class="w-full bg-[#F5F5F5] font-montserrat">
 	<GuestNavbar />
 	<div class="flex flex-col justify-between mt-30 px-60">
-		<p class="w-full font-bold text-2xl">My Booking</p>
-		<div class="w-full flex flex-row justify-center">
+		<p class="w-full font-bold text-2xl z-1	">My Booking</p>
+		<div class="w-full flex flex-row justify-center z-1">
 			<div class="w-2/3 h-100 rounded-2xl bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
 			<div class="w-1/3 h-100 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm">
 				<p class="w-full font-bold text-2xl">Suite Room</p>
@@ -31,7 +30,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="w-full bg-white rounded-2xl px-10 pb-10 mb-5  border border-gray-300 shadow-sm">
+		<div class="w-full bg-white rounded-2xl px-10 pb-10 mb-5  border border-gray-300 shadow-sm  z-1">
 			<div class="w-full h-20 flex flex-col justify-center"><p class="w-full font-bold text-2xl">History</p></div>
 			<table class="w-full">
 				<thead>
@@ -43,16 +42,24 @@
 						<td>Amount</td>
 					</tr>
 				</thead>
-				<tr class="text-center h-10 border-b border-gray-300">
-					<td>215</td>
-					<td>Suite</td>
-					<td>Check In</td>
-					<td>Check Out</td>
-					<td>Amount</td>
-				</tr>
+				@for (int i = 0; i < 5; i++)
+				{
+					<tr class="text-center h-15 border-b border-gray-300">
+						<td>215</td>
+						<td>Suite</td>
+						<td>Check In</td>
+						<td>Check Out</td>
+						<td>Amount</td>
+					</tr>
+				}
 			</table>
 		</div>
 	</div>
+
+	<div style="clip-path: polygon(0 0, 0 26%, 25% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+	<div style="clip-path: polygon(100% 0, 100% 26%, 75% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+	<div style="clip-path: polygon(0 74%, 0 100%, 26% 100%);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+	<div style="clip-path: polygon(100% 75%, 100% 100%, 75% 100%);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
 
 @code {
