@@ -1,7 +1,21 @@
 
+using ChartJs.Blazor.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using Oasis.Data;
 using Oasis.Data.Models;
+using static System.Net.Mime.MediaTypeNames;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 namespace Oasis.Library
 {
     public class PaymentServices
@@ -62,6 +76,51 @@ namespace Oasis.Library
             }
             return 0;
         }
-        
+
+        //private void getReceipt()
+        //{
+        //    String text = "PARKING RECEIPT";
+        //    int intWidth = 600;
+        //    int intHeight = 1000;
+
+        //    bmp = new Bitmap(intWidth, intHeight);
+        //    Graphics g = Graphics.FromImage(bmp);
+        //    g.Clear(Color.White);
+        //    g.SmoothingMode = SmoothingMode.HighQuality;
+        //    g.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+        //    Brush brush = new SolidBrush(Color.Black);
+        //    Font font = new Font("Cascadia Code", 50, FontStyle.Bold, GraphicsUnit.Pixel);
+        //    SizeF size = g.MeasureString(text, font);
+        //    Pen pen = new Pen(Color.Black, 4);
+        //    using (Image image = Image.FromFile("C:\\Users\\Beirun\\source\\repos\\ParkInParkOut\\ParkInParkOut\\Resources\\parknabaireceipt.png"))
+        //    {
+        //        g.DrawImage(image, new Point(image.Width / 2, 25));
+        //    }
+        //    g.DrawLine(pen, 25, 245 - size.Height, 575, 245 - size.Height);
+        //    g.DrawLine(pen, 25, 225 + size.Height, 575, 225 + size.Height);
+        //    g.DrawString(text, font, brush, (intWidth - size.Width) / 2, 210, StringFormat.GenericDefault);
+
+        //    font = new Font("Cascadia Code", 20, FontStyle.Regular, GraphicsUnit.Pixel);
+        //    g.DrawString("PARK IN TIME", font, brush, 25, 350, StringFormat.GenericDefault);
+        //    g.DrawString(parkInTime.ToString().ToUpper(), font, brush, getXPosition(g, parkInTime.ToString().ToUpper(), font), 350, StringFormat.GenericDefault);
+
+        //    g.DrawString("PARK OUT TIME", font, brush, 25, 410, StringFormat.GenericDefault);
+        //    g.DrawString(parkOutTime.ToString().ToUpper(), font, brush, getXPosition(g, parkOutTime.ToString().ToUpper(), font), 410, StringFormat.GenericDefault);
+
+        //    g.DrawString("PLATE NUMBER", font, brush, 25, 470, StringFormat.GenericDefault);
+        //    g.DrawString(plateNumber.ToUpper(), font, brush, getXPosition(g, plateNumber.ToUpper(), font), 470, StringFormat.GenericDefault);
+
+        //    g.DrawString("VEHICLE TYPE", font, brush, 25, 530, StringFormat.GenericDefault);
+        //    g.DrawString(vehicleType.ToUpper(), font, brush, getXPosition(g, vehicleType.ToUpper(), font), 530, StringFormat.GenericDefault);
+
+        //    g.DrawString("VEHICLE BRAND", font, brush, 25, 590, StringFormat.GenericDefault);
+        //    g.DrawString(vehicleBrand.ToUpper(), font, brush, getXPosition(g, vehicleBrand.ToUpper(), font), 590, StringFormat.GenericDefault);
+
+        //    g.DrawString("PARKING SLOT", font, brush, 25, 650, StringFormat.GenericDefault);
+        //    g.DrawString(parkingSlot.ToUpper(), font, brush, getXPosition(g, parkingSlot.ToUpper(), font), 650, StringFormat.GenericDefault);
+        //}
+
+
     }
 }
