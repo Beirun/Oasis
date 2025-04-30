@@ -1,6 +1,59 @@
 ﻿@page "/bookings"
-<GuestNavbar/>
+<div class="w-full h-screen bg-[#F5F5F5] font-montserrat">
 
+	<GuestNavbar />
+	<div class="flex flex-col justify-between mt-30 px-60">
+		<p class="w-full font-bold text-2xl">My Booking</p>
+		<div class="w-full flex flex-row justify-center">
+			<div class="w-2/3 h-100 rounded-2xl bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
+			<div class="w-1/3 h-100 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm">
+				<p class="w-full font-bold text-2xl">Suite Room</p>
+				<div class="w-full h-15 flex flex-row justify-between">
+					<p>Guest</p>
+					<p class="text-gray-400">(Guest Name)</p>
+				</div>
+				<div class="w-full h-15 flex flex-row justify-between">
+					<p>Check In</p>
+					<p class="text-gray-400">(Date)</p>
+				</div>
+				<div class="w-full h-15 flex flex-row justify-between">
+					<p>Check Out</p>
+					<p class="text-gray-400">(Date)</p>
+				</div>
+				<div class="w-full h-[1px] bg-gray-300"></div>
+				<div class="w-full h-15 flex flex-row justify-between">
+					<p>Total Amount</p>
+					<p class="text-[#0040A6]">(amount)</p>
+				</div>
+				<div class="w-full flex flex-col justify-center">
+					<button class="w-3/4 h-10 rounded-2xl bg-[#2563EB] text-white cursor-pointer">Extend</button>
+					<button class="text-[#8C96A6] cursor-pointer">Cancel</button>
+				</div>
+			</div>
+		</div>
+		<div class="w-full bg-white rounded-2xl px-10 pb-10 mb-5  border border-gray-300 shadow-sm">
+			<div class="w-full h-20 flex flex-col justify-center"><p class="w-full font-bold text-2xl">History</p></div>
+			<table class="w-full">
+				<thead>
+					<tr class="text-center text-[#6B7280] h-10 bg-gray-100">
+						<td>Room</td>
+						<td>Room Type</td>
+						<td>Check In</td>
+						<td>Check Out</td>
+						<td>Amount</td>
+					</tr>
+				</thead>
+				<tr class="text-center h-10 border-b border-gray-300">
+					<td>215</td>
+					<td>Suite</td>
+					<td>Check In</td>
+					<td>Check Out</td>
+					<td>Amount</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 
 @code {
 
