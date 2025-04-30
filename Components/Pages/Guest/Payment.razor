@@ -1,5 +1,5 @@
 ﻿@page "/payment"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inject NavigationManager Navigation
 @inject CheckInState CheckIn
 @inject PaymentState payment

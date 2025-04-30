@@ -1,5 +1,4 @@
-﻿@rendermode InteractiveServer
-@inject NavigationManager NavigationManager
+﻿@rendermode @(new InteractiveServerRenderMode(prerender: false))@inject NavigationManager NavigationManager
 @inject UserState UserState
 @using Oasis.State;
 

@@ -1,5 +1,5 @@
 ﻿@page "/book/standard"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @using Oasis.Components.Layout
 @using Oasis.Components.ui
 @using Oasis.State
