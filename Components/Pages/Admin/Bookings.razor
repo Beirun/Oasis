@@ -1,5 +1,5 @@
 ﻿@page "/bookings/all"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @using Oasis.Library;
 @using Oasis.Data.Object;
 @using Oasis.Data.Models;
