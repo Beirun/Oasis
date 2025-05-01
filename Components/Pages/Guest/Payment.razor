@@ -137,41 +137,49 @@
 		@* <div>@cardNumber</div> *@
 	</div>
 	<div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(confirmationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick="CloseConfirmationDialog">
-		<div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(75%+4rem)] z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(confirmationOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+		<div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-20 z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(confirmationOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
 			<Icon Name="Close" @onclick="CloseConfirmationDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
 
 			@*Header*@
-			<div class="w-full text-4xl pt-10 font-montserrat font-bold text-gray-800 justify-center items-center flex">
-				PAYMENT CONFIRMATION
+			<div class="w-full text-4xl p-10 text-gray-800 justify-center items-center flex border-b border-gray-300 font-bold">
+				Payment Details
+			</div>
+			<div class="w-full flex flex-col justify-center">
+				<p class="font-sm">Total Amount</p>
+				<p class="text-2xl font-bold text-primary">P@(FormatCurrency(roomPrice))</p>
 			</div>
 
 			@*Body*@
-			<div class="w-full flex flex-col justify-center items-center">
-				<div class="flex">
-					<p>User</p>
+			<div class="w-full flex flex-col justify-center items-center py-10">
+				<div class="w-full flex flex-row justify-between">
+					<p>Account Name</p>
 					<p>@(currentUser.user_fname + " " + currentUser.user_lname)</p>
 				</div>
 
-				<div class="flex">
+				<div class="w-full flex flex-row justify-between">
 					<p>Check In Date</p>
 					<p>@checkInDate</p>
 				</div>
-				<div class="flex">
+				<div class="w-full flex flex-row justify-between">
 					<p>Check Out Date</p>
 					<p>@checkOutDate</p>
 				</div>
-				<div class="flex">
-					<p>Price Amount</p>
-					<p>P@(FormatCurrency(roomPrice))</p>
+				<div class="w-full flex flex-row justify-between">
+					<p>Payment Method</p>
+					@if (card)
+					{
+						<p>Credit/Debit Card</p>
+					}else
+					{
+						<p>Digital Wallet</p>
+					}
 
 				</div>
-
 			</div>
 			<div class="w-full flex flex-row justify-between">
 				<button class="w-1/2 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer">Cancel</button>
 				<button @onclick="ConfirmPaymentClick" class="w-1/2 h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Confirm Payment</button>
 			</div>	
-
 
 		</div>
 	</div>
