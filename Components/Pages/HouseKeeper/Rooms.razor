@@ -1,0 +1,71 @@
+﻿@page "/housekeeper/rooms"
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <body class="bg-[#f2f2f2]">
+    <div class="relative mx-auto h-screen w-screen overflow-hidden bg-white">
+      <Navbar />
+
+      <div class="mx-auto mt-[80px] w-[1100px] rounded-xl bg-white px-10 py-10 shadow">
+        <div class="flex justify-between gap-6">
+          <!-- Standard Room Card -->
+          <div class="flex w-1/3 flex-col items-center rounded-lg bg-white shadow-md">
+            <img
+              src="https://placehold.co/320x200"
+              alt="Standard Room"
+              class="h-[300px] w-full rounded-t-lg object-cover"
+            />
+            <div class="p-6">
+              <div class="text-lg font-semibold">Standard</div>
+              <div class="text-sm text-[#6b7280]">
+                <div>Clean Rooms: 20</div>
+                <div>Uncleaned Rooms: 11</div>
+                <div>Rooms Being Cleaned: 15</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suite Room Card with Border -->
+          <div class="border-4 flex w-1/3 flex-col items-center rounded-lg border-[#2563eb] bg-white shadow-md">
+            <img
+              src="https://placehold.co/320x200"
+              alt="Suite Room"
+              class="h-[300px] w-full rounded-t-lg object-cover"
+            />
+            <div class="p-6">
+              <div class="text-lg font-semibold">Suite</div>
+              <div class="text-sm text-[#6b7280]">
+                <div>Clean Rooms: 20</div>
+                <div>Uncleaned Rooms: 11</div>
+                <div>Rooms Being Cleaned: 15</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deluxe Room Card -->
+          <div class="flex w-1/3 flex-col items-center rounded-lg bg-white shadow-md">
+            <img
+              src="https://placehold.co/320x200"
+              alt="Deluxe Room"
+              class="h-[300px] w-full rounded-t-lg object-cover"
+            />
+            <div class="p-6">
+              <div class="text-lg font-semibold text-[#6b7280]">Deluxe</div>
+              <div class="text-sm text-[#6b7280]">
+                <div>Clean Rooms: 20</div>
+                <div>Uncleaned Rooms: 11</div>
+                <div>Rooms Being Cleaned: 15</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 left-0 z-0 h-[120px] w-full">
+        <div class="relative h-full w-full">
+          <div class="absolute bottom-0 left-[-400px] h-[500px] w-[1100px] origin-bottom-left rotate-[30deg] bg-[#0047BB]"></div>
+          <div class="absolute right-[-400px] bottom-0 h-[400px] w-[900px] origin-bottom-right rotate-[-30deg] bg-[#0047BB]"></div>
+        </div>
+      </div>
+    </div>
+  </body>
