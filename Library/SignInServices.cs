@@ -73,5 +73,6 @@ namespace Oasis.Library
             var user = await _context.User.FirstOrDefaultAsync(u => u.user_email == email);
             return user;
         }
+        
     }
 }

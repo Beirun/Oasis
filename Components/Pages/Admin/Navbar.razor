@@ -1,4 +1,4 @@
-﻿@rendermode @(new InteractiveServerRenderMode(prerender: false))
+﻿@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject UserState UserState
 @using Oasis.State
@@ -25,7 +25,7 @@
 
             <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
 
-                <li @onclick='() => NavigationManager.NavigateTo("/profile")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Account Profile</li>
+                <li @onclick='() => NavigationManager.NavigateTo("/profile/admin")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Account Profile</li>
                 <li @onclick="() => Logout()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 cursor-pointer transition-all duration-200">Logout</li>
 
             </ul>
@@ -41,15 +41,17 @@
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await UserState.LoadUserAsync();
-
-        if (UserState.CurrentUser == null)
+        if (firstRender)
         {
-            NavigationManager.NavigateTo("/signin");
+            await UserState.LoadUserAsync();
+
+            if (UserState.CurrentUser == null)
+            {
+                NavigationManager.NavigateTo("/signin");
+            }
         }
-   
     }
     private void ToggleDropdown()
     {
