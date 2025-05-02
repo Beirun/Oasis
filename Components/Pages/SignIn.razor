@@ -20,7 +20,15 @@
 
             </div>
             <div class="flex flex-col gap-10 justify-center items-center w-100 my-15 h-10">
-                <button @onclick="LoginGuest" type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 transition-colors duration-300 cursor-pointer">Sign In</button>
+                <button @onclick="Login" type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 flex items-center justify-center transition-colors duration-300 cursor-pointer">
+                    @if(isSigningIn){
+                        <Icon Name="Progress_Activity" Size="20px" Color="white" Class="animate-spin" />
+                        <spane>Signing In</spane>
+                    }else
+                    {
+                        <spane>Sign In</spane>
+                    }
+                </button>
             </div>
             <div>
                 Don't have an account? <NavLink href="signup" class="text-primary transition-colors duration-200 hover:underline hover:text-primary/80 ">Sign Up Here!</NavLink>
@@ -35,6 +43,7 @@
 </div> 
 
 @code {
+    private bool isSigningIn = false;
     private string email = "";
     private string password = "";
     // private string sonnerTitle = "";
@@ -45,7 +54,12 @@
     //     sonnerMessage = message;
     //     showSonner = true;
     // }
+    private async Task Login()
+    {
+        isSigningIn = true;
+        await LoginGuest();
 
+    }
     private async Task LoginGuest()
     {
         KeyValuePair<bool, string> result = await SignInService.checkUser(email,password);
@@ -69,10 +83,12 @@
         if (!result.Key){
             // ShowSonner("Login Failed", result.Value);
             Console.WriteLine(result.Value);
+            isSigningIn = false;
             return;
         }
 
         await UserState.SetCurrentUserAsync(await SignInService.getUser(email));
+        isSigningIn = false;
         Navigation.NavigateTo("/dashboard/" + result.Value.ToLower());
     }
 

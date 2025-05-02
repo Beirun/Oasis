@@ -3,7 +3,7 @@
 @inject UserState UserState
 @using Oasis.State;
 
-<div class="bg-[#fafafa] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 top-0 absolute z-1">
+<div class="bg-[#fafafa] sticky w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 top-0  z-200">
     <div class="h-full w-1/2 flex justify-start items-center">
         <div class="flex h-full justify-center items-center">
             <img src="logo.png" alt="Alternate Text" class="pb-2 h-10" />
@@ -36,13 +36,16 @@
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await UserState.LoadUserAsync();
-
-        if (UserState.CurrentUser == null)
+        if (firstRender)
         {
-            NavigationManager.NavigateTo("/signin");
+            await UserState.LoadUserAsync();
+
+            if (UserState.CurrentUser == null)
+            {
+                NavigationManager.NavigateTo("/signin");
+            }
         }
     }
     private string GetNavLinkClass(string route)
