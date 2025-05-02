@@ -1,14 +1,16 @@
 ﻿@inject NavigationManager NavigationManager
 @using Oasis.State
 @inject UserState UserState
-
+@rendermode InteractiveServer
 <div class="bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
     <div class="h-full w-1/2 flex justify-start items-center">
-        <div class="flex h-full justify-center items-center"><img src="logo_white.png" alt="Alternate Text" class="pb-2 h-10" /></div>
-        <div class="ml-7.5 gap-10  flex justify-start items-center text-white">
-            <div class="mx-3"><NavLink href="/dashboard/receptionist" class="nav-link" activeClass="font-bold">Home</NavLink></div>
-            <div class="mx-3"><NavLink href="/receptionist/bookings" class="nav-link" activeClass="font-bold">Bookings</NavLink></div>
-            <div class="mx-3"><NavLink href="/dashboard/receptionist" class="nav-link" activeClass="font-bold">History</NavLink></div>
+        <div class="flex h-full justify-center items-center text-white">
+            <img src="logo_white.png" alt="Alternate Text" class="pb-2 h-10" />
+            <p class="ml-10 @GetNavLinkClass("/dashboard/receptionist")"><NavLink href="/dashboard/receptionist">Home</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/bookings")"><NavLink href="/dashboard/receptionist">Bookings</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/services")"><NavLink href="/dashboard/receptionist">Services</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/history")"><NavLink href="/dashboard/receptionist">History</NavLink></p>
+            <p class="ml-10 @GetNavLinkClass("/services")"><NavLink href="/dashboard/receptionist">Services</NavLink></p>
         </div>
     </div>
     <div class="h-full flex justify-center items-center">
@@ -58,5 +60,10 @@
         await UserState.ClearUserAsync();
         NavigationManager.NavigateTo("/signin");
     }
+    private string GetNavLinkClass(string route)
+    {
+        return NavigationManager.Uri.Contains(route)
+            ? "text-white-800  font-bold"  // Active style
+        : "text-white-700 hover:text-blue-500"; // Default style
+    }
 }
-
