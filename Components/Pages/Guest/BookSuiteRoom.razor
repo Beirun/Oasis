@@ -12,7 +12,7 @@
 		<Icon Name="Arrow_Back" />
 		<p class="text-xl -ml-3">Back</p>
 	</div>
-	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium z-1">
 		<div class="w-full flex flex-row justify-center">
 			<div class="w-1/8 flex flex-col justify-center -mr-5">
 				<div class="flex flex-row w-full">
@@ -36,7 +36,7 @@
 
 		<div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
 	</div>
-	<div class=" w-4/5 flex flex-row justify-center mt-20 pl-20">
+	<div class=" w-4/5 flex flex-row justify-center mt-20 pl-20 z-1">
 		<div class="w-[calc(25%+10rem)] h-screen flex flex-col justify-center">
 
 			<div class="transition-all duration-500 bg-center rounded-2xl h-1/2 w-full"
@@ -58,7 +58,7 @@
 			</div>
 		</div>
 
-		<div class="w-1/2 h-screen flex justify-center font-montserrat pl-25 overflow-hidden">
+		<div class="w-1/2 h-screen flex justify-center font-montserrat pl-25 overflow-hidden z-1">
 			<div class="w-full h-3/5 flex flex-col justify-start">
 				<div class="w-full">
 
@@ -82,6 +82,9 @@
 			</div>
 		</div>
 	</div>
+	
+	<div style="clip-path: polygon(40% 100%, 100% 70%, 100% 100%)" class="w-full h-full bg-[#2563EB] z-0 fixed top-0"></div>
+	<div style="clip-path: polygon(0 100%, 0 60%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
 
 @code {
