@@ -2,12 +2,14 @@
 @rendermode InteractiveServer
 
 <div class="w-screen h-screen flex flex-col bg-background font-montserrat">
-	<RecepNavBar/>
+	<Navbar/>
+
 	<div class="w-4/6 h-full flex  flex-col">
 		<div class="flex self-start mt-10">
 			<Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
 			<input type="text" name="name" placeholder="Search bookings"
 					class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-150 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+
 
 			<button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-5"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
 
