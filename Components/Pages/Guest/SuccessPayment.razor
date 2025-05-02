@@ -9,16 +9,40 @@
 @using System.Text;
 @inject PaymentState payment
 
-<div class="w-full h-screen flex justify-center items-center">
-	<div class="w-1/3 h-4/5 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5">
-		<div>
-			Payment Successful
+<div class="w-full h-screen flex justify-center items-center font-montserrat">
+	<div class="w-1/3 h-4/5 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-10">
+		<div class="w-25 h-25 rounded-full bg-[#0ED899] flex justify-center"><Icon Name="check" Color="white" Size="50px"></Icon></div>
+		<p class="text-2xl font-bold">Payment Successful</p>
+		<div class="w-full h-[1px] bg-gray-300"></div>
+		<p>Total Amount</p>
+		<p class="text-[#0040A6] text-4xl font-bold">(amount)</p>
+		<div class="w-full flex justify-between px-10">
+			<p class="text-gray-400">Room Type:</p>
+			<p>(room type)</p>
 		</div>
-		<div>
-			<p>Your Room: (room #)</p>
-			<p>Room Number: <span class="font-bold">@(roomNumber)</span></p>
-			<p>Amount: <span class="font-bold">P@(roomPrice)</span></p>
+		<div class="w-full flex justify-between px-10">
+			<p class="text-gray-400">Room Number:</p>
+			<p>@(roomNumber)</p>
 		</div>
+		<div class="w-full flex justify-between px-10">
+			<p class="text-gray-400">Account Name:</p>
+			<p>(account name)</p>
+		</div>
+		<div class="w-full flex justify-between px-10">
+			<p class="text-gray-400">Date:</p>
+			<p>(date)</p>
+		</div>
+		<div class="w-full flex justify-between px-10">
+			<p class="text-gray-400">Card Number:</p>
+			<p>(card number)</p>
+		</div>
+		<div class="w-full flex justify-between px-10">
+			<p class="text-gray-400">Payment Method:</p>
+			<p>(method)</p>
+		</div>
+		<button class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Download Receipt</button>
+		<button class="text-gray-500 cursor-pointer font-semibold">Back</button>
+
 	</div>
 </div>
 
