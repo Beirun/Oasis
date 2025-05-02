@@ -54,6 +54,28 @@ namespace Oasis.Library
             await _context.SaveChangesAsync();
             return true;
         }
-        
+        // Add this method to ReservationServices.cs
+        public async Task<List<GuestBooking>> GetReservationsByGuestId(int guestId)
+        {
+            var bookings = await _context.Reservation
+                .Include(r => r.room)
+                    .ThenInclude(room => room.roomtype)
+                .Include(r => r.payment)
+                .Where(r => r.guest_id == guestId && r.room != null && r.payment != null)
+                .Select(r => new GuestBooking
+                {
+                    rsv_id = r.rsv_id,
+                    room_no = r.room.room_no ?? 0,
+                    type_category = r.room.roomtype.type_category ?? string.Empty,
+                    rsv_checkin = r.rsv_checkin ?? default,
+                    rsv_checkout = r.rsv_checkout ?? default,
+                    rsv_status = r.rsv_status ?? string.Empty,
+                    payment_amount = r.payment.payment_amount ?? 0
+                })
+                .ToListAsync();
+
+            return bookings;
+        }
+
     }
 }
