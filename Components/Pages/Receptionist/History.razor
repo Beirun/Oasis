@@ -1,0 +1,47 @@
+﻿@page "/receptionist/history"
+
+
+<div class="w-screen h-screen flex flex-col bg-background font-montserrat">
+    <RecepNavBar />
+    <div class="w-4/6 h-4/5 bg-white flex flex-col rounded-2xl font-montserrat p-7 mt-10">
+        <div class="w-full flex flex-col">
+            <p class="text-2xl font-bold w-full">Booking History</p>
+        </div>
+        <div class="w-full  h-[1px] bg-gray-300"></div>
+        <div class="w-[100%] h-10 bg-[#E5E7EB] py-1.5 px-4  rounded-md">
+            <table class="w-full text-sm rounded-2xl ">
+                <tr class="w-full text-\[\#6B7280\] h-9 ">
+                    <td class="h-5 ">Guest</td>
+                    <td class="h-5">Room Type</td>
+                    <td class="h-5">Check In</td>
+                    <td class="h-5">Check Out</td>
+                    <td class="h-5">Status</td>
+                </tr>
+                <tr class=" h-10 border-b border-gray-300">
+                    <td class="flex h-10">
+                        <div class="w-10 h-8 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                        <p class="w-full">Guest</p>
+                    </td>
+                    <td>
+                        <p class="w-full">type</p>
+                    </td>
+                    <td>
+                        <p class="w-full">time in</p>
+                    </td>
+                    <td>
+                        <p class="w-full">time out</p>
+                    </td>
+                    <td>
+                        <div class="w-25 h-[25px] bg-primary flex justify-center p-2 rounded-full">
+                            <p class="text-white">status here</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

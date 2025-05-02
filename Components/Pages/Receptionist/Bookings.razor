@@ -1,10 +1,63 @@
 ﻿@page "/receptionist/bookings"
 
-<div class="w-screen h-screen flex flex-col justify-start bg-background font-montserrat">
-	<Navbar />
-	<div class="w-screen flex flex-row justify-center px-20 mt-100">
-		<p>Bookings</p>
+<div class="w-screen h-screen flex flex-col bg-background font-montserrat">
+	<RecepNavBar/>
+	<div class="w-4/6 h-full flex  flex-col">
+		<div class="flex self-start mt-10">
+			<Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
+			<input type="text" name="name" placeholder="Search bookings"
+					class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-150 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
 
+			<button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-5"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
+
+			<NavLink href="none"
+					 class="focus:outline-none ml-88 bg-primary/90 transition-all duration-300 shadow-sm border-b-2 border-gray-400 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-md font-semibold">
+				Add Booking
+			</NavLink>
+		</div>
+		<div class="w-full  h-[1px] bg-gray-300"></div>
+        <div class="w-full bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400">
+            <table class="w-full text-sm">
+                <tr class="w-full text-[#6B7280] border-b border-gray-300 pt-10">
+                    <td class="h-10">Guest</td>
+                    <td class="h-10">Room</td>
+                    <td class="h-10">Room Type</td>
+                    <td class="h-10">Check In</td>
+                    <td class="h-10">Check Out</td>
+                    <td class="h-10">Status</td>
+                </tr>
+
+                <tr class="w-full h-20 border-b border-gray-300">
+
+                <td class="w-full flex flex-row h-20 justify-center">
+                        <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                        <div class="flex flex-col justify-between w-full">
+                            <p class="w-full -mb-4 font-semibold">booking.user_fname booking.user_lname</p>
+                            <p class="w-full text-[#6B7280]">booking.user_email</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="w-full">123</p>
+                    </td>
+                    <td>
+                        <p class="w-full">standard</p>
+                    </td>
+                    <td>
+                        <p class="w-full">booking.rsv_checkin</p>
+                    </td>
+                    <td>
+                        <p class="w-full">booking.rsv_checkout</p>
+                    </td>
+                    <td>
+                        <div class="w-25 h-[25px] bg-primary flex justify-center p-2 rounded-full">
+                            <p class="text-white">booking.rsv_status</p>
+                        </div>
+                    </td>
+                 </tr>
+                
+
+            </table>
+        </div>
 	</div>
 </div>
 
