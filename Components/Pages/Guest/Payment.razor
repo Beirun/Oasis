@@ -18,7 +18,7 @@
 		<Icon Name="Arrow_Back" />
 		<p class="text-xl -ml-3">Back</p>
 	</div>
-	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+	<div class="w-full absolute top-15 flex flex-col justify-center text-white text-2xl font-montserrat font-medium z-1">
 		<div class="w-full flex flex-row justify-center">
 			<div class="w-1/8 flex flex-col justify-center -mr-5">
 				<div class="flex flex-row w-full">
@@ -44,7 +44,7 @@
 	</div>
 	<div class=" w-4/5 flex flex-row justify-center mt-30 pl-20">
 	</div>
-	<div class="w-1/3 h-160 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5">
+	<div class="w-1/3 h-160 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5 z-1 bg-white">
 		<div class="w-full h-10 mb-2">
 			<p class="text-3xl font-bold">Payment Details</p>
 			@* <p class="text-sm text-gray-400">Order #ORD-2025-0123</p> *@
@@ -181,8 +181,12 @@
 				<button @onclick="ConfirmPaymentClick" class="w-1/2 h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Confirm Payment</button>
 			</div>	
 
+
 		</div>
+
 	</div>
+	<div style="clip-path: polygon(40% 100%, 100% 70%, 100% 100%)" class="w-full h-full bg-[#2563EB] z-0 fixed top-0"></div>
+	<div style="clip-path: polygon(0 100%, 0 60%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
 
 @code {
