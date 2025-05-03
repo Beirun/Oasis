@@ -17,7 +17,34 @@
         </div>
     </div>
     <div class="h-full flex justify-center items-center">
-        <img src="icons/notification_bell.png" alt="Alternate Text" />
+        <div class="flex flex-col ">
+            <div class="inset-0 fixed z-20 " style="@(IsNotificationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleNotification'>
+            </div>
+            <div class="divide-y divide-gray-300 -ml-80 z-21 absolute mt-15 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsNotificationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                <div class="w-100 h-20 flex flex-row px-5">
+                    <div class="w-15 h-15 rounded-full bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
+                    <div class="flex flex-col justify-center h-15">
+                        <div class="flex -mb-2">
+                            <p class="font-bold text-md ">Name</p>
+                            <p class="text-[#111827]">content</p>
+                        </div>
+                        <p class="w-full -mt-2">time ago</p>
+                    </div>
+                </div>
+                <div class="w-100 h-20 flex flex-row px-5">
+                    <div class="w-15 h-15 rounded-full bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
+                    <div class="flex flex-col justify-center h-15">
+                        <div class="flex -mb-2">
+                            <p class="font-bold text-md ">Name</p>
+                            <p class="text-[#111827]">content</p>
+                        </div>
+                        <p class="w-full -mt-2">time ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <img @onclick="ToggleNotification" src="/icons/notification.png" alt="Notification" class="w-8 cursor-pointer" />
+        </div>
         <div class="flex flex-col ">
 
             <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleDropdown'>
@@ -33,7 +60,7 @@
             <div @onclick="ToggleDropdown"  class="w-[30px] h-[30px] rounded-full bg-[url('/clouds.png')] bg-cover"></div>
         </div>
         @* Welcome, Admin |<button class="cursor-pointer hover:bg-red-300/40 p-1 px-3 rounded-md transition-all duration-300"> *@
-            @* <NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1 " Color="black" /></NavLink> *@
+        @* <NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1 " Color="black" /></NavLink> *@
 
         @* </button> *@
     </div>
@@ -41,6 +68,7 @@
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
+    private bool IsNotificationOpen { get; set; } = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -56,6 +84,10 @@
     private void ToggleDropdown()
     {
         IsDropdownOpen = !IsDropdownOpen;
+    }
+    private void ToggleNotification()
+    {
+        IsNotificationOpen = !IsNotificationOpen;
     }
 
     private async Task Logout()
