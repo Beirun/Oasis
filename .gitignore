@@ -33,6 +33,8 @@ Migrations
 
 wwwroot/base.css
 bin/Debug/net8.0/
+wwwroot/app.output.css
+tailwind.extension.json
 
 
 # Visual Studo 2015 cache/options directory
