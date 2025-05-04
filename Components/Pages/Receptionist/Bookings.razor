@@ -1,4 +1,5 @@
 ﻿@page "/receptionist/bookings"
+@using Oasis.Components.ui
 @rendermode InteractiveServer
 
 <div class="w-screen h-screen flex flex-col bg-background font-montserrat">
@@ -55,13 +56,54 @@
                         </div>
                     </td>
                  </tr>
-                
-
             </table>
+        </div>
+
+        <div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(confirmationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick="CloseConfirmationDialog">
+            <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-20 z-55 flex w-2/5 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(confirmationOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+                <Icon Name="Close" @onclick="CloseConfirmationDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+
+                @*Header*@
+                <div class="w-full text-4xl p-10 text-gray-800 justify-center items-center flex border-b border-gray-300 font-bold">
+                    New Booking
+                </div>
+                @*body*@
+               <div class="flex h-full w-full -mt-10">
+                    <div class="flex flex-row h-full w-full">
+                        <div class="w-full h-4/5 bg-gray-300 rounded-xl " style="background-image: url('/standard/standard-3.jpg')">
+                        </div>
+                    </div>
+                    <div class="flex flex-row h-full w-full p-3">
+                        <div class="w-50% h-4/5">
+                            <CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="mx-2 mt-2" Id="1" />
+                            <CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="mx-2  mt-8" Id="1" />
+                            <CustomDatePicker Placeholder="Check-Out Date" @bind-Value="checkOutDate" Class="mx-2 mt-8" Id="2" />
+                                
+                            <p class="px-2 mt-4 text-2xl font-bold">Total</p>
+                            <p class="px-2  mb-8 text-3xl font-bold">P</p>
+
+                            <NavLink href="none"
+                                     class="focus:outline-none bg-primary/90 transition-all duration-300 mt-5   py-3 shadow-sm  hover:bg-primary/70 p-2 px-12 text-center text-white rounded-md text-md font-semibold">
+                                Add Booking
+                            </NavLink>
+                        </div>
+                    </div>
+               </div>
+             </div>
         </div>
 	</div>
 </div>
 
 @code {
+
+    private DateOnly? checkInDate;
+    private DateOnly? checkOutDate;
+private bool confirmationOpen = true;
+
+private void CloseConfirmationDialog()
+{
+    confirmationOpen = false;
+    StateHasChanged();
+}
 
 }
