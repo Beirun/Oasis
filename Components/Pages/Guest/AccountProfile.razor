@@ -2,7 +2,9 @@
 @rendermode InteractiveServer
 @using Oasis.State
 @inject AppState AppState
-    
+@using Oasis.Data.Models
+@using Oasis.Components.ui
+
 <div class="relative mx-auto h-screen w-screen overflow-hidden bg-[#F5F5F5] font-montserrat">
     <GuestNavbar />
 
@@ -13,45 +15,48 @@
                 <div class="h-50 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
                 @if (editProfile)
                 {
-                    <button @onclick="EditProfile" class="h-10 text-center text-red-500 font-semibold cursor-pointer">Cancel</button>
+                    <button @onclick='()=>EditProfile("cancel")' class="h-10 text-center text-red-500 font-semibold cursor-pointer">Cancel</button>
                 } else
                 {
-                    <button @onclick="EditProfile" class="w-3/4 h-10 bg-[#2563EB] text-center rounded-lg text-white font-semibold cursor-pointer">Edit Profile</button>
+                    <button @onclick='()=>EditProfile("edit")' class="w-3/4 h-10 bg-[#2563EB] text-center rounded-lg text-white font-semibold cursor-pointer">Edit Profile</button>
                 }
             </div>
-            
+
             <div class="w-2/3 h-full flex flex-col pt-12">
                 <p class="w-2/3 text-2xl font-bold">Basic Info</p>
                 <div class="w-2/3 ">
                     <table class="w-full">
                         <tr>
-                            <td class="w-1/3 h-10">Name</td>
+                            <td class="w-1/3 h-10">Firstname</td>
                             <td class="w-2/3 border-b">
                                 <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" 
-                                   value="Name" 
-                                   disabled="@(!editProfile)" />
+                                @bind="currentUser.user_fname"
+                                disabled="@(!editProfile)" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 h-10">Lastname</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" 
+                                @bind="currentUser.user_lname"
+                                disabled="@(!editProfile)" />
                             </td>
                         </tr>
                         <tr>
                             <td class="w-1/3  h-10 ">Date of Birth</td>
-                            <td class="w-2/3 border-b">
-                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")"
-                                    value="dob"
-                                    disabled="@(!editProfile)"  />
+                            <td class="w-2/3">
+                                <div class="@(editProfile ? "":"pointer-events-none")">
+
+                                    <CustomDatePicker @bind-Value="currentUser.user_dob" class="w-full cursor-pointer" Id="1" />
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="w-1/3 h-10">Gender</td>
                             <td class="w-2/3 border-b">
-                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="Female"
-                                       disabled="@(!editProfile)" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="w-1/3 h-10">Email</td>
-                            <td class="w-2/3 border-b">
-                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="email@gmail.com"
-                                       disabled="@(!editProfile)" />
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")"
+                                @bind="currentUser.user_gender"
+                                disabled="@(!editProfile)" />
                             </td>
                         </tr>
                     </table>
@@ -60,17 +65,27 @@
                 <div class="w-2/3 ">
                     <table class="w-full">
                         <tr>
-                            <td class="w-1/3 h-10">Username</td>
+                            <td class="w-1/3 h-10">Email</td>
                             <td class="w-2/3 border-b">
-                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="username"
-                                       disabled="@(!editProfile)" />
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")"
+                                @bind="currentUser.user_email"
+                                disabled="@(!editProfile)" />
                             </td>
                         </tr>
                         <tr>
                             <td class="w-1/3  h-10 ">Password</td>
-                            <td class="w-2/3 border-b">
-                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="password"
-                                       disabled="@(!editProfile)" />
+                            <td class="w-full border-b flex h-10">
+                                <input type="@(seePassword ? "text":"password")" class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")"
+                                @bind="currentUser.user_password"
+                                disabled="@(!editProfile)" />
+                                @if (seePassword)
+                                {
+                                    <Icon onclick="ToggleVisibility" Name="visibility" Size="20px" Color="@(editProfile ? "black":"gray")" />
+                                }
+                                else
+                                {
+                                    <Icon onclick="ToggleVisibility" Name="visibility_off" Size="20px" Color="@(editProfile ? "black":"gray")"  />
+                                }
                             </td>
                         </tr>
                     </table>
@@ -90,9 +105,48 @@
 
 @code{
     private bool editProfile = false;
+    private User currentUser = new User();
+    private User originalUser = new User();
+    private bool seePassword = false;
 
-    private void EditProfile()
+    private void EditProfile(string action)
     {
+        if (action == "cancel")
+        {
+            seePassword = false;
+            currentUser = new User
+                {
+                    user_fname = originalUser.user_fname,
+                    user_lname = originalUser.user_lname,
+                    user_dob = originalUser.user_dob,
+                    user_gender = originalUser.user_gender,
+                    user_email = originalUser.user_email,
+                    user_password = originalUser.user_password
+                };
+        }
         editProfile = !editProfile;
+        StateHasChanged();
+    }
+
+    private void ToggleVisibility()
+    {
+        if (editProfile)
+        {
+            seePassword = !seePassword;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUser = AppState.CurrentUser;
+        originalUser = new User
+            {
+                user_fname = AppState.CurrentUser.user_fname,
+                user_lname = AppState.CurrentUser.user_lname,
+                user_dob = AppState.CurrentUser.user_dob,
+                user_gender = AppState.CurrentUser.user_gender,
+                user_email = AppState.CurrentUser.user_email,
+                user_password = AppState.CurrentUser.user_password
+            };
     }
 }
