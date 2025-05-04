@@ -156,17 +156,15 @@
                     @if (selectedBooking.rsv_status == "Checked In")
                     {
                         <div class="grid grid-cols-2 gap-4 w-full">
-
                             <button @onclick='OpenExtendBookingDialog' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Extend</button>
-                            <button @onclick='checkOutBooking' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Check Out</button>
+                            <button @onclick='() => ShowConfirmationDialog("checkout", "Are you sure you want to check out this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Check Out</button>
                         </div>
                     }
-                    else if(selectedBooking.rsv_status == "Booked")
+                    else if (selectedBooking.rsv_status == "Booked")
                     {
                         <div class="grid grid-cols-2 gap-4 w-full">
-
-                            <button @onclick='cancelBooking' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel Booking</button>
-                            <button @onclick='checkInBooking' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Confirm Check-In</button>
+                            <button @onclick='() => ShowConfirmationDialog("cancel", "Are you sure you want to cancel this booking?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel Booking</button>
+                            <button @onclick='() => ShowConfirmationDialog("checkin", "Are you sure you want to check in this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Confirm Check-In</button>
                         </div>
                     }
                     else
@@ -681,13 +679,33 @@
         <Icon Name="Close" @onclick='CloseAddBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer"/>
     </div>
 </div>
+<!-- Confirmation Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsConfirmationDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseConfirmationDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-80 z-55 w-126 gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsConfirmationDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        <div class="w-full flex flex-col items-center">
+            <Icon Name="warning" Size="40px" Color="#4444EF" Class="mb-4" />
+            <p class="text-xl font-bold text-gray-800 mb-2">Confirm Action</p>
+            <p class="text-gray-600 text-center mb-6">@confirmationMessage</p>
 
+            <div class="flex gap-4 w-full">
+                <button @onclick='CloseConfirmationDialog' class="flex-1 h-12 text-gray-700 border-2 border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-400">
+                    Cancel
+                </button>
+                <button @onclick='ExecuteConfirmedAction' class="flex-1 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    private bool IsConfirmationDialogOpen = false;
+    private string confirmationMessage = "";
+    private string pendingAction = "";
     private bool IsExtendBookingDialogOpen = false;
     private int extendCurrentStep = 1;
     private DateOnly? newCheckOutDate;
-    private DateOnly? newCheckInDate;
     private decimal extendAdditionalAmount = 0;
     private bool IsBookingDialogOpen = false;
     private Booking selectedBooking = new Booking();
@@ -812,7 +830,7 @@
         }
     }
 
-    private async Task OpenBookingDialog(Booking booking)
+    private void OpenBookingDialog(Booking booking)
     {
         selectedBooking = booking;
         IsBookingDialogOpen = true;
@@ -824,33 +842,67 @@
     }
     private void OpenExtendBookingDialog()
     {
-        newCheckInDate = selectedBooking.rsv_checkin;
         extendCurrentStep = 1;
         IsExtendBookingDialogOpen = true;
         CalculateExtendAdditionalAmount();
     }
-    private async Task cancelBooking()
+    
+
+    private void ShowConfirmationDialog(string action, string message)
+    {
+        pendingAction = action;
+        confirmationMessage = message;
+        IsConfirmationDialogOpen = true;
+    }
+
+    private void CloseConfirmationDialog()
+    {
+        IsConfirmationDialogOpen = false;
+        pendingAction = "";
+        confirmationMessage = "";
+    }
+
+    private async Task ExecuteConfirmedAction()
+    {
+
+        switch (pendingAction)
+        {
+            case "cancel":
+                await CancelBookingConfirmed();
+                break;
+            case "checkin":
+                Console.WriteLine("checkin");
+                await CheckInBookingConfirmed();
+                break;
+            case "checkout":
+                await CheckOutBookingConfirmed();
+                break;
+        }
+        CloseConfirmationDialog();
+    }
+
+    private async Task CancelBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();
     }
-    private async Task checkInBooking()
+
+    private async Task CheckInBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked In");
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();
-
     }
-    private async Task checkOutBooking()
+
+    private async Task CheckOutBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked Out");
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();
-
     }
     private void CloseExtendBookingDialog()
     {

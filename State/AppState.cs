@@ -13,6 +13,7 @@ namespace Oasis.State
         public string? roomPrice { get; private set; }
         public string? roomNumber { get; private set; }
 
+
         // Event to notify components when state changes
         public event Action OnChange;
 

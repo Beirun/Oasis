@@ -73,8 +73,8 @@
 				</div>
 				<div class="w-full h-1/5 flex">
 					<div class="w-2/5 h-full flex">
-						<CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="mx-2" Id="1" />
-						<CustomDatePicker Placeholder="Check-Out Date" @bind-Value="checkOutDate" Class="mx-2" Id="2" />
+						<CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="mx-2" Id="1" MinDate="@DateOnly.FromDateTime(DateTime.Now)" />
+						<CustomDatePicker Placeholder="Check-Out Date" @bind-Value="checkOutDate" Class="mx-2" Id="2" MinDate="@(checkInDate != null ? checkInDate.Value.AddDays(1) : @DateOnly.FromDateTime(DateTime.Now).AddDays(1))" />
 					</div>
 				</div>
 				<button @onclick="GoTo" class="self-start bg-primary hover:bg-primary/80 transition-all font-bold duration-300 cursor-pointer px-10 py-4 rounded-[20px] font-montserrat text-white text-lg" >Book Now</button>
