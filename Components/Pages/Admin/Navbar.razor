@@ -69,8 +69,8 @@
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
-    protected override async Task OnInitializedAsync()
     private bool IsNotificationOpen { get; set; } = false;
+    protected override async Task OnInitializedAsync()
     {
 
         if (AppState.CurrentUser == null)
