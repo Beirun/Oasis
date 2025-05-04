@@ -11,5 +11,6 @@
         public DateOnly rsv_checkin { get; set; }
         public DateOnly rsv_checkout { get; set; }
         public string rsv_status { get; set; }
+        public double payment_amount { get; set; }
     }
 }

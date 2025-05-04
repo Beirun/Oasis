@@ -28,7 +28,7 @@ namespace Oasis.Library
             {
                 existingHouseKeeping.room_id = houseKeeping.room_id;
                 existingHouseKeeping.staff_id = houseKeeping.staff_id;
-                existingHouseKeeping.housekeeping_date = houseKeeping.housekeeping_date;
+                existingHouseKeeping.housekeeping_endtime = houseKeeping.housekeeping_endtime;
                 await _context.SaveChangesAsync();
             }
         }

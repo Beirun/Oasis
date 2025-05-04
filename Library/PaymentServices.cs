@@ -57,11 +57,13 @@ namespace Oasis.Library
             //return await _context.Payment.ToListAsync();
         }
 
-        public async Task<int> AddPayment(double amount, DateTime paymentDate)
+        public async Task<int> AddPayment(double amount, DateTime paymentDate, int staff_id)
         {
+            Console.WriteLine($"Amount: {amount}, Payment Date: {paymentDate}, Staff ID: {staff_id}");
             Payment payment = new Payment();
             payment.payment_amount = amount;
             payment.payment_date = paymentDate;
+            if(staff_id != 0) payment.staff_id = staff_id;
             _context.Payment.Add(payment);
             await _context.SaveChangesAsync();
             return payment.payment_id;

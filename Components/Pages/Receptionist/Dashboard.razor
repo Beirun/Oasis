@@ -1,11 +1,12 @@
 @page "/dashboard/receptionist"
 @rendermode InteractiveServer
-
+@using Oasis.State
+@inject AppState AppState
 
 <div class="bg-background  flex min-h-screen w-screen flex-col justify-start">
 
     @* Navbar *@
-    <RecepNavBar/>
+    <Navbar />
 
     @*Left Div*@
     <div class="w-7/8 flex justify-evenly items-stretch font-montserrat">
@@ -49,7 +50,7 @@
                             <p class="text-3xl w-full font-bold">-</p>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
                     <div class="w-2/5 h-50% ml-4">
@@ -63,7 +64,7 @@
                             <p class="text-3xl w-full font-bold">-</p>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="w-full h-370 bg-white flex flex-col rounded-2xl font-montserrat p-7">
@@ -73,7 +74,7 @@
                 <div class="w-full  h-[1px] bg-gray-300"></div>
                 <div class="w-full flex">
                     <input type="text" name="name" placeholder="Search Rooms..."
-                           class="  duration-250 bg-white focus:outline-none w-130 pl-3 text-sm p-2 px-4 rounded-md border border-gray-200 focus:border-gray-500" />
+                    class="  duration-250 bg-white focus:outline-none w-130 pl-3 text-sm p-2 px-4 rounded-md border border-gray-200 focus:border-gray-500" />
                     <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'></div>
                     <div class="h-full flex">
                         <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md  overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
@@ -113,7 +114,7 @@
                             </td>
                             <td>
                                 <p class="w-full">Guest</p>
-                             </td>
+                            </td>
                             <td>
                                 <p class="w-full">time in</p>
                             </td>
@@ -149,14 +150,14 @@
                         </div>
                         <div class="">
                             <NavLink href="/reservation/new/standard"
-                                        class="focus:outline-none bg-primary/90  transition-all duration-300 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-sm font-semibold">
-                                        Details
+                            class="focus:outline-none bg-primary/90  transition-all duration-300 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-sm font-semibold">
+                                Details
                             </NavLink>
                         </div>
                     </div>
                 </div>
 
-                
+
             </div>
         </div>
     </div>
@@ -166,6 +167,11 @@
 
 @code {
     private bool IsDropdownOpen = false;
+
+    //OnInitializedAsync
+    protected override async Task OnInitializedAsync()
+    {
+    }
     private void CloseDropdown()
     {
         IsDropdownOpen = false;

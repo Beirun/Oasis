@@ -2,6 +2,7 @@
 @inject NavigationManager NavigationManager
 @inject UserState UserState
 @using Oasis.State;
+@inject AppState AppState
 
 <div class="bg-[#fafafa] sticky w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 top-0  z-200">
     <div class="h-full w-1/2 flex justify-start items-center">
@@ -13,42 +14,62 @@
         </div>
     </div>
     <div class="h-full flex justify-center items-center">
-        <img src="/icons/notification.png" alt="Notification" class="w-8" />
-        Welcome, Guest |
-        @* <button class="cursor-pointer hover:bg-red-300/40 p-1 px-3 rounded-md transition-all duration-300">
-        <NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1 " Color="black" /></NavLink>
-        </button> *@
+        <div class="flex flex-col ">
+            <div class="inset-0 fixed z-20 " style="@(IsNotificationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleNotification'>
+            </div>
+            <div class="divide-y divide-gray-300 -ml-80 z-21 absolute mt-15 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsNotificationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                <div class="w-100 h-20 flex flex-row px-5">
+                    <div class="w-15 h-15 rounded-full bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
+                    <div class="flex flex-col justify-center h-15">
+                        <div class="flex -mb-2">
+                            <p class="font-bold text-md ">Name</p>
+                            <p class="text-[#111827]">content</p>
+                        </div>
+                        <p class="w-full -mt-2">time ago</p>
+                    </div>
+                </div>
+                <div class="w-100 h-20 flex flex-row px-5">
+                    <div class="w-15 h-15 rounded-full bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
+                    <div class="flex flex-col justify-center h-15">
+                        <div class="flex -mb-2">
+                            <p class="font-bold text-md ">Name</p>
+                            <p class="text-[#111827]">content</p>
+                        </div>
+                        <p class="w-full -mt-2">time ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <img @onclick="ToggleNotification" src="/icons/notification.png" alt="Notification" class="w-8 cursor-pointer" />
+        </div>
         <div class="flex flex-col ">
 
             <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleDropdown'>
             </div>
 
-            <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+            <ul class="divide-y divide-gray-300 z-21 absolute mt-15 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
 
                 <li @onclick='() => NavigationManager.NavigateTo("/profile/guest")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Account Profile</li>
                 <li @onclick="() => Logout()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 cursor-pointer transition-all duration-200">Logout</li>
 
             </ul>
             @* <button  class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Sort" Size="30px" /> Sort</button> *@
-            <img @onclick="ToggleDropdown" src="/female-receptionist.png" alt="Alternate Text" class="w-9" />
+            <img @onclick="ToggleDropdown" src="/female-receptionist.png" alt="Alternate Text" class="w-9 cursor-pointer" />
         </div>
     </div>
 </div>
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
+        if (AppState.CurrentUser == null)
         {
-            await UserState.LoadUserAsync();
-
-            if (UserState.CurrentUser == null)
-            {
-                NavigationManager.NavigateTo("/signin");
-            }
+            NavigationManager.NavigateTo("/signin");
         }
     }
+    private bool IsNotificationOpen { get; set; } = false;
+
     private string GetNavLinkClass(string route)
     {
         return NavigationManager.Uri.Contains(route)
@@ -61,8 +82,14 @@
         IsDropdownOpen = !IsDropdownOpen;
     }
 
+    private void ToggleNotification()
+    {
+        IsNotificationOpen = !IsNotificationOpen;
+    }
+
     private async Task Logout()
     {
+        AppState.ClearUser();
         await UserState.ClearUserAsync();
         NavigationManager.NavigateTo("/signin");
     }

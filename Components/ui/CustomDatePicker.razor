@@ -5,6 +5,8 @@
            @bind-value="Value"
            @bind-value:event="oninput"
            id=@("dateInput-"+Id)
+           min="@MinDate?.ToString("yyyy-MM-dd")"
+           max="@MaxDate?.ToString("yyyy-MM-dd")"
            @onchange="OnDateChanged"
            @onclick="ShowDatePicker"
            @onblur="() => IsFocused = false"
@@ -42,6 +44,8 @@
     [Parameter] public string? Class { get; set; } = "";
     [Parameter] public string? Placeholder { get; set; } = "";
     [Parameter] public DateOnly? Value { get; set; }
+    [Parameter] public DateOnly? MinDate { get; set; }
+    [Parameter] public DateOnly? MaxDate { get; set; }
     [Parameter] public EventCallback<DateOnly?> ValueChanged { get; set; }
     private bool IsFocused { get; set; } = false;
 

@@ -1,8 +1,9 @@
-﻿@page "/bookings"
+@page "/bookings"
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject ReservationServices ReservationService
 @inject UserState UserState
+@inject AppState AppState
 @using Oasis.State
 @using Oasis.Data.Object
 @using Oasis.Data.Models
@@ -20,42 +21,46 @@
 				<div class="w-2/3 h-100 rounded-2xl bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
 				<div class="w-1/3 h-100 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm">
 					<p class="w-full font-bold text-2xl">@(booking.type_category) Room</p>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Guest</p>
 						<p class="text-gray-400">@(currentUser.user_fname + " " + currentUser.user_lname)</p>
 					</div>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
+						<p>Room Number</p>
+						<p class="text-gray-400">@(booking.room_no)</p>
+					</div>
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Check In</p>
 						<p class="text-gray-400">@(booking.rsv_checkin)</p>
 					</div>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Check Out</p>
 						<p class="text-gray-400">@(booking.rsv_checkout)</p>
 					</div>
 					<div class="w-full h-[1px] bg-gray-300"></div>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Total Amount</p>
 						<p class="text-[#0040A6]">@(booking.payment_amount.ToString("N2"))</p>
 					</div>
 					<div class="w-full flex flex-col justify-center">
 						@if(booking.rsv_status == "Checked In")
 						{
-							<button class="w-3/4 h-10 rounded-2xl bg-[#2563EB] text-white cursor-pointer">Extend</button>
+							<button class="w-3/4 h-10 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Extend</button>
 
 						}
 						else
 						{
-							<button class="text-[#8C96A6] cursor-pointer">Cancel</button>
+							<button class="w-3/4 h-10 rounded-2xl  border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel</button>
 							
 						}
 					</div>
 				</div>
 			</div>
 		}
-		@if(guestBookings.Where(r => r.rsv_status == "Checked Out" || r.rsv_status == "Cancelled").Count() > 0)
-		{
-			
-		
+		@* @if(guestBookings.Where(r => r.rsv_status == "Checked Out" || r.rsv_status == "Cancelled").Count() > 0)
+		{ *@
+
+
 		<div class="w-full bg-white rounded-2xl px-10 pb-10 mb-5  border border-gray-300 shadow-sm  z-1">
 			<div class="w-full h-20 flex flex-col justify-center"><p class="w-full font-bold text-2xl">History</p></div>
 			<table class="w-full">
@@ -66,6 +71,7 @@
 						<td>Check In</td>
 						<td>Check Out</td>
 						<td>Amount</td>
+						<td>Action</td>
 					</tr>
 				</thead>
 				@for (int i = 0; i < 5; i++)
@@ -76,11 +82,46 @@
 						<td>Check In</td>
 						<td>Check Out</td>
 						<td>Amount</td>
+						<td>
+							<div class="w-full h-full flex justify-center">
+								<button @onclick="ReviewClicked" class="w-1/2 h-full bg-green-500 rounded-lg">Review</button>
+							</div>
+						</td>
 					</tr>
 				}
 			</table>
 		</div>
-		}
+		@* } *@
+		<div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(reviewOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" >
+			<div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-10 z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(reviewOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+				<Icon Name="Close" @onclick="CloseReviewDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+				<div class="w-full h-full flex flex-col justify-center">
+					<p class="text-2xl font-bold">Submit Review</p>
+					<div class="flex flex-col gap-2">
+						<div class="flex gap-1">
+							<button class="focus:outline-none" @onclick="() => SetRating(1)">
+								<span class="text-3xl @(currentRating >= 1 ? "text-yellow-300":"text-gray-300")">★</span>
+							</button>
+							<button class="focus:outline-none" @onclick="() => SetRating(2)">
+								<span class="text-3xl @(currentRating >= 2 ? "text-yellow-300":"text-gray-300")">★</span>
+							</button>
+							<button class="focus:outline-none" @onclick="() => SetRating(3)">
+								<span class="text-3xl @(currentRating >= 3 ? "text-yellow-300":"text-gray-300")">★</span>
+							</button>
+							<button class="focus:outline-none" @onclick="() => SetRating(4)">
+								<span class="text-3xl @(currentRating >= 4 ? "text-yellow-300":"text-gray-300")">★</span>
+							</button>
+							<button class="focus:outline-none" @onclick="() => SetRating(5)">
+								<span class="text-3xl @(currentRating >= 5 ? "text-yellow-300":"text-gray-300")">★</span>
+							</button>
+						</div>
+						<p class="text-sm text-gray-500">@currentRating out of 5</p>
+					</div>
+					<textarea class="w-full h-1/2 bg-gray-100 border border-gray-300 p-3 focus:outline-none" placeholder="Write your review..."></textarea>
+					<button @onclick="SubmitReview" class="w-full h-15 rounded-lg bg-primary text-white">Submit</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div style="clip-path: polygon(0 0, 0 26%, 25% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
@@ -90,25 +131,57 @@
 </div>
 
 @code {
-	private List<GuestBooking> guestBookings = new List<GuestBooking>();
 	private User currentUser = new User();
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+
+	private bool reviewOpen = false;
+	private int currentRating = 0;
+	private string reviewText = string.Empty;
+	private List<GuestBooking> guestBookings = new List<GuestBooking>();
+	protected override async Task OnInitializedAsync()
 	{
-		if (firstRender)
-		{
-			await UserState.LoadUserAsync();
-			if (UserState.CurrentUser == null)
-            {
-                NavigationManager.NavigateTo("/signin");
-            }
-            else
-            {
-                currentUser = UserState.CurrentUser;
-                guestBookings = await ReservationService.GetReservationsByGuestId(currentUser.user_id);
-				Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(guestBookings));
-            }
-			StateHasChanged();
-		}
+		currentUser = AppState.CurrentUser;
+		guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
 	}
 
+	private void SetRating(int rating)
+	{
+		currentRating = rating;
+		StateHasChanged();
+		Console.WriteLine(currentRating);
+	}
+
+	private void SubmitReview()
+	{
+		currentRating = 0;
+		CloseReviewDialog();
+	}
+
+	// protected override async Task OnAfterRenderAsync(bool firstRender)
+	// {
+	// 	if (firstRender)
+	// 	{
+	// 		await UserState.LoadUserAsync();
+	// 		if (UserState.CurrentUser == null)
+ //            {
+ //                NavigationManager.NavigateTo("/signin");
+ //            }
+ //            else
+ //            {
+ //                currentUser = UserState.CurrentUser;
+ //                guestBookings = await ReservationService.GetReservationsByGuestId(currentUser.user_id);
+	// 			Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(guestBookings));
+ //            }
+	// 		StateHasChanged();
+	// 	}
+	// }
+
+	private void ReviewClicked()
+	{
+		reviewOpen = true;
+	}
+
+	private void CloseReviewDialog()
+	{
+		reviewOpen = false;
+	}
 }

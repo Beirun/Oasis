@@ -6,7 +6,8 @@
 @using Oasis.Data.Object
 @using Oasis.Data.Models
 @using Microsoft.EntityFrameworkCore
-
+@using Oasis.State
+@inject NavigationManager NavigationManager
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
     <div class="w-4/5 flex justify-evenly items-stretch font-montserrat">
@@ -126,4 +127,8 @@
 @code {
     // private int totalGuests = 
 
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
 }

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject UserState userState
+@inject AppState appState
 @using Oasis.State;
 @using Oasis.Components.Layout
 @inject IJSRuntime JSRuntime
@@ -247,8 +248,16 @@
 </div>
 
 @code {
-    
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            appState.SetCurrentUser(await userState.LoadUserAsync());
+            appState.SetCurrentUserType(await userState.LoadUserTypeAsync());
+            StateHasChanged();
+        }
+    }
     private async Task ScrollToSection(string id)
     {
         await JSRuntime.InvokeVoidAsync("scrollToSection", id);

@@ -1,86 +1,98 @@
-﻿@page "/profile/guest"
+@page "/profile/guest"
 @rendermode InteractiveServer
-    <div class="relative mx-auto h-screen w-screen overflow-hidden bg-white">
-        <Navbar />
+@using Oasis.State
+@inject AppState AppState
+    
+<div class="relative mx-auto h-screen w-screen overflow-hidden bg-[#F5F5F5] font-montserrat">
+    <GuestNavbar />
 
-        <div class="mx-auto mt-[80px] w-[980px] rounded-xl bg-white px-10 py-10 shadow">
-            <div class="flex">
-                <div class="flex w-1/3 flex-col items-center">
-                    <div class="mb-6 text-2xl font-bold">Account Settings</div>
-                    <img src="https://placehold.co/160x160"
-                         class="mb-6 h-[160px] w-[160px] rounded-full object-cover" />
-                    <div class="flex w-full flex-col items-center">
-                        <div class="mb-2 cursor-pointer rounded-full bg-[#2563eb] px-4 py-2 text-sm text-white">
-                            Upload Profile Picture
-                        </div>
-                        <div class="cursor-pointer text-sm text-[#e11d48]">Remove</div>
-                    </div>
-                </div>
-
-                <div class="w-2/3 pl-10">
-                    <div class="mb-4 text-lg font-semibold">Basic Info</div>
-                    <div class="mb-6 rounded-md border border-[#e5e7eb]">
-                        <div class="flex items-center justify-between border-b border-[#e5e7eb] px-4 py-3">
-                            <div class="text-sm text-[#4b5563]">Name</div>
-                            <div class="flex items-center space-x-2">
-                                <div class="text-sm text-[#6b7280]">Inday Badieday</div>
-                                <i class="fa-solid fa-pen cursor-pointer text-xs text-[#6b7280]"></i>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between border-b border-[#e5e7eb] px-4 py-3">
-                            <div class="text-sm text-[#4b5563]">Date of Birth</div>
-                            <div class="flex items-center space-x-2">
-                                <div class="text-sm text-[#6b7280]">November 5, 1999</div>
-                                <i class="fa-solid fa-pen cursor-pointer text-xs text-[#6b7280]"></i>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between border-b border-[#e5e7eb] px-4 py-3">
-                            <div class="text-sm text-[#4b5563]">Gender</div>
-                            <div class="flex items-center space-x-2">
-                                <div class="text-sm text-[#6b7280]">Female</div>
-                                <i class="fa-solid fa-pen cursor-pointer text-xs text-[#6b7280]"></i>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between px-4 py-3">
-                            <div class="text-sm text-[#4b5563]">Email</div>
-                            <div class="flex items-center space-x-2">
-                                <div class="text-sm text-[#6b7280]">badie@gmail.com</div>
-                                <i class="fa-solid fa-pen cursor-pointer text-xs text-[#6b7280]"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-4 text-lg font-semibold">Account Info</div>
-                    <div class="mb-6 rounded-md border border-[#e5e7eb]">
-                        <div class="flex items-center justify-between border-b border-[#e5e7eb] px-4 py-3">
-                            <div class="text-sm text-[#4b5563]">Username</div>
-                            <div class="flex items-center space-x-2">
-                                <div class="text-sm text-[#6b7280]">radadihaBadie</div>
-                                <i class="fa-solid fa-pen cursor-pointer text-xs text-[#6b7280]"></i>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between px-4 py-3">
-                            <div class="text-sm text-[#4b5563]">Password</div>
-                            <div class="flex items-center space-x-2">
-                                <div class="text-sm text-[#6b7280]">**************</div>
-                                <i class="fa-solid fa-pen cursor-pointer text-xs text-[#6b7280]"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-start">
-                        <div class="cursor-pointer rounded-md bg-[#2563eb] px-6 py-2 text-sm font-medium text-white">
-                            Save
-                        </div>
-                    </div>
-                </div>
+    <div class="w-full h-9/10 flex justify-center">
+        <div class="w-3/5 h-3/4 bg-white shadow z-1 rounded-lg flex flex-row">
+            <div class="w-1/3 h-full flex flex-col pt-12 pl-20">
+                <p class="text-2xl font-bold">Account Settings</p>
+                <div class="h-50 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                @if (editProfile)
+                {
+                    <button @onclick="EditProfile" class="h-10 text-center text-red-500 font-semibold cursor-pointer">Cancel</button>
+                } else
+                {
+                    <button @onclick="EditProfile" class="w-3/4 h-10 bg-[#2563EB] text-center rounded-lg text-white font-semibold cursor-pointer">Edit Profile</button>
+                }
             </div>
-        </div>
-
-        <div class="absolute bottom-0 left-0 h-[120px] w-full bg-white">
-            <div class="relative h-full w-full">
-                <div class="absolute bottom-0 left-[-400px] h-[500px] w-[1000px] origin-bottom-left rotate-[30deg] bg-[#0047BB]"></div>
-                <div class="absolute right-[-400px] bottom-0 h-[400px] w-[900px] origin-bottom-right rotate-[-30deg] bg-[#0047BB]"></div>
+            
+            <div class="w-2/3 h-full flex flex-col pt-12">
+                <p class="w-2/3 text-2xl font-bold">Basic Info</p>
+                <div class="w-2/3 ">
+                    <table class="w-full">
+                        <tr>
+                            <td class="w-1/3 h-10">Name</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" 
+                                   value="Name" 
+                                   disabled="@(!editProfile)" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3  h-10 ">Date of Birth</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")"
+                                    value="dob"
+                                    disabled="@(!editProfile)"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 h-10">Gender</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="Female"
+                                       disabled="@(!editProfile)" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 h-10">Email</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="email@gmail.com"
+                                       disabled="@(!editProfile)" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <p class="w-2/3 text-2xl font-bold mt-5">Account Info</p>
+                <div class="w-2/3 ">
+                    <table class="w-full">
+                        <tr>
+                            <td class="w-1/3 h-10">Username</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="username"
+                                       disabled="@(!editProfile)" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3  h-10 ">Password</td>
+                            <td class="w-2/3 border-b">
+                                <input class="w-full focus:outline-none border-none @(editProfile ? "text-gray-800" : "text-gray-400")" value="password"
+                                       disabled="@(!editProfile)" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                @if (editProfile)
+                {
+                    <div class="w-3/4 px-5">
+                        <button class="w-1/4 h-10 bg-[#2563EB] mt-5 text-center rounded-lg text-white font-semibold cursor-pointer">Save</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
+    <div style="clip-path: polygon(40% 100%, 100% 70%, 100% 100%)" class="w-full h-full bg-[#2563EB] z-0 fixed top-0"></div>
+    <div style="clip-path: polygon(0 100%, 0 60%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+</div>
+
+@code{
+    private bool editProfile = false;
+
+    private void EditProfile()
+    {
+        editProfile = !editProfile;
+    }
+}

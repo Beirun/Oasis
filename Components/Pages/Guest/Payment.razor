@@ -1,14 +1,15 @@
 ﻿@page "/payment"
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
-@inject CheckInState CheckIn
-@inject PaymentState payment
 @inject UserState user
 @inject ReservationServices ReservationService
 @inject PaymentServices PaymentService
 @inject RoomServices RoomService;
+@inject AmenityServices AmenityService
+@inject AppState AppState
 @using Oasis.State;
 @using Oasis.Data.Models;
+@using Oasis.Data.Object;
 @using Oasis.Library;
 @using System.Text;
 
@@ -44,6 +45,37 @@
 	</div>
 	<div class=" w-4/5 flex flex-row justify-center mt-30 pl-20">
 	</div>
+	<div class="flex w-full justify-center">
+
+	<div class="w-1/3 h-160 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5 z-1 bg-white">
+		<div class="flex flex-col gap-5 h-full w-full pb-8">
+
+			<div class="w-full h-full flex flex-col px-1 -space-y-1">
+				<p class="w-full text-2xl font-bold text-gray-800 border-b border-gray-600 h-14">Cost Breakdown</p>
+				<div class="w-full h-full flex flex-col">
+					@foreach (var amenity in amenities)
+					{
+						<div class="w-full flex flex-row justify-between">
+							<p class="text-sm text-gray-600">@amenity.amenity_name</p>
+							<p class="text-sm text-gray-600"> @string.Format("{0:N2}", amenity.amenity_price)</p>
+						</div>
+					}
+				</div>
+				<div class="w-full flex flex-row justify-between border-t pt-2 border-gray-400">
+					<p class="text-sm text-gray-600">Total Amenities Cost</p>
+					<p class="text-sm text-gray-600">@CalculateAmenityPrice().ToString("N2")</p>
+				</div>
+				<div class="w-full flex flex-row justify-between border-b pb-2 border-gray-400">
+					<p class="text-sm text-gray-600">Cost per Night (@roomType | @(checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber) night@((checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber) > 1 ? "s" : ""))</p>
+					<p class="text-sm text-gray-600">@CalculateTotalPrice().ToString("N2")</p>
+				</div>
+			</div>
+			<div class="w-full  px-1 flex flex-row justify-between">
+				<p class="text-2xl font-semibold text-gray-700">Total Amount</p>
+					<p class="text-2xl font-bold text-primary">Php @((CalculateTotalPrice() + CalculateAmenityPrice()).ToString("N2"))</p>
+			</div>
+		</div>
+		</div>
 	<div class="w-1/3 h-160 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-5 z-1 bg-white">
 		<div class="w-full h-10 mb-2">
 			<p class="text-3xl font-bold">Payment Details</p>
@@ -70,18 +102,19 @@
 				</div>
 			</div>
 		</div>
-		<p class="w-full -mb-3">Card Number</p>
-		<div class="w-full h-12 flex flex-row justify-between border-2 border-gray-200 px-2 rounded-lg">
-			<input @bind="cardNumber" 
-			@bind:event="oninput"
-			@onkeydown="HandleCardNumberKeyDown"
-			maxlength="19" 
-			type="text"
-			inputmode="numeric"
-			placeholder="1234 5678 9012 3456"
-			class="@(card ? "w-5/6":"w-full") h-full focus-visible:outline-none" />
-			@if (card)
-			{
+		@if (card)
+		{
+			<p class="w-full -mb-3">Card Number</p>
+			<div class="w-full h-12 flex flex-row justify-between border-2 border-gray-200 px-2 rounded-lg">
+				<input @bind="cardNumber" 
+				@bind:event="oninput"
+				@onkeydown="HandleCardNumberKeyDown"
+				maxlength="19" 
+				type="text"
+				inputmode="numeric"
+				placeholder="1234 5678 9012 3456"
+				class="@(card ? "w-5/6":"w-full") h-full focus-visible:outline-none" />
+
 				<div class=" flex flex-row ">
 					@if (cardNumber.Length > 0 && cardNumber[0] == '4')
 					{
@@ -97,8 +130,21 @@
 						<img src="icons/mastercard.png" alt="mastercard" />
 					}
 				</div>
-			}
-		</div>
+			</div>
+		}
+		else
+		{
+			<p class="w-full -mb-3">Mobile Number</p>
+			<div class="w-full h-12 flex flex-row justify-between border-2 border-gray-200 px-2 rounded-lg">
+				<input @bind:event="oninput" @onkeydown="HandleMobileNumberKeyDown" @bind="mobileNumber"
+				maxlength="19"
+				type="text"
+				inputmode="numeric"
+				placeholder="0912 345 6789"
+				class="w-full h-full focus-visible:outline-none" />
+
+			</div>
+		}
 		<div class="w-full h-25  flex flex-row">
 			<div class="w-1/2 h-full flex flex-col justify-center">
 				<p class="w-full -mb-3 @(digital_wallet ? "text-gray-400": "")">Expiry Date</p>
@@ -125,7 +171,7 @@
 				disabled="@isDisabled" />
 			</div>
 		</div>
-		<p class="w-full -mb-3">Cardholder Name</p>
+		<p class="w-full -mb-3">@(card ? "Card Holder Name" : "Account Name") </p>
 		<input @oninput="CardholderNameChanged" type="text" name="name" placeholder="John Doe" class="w-full  h-12  focus-visible:outline-none border-2 border-gray-200 px-2 rounded-lg" />
 		<button @onclick="PaymentClicked" class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">
 			<p>Pay P@(FormatCurrency(roomPrice))</p>
@@ -135,6 +181,7 @@
 			<p>Your payment information is secure</p>
 		</div>
 		@* <div>@cardNumber</div> *@
+	</div>
 	</div>
 	<div class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(confirmationOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick="CloseConfirmationDialog">
 		<div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-20 z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(confirmationOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
@@ -190,6 +237,8 @@
 </div>
 
 @code {
+	private List<RoomAmenity> amenities = new List<RoomAmenity>();
+
 	private User currentUser = new User();
 	private Room room = new Room();
 	private DateOnly? checkInDate { get; set; }
@@ -204,6 +253,8 @@
 	private string _cardNumber = "";
 	private string _expiryDate = "";
 	private string cardholder_name = "";
+	private string _mobileNumber = "";
+
 	private bool isLoaded = false;
 	private string _cvv = "";
 	private string cvv
@@ -268,26 +319,66 @@
 		}
 	}
 
-
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+	private string mobileNumber
 	{
-		if (firstRender)
+		get => _mobileNumber;
+		set
 		{
-			await user.LoadUserAsync();
-			await CheckIn.LoadCheckInAsync();
-			currentUser = user.CurrentUser;
-			roomType = CheckIn.roomType;
-			checkInDate = CheckIn.checkInDate;
-			checkOutDate = CheckIn.checkOutDate;
-			roomTypeObj = await RoomService.getRoomType(roomType);
-			roomPrice = Convert.ToString((roomTypeObj.type_price * (checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber)))+".00";
-			Console.WriteLine(roomPrice);
-			await payment.SetRoomPriceAsync(roomPrice);
-			StateHasChanged();
+			// Remove all non-digits
+			var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+
+			// Limit to 16 digits
+			if (digitsOnly.Length > 11)
+			{
+				digitsOnly = digitsOnly[..11];
+			}
+
+			// Format with spaces every 4 digits
+			var formatted = new StringBuilder();
+			for (int i = 0; i < digitsOnly.Length; i++)
+			{
+				if (i > 0 && (i == 4 || i == 7))
+				{
+					formatted.Append(' ');
+				}
+				formatted.Append(digitsOnly[i]);
+			}
+
+			_mobileNumber = formatted.ToString();
 		}
 	}
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.CurrentUser == null)
+		{
+			Navigation.NavigateTo("/signin");
+		}
+		currentUser = AppState.CurrentUser;
+		roomType = AppState.roomType;
+		Console.WriteLine($"App Room Type: {AppState.roomType}");
+		Console.WriteLine($"Room Type: {roomType}");
+		checkInDate = AppState.checkInDate;
+		checkOutDate = AppState.checkOutDate;
+		amenities = await AmenityService.GetAmenitiesByRoomTypeAsync(roomType);
 
+		roomTypeObj = await RoomService.getRoomType(roomType);
+		Console.WriteLine($"Room Type Obj: {System.Text.Json.JsonSerializer.Serialize(roomTypeObj)}");
+		roomPrice = (CalculateTotalPrice() + CalculateAmenityPrice()).ToString("N2");
+		Console.WriteLine(roomPrice);
+		AppState.SetRoomPrice(roomPrice);
+		StateHasChanged();
+	}
+	private decimal CalculateTotalPrice()
+	{
+		if (!checkInDate.HasValue || !checkOutDate.HasValue) return 0;
+
+		var nights = checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber;
+		return nights * (decimal)roomTypeObj.type_price!;
+	}
+	private decimal CalculateAmenityPrice()
+	{
+		return (decimal)amenities.Sum(a => a.amenity_price ?? 0);
+	}
 
 	private void CloseConfirmationDialog()
 	{
@@ -334,7 +425,18 @@
 			return;
 		}
 	}
+	private void HandleMobileNumberKeyDown(KeyboardEventArgs e)
+	{
+		// Allow control keys
+		var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", " " };
+		if (allowedKeys.Contains(e.Key)) return;
 
+		// Prevent if not a digit or if at max length (16 digits)
+		if (_cardNumber.Replace(" ", "").Length >= 11 || !char.IsDigit(e.Key[0]))
+		{
+			return;
+		}
+	}
 	private void GoBack()
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
@@ -403,9 +505,8 @@
 	private async Task ConfirmPaymentClick()
 	{
 		room = await RoomService.getRandomRoomFromType(roomType!);
-		int payment_id = await PaymentService.AddPayment(Convert.ToDouble(roomPrice!), DateTime.Now);
-		bool successReservation = await ReservationService.AddReservation(checkInDate ?? DateOnly.MinValue, checkOutDate ?? DateOnly.MinValue,currentUser.user_id,room.room_id,payment_id);
-		await payment.SetRoomNumberAsync(room.room_no.ToString()!);
+		int payment_id = await PaymentService.AddPayment(Convert.ToDouble(roomPrice!), DateTime.Now,0);
+		bool successReservation = await ReservationService.AddReservation("online",checkInDate ?? DateOnly.MinValue, checkOutDate ?? DateOnly.MinValue,currentUser.user_id,room.room_id,payment_id);
 		
 		if(successReservation) Navigation.NavigateTo("/payment/success");
 		

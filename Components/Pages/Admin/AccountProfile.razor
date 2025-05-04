@@ -1,4 +1,7 @@
 ﻿@page "/profile/admin"
+@using Oasis.Library;
+@using Oasis.State;
+@inject AppState AppState
 @rendermode InteractiveServer
     <div class="relative mx-auto h-screen w-screen overflow-hidden bg-white">
         <Navbar />
@@ -84,3 +87,12 @@
             </div>
         </div>
     </div>
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+
+    }
+
+}

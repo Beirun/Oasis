@@ -12,23 +12,27 @@ namespace Oasis.State
             _localStorage = localStorage;
         }
 
-        public User? CurrentUser { get; private set; }
 
-        public async Task SetCurrentUserAsync(User username)
+        public async Task SetCurrentUserAsync(User user)
         {
-            CurrentUser = username;
-            await _localStorage.SetItemAsync("currentUser", username);
+            await _localStorage.SetItemAsync("currentUser", user);
         }
-
-        public async Task LoadUserAsync()
+        public async Task SetCurrentUserTypeAsync(string userType)
         {
-            CurrentUser = await _localStorage.GetItemAsync<User>("currentUser");
+            await _localStorage.SetItemAsync("userType", userType);
         }
-
+        public async Task<User> LoadUserAsync()
+        {
+            return await _localStorage.GetItemAsync<User>("currentUser");
+        }
+        public async Task<string> LoadUserTypeAsync()
+        {
+            return await _localStorage.GetItemAsync<string>("userType");
+        }
         public async Task ClearUserAsync()
         {
-            CurrentUser = null;
             await _localStorage.RemoveItemAsync("currentUser");
+            await _localStorage.RemoveItemAsync("userType");
         }
     }
 }
