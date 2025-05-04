@@ -1,7 +1,9 @@
 ﻿@inject NavigationManager NavigationManager
 @using Oasis.State
 @inject UserState UserState
-<div class="bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
+@rendermode InteractiveServer
+
+<div class="bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 sticky top-0 z-2">
     <div class="h-full w-1/2 flex justify-start items-center">
         <div class="flex h-full justify-center items-center"><img src="logo_white.png" alt="Alternate Text" class="pb-2 h-10" /></div>
         <div class="ml-7.5 gap-10  flex justify-start items-center text-white">
@@ -36,7 +38,7 @@
                 </div>
             </div>
 
-            <img @onclick="ToggleNotification" src="/icons/notification.png" alt="Notification" class="w-8 cursor-pointer" />
+            <img @onclick="ToggleNotification" src="/icons/notification_bell.png" alt="Notification" class="w-8 cursor-pointer" />
         </div>
         <div class="flex flex-col ">
 
@@ -82,6 +84,7 @@
     private void ToggleNotification()
     {
         IsNotificationOpen = !IsNotificationOpen;
+        StateHasChanged();
     }
 
     private async Task Logout()

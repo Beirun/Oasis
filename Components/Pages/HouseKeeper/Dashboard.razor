@@ -1,78 +1,99 @@
 ﻿@page "/dashboard/housekeeper"
+@rendermode InteractiveServer
 
-<div class="bg-background font-montserrat flex h-screen w-screen flex-col">
-      <Navbar />
-      <div class="h-full w-3/5">
-        <div class="flex h-20 w-full">
-            <div class="flex h-full w-full justify-evenly rounded-2xl bg-white shadow">
-                <div class="h-50% ml-4 w-2/5">
-                    <div class="flex h-15 w-full justify-center rounded-full bg-[#BDD6AC]">
-                        <Icon Name="check" Size="30px" Color="#78A75A" />
-                    </div>
-                </div>
+<div class="bg-background font-montserrat flex h-screen max-w-screen flex-col">
+      <Navbar/>
+      <div class="h-full w-4/5 z-1">
+        <div class="flex h-25">
+            <div class="flex h-full w-1/4 rounded-2xl bg-white shadow-md shadow-gray-300 px-5">
                 <div class="flex h-4/5 w-full">
-                    <div class="mt-6 h-full w-4/5 items-start">
-                        <p class="w-full text-xs">Total Rooms Cleaned</p>
+                    <div class="mt-6 h-full w-full items-start">
+                        <p class="w-full">Total Rooms Cleaned</p>
                         <p class="w-full text-3xl font-bold">-</p>
                     </div>
                 </div>
-            </div>
-            <div class="flex h-full w-full justify-evenly rounded-2xl bg-white shadow">
-                <div class="h-50% ml-4 w-2/5">
-                    <div class="flex h-15 w-full justify-center rounded-full bg-[#FEE2E2]">
-                        <Icon Name="cleaning_services" Size="30px" Color="#DC2626" />
+                <div class="h-50% ">
+                    <div class="flex h-15 aspect-square justify-center rounded-full bg-[#D1FAE5]">
+                        <Icon Name="check" Size="50px" Color="#059669" />
                     </div>
                 </div>
+            </div>
+            <div class="flex h-full w-1/4 rounded-2xl bg-white shadow-md shadow-gray-300 px-5">
                 <div class="flex h-4/5 w-full">
-                    <div class="mt-6 h-full w-4/5 items-start">
-                        <p class="w-full text-xs">Rooms to Clean</p>
+                    <div class="mt-6 h-full w-full items-start">
+                        <p class="w-full">Rooms to Clean</p>
                         <p class="w-full text-3xl font-bold">-</p>
                     </div>
                 </div>
-            </div>
-            <div class="flex h-full w-full justify-evenly rounded-2xl bg-white shadow">
-                <div class="h-50% ml-4 w-2/5">
-                    <div class="flex h-15 w-full justify-center rounded-full bg-[#FEF3C7]">
-                        <Icon Name="build" Size="30px" Color="#D97706" />
+                <div class="h-50% ml-4 ">
+                    <div class="bg-[#DBEAFE] p-3 flex justify-center h-15 aspect-square rounded-full">
+                        <img src="icons/broom.png" alt="..." class="p-1" />
                     </div>
                 </div>
-                <div class="flex h-6/8 w-full">
-                    <div class="mt-6 h-full w-4/5 items-start">
-                        <p class="w-full text-xs">Maintenance Requests</p>
-                        <p class="w-full text-3xl font-bold">-</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="flex h-full w-full justify-evenly rounded-2xl bg-white shadow">
-                <div class="h-50% ml-4 w-2/5">
-                    <div class="flex h-15 w-full justify-center rounded-full bg-[#EDE9FE]">
-                        <Icon Name="groups" Size="30px" Color="#7C3AED" />
-                    </div>
-                </div>
-                <div class="flex h-6/8 w-full">
-                    <div class="mt-6 h-full w-4/5 items-start">
-                        <p class="w-full text-xs">Staff on Duty</p>
-                        <p class="w-full text-3xl font-bold">-</p>
-                    </div>
-                </div>
-
             </div>
         </div>
         <div class="mt-3 flex flex-row">
-            <div class="border-0 box-content h-69 w-3/5 rounded-2xl bg-white">
+            <div class="border-0 box-content h-100 w-3/5 rounded-2xl bg-white p-2">
                 <p class="p-6 text-3xl font-bold">Cleaned Weekly</p>
 
             </div>
-            <div class="border-0 box-content h-69 w-2/5 rounded-2xl bg-sky-100">
+            <div class="border-0 box-content h-100 w-2/5 rounded-2xl bg-white p-2">
                 <p class="p-6 text-3xl font-bold">Rooms Cleaned</p>
             </div>
         </div>
-        <div class="mt-3 flex flex-row">
-            <div class="border-0 box-content h-69 w-5/5 rounded-2xl bg-white">
+        <div class="mt-3 flex flex-row z-1 mb-5">
+            <div class="border-0 box-content w-5/5 rounded-2xl bg-white p-2">
                 <p class="p-6 text-3xl font-bold">Recently Cleaned</p>
+                <div class="w-full flex justify-center px-6">
+                    <table class="w-full">
+                        <tr class="w-full text-sm text-gray-400 h-10 bg-gray-200">
+                            <td class="w-1/3 text-center">Housekeeper</td>
+                            <td class="w-1/5 text-center">Room</td>
+                            <td class="w-1/4 text-center">Start Time</td>
+                            <td class="w-1/4 text-center">End Time</td>
+                        </tr>
+                        <tr class="w-full border-b border-gray-300">
+                            <td class="flex flex-row w-full px-5 h-15">
+                                <div class="w-full flex flex-row">
+
+                                <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                    <p>Name</p>
+                                </div>
+                            </td>
+                            <td class="w-1/5 text-center">Room (number)</td>
+                            <td class="w-1/4 text-center">starttime</td>
+                            <td class="w-1/4 text-center">endtime</td>
+                        </tr>
+                        <tr class="w-full border-b border-gray-300">
+                            <td class="flex flex-row w-full px-5 h-15">
+                                <div class="w-full flex flex-row">
+
+                                <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                    <p>Name</p>
+                                </div>
+                            </td>
+                            <td class="w-1/5 text-center">Room (number)</td>
+                            <td class="w-1/4 text-center">starttime</td>
+                            <td class="w-1/4 text-center">endtime</td>
+                        </tr>
+                        <tr class="w-full border-b border-gray-300">
+                            <td class="flex flex-row w-full px-5 h-15">
+                                <div class="w-full flex flex-row">
+
+                                <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                    <p>Name</p>
+                                </div>
+                            </td>
+                            <td class="w-1/5 text-center">Room (number)</td>
+                            <td class="w-1/4 text-center">starttime</td>
+                            <td class="w-1/4 text-center">endtime</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
-      </div>
+    </div>
+    <div style="clip-path: polygon(100% 75%, 100% 100%, 30% 100%)" class="w-full h-full bg-[#2563EB] z-0 fixed top-0"></div>
+    <div style="clip-path: polygon(0 75%, 0 100%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
