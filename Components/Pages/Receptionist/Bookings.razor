@@ -1,4 +1,5 @@
 ﻿@page "/receptionist/bookings"
+@using Oasis.Components.ui
 @rendermode InteractiveServer
 @using Oasis.Library;
 @using Oasis.Data.Object;
@@ -1251,9 +1252,4 @@
         paymentMethod = method;
     }
 
-    private async Task<int> GetAvailableRoom(string roomType)
-    {
-        // Implement logic to get an available room of the selected type
-        return 101; // Example room number
-    }
-}
+
