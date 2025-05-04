@@ -12,14 +12,36 @@ namespace Oasis.Library
         {
             _context = context;
         }
+
+        public async Task<List<User>> getGuests()
+        {
+
+            return await _context.User.Where(u => u.user_type == "Guest").ToListAsync();
+
+        }
+        public async Task<User> getUserFromFirstNameLastName(string fname, string lname)
+        {
+            var existingUser = await _context.User.FirstOrDefaultAsync(u => u.user_fname == fname && u.user_lname == lname && u.user_type == "Guest");
+            return existingUser;
+        }
         public async Task<bool> RegisterGuest(User user)
         {
             try { 
 
                 Guest guest = new Guest();
                 user.user_type = "Guest";
+                //check if user_fname and user_lname is already in the database
+                var existingUser = await getUserFromFirstNameLastName(user.user_fname, user.user_lname);
+                if (existingUser == null)
+                {
                 _context.User.Add(user);
-                await _context.SaveChangesAsync();
+
+                }
+                else
+                {
+                    return true;
+                }
+                    await _context.SaveChangesAsync();
                 guest.guest_id = user.user_id;
                 Console.WriteLine("User: ", user.user_id);
                 guest.registration_date = DateTime.Now;
@@ -34,10 +56,7 @@ namespace Oasis.Library
 
             return true;
         }
-        public async Task<List<Guest>> GetGuests()
-        {
-            return await _context.Guest.ToListAsync();
-        }
+      
         public async Task<bool> checkEmail(string email)
         {
             var user = await _context.User.FirstOrDefaultAsync(u => u.user_email == email);

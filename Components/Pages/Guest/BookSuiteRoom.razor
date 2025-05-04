@@ -4,8 +4,7 @@
 @using Oasis.Components.ui
 @using Oasis.State
 @inject NavigationManager Navigation
-@inject CheckInState CheckIn
-
+@inject AppState AppState
 <div class="w-full h-screen overflow-hidden flex flex-col justify-center">
 	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
 		@* <img src="/icons/back-arrow.png" alt="Alternate Text" class=" top-5 left-5 h-10 -mr-4 transition-all duration-400 hover:stroke-[3px]" /> *@
@@ -91,6 +90,16 @@
 	private DateOnly? checkInDate;
 	private DateOnly? checkOutDate;
 	string hoveredImage = "/suite/suite-1.jpg";
+
+	protected override async Task OnInitializedAsync()
+	{
+		AppState.ClearBookiing();
+
+		if (AppState.CurrentUser == null)
+		{
+			Navigation.NavigateTo("/signin");
+		}
+	}
 	private void GoBack()
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
@@ -114,7 +123,9 @@
 			Console.WriteLine("invalid");
 			return;
 		}
-		await CheckIn.SetCheckInAsync(checkInDate, checkOutDate);
+		AppState.SetRoomType("suite");
+
+		AppState.SetCheckInDate(checkInDate, checkOutDate);
 		Navigation.NavigateTo("/payment");
 	}
 }

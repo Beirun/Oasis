@@ -2,6 +2,7 @@
 @inject NavigationManager NavigationManager
 @inject UserState UserState
 @using Oasis.State;
+@inject AppState AppState
 
 <div class="bg-[#fafafa] sticky w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 top-0  z-200">
     <div class="h-full w-1/2 flex justify-start items-center">
@@ -36,16 +37,11 @@
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
+        if (AppState.CurrentUser == null)
         {
-            await UserState.LoadUserAsync();
-
-            if (UserState.CurrentUser == null)
-            {
-                NavigationManager.NavigateTo("/signin");
-            }
+            NavigationManager.NavigateTo("/signin");
         }
     }
     private string GetNavLinkClass(string route)
@@ -62,6 +58,7 @@
 
     private async Task Logout()
     {
+        AppState.ClearUser();
         await UserState.ClearUserAsync();
         NavigationManager.NavigateTo("/signin");
     }

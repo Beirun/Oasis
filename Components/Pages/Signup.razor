@@ -16,20 +16,20 @@
             </div>
             <div class="w-100 flex flex-col gap-7.5 justify-center items-center">
                 <div class="w-85 flex justify-between">
-                    <CustomInput @bind-Value="newGuest.user_fname" type="text" placeholder="First Name" class="w-[45%]" />
-                    <CustomInput @bind-Value="newGuest.user_lname" type="text" placeholder="Last Name" class="w-[45%]" />
+                    <CustomInput @bind-Value="newGuest.user_fname" type="text" placeholder="First Name" class="w-[47.5%]" />
+                    <CustomInput @bind-Value="newGuest.user_lname" type="text" placeholder="Last Name" class="w-[47.5%]" />
                 </div>
 
                 <CustomInput @bind-Value="newGuest.user_contactno" type="text" placeholder="Contact Number" class="w-85" />
                 <CustomInput @bind-Value="newGuest.user_email" type="text" placeholder="Email" class="w-85" />
 
                 <div class="flex justify-between items-center w-85 mt-2.5">
-                    <CustomSelect @bind-Value="@newGuest.user_gender" placeholder="Gender" options="@genders" class="w-[45%]" />
-                    <CustomDatePicker @bind-Value="@newGuest.user_dob" placeholder="Date of Birth" class="w-[45%]" Id="1" />
+                    <CustomSelect @bind-Value="@newGuest.user_gender" placeholder="Gender" options="@genders" class="w-[47.5%]" />
+                    <CustomDatePicker @bind-Value="@newGuest.user_dob" placeholder="Date of Birth" class="w-[47.5%]" Id="1" />
                 </div>
                 <div class="flex justify-between items-center w-85">
-                    <CustomInput @bind-Value="newGuest.user_password" type="password" placeholder="Password" class="w-[45%]" />
-                    <CustomInput @bind-Value="confirmPassword" type="password" placeholder="Confirm Password" class="w-[45%]" />
+                    <CustomInput @bind-Value="newGuest.user_password" type="password" placeholder="Password" class="w-[47.5%]" />
+                    <CustomInput @bind-Value="confirmPassword" type="password" placeholder="Confirm Password" class="w-[47.5%]" />
                 </div>
             </div>
             <div class="flex flex-col justify-center items-center w-100 my-10 h-10">

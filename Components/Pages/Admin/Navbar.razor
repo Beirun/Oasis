@@ -1,6 +1,7 @@
 ﻿@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject UserState UserState
+@inject AppState AppState
 @using Oasis.State
 
 <div class="sticky top-0 z-200 bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
@@ -33,7 +34,7 @@
             <div @onclick="ToggleDropdown"  class="w-[30px] h-[30px] rounded-full bg-[url('/clouds.png')] bg-cover"></div>
         </div>
         @* Welcome, Admin |<button class="cursor-pointer hover:bg-red-300/40 p-1 px-3 rounded-md transition-all duration-300"> *@
-            @* <NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1 " Color="black" /></NavLink> *@
+        @* <NavLink href="/signin"><Icon Name="Logout" size="30px" Class="focus:outline-none mt-1 " Color="black" /></NavLink> *@
 
         @* </button> *@
     </div>
@@ -41,16 +42,12 @@
 
 @code {
     private bool IsDropdownOpen { get; set; } = false;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            await UserState.LoadUserAsync();
 
-            if (UserState.CurrentUser == null)
-            {
-                NavigationManager.NavigateTo("/signin");
-            }
+        if (AppState.CurrentUser == null)
+        {
+            NavigationManager.NavigateTo("/signin");
         }
     }
     private void ToggleDropdown()
@@ -60,6 +57,7 @@
 
     private async Task Logout()
     {
+        AppState.ClearUser();
         await UserState.ClearUserAsync();
         NavigationManager.NavigateTo("/signin");
     }

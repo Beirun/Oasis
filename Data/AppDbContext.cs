@@ -30,8 +30,10 @@ public partial class AppDbContext : DbContext
     public DbSet<User> User { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite("Data Source=app.db");
-
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.UseSqlite("Data Source=app.db");
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AmenityItem>(entity =>
@@ -41,7 +43,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.item_id)
                 .ValueGeneratedOnAdd()
-                .HasColumnName("amenity_id");
+                .HasColumnName("item_id");
             entity.Property(e => e.amenity_name).HasColumnName("amenity_name");
             entity.Property(e => e.amenity_price).HasColumnName("amenity_price");
             List<AmenityItem> amenityItems = new List<AmenityItem>();
@@ -203,7 +205,8 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.housekeeping_id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("house_keeping_id");
-            entity.Property(e => e.housekeeping_date).HasColumnName("house_keeping_date");
+            entity.Property(e => e.housekeeping_starttime).HasColumnName("house_keeping_starttime");
+            entity.Property(e => e.housekeeping_endtime).HasColumnName("house_keeping_endtime");
             entity.Property(e => e.room_id).HasColumnName("room_id");
             entity.Property(e => e.staff_id).HasColumnName("staff_id");
 
