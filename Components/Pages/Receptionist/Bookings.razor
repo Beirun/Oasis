@@ -1,69 +1,1259 @@
 ﻿@page "/receptionist/bookings"
 @rendermode InteractiveServer
-
+@using Oasis.Library;
+@using Oasis.Data.Object;
+@using Oasis.Data.Models;
+@using Oasis.State;
+@using Oasis.Components.ui;
+@using Microsoft.EntityFrameworkCore;
+@using System.Text;
+@inject AppState AppState
+@inject NavigationManager NavigationManager
+@inject ReservationServices ReservationService
+@inject AmenityServices AmenityService
+@inject RoomServices RoomService
+@inject PaymentServices PaymentService
+@inject GuestServices GuestService
 <div class="w-screen h-screen flex flex-col bg-background font-montserrat">
-	<Navbar/>
+    <Navbar />
 
-	<div class="w-4/6 h-full flex  flex-col">
-		<div class="flex self-start mt-10">
-			<Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
-			<input type="text" name="name" placeholder="Search bookings"
-					class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-150 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+    <div class="w-4/6 h-full flex flex-col">
+        <div class="flex self-start mt-10 w-full">
+            <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
+            <input @bind="SearchQuery" @bind:event="oninput" type="text" placeholder="Search bookings"
+            class="shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-150 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
 
+            <!-- Filter Dropdown -->
+            <div class="flex flex-col ml-5">
+                <div class="inset-0 fixed z-20" style="@(IsFilterDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleFilterDropdown'>
+                </div>
+                <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsFilterDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                    <li @onclick='() => FilterByStatus("Booked")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Booked</li>
+                    <li @onclick='() => FilterByStatus("Cancelled")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Cancelled</li>
+                    <li @onclick='() => FilterByStatus("Checked In")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Checked In</li>
+                    <li @onclick='() => FilterByStatus("Checked Out")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Checked Out</li>
+                    <li @onclick='() => FilterByStatus("All")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">All</li>
+                </ul>
+                <button @onclick='ToggleFilterDropdown' class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6">
+                    <Icon Name="Filter_List" Size="30px" /> Filter
+                </button>
+            </div>
+            @* <button @onclick="()=> Console.WriteLine(AppState.Counter)">Test</button> *@
+            @* <button @onclick="()=> AppState.IncrementCounter()">Add</button> *@
+            <!-- Sort Dropdown -->
+            <div class="flex flex-col ml-5">
+                <div class="inset-0 fixed z-20" style="@(IsSortDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleSortDropdown'>
+                </div>
+                <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsSortDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                    <li @onclick='() => SortByCheckInDate(true)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Check In (Newest)</li>
+                    <li @onclick='() => SortByCheckInDate(false)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Check In (Oldest)</li>
+                    <li @onclick='() => SortByCheckOutDate(true)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Check Out (Newest)</li>
+                    <li @onclick='() => SortByCheckOutDate(false)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Check Out (Oldest)</li>
+                    <li @onclick='() => SortByName(true)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Guest Name (A-Z)</li>
+                    <li @onclick='() => SortByName(false)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Guest Name (Z-A)</li>
+                    <!-- Add these new sort options -->
+                    <li @onclick='() => SortByRoomNumber(true)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Room (Ascending)</li>
+                    <li @onclick='() => SortByRoomNumber(false)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Room (Descending)</li>
+                    <li @onclick='() => SortByRoomType(true)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Room Type (A-Z)</li>
+                    <li @onclick='() => SortByRoomType(false)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Room Type (Z-A)</li>
+                </ul>
+                <button @onclick='ToggleSortDropdown' class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6">
+                    <Icon Name="Sort" Size="30px" /> Sort
+                </button>
+            </div>
 
-			<button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-5"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
-
-			<NavLink href="none"
-					 class="focus:outline-none ml-88 bg-primary/90 transition-all duration-300 shadow-sm border-b-2 border-gray-400 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-md font-semibold">
-				Add Booking
-			</NavLink>
-		</div>
-		<div class="w-full  h-[1px] bg-gray-300"></div>
-        <div class="w-full bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400">
-            <table class="w-full text-sm">
-                <tr class="w-full text-[#6B7280] border-b border-gray-300 pt-10">
-                    <td class="h-10">Guest</td>
-                    <td class="h-10">Room</td>
-                    <td class="h-10">Room Type</td>
-                    <td class="h-10">Check In</td>
-                    <td class="h-10">Check Out</td>
-                    <td class="h-10">Status</td>
-                </tr>
-
-                <tr class="w-full h-20 border-b border-gray-300">
-
-                <td class="w-full flex flex-row h-20 justify-center">
-                        <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
-                        <div class="flex flex-col justify-between w-full">
-                            <p class="w-full -mb-4 font-semibold">booking.user_fname booking.user_lname</p>
-                            <p class="w-full text-[#6B7280]">booking.user_email</p>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="w-full">123</p>
-                    </td>
-                    <td>
-                        <p class="w-full">standard</p>
-                    </td>
-                    <td>
-                        <p class="w-full">booking.rsv_checkin</p>
-                    </td>
-                    <td>
-                        <p class="w-full">booking.rsv_checkout</p>
-                    </td>
-                    <td>
-                        <div class="w-25 h-[25px] bg-primary flex justify-center p-2 rounded-full">
-                            <p class="text-white">booking.rsv_status</p>
-                        </div>
-                    </td>
-                 </tr>
-                
-
-            </table>
+            <button @onclick='OpenAddBookingDialog' class=" focus:outline-none ml-42 bg-primary/90 transition-all duration-300 shadow-sm border-b-2 border-gray-400 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-md font-semibold w-40 h-15">
+                Add Booking
+            </button>
         </div>
-	</div>
+        <div class="w-full h-[1px] bg-gray-300"></div>
+        <div class="w-full bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400 rounded-md">
+            @if (filteredBookings.Any())
+            {
+                <table class="w-full text-sm divide-y-2 divide-gray-300">
+                    <thead>
+                        <tr class="w-full text-[#6B7280] border-b border-gray-400 pt-10">
+                            <th class="h-10 w-1/3 text-left pl-18">Guest Name</th>
+                            <th class="h-10 text-left">Room</th>
+                            <th class="h-10 text-left">Room Type</th>
+                            <th class="h-10 text-left">Check In</th>
+                            <th class="h-10 text-left">Check Out</th>
+                            <th class="h-10 text-left pl-8">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y-2 divide-gray-300">
+                        @foreach (var booking in filteredBookings)
+                        {
+                            <tr @onclick='() => OpenBookingDialog(booking)' class="w-full h-20 hover:bg-gray-200 transition-all duration-300 cursor-pointer">
+                                <td class="flex flex-row h-20 items-center">
+                                    <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                    <div class="flex flex-col justify-between ml-3">
+                                        <p class="font-semibold w-full leading-0">@booking.user_fname @booking.user_lname</p>
+                                        <p class="text-[#6B7280] w-full text-sm">@booking.user_email</p>
+                                    </div>
+                                </td>
+                                <td>@booking.room_no</td>
+                                <td>@booking.type_category</td>
+                                <td>@booking.rsv_checkin.ToString("MMM dd, yyyy")</td>
+                                <td>@booking.rsv_checkout.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <div class="w-30 h-[30px] flex justify-center p-2 rounded-full @GetStatusColor(booking.rsv_status)">
+                                        <p class="text-white text-sm">@booking.rsv_status</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="w-full h-40 flex flex-col items-center justify-center text-gray-500">
+                    <Icon Name="Search_Off" Size="50px" Class="mb-4" />
+                    <p class="text-xl">No bookings found</p>
+                    <p class="text-sm">Try adjusting your search or filter criteria</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Booking Details Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseBookingDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(62%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        <div class="w-full flex flex-row justify-center z-1 ">
+            @if (selectedBooking != null)
+            {
+                <div class="w-1/2 h-150 rounded-2xl bg-cover" style="background-image: url('@GetImageSelectedBooking(selectedBooking.type_category)');"></div>
+            }
+            <div class="w-1/2 h-150 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm text-gray-800 font-semibold">
+                <p class="w-full font-bold text-4xl">@(selectedBooking.type_category) Room</p>
+                <div class="w-full flex flex-col max-h-full pt-8 space-y-2 text-xl">
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Guest</p>
+                        <p class="text-gray-400">@(selectedBooking.user_fname + " " + selectedBooking.user_lname)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Room Number</p>
+                        <p class="text-gray-400">Room @(selectedBooking.room_no)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check In</p>
+                        <p class="text-gray-400">@(selectedBooking.rsv_checkin.ToString("MMM dd, yyyy"))</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check Out</p>
+                        <p class="text-gray-400">@(selectedBooking.rsv_checkout.ToString("MMM dd, yyyy"))</p>
+                    </div>
+                    <div class="w-full h-[1px] bg-gray-300 "></div>
+                    <div class="w-full h-13 flex flex-row justify-between text-2xl font-bold ">
+                        <p class="text-gray-800">Total Amount</p>
+                        <p class="text-[#0040A6]">@(selectedBooking.payment_amount.ToString("N2") ?? "0.00")</p>
+                    </div>
+                </div>
+
+                <div class="w-full flex flex-col justify-center pt-8">
+                    @if (selectedBooking.rsv_status == "Checked In")
+                    {
+                        <div class="grid grid-cols-2 gap-4 w-full">
+
+                            <button @onclick='OpenExtendBookingDialog' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Extend</button>
+                            <button @onclick='checkOutBooking' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Check Out</button>
+                        </div>
+                    }
+                    else if(selectedBooking.rsv_status == "Booked")
+                    {
+                        <div class="grid grid-cols-2 gap-4 w-full">
+
+                            <button @onclick='cancelBooking' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel Booking</button>
+                            <button @onclick='checkInBooking' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Confirm Check-In</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="w-full text-center text-2xl @(selectedBooking.rsv_status?.ToUpper() == "CANCELLED" ? "text-red-600" : "text-gray-700")">@(selectedBooking.rsv_status?.ToUpper())</p>
+                    }
+                </div>
+            </div>
+        </div>
+        @* <Icon Name="Close" @onclick='CloseBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer z-100" /> *@
+    </div>
+</div>
+<!-- Extend Booking Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsExtendBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseExtendBookingDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(80%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsExtendBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        @* Header *@
+        <div class="w-full text-4xl pt-4 font-montserrat font-bold text-gray-800 justify-center items-center flex">
+            EXTEND BOOKING
+        </div>
+
+        @* Progress Steps *@
+        <div class="w-full flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+            <div class=" flex flex-row justify-center w-150 -space-x-4">
+                <div class=" flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] bg-none "></div>
+                        <div class="h-[60px] aspect-square @(extendCurrentStep >= 1 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center ml-2">
+                            <p class="text-4xl">1</p>
+                        </div>
+                        <div class="w-full h-[10px] @(extendCurrentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400") "></div>
+                    </div>
+                    <p class="w-full text-center text-gray-400 text-sm font-medium self-start">Select New Dates</p>
+                </div>
+                <div class=" flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] @(extendCurrentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400")"></div>
+                        <div class="aspect-square h-[60px] @(extendCurrentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center">
+                            <p class="text-4xl">2</p>
+                        </div>
+                        <div class="w-full h-[10px] bg-none"></div>
+                    </div>
+                    <p class="text-center w-full text-gray-400 text-sm font-medium self-end">Payment</p>
+                </div>
+            </div>
+            <div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
+        </div>
+
+        @* Body Content *@
+        <div class="w-full px-2 flex flex-col h-full overflow-y-auto justify-center items-center">
+            @if (extendCurrentStep == 1)
+            {
+                <!-- Date Selection Step -->
+                <div class="w-full grid grid-cols-2 h-full p-2 gap-5">
+                    <div class="h-full w-full">
+                        <div class="w-full h-[530px] bg-cover bg-center rounded-2xl" style="background-image: url('@GetImageSelectedBooking(selectedBooking.type_category)')"></div>
+                    </div>
+
+                    <div class="flex flex-col h-full w-full justify-between pb-6">
+                        <div class="w-full mt-5">
+                            <p class="text-5xl font-bold pb-4 text-gray-700">@selectedBooking.type_category Room</p>
+                            <p class="text-primary font-semibold text-xl">Php @GetRoomPrice(selectedBooking.type_category) per night</p>
+                            <div class="mt-8 space-y-4 w-full flex flex-col">
+                                <div class="w-full flex justify-between text-xl">
+                                    <p class="text-gray-600">Guest Name</p>
+
+                                    <p class="text-gray-600">@selectedBooking.user_fname @selectedBooking.user_lname</p>
+                                </div>
+                                <div class="w-full flex justify-between text-xl">
+                                    <p class="text-gray-600">Current Check-In Date</p>
+                                    <p class="text-gray-600">@selectedBooking.rsv_checkin.ToString("MMM dd, yyyy")</p>
+
+                                </div>
+                                <div class="w-full flex justify-between text-xl">
+                                    <p class="text-gray-600">Current Check Out Date</p>
+
+                                    <p class="text-gray-600">@selectedBooking.rsv_checkout.ToString("MMM dd, yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-col pb-10">
+                            @* <CustomDatePicker Placeholder="Check-In Date" @bind-Value="newCheckInDate" Class="w-full pointer-events-none" Id="extendCheckOut" MinDate="@selectedBooking.rsv_checkout.AddDays(1)" /> *@
+                            <CustomDatePicker Placeholder="New Check-Out Date"
+                            @bind-Value="newCheckOutDate"
+                            Class="w-full text-lg"
+                            Id="3"
+                            MinDate="@selectedBooking.rsv_checkout.AddDays(1)" />
+                        </div>
+
+                        <div class="w-full flex justify-between">
+                            <button @onclick='CloseExtendBookingDialog' class="w-1/3 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer hover:bg-blue-50 transition-colors duration-400">
+                                Cancel
+                            </button>
+                            <button @onclick='ProceedToExtendPayment' class="w-2/3 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400" disabled="@(!IsExtendDateValid)">
+                                Continue to Payment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (extendCurrentStep == 2)
+            {
+                <!-- Payment Step -->
+                <div class="w-full grid grid-cols-2 gap-5 h-full p-2">
+                    <div class="flex flex-col gap-5 h-full">
+                        <div class="w-full h-full flex flex-col px-1 -space-y-1">
+                            <p class="w-full text-lg font-bold text-gray-600 border-b border-gray-600">Cost Breakdown</p>
+                            <div class="w-full h-full flex flex-col">
+                                <div class="w-full flex flex-row justify-between">
+                                    <p class="text-sm text-gray-600">Additional Nights (@selectedBooking.type_category)</p>
+                                    <p class="text-sm text-gray-600">@extendAdditionalAmount.ToString("N2")</p>
+                                </div>
+                            </div>
+                            <div class="w-full flex flex-row justify-between border-t pt-2 border-gray-400">
+                                <p class="text-sm text-gray-600">Total Additional Cost</p>
+                                <p class="text-sm text-gray-600">@extendAdditionalAmount.ToString("N2")</p>
+                            </div>
+                        </div>
+                        <div class="w-full px-1 flex flex-row justify-between">
+                            <p class="text-lg font-semibold text-gray-800">Total Amount</p>
+                            <p class="text-lg font-bold text-primary">Php @extendAdditionalAmount.ToString("N2")</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between flex-col gap-5 h-full">
+                        <div class="flex flex-col">
+                            <p class="text-sm w-full font-medium">Select Payment Method</p>
+                            <div class="grid grid-cols-3 w-full gap-4">
+                                <div @onclick='() => SelectPaymentMethod("card")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "card" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="credit_card" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5 text-md">Credit / Debit Card</p>
+                                        <p class="w-full text-xs text-gray-400">Pay securely with your card</p>
+                                    </div>
+                                </div>
+                                <div @onclick='() => SelectPaymentMethod("wallet")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "wallet" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="wallet" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5 text-md">Digital Wallet</p>
+                                        <p class="w-full text-xs text-gray-400">GCash</p>
+                                    </div>
+                                </div>
+                                <div @onclick='() => SelectPaymentMethod("cash")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "cash" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="wallet" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5">Cash Payment</p>
+                                        <p class="w-full text-xs text-gray-400">Cash</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (paymentMethod == "card")
+                        {
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Card Number</label>
+                                    <div class="w-full flex h-12 border-2 border-gray-400 px-3 rounded-lg group">
+                                        <input @bind:event="oninput" @onkeydown="HandleCardNumberKeyDown" @bind="cardNumber" type="text" placeholder="1234 5678 9012 3456" class="w-full h-12 rounded-lg focus:outline-none focus:border-primary" />
+                                        @if (paymentMethod == "card")
+                                        {
+                                            <div class="flex flex-row px-3">
+                                                @if (cardNumber.Length > 0 && cardNumber[0] == '4')
+                                                {
+                                                    <img src="icons/selected-visa.png" alt="visa" />
+                                                    <img src="icons/mastercard.png" alt="mastercard" />
+                                                }
+                                                else if (cardNumber.Length > 0 && (cardNumber[0] == '5' || cardNumber[0] == '2'))
+                                                {
+                                                    <img src="icons/visa.png" alt="visa" />
+                                                    <img src="icons/selected-mastercard.png" alt="mastercard" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="icons/visa.png" alt="visa" />
+                                                    <img src="icons/mastercard.png" alt="mastercard" />
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row gap-4">
+                                    <div class="flex-1 flex flex-col">
+                                        <label class="w-full text-sm font-medium mb-1">Expiry Date</label>
+                                        <input @bind:event="oninput" @onkeydown="HandleExpiryKeyDown" @bind="expiryDate" type="text" placeholder="MM/YY" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                    </div>
+                                    <div class="flex-1 flex flex-col">
+                                        <label class="w-full text-sm font-medium mb-1">CVV</label>
+                                        <input @bind:event="oninput" @onkeydown="HandleCVVKeyDown" @bind="cvv" type="text" placeholder="123" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Cardholder Name</label>
+                                    <input @bind="cardholderName" type="text" placeholder="John Doe" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                        }
+                        else if (paymentMethod == "wallet")
+                        {
+                            <div class="flex flex-col space-y-6 w-full pb-10">
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Mobile Number</label>
+                                    <input @bind:event="oninput" @onkeydown="HandleMobileNumberKeyDown" @bind="mobileNumber" type="text" placeholder="0912 345 6789" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Reference Number</label>
+                                    <input @bind="referenceNumber" maxlength="13" type="text" placeholder="1234567890123" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="flex flex-col space-y-6 w-2/3">
+                                <h1 class="text-primary text-2xl font-bold">Cash Payment</h1>
+                                <h3 class="text-center text-gray-500 text-lg">Please collect payment upon guest check-in.</h3>
+                            </div>
+                        }
+
+                        <div class="w-full flex justify-between mt-5">
+                            <button @onclick='BackToExtendDateSelection' class="w-1/3 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer hover:bg-blue-50 transition-colors duration-400">
+                                Back
+                            </button>
+                            <button @onclick='CompleteExtendBooking' class="w-2/3 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400" disabled="@(!IsPaymentValid)">
+                                Complete Extension
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <Icon Name="Close" @onclick='CloseExtendBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+    </div>
+</div>
+<!-- Add Booking Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsAddBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='AddBookingBackdropClick'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(80%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-lg" style="@(IsAddBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        @* Header *@
+        <div class="w-full text-4xl pt-4 font-montserrat font-bold text-gray-800 justify-center items-center flex">
+            ADD NEW BOOKING
+        </div>
+
+        @* Progress Steps *@
+        <div class="w-full flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+            <div class=" flex flex-row justify-center w-150 -space-x-4">
+                <div class=" flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] bg-none "></div>
+                        <div class="h-[60px] aspect-square @(currentStep >= 1 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center ml-2">
+                            <p class="text-4xl">1</p>
+                        </div>
+                        <div class="w-full h-[10px] @(currentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400") "></div>
+                    </div>
+                    <p class="w-full text-center text-gray-400 text-sm font-medium self-start">Select Room</p>
+                </div>
+                <div class=" flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] @(currentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400")"></div>
+                        <div class="aspect-square h-[60px] @(currentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center">
+                            <p class="text-4xl">2</p>
+                        </div>
+                        <div class="w-full h-[10px] @(currentStep >= 3 ? "bg-[#2563EB]" : "bg-gray-400")"></div>
+                    </div>
+                    <p class="text-center w-full text-gray-400 text-sm font-medium self-end">Select Dates</p>
+                </div>
+                <div class=" flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] @(currentStep >= 3 ? "bg-[#2563EB]" : "bg-gray-400")"></div>
+                        <div class="aspect-square h-[60px] @(currentStep >= 3 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center">
+                            <p class="text-4xl">3</p>
+                        </div>
+                        <div class="w-full h-[10px] bg-none"></div>
+                    </div>
+                    <p class="w-full text-center text-gray-400 text-sm font-medium self-end">Payment</p>
+                </div>
+            </div>
+            <div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
+        </div>
+
+        @* Body Content *@
+        <div class="w-full px-2  flex flex-col h-full overflow-y-auto justify-center items-center">
+            @if (currentStep == 1)
+            {
+                <!-- Room Selection Step -->
+                <div class="w-full grid grid-cols-3 gap-4 pt-2">
+                    <div class="group rounded-2xl border border-gray-300 p-5 bg-white hover:scale-101 transition-all duration-400 cursor-pointer" @onclick='() => SelectRoomType("Standard")'>
+                        <div class="bg-[url('/standard/standard-1.jpg')] h-90 bg-cover bg-center rounded-2xl"></div>
+                        <div class="flex flex-col justify-between mt-8">
+                            <div class="flex flex-row justify-between w-full">
+                                <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Standard</p>
+                                <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 2,500</p>
+                            </div>
+                            <div class="self-start">
+                                <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Basic Bed Setup, Private Bathroom, Essential Amenities</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group rounded-2xl border border-gray-300 p-5 bg-white hover:scale-101 transition-all duration-400 cursor-pointer" @onclick='() => SelectRoomType("Deluxe")'>
+                        <div class="bg-[url('/deluxe/deluxe-3.jpg')] h-90 bg-cover bg-center rounded-2xl"></div>
+                        <div class="flex flex-col justify-between mt-8">
+                            <div class="flex flex-row justify-between w-full">
+                                <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Deluxe</p>
+                                <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 5,000</p>
+                            </div>
+                            <div class="self-start">
+                                <p class="text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Separate Living Space, Luxury Bathroom, Exclusive Perks</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group rounded-2xl border border-gray-300 p-5 bg-white hover:scale-101 transition-all duration-400 cursor-pointer" @onclick='() => SelectRoomType("Suite")'>
+                        <div class="bg-[url('/suite/suite-3.jpg')] h-90 bg-cover bg-center rounded-2xl"></div>
+                        <div class="flex flex-col justify-between mt-8">
+                            <div class="flex flex-row justify-between w-full">
+                                <p class="font-bold text-2xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Suite</p>
+                                <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out">Php 7,500</p>
+                            </div>
+                            <div class="self-start">
+                                <p class="text-1xl text-gray-500 group-hover:text-black transition-colors duration-400 ease-in-out text-sm">Upgraded Bed, Enhanced Bathroom, Additional Comforts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (currentStep == 2)
+            {
+                <!-- Date Selection Step -->
+                <div class="w-full grid grid-cols-2 h-full p-2 gap-5">
+                    <div class="h-full w-full">
+                        <div class="w-full h-[530px] bg-cover bg-center rounded-2xl" style="background-image: url('@GetRoomImage(selectedRoomType)')"></div>
+
+                    </div>
+
+                    <div class="flex flex-col h-full w-full justify-between ">
+                        <div class="w-full mt-5">
+                            <p class="text-2xl font-bold">@selectedRoomType Room</p>
+                            <p class="text-primary font-semibold text-xl">Php @GetRoomPrice(selectedRoomType) per night</p>
+                        </div>
+                        <div class="w-full flex flex-col space-y-8">
+                            <div class="flex-1 flex">
+                                <div class="flex-1 flex flex-col">
+                                    <label class="w-full text-sm font-medium mb-1">Guest First Name</label>
+                                    <input @bind="guestFirstName" type="text" placeholder="John" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                                <div class="flex-1 flex flex-col">
+                                    <label class="w-full text-sm font-medium mb-1">Guest Last Name</label>
+                                    <input @bind="guestLastName" type="text" placeholder="Doe" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                            <CustomDatePicker Placeholder="Check-In Date" @bind-Value="checkInDate" Class="w-full" Id="1" MinDate="@DateOnly.FromDateTime(DateTime.Now)" MaxDate="@DateOnly.FromDateTime(DateTime.Now)" />
+                            <CustomDatePicker Placeholder="Check-Out Date" @bind-Value="checkOutDate" Class="w-full" Id="2" MinDate="@(checkInDate != null ? checkInDate.Value.AddDays(1) : @DateOnly.FromDateTime(DateTime.Now).AddDays(1))"  />
+                        </div>
+
+                        <div class="w-full flex justify-between mt-5">
+                            <button @onclick='BackToRoomSelection' class="w-1/3 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer hover:bg-blue-50 transition-colors duration-400">
+                                Back
+                            </button>
+                            <button @onclick='ProceedToPayment' class="w-2/3 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400" disabled="@(!IsDateSelectionValid)">
+                                Continue to Payment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (currentStep == 3)
+            {
+
+                <!-- Payment Step -->
+                <div class="w-full grid grid-cols-2 gap-5 h-full p-2 ">
+                    <div class="flex flex-col gap-5 h-full">
+
+                        <div class="w-full h-full flex flex-col px-1 -space-y-1">
+                            <p class="w-full text-lg font-bold text-gray-600 border-b border-gray-600">Cost Breakdown</p>
+                            <div class="w-full h-full flex flex-col">
+                                @foreach (var amenity in amenities)
+                                {
+                                    <div class="w-full flex flex-row justify-between">
+                                        <p class="text-sm text-gray-600">@amenity.amenity_name</p>
+                                        <p class="text-sm text-gray-600"> @string.Format("{0:N2}", amenity.amenity_price)</p>
+                                    </div>
+                                }
+                            </div>
+                            <div class="w-full flex flex-row justify-between border-t pt-2 border-gray-400">
+                                <p class="text-sm text-gray-600">Total Amenities Cost</p>
+                                <p class="text-sm text-gray-600">@CalculateAmenityPrice().ToString("N2")</p>
+                            </div>
+                            <div class="w-full flex flex-row justify-between border-b pb-2 border-gray-400">
+                                <p class="text-sm text-gray-600">Cost per Night (@selectedRoomType | @(checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber) night@((checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber) > 1 ? "s" : ""))</p>
+                                <p class="text-sm text-gray-600">@CalculateTotalPrice().ToString("N2")</p>
+                            </div>
+                        </div>
+                        <div class="w-full  px-1 flex flex-row justify-between">
+                            <p class="text-lg font-semibold text-gray-800">Total Amount</p>
+                            <p class="text-lg font-bold text-primary">Php @((CalculateTotalPrice() + CalculateAmenityPrice()).ToString("N2"))</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between flex-col gap-5 h-full">
+
+                        <div class="flex flex-col ">
+                            <p class="text-sm w-full font-medium">Select Payment Method</p>
+                            <div class="grid grid-cols-3 w-full gap-4">
+                                <div @onclick='() => SelectPaymentMethod("card")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "card" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="credit_card" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5 text-md">Credit / Debit Card</p>
+                                        <p class="w-full text-xs text-gray-400">Pay securely with your card</p>
+                                    </div>
+                                </div>
+                                <div @onclick='() => SelectPaymentMethod("wallet")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "wallet" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="wallet" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5 text-md">Digital Wallet</p>
+                                        <p class="w-full text-xs text-gray-400">GCash</p>
+                                    </div>
+                                </div>
+                                <div @onclick='() => SelectPaymentMethod("cash")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "cash" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="wallet" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5">Cash Payment</p>
+                                        <p class="w-full text-xs text-gray-400">Cash</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @if (paymentMethod == "card")
+                        {
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Card Number</label>
+                                    <div class="w-full flex h-12 border-2 border-gray-400 px-3 rounded-lg group">
+
+                                        <input @bind:event="oninput" @onkeydown="HandleCardNumberKeyDown" @bind="cardNumber" type="text" placeholder="1234 5678 9012 3456" class="w-full h-12  rounded-lg focus:outline-none focus:border-primary" />
+                                        @if (paymentMethod == "card")
+                                        {
+                                            <div class=" flex flex-row px-3">
+                                                @if (cardNumber.Length > 0 && cardNumber[0] == '4')
+                                                {
+                                                    <img src="icons/selected-visa.png" alt="visa" />
+                                                    <img src="icons/mastercard.png" alt="mastercard" />
+                                                }
+                                                else if (cardNumber.Length > 0 && (cardNumber[0] == '5' || cardNumber[0] == '2'))
+                                                {
+                                                    <img src="icons/visa.png" alt="visa" />
+                                                    <img src="icons/selected-mastercard.png" alt="mastercard" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="icons/visa.png" alt="visa" />
+                                                    <img src="icons/mastercard.png" alt="mastercard" />
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row gap-4">
+
+                                    <div class="flex-1 flex flex-col">
+                                        <label class="w-full text-sm font-medium mb-1">Expiry Date</label>
+                                        <input @bind:event="oninput" @onkeydown="HandleExpiryKeyDown" @bind="expiryDate" type="text" placeholder="MM/YY" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                    </div>
+                                    <div class="flex-1 flex flex-col">
+                                        <label class="w-full text-sm font-medium mb-1">CVV</label>
+                                        <input @bind:event="oninput" @onkeydown="HandleCVVKeyDown" @bind="cvv" type="text" placeholder="123" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Cardholder Name</label>
+                                    <input @bind="cardholderName" type="text" placeholder="John Doe" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                        }
+                        else if (paymentMethod == "wallet")
+                        {
+                            <div class="flex flex-col space-y-6 w-full pb-10">
+
+                                <div class="flex flex-col w-full">
+                                    <label class=" w-full text-sm font-medium mb-1">Mobile Number</label>
+                                    <input @bind:event="oninput" @onkeydown="HandleMobileNumberKeyDown" @bind="mobileNumber" type="text" placeholder="0912 345 6789" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                                <div class="flex flex-col w-full">
+                                    <label class=" w-full text-sm font-medium mb-1">Reference Number</label>
+                                    <input @bind="referenceNumber" maxlength="13" type="text" placeholder="1234567890123" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                        }
+                        else {
+                            <div class="flex flex-col space-y-6 w-2/3">
+                                <h1 class="text-primary text-2xl font-bold">Cash Payment</h1>
+                                <h3 class="text-center text-gray-500 text-lg ">Please collect payment upon guest check-in.</h3>
+                            </div>
+                        }
+
+                        <div class="w-full flex justify-between mt-5">
+                            <button @onclick='BackToDateSelection' class="w-1/3 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer hover:bg-blue-50 transition-colors duration-400">
+                                Back
+                            </button>
+                            <button @onclick='CompleteBooking' class="w-2/3 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400" disabled="@(!IsPaymentValid)">
+                                Complete Booking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        <Icon Name="Close" @onclick='CloseAddBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer"/>
+    </div>
 </div>
 
-@code {
 
+@code {
+    private bool IsExtendBookingDialogOpen = false;
+    private int extendCurrentStep = 1;
+    private DateOnly? newCheckOutDate;
+    private DateOnly? newCheckInDate;
+    private decimal extendAdditionalAmount = 0;
+    private bool IsBookingDialogOpen = false;
+    private Booking selectedBooking = new Booking();
+    private Room room = new Room();
+    private List<RoomAmenity> amenities = new List<RoomAmenity>();
+    private List<Booking> bookings = new List<Booking>();
+    private List<Booking> filteredBookings = new List<Booking>();
+    private string searchQuery = string.Empty;
+    private string statusFilter = "All";
+    private bool IsAddBookingDialogOpen = false;
+    private bool IsFilterDropdownOpen = false;
+    private bool IsSortDropdownOpen = false;
+    private int currentStep = 1;
+    private string selectedRoomType = "";
+    private DateOnly? checkInDate;
+    private DateOnly? checkOutDate;
+    private string paymentMethod = "card";
+    private string _cardNumber = "";
+    private string _expiryDate = "";
+    private string _cvv = "";
+    private string cardholderName = "";
+    private string _mobileNumber = "";
+    private string referenceNumber = "";
+    private string guestFirstName = "";
+    private string guestLastName = "";
+    private string SearchQuery
+    {
+        get => searchQuery;
+        set
+        {
+            searchQuery = value;
+            FilterBookings();
+        }
+    }
+    private string cvv
+    {
+        get => _cvv;
+        set
+        {
+            // Filter to only digits and limit to 4 characters
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+            _cvv = digitsOnly.Length > 4 ? digitsOnly[..4] : digitsOnly;
+        }
+    }
+
+    private string expiryDate
+    {
+        get => _expiryDate;
+        set
+        {
+            // Remove all non-digits
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+
+            // Limit to 4 digits (MMYY)
+            if (digitsOnly.Length > 4)
+            {
+                digitsOnly = digitsOnly[..4];
+            }
+
+            // Format as MM/YY
+            _expiryDate = digitsOnly.Length switch
+            {
+                > 2 => $"{digitsOnly[..2]}/{digitsOnly[2..]}",
+                _ => digitsOnly
+            };
+        }
+    }
+    private string cardNumber
+    {
+        get => _cardNumber;
+        set
+        {
+            // Remove all non-digits
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+
+            // Limit to 16 digits
+            if (digitsOnly.Length > 16)
+            {
+                digitsOnly = digitsOnly[..16];
+            }
+
+            // Format with spaces every 4 digits
+            var formatted = new StringBuilder();
+            for (int i = 0; i < digitsOnly.Length; i++)
+            {
+                if (i > 0 && i % 4 == 0)
+                {
+                    formatted.Append(' ');
+                }
+                formatted.Append(digitsOnly[i]);
+            }
+
+            _cardNumber = formatted.ToString();
+        }
+    }
+    private string mobileNumber
+    {
+        get => _mobileNumber;
+        set
+        {
+            // Remove all non-digits
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+
+            // Limit to 16 digits
+            if (digitsOnly.Length > 11)
+            {
+                digitsOnly = digitsOnly[..11];
+            }
+
+            // Format with spaces every 4 digits
+            var formatted = new StringBuilder();
+            for (int i = 0; i < digitsOnly.Length; i++)
+            {
+                if (i > 0 && (i == 4 || i == 7))
+                {
+                    formatted.Append(' ');
+                }
+                formatted.Append(digitsOnly[i]);
+            }
+
+            _mobileNumber = formatted.ToString();
+        }
+    }
+
+    private async Task OpenBookingDialog(Booking booking)
+    {
+        selectedBooking = booking;
+        IsBookingDialogOpen = true;
+    }
+
+    private void CloseBookingDialog()
+    {
+        IsBookingDialogOpen = false;
+    }
+    private void OpenExtendBookingDialog()
+    {
+        newCheckInDate = selectedBooking.rsv_checkin;
+        extendCurrentStep = 1;
+        IsExtendBookingDialogOpen = true;
+        CalculateExtendAdditionalAmount();
+    }
+    private async Task cancelBooking()
+    {
+        await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
+        bookings = await ReservationService.GetReservations();
+        filteredBookings = bookings;
+        CloseBookingDialog();
+    }
+    private async Task checkInBooking()
+    {
+        await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked In");
+        bookings = await ReservationService.GetReservations();
+        filteredBookings = bookings;
+        CloseBookingDialog();
+
+    }
+    private async Task checkOutBooking()
+    {
+        await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked Out");
+        bookings = await ReservationService.GetReservations();
+        filteredBookings = bookings;
+        CloseBookingDialog();
+
+    }
+    private void CloseExtendBookingDialog()
+    {
+        IsExtendBookingDialogOpen = false;
+        extendCurrentStep = 1;
+        newCheckOutDate = null;
+        extendAdditionalAmount = 0;
+    }
+
+    private void BackToExtendDateSelection()
+    {
+        extendCurrentStep = 1;
+    }
+
+    private void ProceedToExtendPayment()
+    {
+        if (IsExtendDateValid)
+        {
+            CalculateExtendAdditionalAmount();
+            extendCurrentStep = 2;
+        }
+    }
+
+    private void CalculateExtendAdditionalAmount()
+    {
+        if (newCheckOutDate.HasValue && selectedBooking != null)
+        {
+            var additionalNights = newCheckOutDate.Value.DayNumber - selectedBooking.rsv_checkout.DayNumber;
+            extendAdditionalAmount = additionalNights * GetRoomPrice(selectedBooking.type_category);
+        }
+    }
+
+    private bool IsExtendDateValid
+    {
+        get
+        {
+            if (!newCheckOutDate.HasValue || selectedBooking == null) return false;
+            return newCheckOutDate.Value > selectedBooking.rsv_checkout;
+        }
+    }
+
+    private async Task CompleteExtendBooking()
+    {
+        if (IsPaymentValid && newCheckOutDate.HasValue && selectedBooking != null)
+        {
+
+
+
+            // Update the booking with new checkout date and payment
+            bool success = await ReservationService.ExtendReservation(selectedBooking.rsv_id, newCheckOutDate.Value, (double)extendAdditionalAmount);
+
+            if (success)
+            {
+                // Refresh bookings
+                bookings = await ReservationService.GetReservations();
+                filteredBookings = bookings;
+
+                // Reset state
+                CloseExtendBookingDialog();
+                CloseBookingDialog();
+                CloseAddBookingDialog();
+
+                // Show success message or notification
+                StateHasChanged();
+            }
+        }
+    }
+
+    private string GetImageSelectedBooking(string type_category)
+    {
+        Console.WriteLine($"type_category: {type_category}");
+        if(type_category == null) return "/standard/standard-1.jpg";
+        if(type_category.ToLower() == "standard")
+        {
+            return "/standard/standard-1.jpg";
+        }
+        else if(type_category.ToLower() == "deluxe")
+        {
+            return "/deluxe/deluxe-3.jpg";
+        }
+        else if(type_category.ToLower() == "suite")
+        {
+            return "/suite/suite-3.jpg";
+        }
+        else
+        {
+            return "/standard/standard-1.jpg";
+        }
+    }
+
+    private void HandleCVVKeyDown(KeyboardEventArgs e)
+    {
+        // Allow: backspace, delete, tab, arrows
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight" };
+        if (allowedKeys.Contains(e.Key)) return;
+
+        // Prevent if not a digit or if at max length
+        if (cvv.Length >= 4 || !char.IsDigit(e.Key[0]))
+        {
+            return;
+        }
+    }
+
+
+    private void HandleExpiryKeyDown(KeyboardEventArgs e)
+    {
+        // Allow control keys
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight" };
+        if (allowedKeys.Contains(e.Key)) return;
+
+        // Prevent if not a digit or if at max length (4 digits = 5 chars with slash)
+        if (_expiryDate.Replace("/", "").Length >= 4 || !char.IsDigit(e.Key[0]))
+        {
+            return;
+        }
+    }
+    private void HandleCardNumberKeyDown(KeyboardEventArgs e)
+    {
+        // Allow control keys
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", " " };
+        if (allowedKeys.Contains(e.Key)) return;
+
+        // Prevent if not a digit or if at max length (16 digits)
+        if (_cardNumber.Replace(" ", "").Length >= 16 || !char.IsDigit(e.Key[0]))
+        {
+            return;
+        }
+    }
+    private void HandleMobileNumberKeyDown(KeyboardEventArgs e)
+    {
+        // Allow control keys
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", " " };
+        if (allowedKeys.Contains(e.Key)) return;
+
+        // Prevent if not a digit or if at max length (16 digits)
+        if (_cardNumber.Replace(" ", "").Length >= 11 || !char.IsDigit(e.Key[0]))
+        {
+            return;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+        bookings = await ReservationService.GetReservations();
+        filteredBookings = bookings;
+    }
+
+    private void FilterBookings()
+    {
+        var query = searchQuery.ToLower();
+        filteredBookings = bookings.Where(b =>
+            (string.IsNullOrWhiteSpace(query) ||
+            b.user_fname?.ToLower().Contains(query) == true ||
+            b.user_lname?.ToLower().Contains(query) == true ||
+            b.user_email?.ToLower().Contains(query) == true) &&
+            (statusFilter == "All" || b.rsv_status == statusFilter)
+        ).ToList();
+    }
+
+    private void FilterByStatus(string status)
+    {
+        statusFilter = status;
+        FilterBookings();
+        IsFilterDropdownOpen = false;
+    }
+
+    private void SortByCheckInDate(bool newestFirst)
+    {
+        filteredBookings = newestFirst ?
+            filteredBookings.OrderByDescending(b => b.rsv_checkin).ToList() :
+            filteredBookings.OrderBy(b => b.rsv_checkin).ToList();
+        IsSortDropdownOpen = false;
+    }
+
+    private void SortByCheckOutDate(bool newestFirst)
+    {
+        filteredBookings = newestFirst ?
+            filteredBookings.OrderByDescending(b => b.rsv_checkout).ToList() :
+            filteredBookings.OrderBy(b => b.rsv_checkout).ToList();
+        IsSortDropdownOpen = false;
+    }
+
+    private void SortByRoomNumber(bool ascending)
+    {
+        filteredBookings = ascending ?
+            filteredBookings.OrderBy(b => b.room_no).ToList() :
+            filteredBookings.OrderByDescending(b => b.room_no).ToList();
+        IsSortDropdownOpen = false;
+    }
+
+    private void SortByName(bool ascending)
+    {
+        filteredBookings = ascending ?
+            filteredBookings
+                .OrderBy(b => b.user_lname)
+                .ThenBy(b => b.user_fname)
+                .ToList() :
+            filteredBookings
+                .OrderByDescending(b => b.user_lname)
+                .ThenByDescending(b => b.user_fname)
+                .ToList();
+        IsSortDropdownOpen = false;
+    }
+
+    private void SortByRoomType(bool ascending)
+    {
+        filteredBookings = ascending ?
+            filteredBookings
+                .OrderBy(b => b.type_category)
+                .ToList() :
+            filteredBookings
+                .OrderByDescending(b => b.type_category)
+                .ToList();
+        IsSortDropdownOpen = false;
+    }
+
+    private string GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Booked" => "bg-blue-400",
+            "Checked In" => "bg-green-400",
+            "Checked Out" => "bg-gray-400",
+            "Cancelled" => "bg-red-400",
+            _ => "bg-primary"
+        };
+    }
+
+    private void ToggleFilterDropdown()
+    {
+        IsFilterDropdownOpen = !IsFilterDropdownOpen;
+        if (IsFilterDropdownOpen) IsSortDropdownOpen = false;
+    }
+
+    private void ToggleSortDropdown()
+    {
+        IsSortDropdownOpen = !IsSortDropdownOpen;
+        if (IsSortDropdownOpen) IsFilterDropdownOpen = false;
+    }
+
+    private void OpenAddBookingDialog()
+    {
+        IsAddBookingDialogOpen = true;
+    }
+
+    private void CloseAddBookingDialog()
+    {
+        IsAddBookingDialogOpen = false;
+        //reset variables
+        guestFirstName = "";
+        guestLastName = "";
+        checkInDate = null;
+        checkOutDate = null;
+        currentStep = 1;
+        selectedRoomType = "";
+        amenities = new List<RoomAmenity>();
+        room = new Room();
+        paymentMethod = "card";
+        cardNumber = "";
+        expiryDate = "";
+        cvv = "";
+        cardholderName = "";
+        mobileNumber = "";
+        referenceNumber = "";
+    }
+
+    private void AddBookingBackdropClick()
+    {
+        CloseAddBookingDialog();
+    }
+    private void SelectRoomType(string roomType)
+    {
+        selectedRoomType = roomType;
+        currentStep = 2;
+    }
+
+    private void BackToRoomSelection()
+    {
+        currentStep = 1;
+    }
+
+    private async Task ProceedToPayment()
+    {
+        if (IsDateSelectionValid && !string.IsNullOrEmpty(guestFirstName) && !string.IsNullOrEmpty(guestLastName))
+        {
+            amenities = await AmenityService.GetAmenitiesByRoomTypeAsync(selectedRoomType);
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(amenities));
+            currentStep = 3;
+        }
+    }
+
+    private void BackToDateSelection()
+    {
+        currentStep = 2;
+    }
+
+    private async Task CompleteBooking()
+    {
+        if (IsPaymentValid)
+        {
+
+            User user = new User()
+                {
+                    user_fname = guestFirstName,
+                    user_lname = guestLastName
+                };
+            bool successUser = await GuestService.RegisterGuest(user);
+            if (!successUser) return;
+            User guestUser = await GuestService.getUserFromFirstNameLastName(guestFirstName, guestLastName);
+            Console.WriteLine($"Guest User: {System.Text.Json.JsonSerializer.Serialize(guestUser)}");
+            double roomPrice = (double)CalculateTotalPrice() + (double)CalculateAmenityPrice();
+            room = await RoomService.getRandomRoomFromType(selectedRoomType);
+            Console.WriteLine($"Room: {System.Text.Json.JsonSerializer.Serialize(room)}");
+            int payment_id = await PaymentService.AddPayment(Convert.ToDouble(roomPrice), DateTime.Now,AppState.CurrentUser.user_id);
+            bool successReservation = await ReservationService.AddReservation("walkin",checkInDate ?? DateOnly.MinValue, checkOutDate ?? DateOnly.MinValue, guestUser.user_id, room.room_id, payment_id);
+            if(!successReservation) return;
+            // Save booking and handle payment
+            // await ReservationService.AddReservation(booking);
+
+            
+
+            CloseAddBookingDialog();
+            bookings = await ReservationService.GetReservations();
+
+            filteredBookings = bookings;
+            StateHasChanged();
+            // Optionally show success message
+        }
+    }
+
+    private string GetRoomImage(string roomType)
+    {
+        return roomType switch
+        {
+            "Standard" => "/standard/standard-1.jpg",
+            "Deluxe" => "/deluxe/deluxe-3.jpg",
+            "Suite" => "/suite/suite-3.jpg",
+            _ => ""
+        };
+    }
+
+    private decimal GetRoomPrice(string roomType)
+    {
+
+        return roomType switch
+        {
+            "Standard" => 2500,
+            "Deluxe" => 5000,
+            "Suite" => 7500,
+            _ => 0
+        };
+    }
+
+    private decimal CalculateTotalPrice()
+    {
+        if (!checkInDate.HasValue || !checkOutDate.HasValue) return 0;
+
+        var nights = checkOutDate.Value.DayNumber - checkInDate.Value.DayNumber;
+        return nights * GetRoomPrice(selectedRoomType);
+    }
+
+    private decimal CalculateAmenityPrice()
+    {
+        return (decimal)amenities.Sum(a => a.amenity_price ?? 0);
+    }
+
+    private bool IsDateSelectionValid
+    {
+        get {
+            if (!checkInDate.HasValue || !checkOutDate.HasValue) return false;
+            return checkInDate.Value >= DateOnly.FromDateTime(DateTime.Today) && 
+                   checkOutDate.Value > checkInDate.Value;
+        }
+    }
+
+    private bool IsPaymentValid
+    {
+        get {
+            if (paymentMethod == "card")
+            {
+                return !string.IsNullOrEmpty(cardNumber) &&
+                       !string.IsNullOrEmpty(expiryDate) &&
+                       !string.IsNullOrEmpty(cvv) &&
+                       !string.IsNullOrEmpty(cardholderName);
+            }
+            else if (paymentMethod == "wallet")
+            {
+                return !string.IsNullOrEmpty(mobileNumber);
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    private void SelectPaymentMethod(string method)
+    {
+        paymentMethod = method;
+    }
+
+    private async Task<int> GetAvailableRoom(string roomType)
+    {
+        // Implement logic to get an available room of the selected type
+        return 101; // Example room number
+    }
 }

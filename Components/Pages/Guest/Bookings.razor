@@ -1,8 +1,9 @@
-﻿@page "/bookings"
+@page "/bookings"
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject ReservationServices ReservationService
 @inject UserState UserState
+@inject AppState AppState
 @using Oasis.State
 @using Oasis.Data.Object
 @using Oasis.Data.Models
@@ -20,33 +21,37 @@
 				<div class="w-2/3 h-100 rounded-2xl bg-[url('/standard/standard-1.jpg')] bg-cover"></div>
 				<div class="w-1/3 h-100 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm">
 					<p class="w-full font-bold text-2xl">@(booking.type_category) Room</p>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Guest</p>
 						<p class="text-gray-400">@(currentUser.user_fname + " " + currentUser.user_lname)</p>
 					</div>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
+						<p>Room Number</p>
+						<p class="text-gray-400">@(booking.room_no)</p>
+					</div>
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Check In</p>
 						<p class="text-gray-400">@(booking.rsv_checkin)</p>
 					</div>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Check Out</p>
 						<p class="text-gray-400">@(booking.rsv_checkout)</p>
 					</div>
 					<div class="w-full h-[1px] bg-gray-300"></div>
-					<div class="w-full h-15 flex flex-row justify-between">
+					<div class="w-full h-13 flex flex-row justify-between">
 						<p>Total Amount</p>
 						<p class="text-[#0040A6]">@(booking.payment_amount.ToString("N2"))</p>
 					</div>
 					<div class="w-full flex flex-col justify-center">
 						@if(booking.rsv_status == "Checked In")
 						{
-							<button class="w-3/4 h-10 rounded-2xl bg-[#2563EB] text-white cursor-pointer">Extend</button>
+							<button class="w-3/4 h-10 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Extend</button>
 
 						}
 						else
 						{
-							<button class="text-[#8C96A6] cursor-pointer">Cancel</button>
-
+							<button class="w-3/4 h-10 rounded-2xl  border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel</button>
+							
 						}
 					</div>
 				</div>
@@ -126,12 +131,17 @@
 </div>
 
 @code {
-	private List<GuestBooking> guestBookings = new List<GuestBooking>();
 	private User currentUser = new User();
 
 	private bool reviewOpen = false;
 	private int currentRating = 0;
 	private string reviewText = string.Empty;
+	private List<GuestBooking> guestBookings = new List<GuestBooking>();
+	protected override async Task OnInitializedAsync()
+	{
+		currentUser = AppState.CurrentUser;
+		guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
+	}
 
 	private void SetRating(int rating)
 	{
@@ -146,24 +156,24 @@
 		CloseReviewDialog();
 	}
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			await UserState.LoadUserAsync();
-			if (UserState.CurrentUser == null)
-			{
-				NavigationManager.NavigateTo("/signin");
-			}
-			else
-			{
-				currentUser = UserState.CurrentUser;
-				guestBookings = await ReservationService.GetReservationsByGuestId(currentUser.user_id);
-				Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(guestBookings));
-			}
-			StateHasChanged();
-		}
-	}
+	// protected override async Task OnAfterRenderAsync(bool firstRender)
+	// {
+	// 	if (firstRender)
+	// 	{
+	// 		await UserState.LoadUserAsync();
+	// 		if (UserState.CurrentUser == null)
+ //            {
+ //                NavigationManager.NavigateTo("/signin");
+ //            }
+ //            else
+ //            {
+ //                currentUser = UserState.CurrentUser;
+ //                guestBookings = await ReservationService.GetReservationsByGuestId(currentUser.user_id);
+	// 			Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(guestBookings));
+ //            }
+	// 		StateHasChanged();
+	// 	}
+	// }
 
 	private void ReviewClicked()
 	{

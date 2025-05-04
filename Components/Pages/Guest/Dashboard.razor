@@ -1,12 +1,11 @@
 ﻿@page "/dashboard/guest"
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
-@inject CheckInState CheckIn
 @inject RoomServices RoomService
 @using Oasis.Data.Models
 @using Oasis.Library
 @using Oasis.State
-
+@inject AppState AppState
 @using Oasis.Components.ui
 <div class="bg-[#fafafa] w-screen min-h-screen flex flex-col  -mt-5 font-montserrat ">
     <GuestNavbar/>
@@ -137,8 +136,8 @@
 
     private async Task SetRoomType(string roomType)
     {
+        AppState.SetRoomType(roomType);
         Console.WriteLine(roomType);
-        await CheckIn.SetRoomTypeAsync(roomType);
         NavigationManager.NavigateTo("/book/" + roomType);
     }
 }

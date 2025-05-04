@@ -4,8 +4,7 @@
 @using Oasis.Components.ui
 @using Oasis.State
 @inject NavigationManager Navigation
-@inject CheckInState CheckIn
-
+@inject AppState AppState
 <div class="w-full h-screen overflow-hidden flex flex-col justify-center">
 	<div class="absolute top-5 left-5 flex font-montserrat cursor-pointer" @onclick="GoBack">
 		@* <img src="/icons/back-arrow.png" alt="Alternate Text" class=" top-5 left-5 h-10 -mr-4 transition-all duration-400 hover:stroke-[3px]" /> *@
@@ -40,20 +39,20 @@
 		<div class="w-[calc(25%+10rem)] h-screen flex flex-col justify-center">
 
 			<div class="transition-all duration-500 bg-center rounded-2xl h-1/2 w-full"
-				 style="background-image: url('@hoveredImage'); background-size: cover;">
+			style="background-image: url('@hoveredImage'); background-size: cover;">
 			</div>
 			<div class="w-full flex h-40 justify-between -mb-20">
 				<div @onmouseover='()=> hoveredImage = "/deluxe/deluxe-1.jpg"'
-					 style="background-image: url('/deluxe/deluxe-1.jpg'); background-size: cover;"
-					 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+				style="background-image: url('/deluxe/deluxe-1.jpg'); background-size: cover;"
+				class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
 				</div>
 				<div @onmouseover='()=> hoveredImage = "/deluxe/deluxe-2.jpg"'
-					 style="background-image: url('/deluxe/deluxe-2.jpg'); background-size: cover;"
-					 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+				style="background-image: url('/deluxe/deluxe-2.jpg'); background-size: cover;"
+				class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
 				</div>
 				<div @onmouseover='()=> hoveredImage = "/deluxe/deluxe-3.jpg"'
-					 style="background-image: url('/deluxe/deluxe-3.jpg'); background-size: cover;"
-					 class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
+				style="background-image: url('/deluxe/deluxe-3.jpg'); background-size: cover;"
+				class="h-full w-[30%] bg-center rounded-md shadow-md shadow-gray-700/50">
 				</div>
 			</div>
 		</div>
@@ -91,6 +90,14 @@
 	private DateOnly? checkInDate;
 	private DateOnly? checkOutDate;
 	string hoveredImage = "/deluxe/deluxe-1.jpg";
+	protected override async Task OnInitializedAsync()
+	{
+		AppState.ClearBookiing();
+		if (AppState.CurrentUser == null)
+		{
+			Navigation.NavigateTo("/signin");
+		}
+	}
 	private void GoBack()
 	{
 		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
@@ -114,7 +121,9 @@
 			Console.WriteLine("invalid");
 			return;
 		}
-		await CheckIn.SetCheckInAsync(checkInDate, checkOutDate);
+		AppState.SetRoomType("deluxe");
+
+		AppState.SetCheckInDate(checkInDate, checkOutDate);
 		Navigation.NavigateTo("/payment");
 	}
 }

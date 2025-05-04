@@ -1,4 +1,5 @@
 ﻿@page "/signin"
+@inject AppState appState
 @inject SignInServices SignInService
 @inject NavigationManager Navigation
 @inject UserState UserState
@@ -22,7 +23,6 @@
             <div class="flex flex-col gap-10 justify-center items-center w-100 my-15 h-10">
                 <button @onclick="Login" type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 flex items-center justify-center transition-colors duration-300 cursor-pointer">
                     @if(isSigningIn){
-                        <Icon Name="Progress_Activity" Size="20px" Color="white" Class="animate-spin" />
                         <spane>Signing In</spane>
                     }else
                     {
@@ -54,6 +54,13 @@
     //     sonnerMessage = message;
     //     showSonner = true;
     // }
+    protected override async Task OnInitializedAsync()
+    {
+        if(appState.CurrentUser != null)
+        {
+            Navigation.NavigateTo("/dashboard/"+appState.CurrentUserType);
+        }
+    }
     private async Task Login()
     {
         isSigningIn = true;
@@ -86,8 +93,11 @@
             isSigningIn = false;
             return;
         }
-
-        await UserState.SetCurrentUserAsync(await SignInService.getUser(email));
+        var user = await SignInService.getUser(email);
+        await UserState.SetCurrentUserAsync(user);
+        await UserState.SetCurrentUserTypeAsync(result.Value);
+        appState.SetCurrentUser(user);
+        appState.SetCurrentUserType(result.Value);
         isSigningIn = false;
         Navigation.NavigateTo("/dashboard/" + result.Value.ToLower());
     }

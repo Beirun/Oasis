@@ -1,6 +1,7 @@
-﻿@inject NavigationManager NavigationManager
+@inject NavigationManager NavigationManager
 @using Oasis.State
 @inject UserState UserState
+@inject AppState AppState
 @rendermode InteractiveServer
 
 <div class="bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50 sticky top-0 z-2">
@@ -64,16 +65,12 @@
 @code {
     private bool IsDropdownOpen { get; set; } = false;
     private bool IsNotificationOpen { get; set; } = false;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await UserState.LoadUserAsync();
 
-            if (UserState.CurrentUser == null)
-            {
-                NavigationManager.NavigateTo("/signin");
-            }
+    protected override async Task OnInitializedAsync()
+    {
+        if (AppState.CurrentUser == null)
+        {
+            NavigationManager.NavigateTo("/signin");
         }
     }
     private void ToggleDropdown()
@@ -89,6 +86,7 @@
 
     private async Task Logout()
     {
+        AppState.ClearUser();
         await UserState.ClearUserAsync();
         NavigationManager.NavigateTo("/signin");
     }
