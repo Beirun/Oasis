@@ -5,6 +5,7 @@
 @inject AppState AppState
 @using Oasis.Data.Object
 @using Oasis.Library
+@using Oasis.Data.Models
 @inject ReservationServices ReservationService
 @inject NavigationManager NavigationManager
 @using System.Text
@@ -51,7 +52,7 @@
                     </div>
                     <div class='w-full h-6/8 flex'>
                         <div class='w-4/5 h-full items-start mt-6'>
-                            <p class='w-full text-sm'>Maintenance</p>
+                            <p class='w-full text-sm'>To Be Cleaned</p>
                             <p class='text-3xl w-full font-bold'>@needsCleaningRoomsCount</p>
                         </div>
                     </div>
@@ -79,7 +80,7 @@
                     <div class='w-full flex items-center'>
                         <Icon Name='Search' size='30px' Color='gray' Class='absolute ml-4 pointer-events-none focus:outline-none' />
                         <input @bind='SearchTerm' @bind:event='oninput' type='text' placeholder='Search Rooms...'
-                               class='shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-full pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500' />
+                        class='shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-full pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500' />
                     </div>
 
                     <!-- Category Dropdown -->
@@ -171,7 +172,7 @@
                                                 _ => "bg-gray-500"
                                             };
                                         }
-                                        <div class='w-25 h-[25px] @statusClass flex justify-center p-2 rounded-full'>
+                                        <div class='w-30 h-[25px] @statusClass flex justify-center p-2 rounded-full'>
                                             <p class='text-white text-xs'>@room.room_status</p>
                                         </div>
                                     </td>
@@ -204,7 +205,7 @@
                 </div>
                 <div class='w-full mt-5 h-[1px] bg-gray-300'></div>
                 @* 9 bookings *@
-                @foreach (var booking in bookings.GetRange(0, Math.Min(9, bookings.Count)))
+                @foreach (var booking in bookings.GetRange(0, Math.Min(bookings.Count,9)))
                 {
                     <div class='w-[100%] h-19 bg-[#E5E7EB] -mb-2 rounded-md mt-5.5 flex px-3 justify-between '>
                         <div class='size-10 w-11 rounded-full bg-[url("/clouds.png")] bg-cover '></div>
@@ -628,7 +629,6 @@
     private string selectedStatus;
     private int? selectedFloor = null; // Set default floor to 1
 
- 
     protected override async Task OnInitializedAsync()
     {
         allRooms = await RoomService.GetRoomInventory();

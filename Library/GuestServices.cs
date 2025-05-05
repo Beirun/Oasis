@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Oasis.Data;
 using Oasis.Data.Models;
+using Oasis.Data.Object;
 namespace Oasis.Library
 {
 
@@ -17,6 +18,25 @@ namespace Oasis.Library
         {
 
             return await _context.User.Where(u => u.user_type == "Guest").ToListAsync();
+
+        }
+        public async Task<List<UserGuest>> getUserGuests()
+        {
+
+            return await _context.User
+                .Include(g => g.guest)
+                .Where(u => u.user_type == "Guest")
+                .Select(u => new UserGuest
+                {
+                    user_id = u.user_id,
+                    user_fname = u.user_fname,
+                    user_lname = u.user_lname,
+                    registration_date = u.guest.registration_date
+
+                }
+                    
+                )
+                .ToListAsync();
 
         }
         public async Task<User> getUserFromFirstNameLastName(string fname, string lname)
