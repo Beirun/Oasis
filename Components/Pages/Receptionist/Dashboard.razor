@@ -109,11 +109,12 @@
                             <li @onclick='() => FilterByStatus("Booked")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Booked</li>
                             <li @onclick='() => FilterByStatus("Unavailable")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Unavailable</li>
                             <li @onclick='() => FilterByStatus("Needs Cleaning")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Needs Cleaning</li>
+                            <li @onclick='() => FilterByStatus("Being Cleaned")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Being Cleaned</li>
                         </ul>
                         <button @onclick='() => ToggleDropdown("status")'
                         class='w-50 cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6'>
                             <Icon Name='event_available' Size='30px' Class='mr-2' />
-                            <p class="w-full flex flex-start @(selectedStatus == "Needs Cleaning" ? "text-xs" : "")">@(selectedStatus ?? "Status")</p>
+                            <p class="w-full flex flex-start @(selectedStatus == "Needs Cleaning" || selectedStatus == "Being Cleaned" ? "text-xs" : "")">@(selectedStatus ?? "Status")</p>
                         </button>
                     </div>
 
@@ -166,6 +167,7 @@
                                                 "Booked" => "bg-blue-500",
                                                 "Unavailable" => "bg-red-500",
                                                 "Needs Cleaning" => "bg-yellow-500",
+                                                "Being Cleaned" => "bg-orage-500",
                                                 _ => "bg-gray-500"
                                             };
                                         }
@@ -566,6 +568,25 @@
         <Icon Name="Close" @onclick='CloseExtendBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer" />
     </div>
 </div>
+<!-- Confirmation Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsConfirmationDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseConfirmationDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-80 z-55 w-126 gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsConfirmationDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        <div class="w-full flex flex-col items-center">
+            <Icon Name="warning" Size="40px" Color="#4444EF" Class="mb-4" />
+            <p class="text-xl font-bold text-gray-800 mb-2">Confirm Action</p>
+            <p class="text-gray-600 text-center mb-6">@confirmationMessage</p>
+
+            <div class="flex gap-4 w-full">
+                <button @onclick='CloseConfirmationDialog' class="flex-1 h-12 text-gray-700 border-2 border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-400">
+                    Cancel
+                </button>
+                <button @onclick='ExecuteConfirmedAction' class="flex-1 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @code {
     private int availableRoomsCount = 0;
     private int occupiedRoomsCount = 0;
@@ -605,7 +626,7 @@
     }
     private string selectedCategory;
     private string selectedStatus;
-    private int? selectedFloor = 1; // Set default floor to 1
+    private int? selectedFloor = null; // Set default floor to 1
 
  
     protected override async Task OnInitializedAsync()
@@ -616,7 +637,7 @@
         bookings = bookings.OrderByDescending(b => b.rsv_id).ToList();
 
         // Apply default floor filter
-        FilterByFloor(1);
+        FilterByFloor(null);
         CalculateStats();
     }
      private void SetSelectedBooking(Booking booking)
@@ -959,7 +980,7 @@
     {
         availableRoomsCount = allRooms.Count(r => r.room_status == "Available");
         occupiedRoomsCount = allRooms.Count(r => r.room_status == "Unavailable");
-        needsCleaningRoomsCount = allRooms.Count(r => r.room_status == "Unavailable" || r.room_status == "Needs Cleaning");
+        needsCleaningRoomsCount = allRooms.Count(r =>  r.room_status == "Needs Cleaning");
         // You might want to get the actual reservation count from your service
         reservationCount = allRooms.Count(r => r.room_status == "Reserved");
     }
