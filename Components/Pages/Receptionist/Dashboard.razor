@@ -1,196 +1,332 @@
 @page "/dashboard/receptionist"
 @rendermode InteractiveServer
 @using Oasis.State
+@inject RoomServices RoomService
 @inject AppState AppState
-
-<div class="bg-background  flex min-h-screen w-screen flex-col justify-start">
-
+@using Oasis.Data.Object
+@using Oasis.Library
+@inject ReservationServices ReservationService
+<div class='bg-background flex min-h-screen w-screen flex-col justify-start'>
     @* Navbar *@
     <Navbar />
 
     @*Left Div*@
-    <div class="w-7/8 flex justify-evenly items-stretch font-montserrat">
-        <div class="w-4/5 flex flex-col">
-            <div class="w-full h-25 flex justify-center">
-                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
-                    <div class="w-2/5 h-full ml-4 mt-10">
-                        <div class="bg-[#D1FAE5] flex justify-center w-full rounded-xl h-15">
-                            <Icon Name="hotel" Size="40px" Color="#059669" />
+    <div class='w-7/8 flex justify-evenly items-stretch font-montserrat'>
+        <div class='w-4/5 flex flex-col'>
+            <div class='w-full h-25 flex justify-center'>
+                <div class='w-full bg-white h-full rounded-2xl flex justify-evenly'>
+                    <div class='w-2/5 h-full ml-4 mt-10'>
+                        <div class='bg-[#D1FAE5] flex justify-center w-full rounded-xl h-15'>
+                            <Icon Name='hotel' Size='40px' Color='#059669' />
                         </div>
                     </div>
-                    <div class="w-full h-6/8 flex">
-                        <div class="w-4/5 h-full items-start mt-6">
-                            <p class="w-full text-sm">Available Rooms</p>
-                            <p class="text-3xl w-full font-bold">-</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
-                    <div class="w-2/5 h-50% ml-4">
-                        <div class="bg-[#FEE2E2] flex justify-center w-full rounded-xl h-15">
-                            <Icon Name="door_front" Size="40px" Color="#DC2626" />
-                        </div>
-                    </div>
-                    <div class="w-full h-4/5 flex">
-                        <div class="w-4/5 h-full items-start mt-6">
-                            <p class="w-full text-sm">Occupied Rooms</p>
-                            <p class="text-3xl w-full font-bold">-</p>
+                    <div class='w-full h-6/8 flex'>
+                        <div class='w-4/5 h-full items-start mt-6'>
+                            <p class='w-full text-sm'>Available Rooms</p>
+                            <p class='text-3xl w-full font-bold'>@availableRoomsCount</p>
                         </div>
                     </div>
                 </div>
-                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
-                    <div class="w-2/5 h-50% ml-4">
-                        <div class="bg-[#FEF3C7] flex justify-center w-full rounded-xl h-15">
-                            <Icon Name="cleaning_services" Size="40px" Color="#D97706" />
+                <div class='w-full bg-white h-full rounded-2xl flex justify-evenly'>
+                    <div class='w-2/5 h-50% ml-4'>
+                        <div class='bg-[#FEE2E2] flex justify-center w-full rounded-xl h-15'>
+                            <Icon Name='door_front' Size='40px' Color='#DC2626' />
                         </div>
                     </div>
-                    <div class="w-full h-6/8 flex">
-                        <div class="w-4/5 h-full items-start mt-6">
-                            <p class="w-full text-sm">Maintenance</p>
-                            <p class="text-3xl w-full font-bold">-</p>
+                    <div class='w-full h-4/5 flex'>
+                        <div class='w-4/5 h-full items-start mt-6'>
+                            <p class='w-full text-sm'>Occupied Rooms</p>
+                            <p class='text-3xl w-full font-bold'>@occupiedRoomsCount</p>
                         </div>
                     </div>
-
                 </div>
-                <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
-                    <div class="w-2/5 h-50% ml-4">
-                        <div class="bg-[#EDE9FE] flex justify-center w-full rounded-xl h-15">
-                            <Icon Name="event_available" Size="40px" Color="#7C3AED" />
+                <div class='w-full bg-white h-full rounded-2xl flex justify-evenly'>
+                    <div class='w-2/5 h-50% ml-4'>
+                        <div class='bg-[#FEF3C7] flex justify-center w-full rounded-xl h-15'>
+                            <Icon Name='cleaning_services' Size='40px' Color='#D97706' />
                         </div>
                     </div>
-                    <div class="w-full h-6/8 flex">
-                        <div class="w-4/5 h-full items-start mt-6">
-                            <p class="w-full text-sm">Reservation</p>
-                            <p class="text-3xl w-full font-bold">-</p>
+                    <div class='w-full h-6/8 flex'>
+                        <div class='w-4/5 h-full items-start mt-6'>
+                            <p class='w-full text-sm'>Maintenance</p>
+                            <p class='text-3xl w-full font-bold'>@maintenanceRoomsCount</p>
                         </div>
                     </div>
-
+                </div>
+                <div class='w-full bg-white h-full rounded-2xl flex justify-evenly'>
+                    <div class='w-2/5 h-50% ml-4'>
+                        <div class='bg-[#EDE9FE] flex justify-center w-full rounded-xl h-15'>
+                            <Icon Name='event_available' Size='40px' Color='#7C3AED' />
+                        </div>
+                    </div>
+                    <div class='w-full h-6/8 flex'>
+                        <div class='w-4/5 h-full items-start mt-6'>
+                            <p class='w-full text-sm'>Reservation</p>
+                            <p class='text-3xl w-full font-bold'>@reservationCount</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="w-full h-370 bg-white flex flex-col rounded-2xl font-montserrat p-7">
-                <div class="w-full flex flex-col">
-                    <p class="text-2xl font-bold w-full">Room Inventory</p>
+            <div class='w-full h-200 bg-white flex flex-col rounded-2xl font-montserrat p-7'>
+                <div class='w-full flex flex-col'>
+                    <p class='text-2xl font-bold w-full'>Room Inventory</p>
                 </div>
-                <div class="w-full  h-[1px] bg-gray-300"></div>
-                <div class="w-full flex">
-                    <input type="text" name="name" placeholder="Search Rooms..."
-                    class="  duration-250 bg-white focus:outline-none w-130 pl-3 text-sm p-2 px-4 rounded-md border border-gray-200 focus:border-gray-500" />
-                    <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'></div>
-                    <div class="h-full flex">
-                        <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md  overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
-                        </ul>
-                        <button @onclick="OpenDropdown" class="cursor-pointer flex h-10 content-center transition-all justify-between duration-200  hover:bg-white/20 bg-white  focus:outline-none border border-gray-200  rounded-md px-6 ml-7">  Category <img src="icons/drop.png"  class="flex"/> </button>
+                <div class='w-full h-[1px] bg-gray-300'></div>
+                <div class='w-full flex'>
+                    <div class='w-full flex items-center'>
+                        <Icon Name='Search' size='30px' Color='gray' Class='absolute ml-4 pointer-events-none focus:outline-none' />
+                        <input @bind='searchTerm' @bind:event='oninput' type='text' name='name' placeholder='Search Rooms...'
+                        class='shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-full pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500' />
+                    </div>
 
-                        <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md  overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                    <!-- Category Dropdown -->
+                    <div class='flex flex-col ml-4'>
+                        <div class='inset-0 fixed z-20' style='@(activeDropdown == "category" ? "opacity: 1;" : "opacity: 0; pointer-events:none;")' @onclick='CloseDropdown'></div>
+                        <ul class='divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200'
+                        style='@(activeDropdown == "category" ? "opacity: 1;" : "opacity: 0; pointer-events:none;")'>
+                            <li @onclick='() => FilterByCategory(null)' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>All Categories</li>
+                            <li @onclick='() => FilterByCategory("Standard")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Standard</li>
+                            <li @onclick='() => FilterByCategory("Deluxe")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Deluxe</li>
+                            <li @onclick='() => FilterByCategory("Suite")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Suite</li>
                         </ul>
-                        <button @onclick="OpenDropdown" class="cursor-pointer flex h-10 content-center transition-all duration-200  hover:bg-white/20 bg-white  focus:outline-none border border-gray-200  rounded-md px-6 ml-2">  Status <img src="icons/drop.png" /> </button>
+                        <button @onclick='() => ToggleDropdown("category")'
+                        class='w-42 cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6'>
+                            <Icon Name='category' Size='30px' Class='mr-2' />
+                            <p class="w-25 flex flex-start">@(selectedCategory ?? "Category")</p>
+                        </button>
+                    </div>
 
-                        <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md  overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                    <!-- Status Dropdown -->
+                    <div class='flex flex-col ml-4'>
+                        <div class='inset-0 fixed z-20' style='@(activeDropdown == "status" ? "opacity: 1;" : "opacity: 0; pointer-events:none;")' @onclick='CloseDropdown'></div>
+                        <ul class='divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200'
+                        style='@(activeDropdown == "status" ? "opacity: 1;" : "opacity: 0; pointer-events:none;")'>
+                            <li @onclick='() => FilterByStatus(null)' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>All Statuses</li>
+                            <li @onclick='() => FilterByStatus("Available")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Available</li>
+                            <li @onclick='() => FilterByStatus("Booked")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Booked</li>
+                            <li @onclick='() => FilterByStatus("Unavailable")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Unavailable</li>
+                            <li @onclick='() => FilterByStatus("Needs Cleaning")' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Needs Cleaning</li>
                         </ul>
-                        <button @onclick="OpenDropdown" class="cursor-pointer  flex h-10 content-center transition-all duration-200  hover:bg-white/20 bg-white  focus:outline-none border border-gray-200  rounded-md px-6 ml-2">  Floor <img src="icons/drop.png" /> </button>
+                        <button @onclick='() => ToggleDropdown("status")'
+                        class='w-50 cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6'>
+                            <Icon Name='event_available' Size='30px' Class='mr-2' />
+                            <p class="w-full flex flex-start @(selectedStatus == "Needs Cleaning" ? "text-xs" : "")">@(selectedStatus ?? "Status")</p>
+                        </button>
+                    </div>
+
+                    <!-- Floor Dropdown -->
+                    <div class='flex flex-col ml-4'>
+                        <div class='inset-0 fixed z-20' style='@(activeDropdown == "floor" ? "opacity: 1;" : "opacity: 0; pointer-events:none;")' @onclick='CloseDropdown'></div>
+                        <ul class='divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200 max-h-60 overflow-y-auto'
+                        style='@(activeDropdown == "floor" ? "opacity: 1;" : "opacity: 0; pointer-events:none;")'>
+                            <li @onclick='() => FilterByFloor(null)' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>All Floors</li>
+                            @foreach (var i in Enumerable.Range(1, 15))
+                            {
+                                <li @onclick='() => FilterByFloor(i)' class='p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200'>Floor @i</li>
+                            }
+                        </ul>
+                        <button @onclick='() => ToggleDropdown("floor")'
+                        class='w-45 cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6'>
+                            <Icon Name='floor' Size='30px' Class='mr-2' />
+                            <p class="w-full flex flex-start">@(selectedFloor.HasValue ? $"Floor {selectedFloor}" : "Floor")</p>
+                        </button>
                     </div>
                 </div>
-                <div class="w-[100%] h-10 bg-[#E5E7EB] py-1.5 px-4  rounded-md">
-                    <table class="w-full text-sm rounded-2xl ">
-                        <tr class="w-full text-\[\#6B7280\] h-9 ">
-                            <td class="h-5">Room</td>
-                            <td class="h-5">Room Type</td>
-                            <td class="h-5">Status</td>
-                            <td class="h-5 ">Guest</td>
-                            <td class="h-5">Check In</td>
-                            <td class="h-5">Check Out</td>
+                <div class='w-[100%] h-10 bg-[#E5E7EB] py-1.5 px-4 rounded-md'>
+                    <table class='w-full text-sm rounded-2xl divide-y divide-gray-300'>
+                        <tr class='w-full text-\[\#6B7280\] h-9'>
+                            <td class='h-5 w-1/5 pl-4'>Room</td>
+                            <td class='h-5 w-1/5'>Floor</td>
+                            <td class='h-5 w-1/5'>Room Type</td>
+                            <td class='h- w-1/5 pl-6'>Status</td>
+                            <td class='h-5 w-1/5 '>Room Price</td>
                         </tr>
-                        <tr class="h-10 border-b border-gray-300 ">
-                            <td>
-                                <p class="w-full ">Room #</p>
-                            </td>
-                            <td>
-                                <p class="w-full">type</p>
-                            </td>
-                            <td>
-                                <div class="w-25 h-[25px] bg-primary flex justify-center p-2 rounded-full">
-                                    <p class="text-white">status here</p>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="w-full">Guest</p>
-                            </td>
-                            <td>
-                                <p class="w-full">time in</p>
-                            </td>
-                            <td>
-                                <p class="w-full">time out</p>
-                            </td>
-                        </tr>
+                        @foreach (var room in filteredRooms)
+                        {
+                            <tr class='h-10 '>
+                                <td>
+                                    <p class='w-full'>Room @(room.room_no)</p>
+                                </td>
+                                <td>
+                                    <p class='w-full pl-2'>@((room.room_no / 100).ToString())</p>
+                                </td>
+                                <td>
+                                    <p class='w-full'>@room.type_category</p>
+                                </td>
+                                <td>
+                                    @{
+                                        var statusClass = room.room_status switch
+                                        {
+                                            "Available" => "bg-green-500",
+                                            "Booked" => "bg-blue-500",
+                                            "Unavailable" => "bg-red-500",
+                                            "Needs Cleaning" => "bg-yellow-500",
+                                            _ => "bg-gray-500"
+                                        };
+                                    }
+                                    <div class='w-25 h-[25px] @statusClass flex justify-center p-2 rounded-full'>
+                                        <p class='text-white text-xs'>@room.room_status</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class='w-full pl-2'>@(room.type_price.ToString("N2"))</p>
+                                </td>
+                            </tr>
+                        }
                     </table>
                 </div>
             </div>
         </div>
 
         @* RIGHT DIV*@
-        <div class="w-2/5 h-full flex flex-col mt-5">
-            <div class="w-full h-400 bg-white rounded-2xl p-7 ">
-                <div class="flex">
-                    <p class="text-2xl font-bold ">
+        <div class='w-2/5 h-full flex flex-col mt-5'>
+            <div class='w-full h-230 bg-white rounded-2xl p-7 '>
+                <div class='flex'>
+                    <p class='text-2xl font-bold'>
                         Bookings
                     </p>
                 </div>
-                <div class="w-full mt-5 h-[1px] bg-gray-300"></div>
-                <div class="w-[100%] h-20 bg-[#E5E7EB] -mb-2  rounded-md mt-5 flex px-3  justify-between">
-                    <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover "></div>
-                    <div class="flex flex-col w-35">
-                        <p class="w-full -mb-5 font-semibold text-sm">Kenneth James</p>
-                        <p class="w-full  -mb-5 text-[#6B7280] text-xs">Deluxe Room</p>
-                        <p class="w-full text-[#6B7280] text-xs">Status</p>
-                    </div>
-                    <div class="flex text-right">
-                        <div class=" flex-col  ">
-                            <p class="w-full -mb-5 text-[#6B7280] text-xs ">Check In: Nov. 20, 2025</p>
-                            <p class="w-full  text-[#6B7280] text-xs">Check Out: Nov. 20, 2025</p>
+                <div class='w-full mt-5 h-[1px] bg-gray-300'></div>
+                @* 9 bookings *@
+                @foreach (var booking in bookings.GetRange(0, 9))
+                {
+                    <div class='w-[100%] h-19 bg-[#E5E7EB] -mb-2 rounded-md mt-5.5 flex px-3 justify-between'>
+                        <div class='size-10 w-11 rounded-full bg-[url("/clouds.png")] bg-cover '></div>
+                        <div class='flex flex-col w-35'>
+                            <p class='w-full -mb-5 font-semibold text-sm'>@booking.user_fname @booking.user_lname</p>
+                            <p class='w-full -mb-5 text-[#6B7280] text-xs'>@booking.type_category Room</p>
+                            <p class='w-full text-[#6B7280] text-xs'>@booking.rsv_status</p>
                         </div>
-                        <div class="">
-                            <NavLink href="/reservation/new/standard"
-                            class="focus:outline-none bg-primary/90  transition-all duration-300 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-sm font-semibold">
-                                Details
-                            </NavLink>
+                        <div class='flex text-right'>
+                            <div class='flex-col'>
+                                <p class='w-full -mb-5 text-[#6B7280] text-xs'>Check In: @booking.rsv_checkin</p>
+                                <p class='w-full text-[#6B7280] text-xs'>Check Out: @booking.rsv_checkout</p>
+                            </div>
+                            <div class=''>
+                                <button
+                                class='focus:outline-none bg-primary/90 transition-all duration-300 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-sm font-semibold'>
+                                    Details
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-
+                }
             </div>
         </div>
     </div>
-
-
 </div>
 
 @code {
     private bool IsDropdownOpen = false;
+    private string activeDropdown = "";
+    private List<ReceptionistRoomInventory> allRooms = new List<ReceptionistRoomInventory>();
+    private List<ReceptionistRoomInventory> filteredRooms = new List<ReceptionistRoomInventory>();
+    private List<Booking> bookings = new List<Booking>();
 
-    //OnInitializedAsync
+    // Filter states
+    private string searchTerm = "";
+    private string selectedCategory;
+    private string selectedStatus;
+    private int? selectedFloor = 1; // Set default floor to 1
+
+    // Stats
+    private int availableRoomsCount = 0;
+    private int occupiedRoomsCount = 0;
+    private int maintenanceRoomsCount = 0;
+    private int reservationCount = 0;
+
     protected override async Task OnInitializedAsync()
     {
+        allRooms = await RoomService.GetRoomInventory();
+        bookings = await ReservationService.GetReservations();
+        bookings = bookings.OrderByDescending(b => b.rsv_id).ToList();
+
+        // Apply default floor filter
+        FilterByFloor(1);
+        CalculateStats();
     }
+
+    private void ToggleDropdown(string dropdown)
+    {
+        if (activeDropdown == dropdown)
+        {
+            activeDropdown = "";
+        }
+        else
+        {
+            activeDropdown = dropdown;
+        }
+        StateHasChanged();
+    }
+
     private void CloseDropdown()
     {
-        IsDropdownOpen = false;
-        StateHasChanged();
-    }
-    private void OpenDropdown()
-    {
-        IsDropdownOpen = true;
+        activeDropdown = "";
         StateHasChanged();
     }
 
-    private void SelectFilter(string filter)
+    private void FilterByCategory(string category)
     {
+        selectedCategory = category;
+        CloseDropdown();
+        FilterRooms();
+    }
 
-        // selectedFilter = filter;
-        // staffs = baseStaffs;
-        // totalStaff = staffs.Count;
-        // staffs = staffs.Where(s => s.position == filter).ToList();
-        // FilterStaffs();
-        // CloseDropdown();
+    private void FilterByStatus(string status)
+    {
+        selectedStatus = status;
+        CloseDropdown();
+        FilterRooms();
+    }
+
+    private void FilterByFloor(int? floor)
+    {
+        selectedFloor = floor;
+        CloseDropdown();
+        FilterRooms();
+    }
+
+    private void FilterRooms()
+    {
+        filteredRooms = allRooms;
+
+        // Apply search filter
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            filteredRooms = filteredRooms.Where(r =>
+                r.room_no.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                r.type_category.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                r.room_status.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+        }
+
+        // Apply category filter
+        if (!string.IsNullOrEmpty(selectedCategory))
+        {
+            filteredRooms = filteredRooms.Where(r => r.type_category == selectedCategory).ToList();
+        }
+
+        // Apply status filter
+        if (!string.IsNullOrEmpty(selectedStatus))
+        {
+            filteredRooms = filteredRooms.Where(r => r.room_status == selectedStatus).ToList();
+        }
+
+        // Apply floor filter
+        if (selectedFloor.HasValue)
+        {
+            filteredRooms = filteredRooms.Where(r =>
+                r.room_no / 100 == selectedFloor.Value
+            ).ToList();
+        }
+    }
+
+    private void CalculateStats()
+    {
+        availableRoomsCount = allRooms.Count(r => r.room_status == "Available");
+        occupiedRoomsCount = allRooms.Count(r => r.room_status == "Booked");
+        maintenanceRoomsCount = allRooms.Count(r => r.room_status == "Unavailable" || r.room_status == "Needs Cleaning");
+        // You might want to get the actual reservation count from your service
+        reservationCount = allRooms.Count(r => r.room_status == "Booked");
     }
 }
