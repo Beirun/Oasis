@@ -58,7 +58,6 @@ namespace Oasis.Library
             var rooms = await _context.Room.Where(r => r.roomtype!.type_category.ToLower() == roomType.ToLower() && r.room_status == "Available").ToListAsync();
             return rooms[new Random().Next(rooms.Count)];
         }
-<<<<<<< HEAD
 
         public async Task<double> GetOccupancyPercentage()
         {
@@ -111,8 +110,6 @@ namespace Oasis.Library
         //     }
 
         // }
-=======
->>>>>>> e6f3bc3ba73d20b8ed06a684627fe43125770fb8
     }
 }
 
