@@ -58,6 +58,25 @@ namespace Oasis.Library
             var rooms = await _context.Room.Where(r => r.roomtype!.type_category.ToLower() == roomType.ToLower() && r.room_status == "Available").ToListAsync();
             return rooms[new Random().Next(rooms.Count)];
         }
+      
+        public async Task<double> GetOccupancyPercentage()
+        {
+            // Get total number of rooms
+            int totalRooms = await _context.Room.CountAsync();
+
+            if (totalRooms == 0)
+                return 0; // Avoid division by zero if no rooms exist
+
+            // Get count of occupied rooms (status != "Available")
+            int occupiedRooms = await _context.Room
+                .CountAsync(r => r.room_status != "Available");
+
+            // Calculate percentage
+            double percentage = (double)occupiedRooms / totalRooms * 100;
+
+            return percentage;
+        }
+        
     }
 }
 
