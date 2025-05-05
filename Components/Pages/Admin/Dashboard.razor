@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
                     <div class="w-full h-4/5 flex justify-evenly">
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
                     <div class="w-full h-4/5 flex justify-evenly">
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
                     <div class="w-full h-4/5 flex justify-evenly">
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="w-full h-100 bg-white rounded-2xl font-montserrat">
@@ -83,6 +83,11 @@
             <div class="w-full h-100 flex">
                 <div class="w-1/2 h-full bg-white rounded-2xl flex flex-col p-5">
                     <p class="text-3xl font-bold w-full">Booked Rooms</p>
+                    <div class="w-full flex-grow h-full bg-red-400">
+
+                        <PSC.Blazor.Components.Chartjs.Chart Config="_config" @ref="_chart"></PSC.Blazor.Components.Chartjs.Chart>
+                    </div>
+
                 </div>
                 <div class="w-1/2 h-full bg-white rounded-2xl flex flex-col p-5">
                     <p class="text-3xl font-bold w-full">New Guests</p>
@@ -125,10 +130,62 @@
 </div>
 
 @code {
-    // private int totalGuests = 
+    private BarChartConfig _config;
+    private PSC.Blazor.Components.Chartjs.Chart _chart;
+    private List<Bookings> rooms = new List<Bookings>();
+    private List<string> roomTypes = new List<string> { "Standard", "Deluxe", "Suite" };
+
+    public void BarChartInitialize()
+    {
+        _config = new BarChartConfig()
+            {
+                Options = new Options()
+                {
+                    Responsive = true, // Ensure chart is responsive
+                    MaintainAspectRatio = false, // Don't maintain aspect ratio
+                    IndexAxis = "y",
+                    Plugins = new Plugins()
+                    {
+                        Legend = new Legend()
+                        {
+                            Display = false,
+                            Position = LegendPosition.Right
+                        }
+                    },
+                    Scales = new Dictionary<string, Axis>()
+        {
+            {
+                Scales.XAxisId, new Axis()
+                {
+                    Stacked = true,
+                    Ticks = new Ticks()
+                    {
+                        MaxRotation = 0,
+                        MinRotation = 0
+                    }
+                }
+            },
+            {
+                Scales.YAxisId, new Axis()
+                {
+                    Stacked = true
+                }
+            }
+        }
+                }
+            };
+        _config.Data.Labels = new List<string>() { "Standard", "Deluxe", "Suite" };
+        _config.Data.Datasets.Add(new BarDataset()
+            {
+
+                Label = "Value",
+                BackgroundColor = new List<string>() { "rgba(0,98,255,1" },
+                BorderColor = new List<string>() { "rgba(0,98,255,1" },
+            });
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        
+        BarChartInitialize();
     }
 }
