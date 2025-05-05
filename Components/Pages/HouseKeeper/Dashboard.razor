@@ -4,6 +4,7 @@
 @using Oasis.Data.Object
 @using Oasis.Data.Models
 @inject HouseKeepingServices housekeepingServices
+@inject RoomServices roomServices
 <div class="bg-background font-montserrat flex h-screen max-w-screen flex-col">
     <Navbar />
     <div class="h-full w-4/5 z-1">
@@ -14,7 +15,7 @@
                     <div class="flex h-full w-1/2 rounded-2xl bg-white shadow-md shadow-gray-300 px-5">
                         <div class=" h-4/5 w-full items-start flex justify-between">
                             <p>Total Rooms Cleaned</p>
-                            <p class=" text-3xl font-bold">2010</p>
+                            <p class=" text-3xl font-bold">@(allCleanedRoomsCount)</p>
                             <div class="flex h-15 aspect-square justify-center rounded-full bg-[#D1FAE5]">
                                 <Icon Name="check" Size="50px" Color="#059669" />
                             </div>
@@ -23,7 +24,7 @@
                     <div class="flex h-full w-1/2 rounded-2xl bg-white shadow-md shadow-gray-300 px-5">
                         <div class=" h-4/5 w-full items-start flex justify-between">
                             <p>Rooms to Clean</p>
-                            <p class="text-3xl font-bold">103</p>
+                            <p class="text-3xl font-bold">@(roomsToBeCleaned)</p>
                             <div class="bg-[#DBEAFE] p-3 flex justify-center h-15 aspect-square rounded-full">
                                 <img src="icons/broom.png" alt="..." class="p-1" />
                             </div>
@@ -50,42 +51,31 @@
                             <td class="w-1/4 text-center">Start Time</td>
                             <td class="w-1/4 text-center">End Time</td>
                         </tr>
-                        <tr class="w-full border-b border-gray-300">
-                            <td class="flex flex-row w-full px-5 h-15">
-                                <div class="w-full flex flex-row">
+                        @if(cleanedRooms.Count() > 0)
+                        {
 
-                                    <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
-                                    <p>Name</p>
-                                </div>
-                            </td>
-                            <td class="w-1/5 text-center">Room (number)</td>
-                            <td class="w-1/4 text-center">starttime</td>
-                            <td class="w-1/4 text-center">endtime</td>
-                        </tr>
-                        <tr class="w-full border-b border-gray-300">
-                            <td class="flex flex-row w-full px-5 h-15">
-                                <div class="w-full flex flex-row">
+                            @foreach (var cleanRoom in cleanedRooms)
+                            {
+                                <tr class="w-full border-b border-gray-300">
+                                    <td class="flex flex-row w-full px-5 h-15">
+                                        <div class="w-full flex flex-row">
 
-                                    <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
-                                    <p>Name</p>
-                                </div>
-                            </td>
-                            <td class="w-1/5 text-center">Room (number)</td>
-                            <td class="w-1/4 text-center">starttime</td>
-                            <td class="w-1/4 text-center">endtime</td>
-                        </tr>
-                        <tr class="w-full border-b border-gray-300">
-                            <td class="flex flex-row w-full px-5 h-15">
-                                <div class="w-full flex flex-row">
-
-                                    <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
-                                    <p>Name</p>
-                                </div>
-                            </td>
-                            <td class="w-1/5 text-center">Room (number)</td>
-                            <td class="w-1/4 text-center">starttime</td>
-                            <td class="w-1/4 text-center">endtime</td>
-                        </tr>
+                                            <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                            <p>@(cleanRoom.user_fname) @(cleanRoom.user_lname)</p>
+                                        </div>
+                                    </td>
+                                    <td class="w-1/5 text-center">@(cleanRoom.room_no)</td>
+                                    <td class="w-1/4 text-center">@(cleanRoom.housekeeping_starttime)</td>
+                                    <td class="w-1/4 text-center">@(cleanRoom.housekeeping_endtime)</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class=" text-center h-15">No record.</td>
+                            </tr>
+                        }
                     </table>
                 </div>
             </div>
@@ -96,10 +86,17 @@
     <div style="clip-path: polygon(0 75%, 0 100%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
 @code{
-    private List<HouseKeepingRoom> cleanedRooms = new List<HouseKeepingRoom>(); 
+    private List<HouseKeepingRoom> allCleanedRooms = new List<HouseKeepingRoom>();
+    private List<HouseKeepingRoom> cleanedRooms = new List<HouseKeepingRoom>();
+    private List<Room> toBeCleaned = new List<Room>();
+    private int allCleanedRoomsCount = 0;
+    private int roomsToBeCleaned = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        cleanedRooms = await housekeepingServices.GetRecentlyCleanedRooms();
+        allCleanedRoomsCount = (await housekeepingServices.GetRecentlyCleanedRooms()).Count();
+        roomsToBeCleaned = await roomServices.GetNumberOfRoomsByStatus("Needs Cleaning");
+        cleanedRooms = await housekeepingServices.GetRecentlyCleanedRooms(5);
+        Console.WriteLine($"cleaned rooms: {System.Text.Json.JsonSerializer.Serialize(cleanedRooms)}");
     }
 }
