@@ -43,6 +43,8 @@ builder.Services.AddScoped<RoomServices>();
 builder.Services.AddScoped<PaymentServices>();
 builder.Services.AddScoped<ReservationServices>();
 builder.Services.AddScoped<HouseKeepingServices>();
+builder.Services.AddScoped<ReviewServices>();
+builder.Services.AddScoped<NotificationSevices>();
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<UserState>();

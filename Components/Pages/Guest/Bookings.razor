@@ -1,6 +1,8 @@
 @page "/bookings"
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+@inject ReviewServices ReviewService
+@inject NotificationSevices NotificationService
 @inject ReservationServices ReservationService
 @inject UserState UserState
 @inject AppState AppState
@@ -12,131 +14,152 @@
 @using Oasis.Components.ui
 
 <div class="w-full bg-[#F5F5F5] font-montserrat">
-	<GuestNavbar />
-	<div class="flex flex-col justify-between mt-10 px-60 pb-10">
-		<p class="w-full font-bold text-2xl z-1	">My Booking</p>
-		@foreach(var booking in guestBookings)
-		{
-			if (booking.rsv_status == "Checked Out" || booking.rsv_status == "Cancelled") continue;
-			<div class="w-full flex flex-row justify-center z-1">
+    <GuestNavbar />
+
+    @* If No Bookings *@
+    @if (guestBookings.Count == 0){
+        <div class="flex flex-col items-center justify-center h-screen">
+            <div class="text-center">
+                <Icon Name="hotel" Size="80px" Color="#2563EB" Class="mb-4" />
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">No Bookings Yet</h1>
+                <p class="text-gray-600 mb-6">You haven't made any reservations yet.</p>
+                <button @onclick='() => NavigationManager.NavigateTo("/dashboard/guest")'
+                        class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors duration-300">
+                    Browse Rooms
+                </button>
+            </div>
+        </div>
+        
+    }
+    else{
+        <div class="flex flex-col justify-between mt-10 px-60 pb-10">
+        <p class="w-full font-bold text-2xl z-1	">My Booking</p>
+        @foreach(var booking in guestBookings)
+        {
+            if (booking.rsv_status == "Checked Out" || booking.rsv_status == "Cancelled") continue;
+            <div class="w-full flex flex-row justify-center z-1">
                 <div class="w-2/3 h-100 rounded-2xl bg-center bg-cover" style="background-image: url('@GetImageSelectedBooking(selectedBooking.type_category)')"></div>
-				<div class="w-1/3 h-100 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm">
-					<p class="w-full font-bold text-2xl">@(booking.type_category) Room</p>
-					<div class="w-full h-13 flex flex-row justify-between">
-						<p>Guest</p>
-						<p class="text-gray-400">@(currentUser.user_fname + " " + currentUser.user_lname)</p>
-					</div>
-					<div class="w-full h-13 flex flex-row justify-between">
-						<p>Room Number</p>
-						<p class="text-gray-400">@(booking.room_no)</p>
-					</div>
-					<div class="w-full h-13 flex flex-row justify-between">
-						<p>Check In</p>
-						<p class="text-gray-400">@(booking.rsv_checkin)</p>
-					</div>
-					<div class="w-full h-13 flex flex-row justify-between">
-						<p>Check Out</p>
-						<p class="text-gray-400">@(booking.rsv_checkout)</p>
-					</div>
-					<div class="w-full h-[1px] bg-gray-300"></div>
-					<div class="w-full h-13 flex flex-row justify-between">
-						<p>Total Amount</p>
-						<p class="text-[#0040A6]">@(booking.payment_amount.ToString("N2"))</p>
-					</div>
-					<div class="w-full flex flex-col justify-center">
-						@if(booking.rsv_status == "Checked In")
-						{
+                <div class="w-1/3 h-100 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm">
+                    <p class="w-full font-bold text-2xl">@(booking.type_category) Room</p>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Guest</p>
+                        <p class="text-gray-400">@(currentUser.user_fname + " " + currentUser.user_lname)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Room Number</p>
+                        <p class="text-gray-400">@(booking.room_no)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check In</p>
+                        <p class="text-gray-400">@(booking.rsv_checkin)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check Out</p>
+                        <p class="text-gray-400">@(booking.rsv_checkout)</p>
+                    </div>
+                    <div class="w-full h-[1px] bg-gray-300"></div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Total Amount</p>
+                        <p class="text-[#0040A6]">@(booking.payment_amount.ToString("N2"))</p>
+                    </div>
+                    <div class="w-full flex flex-col justify-center">
+                        @if(booking.rsv_status == "Checked In")
+                        {
                             <button @onclick='() => OpenExtendBookingDialog(booking)' class="w-3/4 h-10 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Extend</button>
 
-						}
-						else
-						{
+                        }
+                        else
+                        {
                             <button @onclick='() => ShowConfirmationDialog("cancel", "Are you sure you want to cancel this booking?")' class="w-3/4 h-10 rounded-2xl  border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel</button>
-							
-						}
-					</div>
-				</div>
-			</div>
-		}
-		@* @if(guestBookings.Where(r => r.rsv_status == "Checked Out" || r.rsv_status == "Cancelled").Count() > 0)
-		{ *@
+
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        @if(guestBookings.Where(r => r.rsv_status == "Checked Out" || r.rsv_status == "Cancelled").Count() > 0)
+		{
 
 
-		<div class="w-full bg-white rounded-2xl px-10 pb-10 mb-5  border border-gray-300 shadow-sm  z-1">
-			<div class="w-full h-20 flex flex-col justify-center"><p class="w-full font-bold text-2xl">History</p></div>
-			<table class="w-full divide-y divide-gray-400">
-				<thead>
-					<tr class="text-center text-[#6B7280] h-10 bg-gray-100">
-						<td>Room</td>
-						<td>Room Type</td>
-						<td>Check In</td>
-						<td>Check Out</td>
-						<td>Status</td>
-						<td>Amount</td>
-						<td></td>
-					</tr>
-				</thead>
-				@foreach(var booking in guestBookings.Where(r => r.rsv_status == "Checked Out" || r.rsv_status == "Cancelled"))
-				{
-					<tr class="text-center h-15 ">
-						<td>@booking.room_no</td>
-						<td>@booking.type_category</td>
-						<td>@booking.rsv_checkin</td>
-						<td>@booking.rsv_checkout</td>
-						<td>@booking.rsv_status</td>
-						<td>@booking.payment_amount.ToString("N2")</td>
-						<td class="w-1/12">
-							<div class="w-full  h-full flex justify-center">
-                                @if(booking.rsv_status == "Checked Out"){
-                                <button @onclick="ReviewClicked" class="w-full px-2 h-full py-2 bg-primary text-white hover:bg-primary/80 transition-all duration-300 cursor-pointer rounded-md">Review</button>
+        <div class="w-full bg-white rounded-2xl px-10 pb-10 mb-5  border border-gray-300 shadow-sm  z-1">
+            <div class="w-full h-20 flex flex-col justify-center"><p class="w-full font-bold text-2xl">History</p></div>
+            <table class="w-full divide-y divide-gray-400">
+                <thead>
+                    <tr class="text-center text-[#6B7280] h-10 bg-gray-100">
+                        <td>Room</td>
+                        <td>Room Type</td>
+                        <td>Check In</td>
+                        <td>Check Out</td>
+                        <td>Status</td>
+                        <td>Amount</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                @foreach(var booking in guestBookings.Where(r => r.rsv_status == "Checked Out" || r.rsv_status == "Cancelled"))
+                {
+                    <tr class="text-center h-15 ">
+                        <td>@booking.room_no</td>
+                        <td>@booking.type_category</td>
+                        <td>@booking.rsv_checkin</td>
+                        <td>@booking.rsv_checkout</td>
+                        <td>@booking.rsv_status</td>
+                        <td>@booking.payment_amount.ToString("N2")</td>
+                        <td class="w-1/12">
+                            <div class="w-full  h-full flex justify-center">
+                                @if(booking.rsv_status == "Checked Out" && booking.review_id == 0){
+                                    <button @onclick='()=> ReviewClicked(booking.rsv_id)' class="w-full px-2 h-full py-2 bg-primary  border-primary text-white hover:bg-primary/80 transition-all duration-300 cursor-pointer rounded-md">Review</button>
 
-                                }  
-							</div>
-						</td>
-					</tr>
-				}
-			</table>
-		</div>
-		@* } *@
-		<div @onclick="CloseReviewDialog" class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(reviewOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" >
-			<div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-10 z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(reviewOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
-				<Icon Name="Close" @onclick="CloseReviewDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
-				<div class="w-full h-full flex flex-col justify-center">
-					<p class="text-2xl font-bold">Submit Review</p>
-					<div class="flex flex-col gap-2">
-						<div class="flex gap-1">
-							<button class="focus:outline-none" @onclick="() => SetRating(1)">
-								<span class="text-3xl @(currentRating >= 1 ? "text-yellow-300":"text-gray-300")">★</span>
-							</button>
-							<button class="focus:outline-none" @onclick="() => SetRating(2)">
-								<span class="text-3xl @(currentRating >= 2 ? "text-yellow-300":"text-gray-300")">★</span>
-							</button>
-							<button class="focus:outline-none" @onclick="() => SetRating(3)">
-								<span class="text-3xl @(currentRating >= 3 ? "text-yellow-300":"text-gray-300")">★</span>
-							</button>
-							<button class="focus:outline-none" @onclick="() => SetRating(4)">
-								<span class="text-3xl @(currentRating >= 4 ? "text-yellow-300":"text-gray-300")">★</span>
-							</button>
-							<button class="focus:outline-none" @onclick="() => SetRating(5)">
-								<span class="text-3xl @(currentRating >= 5 ? "text-yellow-300":"text-gray-300")">★</span>
-							</button>
-						</div>
-						<p class="text-sm text-gray-500">@currentRating out of 5</p>
-					</div>
-					<textarea class="w-full h-1/2 bg-gray-100 border border-gray-300 p-3 focus:outline-none" placeholder="Write your review..."></textarea>
-					<button @onclick="SubmitReview" class="w-full h-15 rounded-lg bg-primary text-white">Submit</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div style="clip-path: polygon(0 0, 0 26%, 25% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
-	<div style="clip-path: polygon(100% 0, 100% 26%, 75% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
-	<div style="clip-path: polygon(0 74%, 0 100%, 26% 100%);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
-	<div style="clip-path: polygon(100% 75%, 100% 100%, 75% 100%);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+                                }
+                                else if(booking.rsv_status == "Checked Out" && booking.review_id != 0)
+                                {
+                                    <button @onclick='()=> ViewReviewClicked(booking.review_id)' class="w-full text-sm h-full py-2 border border-primary text-primary hover:border-primary/80 transition-all duration-300 cursor-pointer rounded-md">View Review</button>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        }
+        <div @onclick="CloseReviewDialog" class="fixed inset-0 z-50 bg-black/60  transition-all duration-200 items-center flex justify-center" style="@(reviewOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" >
+            <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-10 z-55 flex w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300  p-6 shadow-lg transition-all duration-200 rounded-lg " style="@(reviewOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+                <Icon Name="Close" @onclick="CloseReviewDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+                <div class="w-full h-full flex flex-col justify-center">
+                    <p class="text-2xl font-bold">Submit Review</p>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex gap-1">
+                            <button class="focus:outline-none" @onclick="() => SetRating(1)">
+                                <span class="text-3xl @(currentRating >= 1 ? "text-yellow-300":"text-gray-300")">★</span>
+                            </button>
+                            <button class="focus:outline-none" @onclick="() => SetRating(2)">
+                                <span class="text-3xl @(currentRating >= 2 ? "text-yellow-300":"text-gray-300")">★</span>
+                            </button>
+                            <button class="focus:outline-none" @onclick="() => SetRating(3)">
+                                <span class="text-3xl @(currentRating >= 3 ? "text-yellow-300":"text-gray-300")">★</span>
+                            </button>
+                            <button class="focus:outline-none" @onclick="() => SetRating(4)">
+                                <span class="text-3xl @(currentRating >= 4 ? "text-yellow-300":"text-gray-300")">★</span>
+                            </button>
+                            <button class="focus:outline-none" @onclick="() => SetRating(5)">
+                                <span class="stroke-black text-3xl @(currentRating >= 5 ? "text-yellow-300":"text-gray-300")">★</span>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500">@currentRating out of 5</p>
+                    </div>
+                    <textarea @bind="reviewText" class="resize-none w-full h-1/2 bg-gray-100 border border-gray-300 p-3 focus:outline-none" placeholder="Write your review..."></textarea>
+                    <button @onclick="SubmitReview" class="w-full h-15 rounded-lg bg-primary text-white" disabled="@(currentRating == 0)">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    <div style="clip-path: polygon(0 0, 0 26%, 25% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+    <div style="clip-path: polygon(100% 0, 100% 26%, 75% 0);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+    <div style="clip-path: polygon(0 74%, 0 100%, 26% 100%);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
+    <div style="clip-path: polygon(100% 75%, 100% 100%, 75% 100%);" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
 <!-- Extend Booking Dialog -->
-<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsExtendBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseExtendBookingDialog'>
+<div class="fixed inset-0 z-250 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsExtendBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseExtendBookingDialog'>
     <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(80%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsExtendBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
         @* Header *@
         <div class="w-full text-4xl pt-4 font-montserrat font-bold text-gray-800 justify-center items-center flex">
@@ -351,7 +374,7 @@
     </div>
 </div>
 <!-- Confirmation Dialog -->
-<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsConfirmationDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseConfirmationDialog'>
+<div class="fixed inset-0 z-250 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsConfirmationDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseConfirmationDialog'>
     <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-80 z-55 w-126 gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsConfirmationDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
         <div class="w-full flex flex-col items-center">
             <Icon Name="warning" Size="40px" Color="#4444EF" Class="mb-4" />
@@ -369,9 +392,34 @@
         </div>
     </div>
 </div>
-
+<!-- View Review Dialog -->
+<div @onclick="CloseViewReviewDialog" class="fixed inset-0 z-250 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(viewReviewOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-2/3 px-10 z-55 w-1/3 gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-lg" style="@(viewReviewOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        <Icon Name="Close" @onclick="CloseViewReviewDialog" Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+        <div class="w-full h-full flex flex-col justify-center">
+            <p class="text-2xl font-bold">Your Review</p>
+            <div class="flex flex-col gap-2">
+                <div class="flex gap-1">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <span class="text-3xl @(i <= viewedReview?.review_rating ? "text-yellow-300":"text-gray-300")">★</span>
+                    }
+                </div>
+                <p class="text-sm text-gray-500">@(viewedReview?.review_rating ?? 0) out of 5</p>
+                <p class="text-sm text-gray-500">Submitted on: @(viewedReview?.review_date)</p>
+            </div>
+            <div class="w-full h-1/2 bg-gray-100 border border-gray-300 p-3 overflow-y-auto">
+                <p class="text-gray-800">@(viewedReview?.review_feedback ?? "")</p>
+            </div>
+            <button @onclick="CloseViewReviewDialog" class="cursor-pointer w-full h-15 rounded-lg bg-primary text-white mt-4">Close</button>
+        </div>
+    </div>
+</div>
 @code {
-	private User currentUser = new User();
+    private bool viewReviewOpen = false;
+    private Review? viewedReview = null;
+    private User currentUser = new User();
+    private int selectedReviewId;
     private bool IsConfirmationDialogOpen = false;
     private string confirmationMessage = "";
     private string pendingAction = "";
@@ -379,9 +427,9 @@
     private int extendCurrentStep = 1;
     private DateOnly? newCheckOutDate;
     private decimal extendAdditionalAmount = 0;
-	private bool reviewOpen = false;
-	private int currentRating = 0;
-	private string reviewText = string.Empty;
+    private bool reviewOpen = false;
+    private int currentRating = 0;
+    private string reviewText = string.Empty;
     private string paymentMethod = "card";
     private string _cardNumber = "";
     private string _expiryDate = "";
@@ -389,7 +437,7 @@
     private string cardholderName = "";
     private string _mobileNumber = "";
     private string referenceNumber = "";
-	private List<GuestBooking> guestBookings = new List<GuestBooking>();
+    private List<GuestBooking> guestBookings = new List<GuestBooking>();
     private GuestBooking selectedBooking = new GuestBooking();
 
     private string cvv
@@ -546,6 +594,20 @@
     {
         extendCurrentStep = 1;
     }
+    private async Task ViewReviewClicked(int reviewId)
+    {
+        viewedReview = await ReviewService.GetReviewById(reviewId);
+        if (viewedReview != null)
+        {
+            viewReviewOpen = true;
+        }
+    }
+
+    private void CloseViewReviewDialog()
+    {
+        viewReviewOpen = false;
+        viewedReview = null;
+    }
     private void ProceedToExtendPayment()
     {
         if (IsExtendDateValid)
@@ -571,6 +633,14 @@
     private async Task CancelBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
+
+        //send notification to staffs
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Reservation Cancelled";
+        notification.notif_content = $"Reservation by {currentUser.user_fname} {currentUser.user_lname} has been cancelled.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        await NotificationService.AddNotificationToStaffByPosition(notification, "Receptionist");
         guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
     }
 
@@ -613,6 +683,13 @@
 
             if (success)
             {
+                //send notification to staffs
+                Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+                notification.notif_title = "Reservation Extended";
+                notification.notif_content = $"Reservation by {currentUser.user_fname} {currentUser.user_lname} has been extended.";
+                notification.notif_date = DateTime.Now;
+                notification.notif_status = "unread";
+                await NotificationService.AddNotificationToStaffByPosition(notification, "Receptionist");
                 // Refresh bookings
                 guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
 
@@ -660,10 +737,17 @@
         pendingAction = "";
         confirmationMessage = "";
     }
-	protected override async Task OnInitializedAsync()
-	{
-		currentUser = AppState.CurrentUser;
-		guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
+    protected override async Task OnInitializedAsync()
+    {
+        currentUser = AppState.CurrentUser;
+        guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
+        foreach (var booking in guestBookings)
+        {
+            
+        Console.WriteLine($"guestBookings: {System.Text.Json.JsonSerializer.Serialize(booking)}");
+
+        }
+        Console.WriteLine($"Deluxe Reviews: {System.Text.Json.JsonSerializer.Serialize(await ReviewService.GetRoomTypeReviews("Deluxe"))}");
 	}
 
 	private void SetRating(int rating)
@@ -702,11 +786,32 @@
         }
     }
 
-	private void SubmitReview()
-	{
-		currentRating = 0;
-		CloseReviewDialog();
-	}
+    private async Task SubmitReview()
+    {
+        if (currentRating == 0) return;
+
+        var newReview = new Review
+            {
+                rsv_id = selectedReviewId,
+                guest_id = AppState.CurrentUser.user_id,
+                review_rating = currentRating,
+                review_feedback = reviewText,
+                review_date = DateTime.Now
+            };
+
+        await ReviewService.AddReview(newReview);
+        //send notification to staffs
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "New Guest Review";
+        notification.notif_content = $"Guest {currentUser.user_fname} {currentUser.user_lname} has left a review.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        await NotificationService.AddNotificationToStaffByPosition(notification, "Admin");
+        currentRating = 0;
+        reviewText = string.Empty;
+        CloseReviewDialog();
+        StateHasChanged();
+    }
 
 	// protected override async Task OnAfterRenderAsync(bool firstRender)
 	// {
@@ -737,10 +842,15 @@
             _ => 0
         };
     }
-	private void ReviewClicked()
-	{
-		reviewOpen = true;
-	}
+    
+
+    private void ReviewClicked(int id)
+    {
+        selectedReviewId = id;
+        reviewOpen = true;
+        reviewText = string.Empty; // Clear previous review text when opening dialog
+        currentRating = 0; // Reset rating when opening dialog
+    }
 
 	private void CloseReviewDialog()
 	{

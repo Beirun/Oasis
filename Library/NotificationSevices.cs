@@ -11,13 +11,13 @@ namespace Oasis.Library
         {
             _context = context;
         }
-        private async Task<List<Notification>> GetUserNotifications(int userId)
+        public async Task<List<Notification>> GetUserNotifications(int userId)
         {
             List<Notification> notifications = await _context.Notification.Where(n => n.user_id == userId).ToListAsync();
             return notifications;
         }
 
-        private async Task<bool> AddNotification(Notification notification)
+        public async Task AddNotification(Notification notification)
         {
             try
             { 
@@ -27,11 +27,27 @@ namespace Oasis.Library
             }
             catch 
             {
-                return false;
+                return;
             }
-            return true;
         }
-        private async Task<bool> UpdateNotification(Notification notification)
+        public async Task AddNotificationToStaffByPosition(Notification notification, string position)
+        {
+            try
+            {
+                var staffs = await _context.Staff.Where(s => s.position.ToLower() == position.ToLower()).ToListAsync();
+                foreach (var staff in staffs)
+                {
+                    notification.user_id = staff.user!.user_id;
+                    _context.Notification.Add(notification);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch
+            {
+                return;
+            }
+        }
+        public async Task<bool> UpdateNotification(Notification notification)
         {
             try
             {
