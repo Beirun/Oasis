@@ -99,6 +99,10 @@
 		{
 			Navigation.NavigateTo("/signin");
 		}
+		if (AppState.CurrentUserType.ToLower() != "guest")
+		{
+			Navigation.NavigateTo("/dashboard/" + AppState.CurrentUserType.ToLower());
+		}
 	}
 	private void GoBack()
 	{

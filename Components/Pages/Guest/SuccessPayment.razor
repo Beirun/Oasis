@@ -66,6 +66,10 @@
         {
             Navigation.NavigateTo("/signin");
         }
+        if (AppState.CurrentUserType.ToLower() != "guest")
+        {
+            Navigation.NavigateTo("/dashboard/" + AppState.CurrentUserType.ToLower());
+        }
         roomType = AppState.roomType;
         roomNumber = AppState.roomNumber;
         paymentDate = AppState.paymentDate ?? DateTime.Now;

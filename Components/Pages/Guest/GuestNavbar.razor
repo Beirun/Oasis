@@ -67,6 +67,10 @@
         {
             NavigationManager.NavigateTo("/signin");
         }
+        if (AppState.CurrentUserType.ToLower() != "guest")
+        {
+            NavigationManager.NavigateTo("/dashboard/" + AppState.CurrentUserType.ToLower());
+        }
     }
     private bool IsNotificationOpen { get; set; } = false;
 

@@ -72,6 +72,10 @@
         {
             NavigationManager.NavigateTo("/signin");
         }
+        if(AppState.CurrentUserType.ToLower() != "housekeeper")
+        {
+            NavigationManager.NavigateTo("/dashboard/"+AppState.CurrentUserType.ToLower());
+        }
     }
     private void ToggleDropdown()
     {
