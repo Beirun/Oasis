@@ -6,6 +6,9 @@
 @using Oasis.Data.Object
 @using Oasis.Library
 @inject ReservationServices ReservationService
+@inject NavigationManager NavigationManager
+@using System.Text
+@using Oasis.Components.ui
 <div class='bg-background flex min-h-screen w-screen flex-col justify-start'>
     @* Navbar *@
     <Navbar />
@@ -49,7 +52,7 @@
                     <div class='w-full h-6/8 flex'>
                         <div class='w-4/5 h-full items-start mt-6'>
                             <p class='w-full text-sm'>Maintenance</p>
-                            <p class='text-3xl w-full font-bold'>@maintenanceRoomsCount</p>
+                            <p class='text-3xl w-full font-bold'>@needsCleaningRoomsCount</p>
                         </div>
                     </div>
                 </div>
@@ -67,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class='w-full h-200 bg-white flex flex-col rounded-2xl font-montserrat p-7'>
+            <div class='w-full h-200 bg-white flex flex-col rounded-2xl font-montserrat p-7 pb-2'>
                 <div class='w-full flex flex-col'>
                     <p class='text-2xl font-bold w-full'>Room Inventory</p>
                 </div>
@@ -75,8 +78,8 @@
                 <div class='w-full flex'>
                     <div class='w-full flex items-center'>
                         <Icon Name='Search' size='30px' Color='gray' Class='absolute ml-4 pointer-events-none focus:outline-none' />
-                        <input @bind='searchTerm' @bind:event='oninput' type='text' name='name' placeholder='Search Rooms...'
-                        class='shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-full pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500' />
+                        <input @bind='SearchTerm' @bind:event='oninput' type='text' placeholder='Search Rooms...'
+                               class='shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-full pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500' />
                     </div>
 
                     <!-- Category Dropdown -->
@@ -132,48 +135,59 @@
                         </button>
                     </div>
                 </div>
-                <div class='w-[100%] h-10 bg-[#E5E7EB] py-1.5 px-4 rounded-md'>
-                    <table class='w-full text-sm rounded-2xl divide-y divide-gray-300'>
-                        <tr class='w-full text-\[\#6B7280\] h-9'>
-                            <td class='h-5 w-1/5 pl-4'>Room</td>
-                            <td class='h-5 w-1/5'>Floor</td>
-                            <td class='h-5 w-1/5'>Room Type</td>
-                            <td class='h- w-1/5 pl-6'>Status</td>
-                            <td class='h-5 w-1/5 '>Room Price</td>
-                        </tr>
-                        @foreach (var room in filteredRooms)
-                        {
-                            <tr class='h-10 '>
-                                <td>
-                                    <p class='w-full'>Room @(room.room_no)</p>
-                                </td>
-                                <td>
-                                    <p class='w-full pl-2'>@((room.room_no / 100).ToString())</p>
-                                </td>
-                                <td>
-                                    <p class='w-full'>@room.type_category</p>
-                                </td>
-                                <td>
-                                    @{
-                                        var statusClass = room.room_status switch
-                                        {
-                                            "Available" => "bg-green-500",
-                                            "Booked" => "bg-blue-500",
-                                            "Unavailable" => "bg-red-500",
-                                            "Needs Cleaning" => "bg-yellow-500",
-                                            _ => "bg-gray-500"
-                                        };
-                                    }
-                                    <div class='w-25 h-[25px] @statusClass flex justify-center p-2 rounded-full'>
-                                        <p class='text-white text-xs'>@room.room_status</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class='w-full pl-2'>@(room.type_price.ToString("N2"))</p>
-                                </td>
+                <div class='w-[100%] h-161 overflow-y-auto overflow-hidden py-1.5 px-4 rounded-md '>
+                    @if (filteredRooms.Any())
+                    {
+                        <table class='w-full text-sm rounded-2xl divide-y divide-gray-300'>
+                            <tr class='w-full text-\[\#6B7280\] bg-[#E5E7EB] rounded-t-md h-9'>
+                                <td class='h-5 w-1/5 pl-4'>Room</td>
+                                <td class='h-5 w-1/5'>Floor</td>
+                                <td class='h-5 w-1/5'>Room Type</td>
+                                <td class='h- w-1/5 pl-6'>Status</td>
+                                <td class='h-5 w-1/5 '>Room Price</td>
                             </tr>
-                        }
-                    </table>
+                            @foreach (var room in filteredRooms)
+                            {
+                                <tr class='h-10 '>
+                                    <td>
+                                        <p class='w-full'>Room @(room.room_no)</p>
+                                    </td>
+                                    <td>
+                                        <p class='w-full pl-2'>@((room.room_no / 100).ToString())</p>
+                                    </td>
+                                    <td>
+                                        <p class='w-full'>@room.type_category</p>
+                                    </td>
+                                    <td>
+                                        @{
+                                            var statusClass = room.room_status switch
+                                            {
+                                                "Available" => "bg-green-500",
+                                                "Booked" => "bg-blue-500",
+                                                "Unavailable" => "bg-red-500",
+                                                "Needs Cleaning" => "bg-yellow-500",
+                                                _ => "bg-gray-500"
+                                            };
+                                        }
+                                        <div class='w-25 h-[25px] @statusClass flex justify-center p-2 rounded-full'>
+                                            <p class='text-white text-xs'>@room.room_status</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class='w-full pl-2'>@(room.type_price.ToString("N2"))</p>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="w-full h-150 flex flex-col items-center justify-center text-gray-500">
+                            <Icon Name="Search_Off" Size="50px" Class="mb-4" />
+                            <p class="text-xl">No rooms found</p>
+                            <p class="text-sm">Try adjusting your search or filter criteria</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -190,12 +204,12 @@
                 @* 9 bookings *@
                 @foreach (var booking in bookings.GetRange(0, 9))
                 {
-                    <div class='w-[100%] h-19 bg-[#E5E7EB] -mb-2 rounded-md mt-5.5 flex px-3 justify-between'>
+                    <div class='w-[100%] h-19 bg-[#E5E7EB] -mb-2 rounded-md mt-5.5 flex px-3 justify-between '>
                         <div class='size-10 w-11 rounded-full bg-[url("/clouds.png")] bg-cover '></div>
                         <div class='flex flex-col w-35'>
-                            <p class='w-full -mb-5 font-semibold text-sm'>@booking.user_fname @booking.user_lname</p>
+                            <p class='w-full -mb-5 font-semibold text-xs'>@booking.user_fname @booking.user_lname</p>
                             <p class='w-full -mb-5 text-[#6B7280] text-xs'>@booking.type_category Room</p>
-                            <p class='w-full text-[#6B7280] text-xs'>@booking.rsv_status</p>
+                            <p class='w-full font-semibold text-[#6B7280] text-xs @(booking.rsv_status == "Cancelled" ? "text-red-500" : booking.rsv_status == "Checked In" ? "text-green-500" : booking.rsv_status == "Booked" ? "text-blue-500" : "text-gray-700")'>@booking.rsv_status</p>
                         </div>
                         <div class='flex text-right'>
                             <div class='flex-col'>
@@ -203,7 +217,7 @@
                                 <p class='w-full text-[#6B7280] text-xs'>Check Out: @booking.rsv_checkout</p>
                             </div>
                             <div class=''>
-                                <button
+                                <button @onclick='() => SetSelectedBooking(booking)'
                                 class='focus:outline-none bg-primary/90 transition-all duration-300 hover:bg-primary/70 p-2 px-4 text-center text-white rounded-md text-sm font-semibold'>
                                     Details
                                 </button>
@@ -215,35 +229,655 @@
         </div>
     </div>
 </div>
+<!-- Booking Details Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseBookingDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(62%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        <div class="w-full flex flex-row justify-center z-1 ">
+            @if (selectedBooking != null)
+            {
+                <div class="w-1/2 h-150 rounded-2xl bg-cover" style="background-image: url('@GetImageSelectedBooking(selectedBooking.type_category)');"></div>
+            }
+            <div class="w-1/2 h-150 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm text-gray-800 font-semibold">
+                <p class="w-full font-bold text-4xl">@(selectedBooking.type_category) Room</p>
+                <div class="w-full flex flex-col max-h-full pt-8 space-y-2 text-xl">
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Guest</p>
+                        <p class="text-gray-400">@(selectedBooking.user_fname + " " + selectedBooking.user_lname)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Room Number</p>
+                        <p class="text-gray-400">Room @(selectedBooking.room_no)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check In</p>
+                        <p class="text-gray-400">@(selectedBooking.rsv_checkin.ToString("MMM dd, yyyy"))</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check Out</p>
+                        <p class="text-gray-400">@(selectedBooking.rsv_checkout.ToString("MMM dd, yyyy"))</p>
+                    </div>
+                    <div class="w-full h-[1px] bg-gray-300 "></div>
+                    <div class="w-full h-13 flex flex-row justify-between text-2xl font-bold ">
+                        <p class="text-gray-800">Total Amount</p>
+                        <p class="text-[#0040A6]">@(selectedBooking.payment_amount.ToString("N2") ?? "0.00")</p>
+                    </div>
+                </div>
 
+                <div class="w-full flex flex-col justify-center pt-8">
+                    @if (selectedBooking.rsv_status == "Checked In")
+                    {
+                        <div class="grid grid-cols-2 gap-4 w-full">
+                            <button @onclick='OpenExtendBookingDialog' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Extend</button>
+                            <button @onclick='() => ShowConfirmationDialog("checkout", "Are you sure you want to check out this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Check Out</button>
+                        </div>
+                    }
+                    else if (selectedBooking.rsv_status == "Booked")
+                    {
+                        <div class="grid grid-cols-2 gap-4 w-full">
+                            <button @onclick='() => ShowConfirmationDialog("cancel", "Are you sure you want to cancel this booking?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel Booking</button>
+                            <button @onclick='() => ShowConfirmationDialog("checkin", "Are you sure you want to check in this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Confirm Check-In</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="w-full text-center text-2xl @(selectedBooking.rsv_status?.ToUpper() == "CANCELLED" ? "text-red-600" : "text-gray-700")">@(selectedBooking.rsv_status?.ToUpper())</p>
+                    }
+                </div>
+            </div>
+        </div>
+        @* <Icon Name="Close" @onclick='CloseBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer z-100" /> *@
+    </div>
+</div>
+<!-- Booking Details Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseBookingDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(62%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        <div class="w-full flex flex-row justify-center z-1 ">
+            @if (selectedBooking != null)
+            {
+                <div class="w-1/2 h-150 rounded-2xl bg-cover" style="background-image: url('@GetImageSelectedBooking(selectedBooking.type_category)');"></div>
+            }
+            <div class="w-1/2 h-150 rounded-2xl bg-white p-10 border border-gray-300 shadow-sm text-gray-800 font-semibold">
+                <p class="w-full font-bold text-4xl">@(selectedBooking?.type_category) Room</p>
+                <div class="w-full flex flex-col max-h-full pt-8 space-y-2 text-xl">
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Guest</p>
+                        <p class="text-gray-400">@(selectedBooking?.user_fname + " " + selectedBooking?.user_lname)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Room Number</p>
+                        <p class="text-gray-400">Room @(selectedBooking?.room_no)</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check In</p>
+                        <p class="text-gray-400">@(selectedBooking?.rsv_checkin.ToString("MMM dd, yyyy"))</p>
+                    </div>
+                    <div class="w-full h-13 flex flex-row justify-between">
+                        <p>Check Out</p>
+                        <p class="text-gray-400">@(selectedBooking?.rsv_checkout.ToString("MMM dd, yyyy"))</p>
+                    </div>
+                    <div class="w-full h-[1px] bg-gray-300 "></div>
+                    <div class="w-full h-13 flex flex-row justify-between text-2xl font-bold ">
+                        <p class="text-gray-800">Total Amount</p>
+                        <p class="text-[#0040A6]">@(selectedBooking?.payment_amount.ToString("N2") ?? "0.00")</p>
+                    </div>
+                </div>
+
+                <div class="w-full flex flex-col justify-center pt-8">
+                    @if (selectedBooking?.rsv_status == "Checked In")
+                    {
+                        <div class="grid grid-cols-2 gap-4 w-full">
+                            <button @onclick='OpenExtendBookingDialog' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Extend</button>
+                            <button @onclick='() => ShowConfirmationDialog("checkout", "Are you sure you want to check out this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Check Out</button>
+                        </div>
+                    }
+                    else if (selectedBooking?.rsv_status == "Booked")
+                    {
+                        <div class="grid grid-cols-2 gap-4 w-full">
+                            <button @onclick='() => ShowConfirmationDialog("cancel", "Are you sure you want to cancel this booking?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel Booking</button>
+                            <button @onclick='() => ShowConfirmationDialog("checkin", "Are you sure you want to check in this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Confirm Check-In</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="w-full text-center text-2xl @(selectedBooking?.rsv_status?.ToUpper() == "CANCELLED" ? "text-red-600" : "text-gray-700")">@(selectedBooking?.rsv_status?.ToUpper())</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <Icon Name="Close" @onclick='CloseBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer z-100" />
+    </div>
+</div>
+
+<!-- Extend Booking Dialog -->
+<div class="fixed inset-0 z-50 bg-black/60 transition-all duration-200 items-center flex justify-center" style="@(IsExtendBookingDialogOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseExtendBookingDialog'>
+    <div @onclick:stopPropagation class="shadow-black/50 flex flex-col fixed h-[calc(80%+4rem)] z-55 flex w-[calc(66.66%-200px)] gap-4 border bg-background outline-none focus:outline-none border-gray-300 p-6 shadow-lg transition-all duration-200 rounded-2xl" style="@(IsExtendBookingDialogOpen ? "opacity: 1; scale: 1;" : "opacity: 0; scale: 0.95;")">
+        @* Header *@
+        <div class="w-full text-4xl pt-4 font-montserrat font-bold text-gray-800 justify-center items-center flex">
+            EXTEND BOOKING
+        </div>
+
+        @* Progress Steps *@
+        <div class="w-full flex flex-col justify-center text-white text-2xl font-montserrat font-medium">
+            <div class="flex flex-row justify-center w-150 -space-x-4">
+                <div class="flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] bg-none"></div>
+                        <div class="h-[60px] aspect-square @(extendCurrentStep >= 1 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center ml-2">
+                            <p class="text-4xl">1</p>
+                        </div>
+                        <div class="w-full h-[10px] @(extendCurrentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400")"></div>
+                    </div>
+                    <p class="w-full text-center text-gray-400 text-sm font-medium self-start">Select New Dates</p>
+                </div>
+                <div class="flex flex-col justify-center w-full">
+                    <div class="flex flex-row w-full -space-x-4">
+                        <div class="w-full h-[10px] @(extendCurrentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400")"></div>
+                        <div class="aspect-square h-[60px] @(extendCurrentStep >= 2 ? "bg-[#2563EB]" : "bg-gray-400") rounded-full flex justify-center">
+                            <p class="text-4xl">2</p>
+                        </div>
+                        <div class="w-full h-[10px] bg-none"></div>
+                    </div>
+                    <p class="text-center w-full text-gray-400 text-sm font-medium self-end">Payment</p>
+                </div>
+            </div>
+            <div class="w-2/5 h-[2px] bg-gray-200 mt-3"></div>
+        </div>
+
+        @* Body Content *@
+        <div class="w-full px-2 flex flex-col h-full overflow-y-auto justify-center items-center">
+            @if (extendCurrentStep == 1)
+            {
+                <!-- Date Selection Step -->
+                <div class="w-full grid grid-cols-2 h-full p-2 gap-5">
+                    <div class="h-full w-full">
+                        <div class="w-full h-[530px] bg-cover bg-center rounded-2xl" style="background-image: url('@GetImageSelectedBooking(selectedBooking.type_category)')"></div>
+                    </div>
+
+                    <div class="flex flex-col h-full w-full justify-between pb-6">
+                        <div class="w-full mt-5">
+                            <p class="text-5xl font-bold pb-4 text-gray-700">@selectedBooking.type_category Room</p>
+                            <p class="text-primary font-semibold text-xl">Php @GetRoomPrice(selectedBooking.type_category) per night</p>
+                            <div class="mt-8 space-y-4 w-full flex flex-col">
+                                <div class="w-full flex justify-between text-xl">
+                                    <p class="text-gray-600">Guest Name</p>
+                                    <p class="text-gray-600">@selectedBooking.user_fname @selectedBooking.user_lname</p>
+                                </div>
+                                <div class="w-full flex justify-between text-xl">
+                                    <p class="text-gray-600">Current Check-In Date</p>
+                                    <p class="text-gray-600">@selectedBooking.rsv_checkin.ToString("MMM dd, yyyy")</p>
+                                </div>
+                                <div class="w-full flex justify-between text-xl">
+                                    <p class="text-gray-600">Current Check Out Date</p>
+                                    <p class="text-gray-600">@selectedBooking.rsv_checkout.ToString("MMM dd, yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-col pb-10">
+                            <CustomDatePicker Placeholder="New Check-Out Date"
+                            @bind-Value="newCheckOutDate"
+                            Class="w-full text-lg"
+                            Id="3"
+                            MinDate="@selectedBooking.rsv_checkout.AddDays(1)" />
+                        </div>
+
+                        <div class="w-full flex justify-between">
+                            <button @onclick='CloseExtendBookingDialog' class="w-1/3 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer hover:bg-blue-50 transition-colors duration-400">
+                                Cancel
+                            </button>
+                            <button @onclick='ProceedToExtendPayment' class="w-2/3 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400" disabled="@(!IsExtendDateValid)">
+                                Continue to Payment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (extendCurrentStep == 2)
+            {
+                <!-- Payment Step -->
+                <div class="w-full grid grid-cols-2 gap-5 h-full p-2">
+                    <div class="flex flex-col gap-5 h-full">
+                        <div class="w-full h-full flex flex-col px-1 -space-y-1">
+                            <p class="w-full text-lg font-bold text-gray-600 border-b border-gray-600">Cost Breakdown</p>
+                            <div class="w-full h-full flex flex-col">
+                                <div class="w-full flex flex-row justify-between">
+                                    <p class="text-sm text-gray-600">Additional Nights (@selectedBooking.type_category)</p>
+                                    <p class="text-sm text-gray-600">@extendAdditionalAmount.ToString("N2")</p>
+                                </div>
+                            </div>
+                            <div class="w-full flex flex-row justify-between border-t pt-2 border-gray-400">
+                                <p class="text-sm text-gray-600">Total Additional Cost</p>
+                                <p class="text-sm text-gray-600">@extendAdditionalAmount.ToString("N2")</p>
+                            </div>
+                        </div>
+                        <div class="w-full px-1 flex flex-row justify-between">
+                            <p class="text-lg font-semibold text-gray-800">Total Amount</p>
+                            <p class="text-lg font-bold text-primary">Php @extendAdditionalAmount.ToString("N2")</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between flex-col gap-5 h-full">
+                        <div class="flex flex-col">
+                            <p class="text-sm w-full font-medium">Select Payment Method</p>
+                            <div class="grid grid-cols-3 w-full gap-4">
+                                <div @onclick='() => SelectPaymentMethod("card")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "card" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="credit_card" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5 text-md">Credit / Debit Card</p>
+                                        <p class="w-full text-xs text-gray-400">Pay securely with your card</p>
+                                    </div>
+                                </div>
+                                <div @onclick='() => SelectPaymentMethod("wallet")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "wallet" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="wallet" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5 text-md">Digital Wallet</p>
+                                        <p class="w-full text-xs text-gray-400">GCash</p>
+                                    </div>
+                                </div>
+                                <div @onclick='() => SelectPaymentMethod("cash")' class="w-full h-25 flex flex-row border-2 @(paymentMethod == "cash" ? "border-primary bg-blue-50" : "border-gray-400") rounded-lg p-3 cursor-pointer">
+                                    <Icon Name="wallet" Color="#2563EB" />
+                                    <div class="w-full flex flex-col justify-start">
+                                        <p class="w-full -mb-5">Cash Payment</p>
+                                        <p class="w-full text-xs text-gray-400">Cash</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (paymentMethod == "card")
+                        {
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Card Number</label>
+                                    <div class="w-full flex h-12 border-2 border-gray-400 px-3 rounded-lg group">
+                                        <input @bind:event="oninput" @onkeydown="HandleCardNumberKeyDown" @bind="cardNumber" type="text" placeholder="1234 5678 9012 3456" class="w-full h-12 rounded-lg focus:outline-none focus:border-primary" />
+                                        @if (paymentMethod == "card")
+                                        {
+                                            <div class="flex flex-row px-3">
+                                                @if (cardNumber.Length > 0 && cardNumber[0] == '4')
+                                                {
+                                                    <img src="icons/selected-visa.png" alt="visa" />
+                                                    <img src="icons/mastercard.png" alt="mastercard" />
+                                                }
+                                                else if (cardNumber.Length > 0 && (cardNumber[0] == '5' || cardNumber[0] == '2'))
+                                                {
+                                                    <img src="icons/visa.png" alt="visa" />
+                                                    <img src="icons/selected-mastercard.png" alt="mastercard" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="icons/visa.png" alt="visa" />
+                                                    <img src="icons/mastercard.png" alt="mastercard" />
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row gap-4">
+                                    <div class="flex-1 flex flex-col">
+                                        <label class="w-full text-sm font-medium mb-1">Expiry Date</label>
+                                        <input @bind:event="oninput" @onkeydown="HandleExpiryKeyDown" @bind="expiryDate" type="text" placeholder="MM/YY" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                    </div>
+                                    <div class="flex-1 flex flex-col">
+                                        <label class="w-full text-sm font-medium mb-1">CVV</label>
+                                        <input @bind:event="oninput" @onkeydown="HandleCVVKeyDown" @bind="cvv" type="text" placeholder="123" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Cardholder Name</label>
+                                    <input @bind="cardholderName" type="text" placeholder="John Doe" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                        }
+                        else if (paymentMethod == "wallet")
+                        {
+                            <div class="flex flex-col space-y-6 w-full pb-10">
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Mobile Number</label>
+                                    <input @bind:event="oninput" @onkeydown="HandleMobileNumberKeyDown" @bind="mobileNumber" type="text" placeholder="0912 345 6789" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                                <div class="flex flex-col w-full">
+                                    <label class="w-full text-sm font-medium mb-1">Reference Number</label>
+                                    <input @bind="referenceNumber" maxlength="13" type="text" placeholder="1234567890123" class="w-full h-12 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-primary" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="flex flex-col space-y-6 w-2/3">
+                                <h1 class="text-primary text-2xl font-bold">Cash Payment</h1>
+                                <h3 class="text-center text-gray-500 text-lg">Please collect payment upon guest check-in.</h3>
+                            </div>
+                        }
+
+                        <div class="w-full flex justify-between mt-5">
+                            <button @onclick='BackToExtendDateSelection' class="w-1/3 h-12 text-primary border-2 border-primary rounded-lg cursor-pointer hover:bg-blue-50 transition-colors duration-400">
+                                Back
+                            </button>
+                            <button @onclick='CompleteExtendBooking' class="w-2/3 h-12 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/80 transition-colors duration-400" disabled="@(!IsPaymentValid)">
+                                Complete Extension
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <Icon Name="Close" @onclick='CloseExtendBookingDialog' Size="20px" class="absolute top-4 right-4 cursor-pointer" />
+    </div>
+</div>
 @code {
+    private int availableRoomsCount = 0;
+    private int occupiedRoomsCount = 0;
+    private int needsCleaningRoomsCount = 0;
+    private int reservationCount = 0;
     private bool IsDropdownOpen = false;
     private string activeDropdown = "";
     private List<ReceptionistRoomInventory> allRooms = new List<ReceptionistRoomInventory>();
     private List<ReceptionistRoomInventory> filteredRooms = new List<ReceptionistRoomInventory>();
     private List<Booking> bookings = new List<Booking>();
-
+    private bool IsBookingDialogOpen = false;
+    private bool IsExtendBookingDialogOpen = false;
+    private bool IsConfirmationDialogOpen = false;
+    private int extendCurrentStep = 1;
+    private DateOnly? newCheckOutDate;
+    private decimal extendAdditionalAmount = 0;
+    private Booking selectedBooking = new Booking();
+    private string confirmationMessage = "";
+    private string pendingAction = "";
+    private string paymentMethod = "card";
+    private string _cardNumber = "";
+    private string _expiryDate = "";
+    private string _cvv = "";
+    private string cardholderName = "";
+    private string _mobileNumber = "";
+    private string referenceNumber = "";
     // Filter states
-    private string searchTerm = "";
+    private string _searchTerm = "";
+    private string SearchTerm
+    {
+        get => _searchTerm;
+        set
+        {
+            _searchTerm = value;
+            FilterRooms(); // Automatically filter when search term changes
+        }
+    }
     private string selectedCategory;
     private string selectedStatus;
     private int? selectedFloor = 1; // Set default floor to 1
 
-    // Stats
-    private int availableRoomsCount = 0;
-    private int occupiedRoomsCount = 0;
-    private int maintenanceRoomsCount = 0;
-    private int reservationCount = 0;
-
+ 
     protected override async Task OnInitializedAsync()
     {
         allRooms = await RoomService.GetRoomInventory();
+
         bookings = await ReservationService.GetReservations();
         bookings = bookings.OrderByDescending(b => b.rsv_id).ToList();
 
         // Apply default floor filter
         FilterByFloor(1);
         CalculateStats();
+    }
+     private void SetSelectedBooking(Booking booking)
+    {
+        selectedBooking = booking;
+        IsBookingDialogOpen = true;
+    }
+
+    private void CloseBookingDialog()
+    {
+        IsBookingDialogOpen = false;
+    }
+
+    private void OpenExtendBookingDialog()
+    {
+        extendCurrentStep = 1;
+        IsExtendBookingDialogOpen = true;
+        CalculateExtendAdditionalAmount();
+    }
+
+    private void CloseExtendBookingDialog()
+    {
+        IsExtendBookingDialogOpen = false;
+        extendCurrentStep = 1;
+        newCheckOutDate = null;
+        extendAdditionalAmount = 0;
+    }
+
+    private void BackToExtendDateSelection()
+    {
+        extendCurrentStep = 1;
+    }
+
+    private void ProceedToExtendPayment()
+    {
+        if (IsExtendDateValid)
+        {
+            CalculateExtendAdditionalAmount();
+            extendCurrentStep = 2;
+        }
+    }
+
+    private void CalculateExtendAdditionalAmount()
+    {
+        if (newCheckOutDate.HasValue && selectedBooking != null)
+        {
+            var additionalNights = newCheckOutDate.Value.DayNumber - selectedBooking.rsv_checkout.DayNumber;
+            extendAdditionalAmount = additionalNights * GetRoomPrice(selectedBooking.type_category);
+        }
+    }
+
+    private bool IsExtendDateValid
+    {
+        get
+        {
+            if (!newCheckOutDate.HasValue || selectedBooking == null) return false;
+            return newCheckOutDate.Value > selectedBooking.rsv_checkout;
+        }
+    }
+
+    private async Task CompleteExtendBooking()
+    {
+        if (IsPaymentValid && newCheckOutDate.HasValue && selectedBooking != null)
+        {
+            bool success = await ReservationService.ExtendReservation(selectedBooking.rsv_id, newCheckOutDate.Value, (double)extendAdditionalAmount);
+
+            if (success)
+            {
+                bookings = await ReservationService.GetReservations();
+                CloseExtendBookingDialog();
+                CloseBookingDialog();
+                StateHasChanged();
+            }
+        }
+    }
+
+    private string GetImageSelectedBooking(string type_category)
+    {
+        if (type_category == null) return "/standard/standard-1.jpg";
+        return type_category.ToLower() switch
+        {
+            "standard" => "/standard/standard-1.jpg",
+            "deluxe" => "/deluxe/deluxe-3.jpg",
+            "suite" => "/suite/suite-3.jpg",
+            _ => "/standard/standard-1.jpg"
+        };
+    }
+
+    private decimal GetRoomPrice(string roomType)
+    {
+        return roomType switch
+        {
+            "Standard" => 2500,
+            "Deluxe" => 5000,
+            "Suite" => 7500,
+            _ => 0
+        };
+    }
+
+    private void ShowConfirmationDialog(string action, string message)
+    {
+        pendingAction = action;
+        confirmationMessage = message;
+        IsConfirmationDialogOpen = true;
+    }
+
+    private void CloseConfirmationDialog()
+    {
+        IsConfirmationDialogOpen = false;
+        pendingAction = "";
+        confirmationMessage = "";
+    }
+
+    private async Task ExecuteConfirmedAction()
+    {
+        switch (pendingAction)
+        {
+            case "cancel":
+                await CancelBookingConfirmed();
+                break;
+            case "checkin":
+                await CheckInBookingConfirmed();
+                break;
+            case "checkout":
+                await CheckOutBookingConfirmed();
+                break;
+        }
+        CloseConfirmationDialog();
+    }
+
+    private async Task CancelBookingConfirmed()
+    {
+        await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
+        bookings = await ReservationService.GetReservations();
+        CloseBookingDialog();
+    }
+
+    private async Task CheckInBookingConfirmed()
+    {
+        await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked In");
+        bookings = await ReservationService.GetReservations();
+        CloseBookingDialog();
+    }
+
+    private async Task CheckOutBookingConfirmed()
+    {
+        await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked Out");
+        bookings = await ReservationService.GetReservations();
+        CloseBookingDialog();
+    }
+
+    // Payment method properties and handlers
+    private string cvv
+    {
+        get => _cvv;
+        set
+        {
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+            _cvv = digitsOnly.Length > 4 ? digitsOnly[..4] : digitsOnly;
+        }
+    }
+
+    private string expiryDate
+    {
+        get => _expiryDate;
+        set
+        {
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+            if (digitsOnly.Length > 4) digitsOnly = digitsOnly[..4];
+            _expiryDate = digitsOnly.Length switch
+            {
+                > 2 => $"{digitsOnly[..2]}/{digitsOnly[2..]}",
+                _ => digitsOnly
+            };
+        }
+    }
+
+    private string cardNumber
+    {
+        get => _cardNumber;
+        set
+        {
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+            if (digitsOnly.Length > 16) digitsOnly = digitsOnly[..16];
+            var formatted = new StringBuilder();
+            for (int i = 0; i < digitsOnly.Length; i++)
+            {
+                if (i > 0 && i % 4 == 0) formatted.Append(' ');
+                formatted.Append(digitsOnly[i]);
+            }
+            _cardNumber = formatted.ToString();
+        }
+    }
+
+    private string mobileNumber
+    {
+        get => _mobileNumber;
+        set
+        {
+            var digitsOnly = new string(value?.Where(char.IsDigit).ToArray());
+            if (digitsOnly.Length > 11) digitsOnly = digitsOnly[..11];
+            var formatted = new StringBuilder();
+            for (int i = 0; i < digitsOnly.Length; i++)
+            {
+                if (i > 0 && (i == 4 || i == 7)) formatted.Append(' ');
+                formatted.Append(digitsOnly[i]);
+            }
+            _mobileNumber = formatted.ToString();
+        }
+    }
+
+    private void SelectPaymentMethod(string method)
+    {
+        paymentMethod = method;
+    }
+
+    private bool IsPaymentValid
+    {
+        get
+        {
+            if (paymentMethod == "card")
+            {
+                return !string.IsNullOrEmpty(cardNumber) &&
+                       !string.IsNullOrEmpty(expiryDate) &&
+                       !string.IsNullOrEmpty(cvv) &&
+                       !string.IsNullOrEmpty(cardholderName);
+            }
+            else if (paymentMethod == "wallet")
+            {
+                return !string.IsNullOrEmpty(mobileNumber);
+            }
+            return true;
+        }
+    }
+
+    private void HandleCVVKeyDown(KeyboardEventArgs e)
+    {
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight" };
+        if (allowedKeys.Contains(e.Key)) return;
+        if (cvv.Length >= 4 || !char.IsDigit(e.Key[0])) return;
+    }
+
+    private void HandleExpiryKeyDown(KeyboardEventArgs e)
+    {
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight" };
+        if (allowedKeys.Contains(e.Key)) return;
+        if (_expiryDate.Replace("/", "").Length >= 4 || !char.IsDigit(e.Key[0])) return;
+    }
+
+    private void HandleCardNumberKeyDown(KeyboardEventArgs e)
+    {
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", " " };
+        if (allowedKeys.Contains(e.Key)) return;
+        if (_cardNumber.Replace(" ", "").Length >= 16 || !char.IsDigit(e.Key[0])) return;
+    }
+
+    private void HandleMobileNumberKeyDown(KeyboardEventArgs e)
+    {
+        var allowedKeys = new[] { "Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", " " };
+        if (allowedKeys.Contains(e.Key)) return;
+        if (_cardNumber.Replace(" ", "").Length >= 11 || !char.IsDigit(e.Key[0])) return;
     }
 
     private void ToggleDropdown(string dropdown)
@@ -290,13 +924,13 @@
     {
         filteredRooms = allRooms;
 
-        // Apply search filter
-        if (!string.IsNullOrEmpty(searchTerm))
+        // Apply search filter if search term is not empty
+        if (!string.IsNullOrEmpty(SearchTerm))
         {
             filteredRooms = filteredRooms.Where(r =>
-                r.room_no.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                r.type_category.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                r.room_status.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                r.room_no.ToString().Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                r.type_category.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                r.room_status.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)
             ).ToList();
         }
 
@@ -324,9 +958,9 @@
     private void CalculateStats()
     {
         availableRoomsCount = allRooms.Count(r => r.room_status == "Available");
-        occupiedRoomsCount = allRooms.Count(r => r.room_status == "Booked");
-        maintenanceRoomsCount = allRooms.Count(r => r.room_status == "Unavailable" || r.room_status == "Needs Cleaning");
+        occupiedRoomsCount = allRooms.Count(r => r.room_status == "Unavailable");
+        needsCleaningRoomsCount = allRooms.Count(r => r.room_status == "Unavailable" || r.room_status == "Needs Cleaning");
         // You might want to get the actual reservation count from your service
-        reservationCount = allRooms.Count(r => r.room_status == "Booked");
+        reservationCount = allRooms.Count(r => r.room_status == "Reserved");
     }
 }

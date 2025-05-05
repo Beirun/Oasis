@@ -1,26 +1,25 @@
 ﻿@page "/housekeeper/rooms"
 @rendermode InteractiveServer
+@inject RoomServices RoomService
+@using Oasis.Library
 <div class="relative mx-auto h-screen w-screen overflow-hidden bg-[#F5F5F5]">
-      <Navbar />
+    <Navbar />
 
     <section id="rooms" class="font-montserrat flex h-[calc(100vh-calc(.25rem*40))] w-screen flex-col justify-center z-1">
-        <div class="flex w-4/5 flex-row justify-around  z-1">
+        <div class="flex w-4/5 flex-row justify-around z-1">
             <NavLink href="/housekeeper/rooms/standard" class="flex flex-row justify-between">
                 <div class="group w-100 rounded-2xl border border-gray-300 bg-white p-5 transition-all duration-400 hover:scale-105">
                     <div class="bg-[url('/standard/standard-1.jpg')] h-100 bg-cover bg-center rounded-2xl"></div>
                     <div class="mt-8 flex flex-col justify-between">
                         <div class="flex w-full flex-row justify-between">
-                            <p class="text-2xl font-bold text-gray-500 transition-colors duration-400 ease-in-out group-hover:text-black">Standard</p>
+                            <p class="text-2xl font-bold text-gray-500 transition-colors duration-400 ease-in-out group-hover:text-black">Standard Rooms</p>
                         </div>
                         <div class="self-start">
-                            <ul class="mt-2 text-sm">
-                                <li class="text-green-600">• Clean Rooms : </li>
-                                <li class="text-red-600">• Uncleaned Rooms : </li>
-                                <li class="text-yellow-600">• Rooms Being cleaned : </li>
+                            <ul class="mt-2 text-md">
+                                <li class="text-red-600">• Uncleaned Rooms : @standardUncleanCount</li>
+                                <li class="text-yellow-600">• Rooms Being cleaned : @standardBeingCleanedCount</li>
                             </ul>
-
                         </div>
-                        @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
                     </div>
                 </div>
             </NavLink>
@@ -29,17 +28,14 @@
                     <div class="bg-[url('/suite/suite-3.jpg')] h-100 bg-cover bg-center rounded-2xl"></div>
                     <div class="mt-8 flex flex-col justify-between">
                         <div class="flex w-full flex-row justify-between">
-                            <p class="text-2xl font-bold text-gray-500 transition-colors duration-400 ease-in-out group-hover:text-black">Suite</p>
+                            <p class="text-2xl font-bold text-gray-500 transition-colors duration-400 ease-in-out group-hover:text-black">Suite Rooms</p>
                         </div>
-
                         <div class="self-start">
-                            <ul class="mt-2 text-sm">
-                                <li class="text-green-600">• Clean Rooms : </li>
-                                <li class="text-red-600">• Uncleaned Rooms : </li>
-                                <li class="text-yellow-600">• Rooms Being cleaned : </li>
+                            <ul class="mt-2 text-md">
+                                <li class="text-red-600">• Uncleaned Rooms : @suiteUncleanCount</li>
+                                <li class="text-yellow-600">• Rooms Being cleaned : @suiteBeingCleanedCount</li>
                             </ul>
                         </div>
-                        @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
                     </div>
                 </div>
             </NavLink>
@@ -48,16 +44,14 @@
                     <div class="bg-[url('/deluxe/deluxe-3.jpg')] h-102 bg-cover bg-center rounded-2xl"></div>
                     <div class="mt-8 flex flex-col justify-between">
                         <div class="flex w-full flex-row justify-between">
-                            <p class="text-2xl font-bold text-gray-500 transition-colors duration-400 ease-in-out group-hover:text-black">Deluxe</p>
+                            <p class="text-2xl font-bold text-gray-500 transition-colors duration-400 ease-in-out group-hover:text-black">Deluxe Rooms</p>
                         </div>
                         <div class="self-start">
                             <ul class="mt-2 text-sm">
-                                <li class="text-green-600">• Clean Rooms : </li>
-                                <li class="text-red-600">• Uncleaned Rooms : </li>
-                                <li class="text-yellow-600">• Rooms Being cleaned : </li>
+                                <li class="text-red-600">• Uncleaned Rooms : @deluxeUncleanCount</li>
+                                <li class="text-yellow-600">• Rooms Being cleaned : @deluxeBeingCleanedCount</li>
                             </ul>
                         </div>
-                        @* <Button style="background-color:#0040A6;border-radius:15px;font-family:Montserrat">Book Now</Button> *@
                     </div>
                 </div>
             </NavLink>
@@ -66,4 +60,35 @@
 
     <div style="clip-path: polygon(100% 75%, 100% 100%, 30% 100%)" class="w-full h-full bg-[#2563EB] z-0 fixed top-0"></div>
     <div style="clip-path: polygon(0 75%, 0 100%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
-    </div>
+</div>
+
+@code {
+    private int standardUncleanCount = 0;
+    private int standardBeingCleanedCount = 0;
+
+    private int suiteUncleanCount = 0;
+    private int suiteBeingCleanedCount = 0;
+
+    private int deluxeUncleanCount = 0;
+    private int deluxeBeingCleanedCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRoomCounts();
+    }
+
+    private async Task LoadRoomCounts()
+    {
+        // Standard Room Counts
+        standardUncleanCount = await RoomService.GetNumberOfRoomsByStatusAndType("Needs Cleaning", "Standard");
+        standardBeingCleanedCount = await RoomService.GetNumberOfRoomsByStatusAndType("Being Cleaned", "Standard");
+
+        // Suite Room Counts
+        suiteUncleanCount = await RoomService.GetNumberOfRoomsByStatusAndType("Needs Cleaning", "Suite");
+        suiteBeingCleanedCount = await RoomService.GetNumberOfRoomsByStatusAndType("Being Cleaned", "Suite");
+
+        // Deluxe Room Counts
+        deluxeUncleanCount = await RoomService.GetNumberOfRoomsByStatusAndType("Needs Cleaning", "Deluxe");
+        deluxeBeingCleanedCount = await RoomService.GetNumberOfRoomsByStatusAndType("Being Cleaned", "Deluxe");
+    }
+}

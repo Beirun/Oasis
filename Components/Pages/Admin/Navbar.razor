@@ -4,7 +4,7 @@
 @inject AppState AppState
 @using Oasis.State
 
-<div class="sticky top-0 z-200 bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
+<div class="sticky top-0 z-2 bg-[#0040A6] w-screen py-5 px-10 flex justify-between items-center font-montserrat shadow-md shadow-gray-400/50">
     <div class="h-full w-1/2 flex justify-start items-center">
         <div class="flex h-full justify-center items-center"><img src="logo_white.png" alt="Alternate Text" class="pb-2 h-10" /></div>
         <div class="ml-7.5 gap-10  flex justify-start items-center text-white">
@@ -76,6 +76,10 @@
         if (AppState.CurrentUser == null)
         {
             NavigationManager.NavigateTo("/signin");
+        }
+        if (AppState.CurrentUserType.ToLower() != "admin")
+        {
+            NavigationManager.NavigateTo("/dashboard/" + AppState.CurrentUserType.ToLower());
         }
     }
     private void ToggleDropdown()

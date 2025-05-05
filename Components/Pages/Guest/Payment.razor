@@ -353,6 +353,10 @@
 		{
 			Navigation.NavigateTo("/signin");
 		}
+		if (AppState.CurrentUserType.ToLower() != "guest")
+		{
+			Navigation.NavigateTo("/dashboard/" + AppState.CurrentUserType.ToLower());
+		}
 		currentUser = AppState.CurrentUser;
 		roomType = AppState.roomType;
 		Console.WriteLine($"App Room Type: {AppState.roomType}");

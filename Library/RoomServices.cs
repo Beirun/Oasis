@@ -58,6 +58,32 @@ namespace Oasis.Library
             var rooms = await _context.Room.Where(r => r.roomtype!.type_category.ToLower() == roomType.ToLower() && r.room_status == "Available").ToListAsync();
             return rooms[new Random().Next(rooms.Count)];
         }
+        public async Task<int> GetNumberOfRoomsByStatus(string status)
+        {
+            var rooms = await _context.Room.Where(r => r.room_status.ToLower() == status.ToLower()).ToListAsync();
+            return rooms.Count;
+        }
+
+        public async Task<int> GetNumberOfRoomsByStatusAndType(string status, string roomType)
+        {
+            var rooms = await _context.Room.Where(r => r.room_status.ToLower() == status.ToLower() && r.roomtype!.type_category.ToLower() == roomType.ToLower()).ToListAsync();
+            return rooms.Count;
+        }
+
+        public async Task<List<Room>> GetRoomsByType(string roomType)
+        {
+            var rooms = await _context.Room.Where(r => r.roomtype!.type_category.ToLower() == roomType.ToLower()).ToListAsync();
+            return rooms;
+        }
+        public async Task UpdateRoomStatus(int roomId, string status)
+        {
+            var room = await _context.Room.FirstOrDefaultAsync(r => r.room_id == roomId);
+            if (room != null)
+            {
+                room.room_status = status;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
 

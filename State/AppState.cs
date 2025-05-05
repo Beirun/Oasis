@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Oasis.Data.Models;
+using Oasis.Data.Object;
 namespace Oasis.State
 {
     public class AppState
@@ -17,6 +18,7 @@ namespace Oasis.State
         public DateTime? paymentDate { get; private set; }
         public string? accountName { get; private set; }
         public double? totalAmount { get; private set; }
+
         // Event to notify components when state changes
         public event Action OnChange;
 
@@ -62,7 +64,7 @@ namespace Oasis.State
             this.checkOutDate = checkOutDate;
             NotifyStateChanged();
         }
-
+     
         public void ClearUser()
         {
             CurrentUser = null;
