@@ -12,8 +12,11 @@ namespace Oasis.State
         public string? roomType { get; private set; }
         public string? roomPrice { get; private set; }
         public string? roomNumber { get; private set; }
-
-
+        public string? paymentMethod { get; private set; }
+        public string? cardNumber { get; private set; }
+        public DateTime? paymentDate { get; private set; }
+        public string? accountName { get; private set; }
+        public double? totalAmount { get; private set; }
         // Event to notify components when state changes
         public event Action OnChange;
 
@@ -42,6 +45,15 @@ namespace Oasis.State
         {
             this.roomNumber = roomNumber;
             NotifyStateChanged();
+        }
+        public void SetSuccessPayment(string paymentMethod, string cardNumber, DateTime paymentDate,string accountName, double totalAmount, string roomNumber)
+        {
+            this.paymentMethod = paymentMethod;
+            this.cardNumber = cardNumber;
+            this.paymentDate = paymentDate;
+            this.accountName = accountName;
+            this.totalAmount = totalAmount;
+            this.roomNumber = roomNumber;
         }
         
         public void SetCheckInDate(DateOnly? checkInDate, DateOnly? checkOutDate)
