@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Oasis.Data;
 using Oasis.Data.Models;
+using Oasis.Data.Object;
 namespace Oasis.Library
 {
     public class RoomServices
@@ -11,21 +12,43 @@ namespace Oasis.Library
         {
             _context = context;
         }
-        
-        public async Task<List<Room>> getRooms(){
+
+        public async Task<List<Room>> getRooms()
+        {
             var rooms = await _context.Room.ToListAsync();
             return rooms;
         }
 
-        public async Task setRoomStatus(int roomId, string status){
+        // New method to get rooms with type categories
+        public async Task<List<ReceptionistRoomInventory>> GetRoomInventory()
+        {
+            var roomsWithTypes = await _context.Room
+                .Include(r => r.roomtype) // Include the RoomType navigation property
+                .Select(r => new ReceptionistRoomInventory
+                {
+                    room_id = r.room_id,
+                    room_no = r.room_no ?? 0, // Using null-coalescing operator for nullable int
+                    type_category = r.roomtype != null ? r.roomtype.type_category ?? "Unknown" : "Unknown",
+                    type_price = r.roomtype.type_price ?? 0,
+                    room_status = r.room_status ?? "Unknown"
+                })
+                .ToListAsync();
+
+            return roomsWithTypes;
+        }
+
+        public async Task setRoomStatus(int roomId, string status)
+        {
             var room = await _context.Room.FirstOrDefaultAsync(r => r.room_id == roomId);
-            if (room != null){
+            if (room != null)
+            {
                 room.room_status = status;
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<RoomType> getRoomType(string roomType) {
+        public async Task<RoomType> getRoomType(string roomType)
+        {
             var roomTypeObj = await _context.RoomType.FirstOrDefaultAsync(r => r.type_category.ToLower() == roomType.ToLower());
             return roomTypeObj;
         }
@@ -35,6 +58,7 @@ namespace Oasis.Library
             var rooms = await _context.Room.Where(r => r.roomtype!.type_category.ToLower() == roomType.ToLower() && r.room_status == "Available").ToListAsync();
             return rooms[new Random().Next(rooms.Count)];
         }
+<<<<<<< HEAD
 
         public async Task<double> GetOccupancyPercentage()
         {
@@ -87,5 +111,8 @@ namespace Oasis.Library
         //     }
 
         // }
+=======
+>>>>>>> e6f3bc3ba73d20b8ed06a684627fe43125770fb8
     }
 }
+
