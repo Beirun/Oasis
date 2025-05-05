@@ -15,10 +15,10 @@
 @inject RoomServices RoomService
 @inject PaymentServices PaymentService
 @inject GuestServices GuestService
-<div class="w-screen h-screen flex flex-col bg-background font-montserrat">
+<div class="w-screen min-h-screen flex flex-col bg-background font-montserrat">
     <Navbar />
 
-    <div class="w-4/6 h-full flex flex-col">
+    <div class="w-4/6 h-full flex flex-col mb-4">
         <div class="flex self-start mt-10 w-full">
             <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
             <input @bind="SearchQuery" @bind:event="oninput" type="text" placeholder="Search bookings"
@@ -68,7 +68,7 @@
             </button>
         </div>
         <div class="w-full h-[1px] bg-gray-300"></div>
-        <div class="w-full bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400 rounded-md">
+        <div class="w-full bg-white p-5 pb-2 shadow-gray-500/50 border-b-2 border-gray-400 rounded-md">
             @if (filteredBookings.Any())
             {
                 <table class="w-full text-sm divide-y-2 divide-gray-300">
