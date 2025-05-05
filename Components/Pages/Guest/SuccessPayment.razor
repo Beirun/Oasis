@@ -1,63 +1,216 @@
 ﻿@page "/payment/success"
 @rendermode InteractiveServer
-@using Oasis.Components.Layout  
+@using Oasis.Components.Layout
 @using Oasis.State
 @using System.Drawing;
 @using System.Drawing.Drawing2D;
 @using System.Drawing.Imaging;
 @using System.Drawing.Text;
 @using System.Text;
+@using System.IO;
+@using System.Threading.Tasks;
 @inject NavigationManager Navigation
 @inject AppState AppState
-<div class="w-full h-screen flex justify-center items-center font-montserrat">
-	<div class="w-1/3 h-4/5 border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-10">
-		<div class="w-25 h-25 rounded-full bg-[#0ED899] flex justify-center"><Icon Name="check" Color="white" Size="50px"></Icon></div>
-		<p class="text-2xl font-bold">Payment Successful</p>
-		<div class="w-full h-[1px] bg-gray-300"></div>
-		<p>Total Amount</p>
-		<p class="text-[#0040A6] text-4xl font-bold">(amount)</p>
-		<div class="w-full flex justify-between px-10">
-			<p class="text-gray-400">Room Type:</p>
-			<p>(room type)</p>
-		</div>
-		<div class="w-full flex justify-between px-10">
-			<p class="text-gray-400">Room Number:</p>
-			<p>@(roomNumber)</p>
-		</div>
-		<div class="w-full flex justify-between px-10">
-			<p class="text-gray-400">Account Name:</p>
-			<p>(account name)</p>
-		</div>
-		<div class="w-full flex justify-between px-10">
-			<p class="text-gray-400">Date:</p>
-			<p>(date)</p>
-		</div>
-		<div class="w-full flex justify-between px-10">
-			<p class="text-gray-400">Card Number:</p>
-			<p>(card number)</p>
-		</div>
-		<div class="w-full flex justify-between px-10">
-			<p class="text-gray-400">Payment Method:</p>
-			<p>(method)</p>
-		</div>
-		<button class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Download Receipt</button>
-		<button @onclick='() => Navigation.NavigateTo("/dashboard/guest")' class="hover:underline transition-all duration-300 text-gray-500 cursor-pointer font-semibold">Back To Dashboard</button>
+@inject IJSRuntime JSRuntime
 
-	</div>
+<div class="w-full h-screen flex justify-center items-center font-montserrat">
+    <div class="w-1/3 h-4/5 bg-[#fafafa] border border-gray-300 rounded-2xl shadow-md shadow-gray-500/50 flex flex-col justify-center p-10 z-10">
+        <div class="w-25 h-25 rounded-full bg-[#0ED899] flex justify-center"><Icon Name="check" Color="white" Size="50px"></Icon></div>
+        <p class="text-2xl font-bold">Payment Successful</p>
+        <div class="w-full h-[1px] bg-gray-300"></div>
+        <p>Total Amount</p>
+        <p class="text-[#0040A6] text-4xl font-bold">@totalAmount.ToString("N2")</p>
+        <div class="w-full flex justify-between px-10">
+            <p class="text-gray-400">Room Type:</p>
+            <p>@(roomType.First().ToString().ToUpper() + roomType.Substring(1))</p>
+        </div>
+        <div class="w-full flex justify-between px-10">
+            <p class="text-gray-400">Room Number:</p>
+            <p>@roomNumber</p>
+        </div>
+        <div class="w-full flex justify-between px-10">
+            <p class="text-gray-400">Account Name:</p>
+            <p>@accountName</p>
+        </div>
+        <div class="w-full flex justify-between px-10">
+            <p class="text-gray-400">Date:</p>
+            <p>@paymentDate.ToString("MM/dd/yyyy HH:mm")</p>
+        </div>
+        <div class="w-full flex justify-between px-10">
+            <p class="text-gray-400">Card Number:</p>
+            <p>@cardNumber</p>
+        </div>
+        <div class="w-full flex justify-between px-10">
+            <p class="text-gray-400">Payment Method:</p>
+            <p>@paymentMethod</p>
+        </div>
+        <button @onclick="DownloadReceipt" class="w-full h-12 bg-[#2563EB] text-white rounded-lg cursor-pointer hover:bg-primary transition-colors duration-400">Download Receipt</button>
+        <button @onclick='() => Navigation.NavigateTo("/dashboard/guest")' class="hover:underline transition-all duration-300 text-gray-500 cursor-pointer font-semibold">Back To Dashboard</button>
+    </div>
+    <div style="clip-path: polygon(40% 100%, 100% 70%, 100% 100%)" class="w-full h-full bg-[#2563EB] z-0 fixed top-0"></div>
+    <div style="clip-path: polygon(0 100%, 0 60%, 75% 100%)" class="w-full h-full bg-primary z-0 fixed top-0"></div>
 </div>
 
 @code {
-	private string roomPrice { get; set; }
-	private string roomNumber {get; set; }
-	protected override async Task OnInitializedAsync()
-	{
-		if(AppState.CurrentUser == null)
-		{
-			Navigation.NavigateTo("/signin");
-		}
-		roomPrice = AppState.roomPrice;
-		roomNumber = AppState.roomNumber;
-	}
-	
+    private string roomType { get; set; }
+    private string roomNumber { get; set; }
+    private string paymentMethod { get; set; }
+    private string accountName { get; set; }
+    private string cardNumber { get; set; }
+    private double totalAmount { get; set; }
+    private DateTime paymentDate { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        if (AppState.CurrentUser == null)
+        {
+            Navigation.NavigateTo("/signin");
+        }
+        roomType = AppState.roomType;
+        roomNumber = AppState.roomNumber;
+        paymentDate = AppState.paymentDate ?? DateTime.Now;
+        paymentMethod = AppState.paymentMethod;
+        accountName = AppState.CurrentUser.user_fname + " " + AppState.CurrentUser.user_lname;
+        cardNumber = AppState.cardNumber;
+        totalAmount = AppState.totalAmount ?? 0;
+    }
+
+    private async Task DownloadReceipt()
+    {
+        try
+        {
+            int receiptWidth = 800;
+            int receiptHeight = 1200;
+
+            using (var bitmap = new Bitmap(receiptWidth, receiptHeight))
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                // Set background and quality
+                graphics.Clear(Color.White);
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+                // Fonts with explicit System.Drawing namespace
+                var titleFont = new System.Drawing.Font("Cascadia Code", 50, System.Drawing.FontStyle.Bold);
+                var headerFont = new System.Drawing.Font("Cascadia Code", 20, System.Drawing.FontStyle.Regular);
+                var amountFont = new System.Drawing.Font("Cascadia Code", 50, System.Drawing.FontStyle.Bold);
+
+                // Colors
+                var textColor = Brushes.Black;
+                var lineColor = new Pen(Color.Black, 4);
+
+                // Draw logo (added at the top)
+                try
+                {
+                    // Adjust the path to where your logo is stored in wwwroot
+                    string logoPath = Path.Combine(Environment.CurrentDirectory, "wwwroot", "logo.png");
+                    if (File.Exists(logoPath))
+                    {
+                        using (Image logo = Image.FromFile(logoPath))
+                        {
+                            // Center the logo and resize if needed
+                            int logoX = (receiptWidth - logo.Width) / 2;
+                            graphics.DrawImage(logo, logoX, 20, logo.Width, logo.Height);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error loading logo: {ex.Message}");
+                }
+
+                // Draw header
+                string receiptTitle = "HOTEL RECEIPT";
+                var titleSize = graphics.MeasureString(receiptTitle, titleFont);
+                graphics.DrawString(receiptTitle, titleFont, textColor,
+                    (receiptWidth - titleSize.Width) / 2, 250); // Adjusted Y position for logo
+
+                // Draw divider lines
+                graphics.DrawLine(lineColor, 25, 250, receiptWidth - 25, 250);
+                graphics.DrawLine(lineColor, 25, 330, receiptWidth - 25, 330);
+
+                // Draw receipt details
+                int yPos = 360;
+                DrawReceiptDetail(graphics, "ROOM TYPE:",
+                    roomType.First().ToString().ToUpper() + roomType.Substring(1).ToUpper(),
+                    yPos, headerFont);
+                yPos += 75;
+                DrawReceiptDetail(graphics, "ROOM NUMBER:", roomNumber.ToUpper(), yPos, headerFont);
+                yPos += 75;
+                DrawReceiptDetail(graphics, "GUEST NAME:", accountName.ToUpper(), yPos, headerFont);
+                yPos += 75;
+                DrawReceiptDetail(graphics, "CHECK-IN DATE:",
+                    paymentDate.ToString("MM/dd/yyyy HH:mm").ToUpper(), yPos, headerFont);
+                yPos += 75;
+                DrawReceiptDetail(graphics, "PAYMENT METHOD:", paymentMethod.ToUpper(), yPos, headerFont);
+                yPos += 75;
+                DrawReceiptDetail(graphics, "CARD NUMBER:", cardNumber.ToUpper(), yPos, headerFont);
+                yPos += 95;
+
+                // Draw total amount
+                string totalText = "TOTAL AMOUNT:";
+                string amountText = totalAmount.ToString("C2").ToUpper();
+
+                graphics.DrawString(totalText, headerFont, textColor, 25, yPos);
+                var amountSize = graphics.MeasureString(amountText, headerFont);
+                graphics.DrawString(amountText, headerFont, textColor,
+                    receiptWidth - 25 - amountSize.Width, yPos);
+
+                yPos += 75;
+
+                // Draw big paid amount
+                string paidText = "PAID: " + totalAmount.ToString("C2").ToUpper();
+                var paidSize = graphics.MeasureString(paidText, amountFont);
+                graphics.DrawString(paidText, amountFont, textColor,
+                    (receiptWidth - paidSize.Width) / 2, yPos);
+
+                yPos += 115;
+
+                // Draw footer line
+                graphics.DrawLine(lineColor, 25, yPos, receiptWidth - 25, yPos);
+
+                yPos += 55;
+
+                // Draw thank you message
+                string thanksText = "THANK YOU FOR STAYING WITH US!";
+                var thanksSize = graphics.MeasureString(thanksText, headerFont);
+                graphics.DrawString(thanksText, headerFont, textColor,
+                    (receiptWidth - thanksSize.Width) / 2, yPos);
+
+                yPos += 55;
+
+                // Draw hotel name and year
+                string footerText = $"OASIS HOTEL © {DateTime.Now.Year}";
+                var footerSize = graphics.MeasureString(footerText, headerFont);
+                graphics.DrawString(footerText, headerFont, Brushes.Gray,
+                    (receiptWidth - footerSize.Width) / 2, yPos);
+
+                // Save and download
+                using (var memoryStream = new MemoryStream())
+                {
+                    bitmap.Save(memoryStream, ImageFormat.Png);
+                    var imageBytes = memoryStream.ToArray();
+                    var base64String = Convert.ToBase64String(imageBytes);
+                    await JSRuntime.InvokeVoidAsync("downloadImage",
+                        base64String,
+                        $"OasisReceipt_{DateTime.Now:yyyyMMddHHmmss}.png");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error generating receipt: {ex.Message}");
+        }
+    }
+
+    private void DrawReceiptDetail(Graphics graphics, string label, string value, int yPos, System.Drawing.Font font)
+    {
+        // Draw left-aligned label
+        graphics.DrawString(label, font, Brushes.Black, 25, yPos);
+
+        // Draw right-aligned value
+        var valueSize = graphics.MeasureString(value, font);
+        graphics.DrawString(value, font, Brushes.Black,
+            775 - valueSize.Width, yPos);
+    }
 }
