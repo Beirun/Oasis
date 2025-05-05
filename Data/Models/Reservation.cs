@@ -19,5 +19,7 @@ public partial class Reservation
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual Room? room { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
+    public virtual Review? review { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<Service> service { get; set; } = new List<Service>();
 }

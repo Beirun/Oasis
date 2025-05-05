@@ -164,7 +164,7 @@
                     {
                         <div class="grid grid-cols-2 gap-4 w-full">
                             <button @onclick='() => ShowConfirmationDialog("cancel", "Are you sure you want to cancel this booking?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-white text-[#2563EB] cursor-pointer">Cancel Booking</button>
-                            <button @onclick='() => ShowConfirmationDialog("checkin", "Are you sure you want to check in this guest?")' class="w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white cursor-pointer">Confirm Check-In</button>
+                            <button disabled="@(selectedBooking.rsv_checkin > DateOnly.FromDateTime(DateTime.Now))" @onclick='() => ShowConfirmationDialog("checkin", "Are you sure you want to check in this guest?")' class="@(selectedBooking.rsv_checkin > DateOnly.FromDateTime(DateTime.Now) ? "cursor-not-allowed" : "cursor-pointer") w-full h-12 rounded-2xl border-2 border-[#2563EB] bg-[#2563EB] text-white ">Confirm Check-In</button>
                         </div>
                     }
                     else
@@ -864,7 +864,7 @@
 
     private async Task ExecuteConfirmedAction()
     {
-
+        //TODO Add Notification of this 3
         switch (pendingAction)
         {
             case "cancel":
@@ -884,6 +884,7 @@
     private async Task CancelBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
+
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();

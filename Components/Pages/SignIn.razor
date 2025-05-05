@@ -58,7 +58,7 @@
     {
         if(appState.CurrentUser != null)
         {
-            Navigation.NavigateTo("/dashboard/"+appState.CurrentUserType);
+            Navigation.NavigateTo("/dashboard/"+appState.CurrentUserType.ToLower());
         }
     }
     private async Task Login()

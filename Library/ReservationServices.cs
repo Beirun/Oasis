@@ -15,28 +15,33 @@ namespace Oasis.Library
 
         public async Task<List<Booking>> GetReservations()
         {
-            //get reservation where room_id of reservation is equal to room_id of Room, and guest_id of reservation is equal to user_id of User
             var bookings = await _context.Reservation
-                        .Include(r => r.payment)
-                        .Include(r => r.room)
-                            .ThenInclude(room => room.roomtype)
-                        .Include(r => r.guest)
-                            .ThenInclude(g => g.user)
-                        .Where(r => r.room != null && r.guest != null)
-                        .Select(r => new Booking
-                        {
-                            rsv_id = r.rsv_id,
-                            user_email = r.guest.user.user_email,
-                            user_fname = r.guest.user.user_fname,
-                            user_lname = r.guest.user.user_lname,
-                            room_no = r.room.room_no ?? 0,
-                            type_category = r.room.roomtype.type_category,
-                            rsv_checkin = r.rsv_checkin ?? default,
-                            rsv_checkout = r.rsv_checkout ?? default,
-                            rsv_status = r.rsv_status,
-                            payment_amount = r.payment.payment_amount ?? 0
-                        })
-                        .ToListAsync();
+                    .Include(r => r.payment)
+                    .Include(r => r.room)
+                        .ThenInclude(room => room.roomtype)
+                    .Include(r => r.guest)
+                        .ThenInclude(g => g.user)
+                    .Where(r => r.room != null && r.guest != null && r.payment != null)
+                    .Select(r => new Booking
+                    {
+                        rsv_id = r.rsv_id,
+                        user_email = r.guest.user.user_email,
+                        user_fname = r.guest.user.user_fname,
+                        user_lname = r.guest.user.user_lname,
+                        room_no = r.room.room_no ?? 0,
+                        type_category = r.room.roomtype.type_category,
+                        rsv_checkin = r.rsv_checkin ?? default,
+                        rsv_checkout = r.rsv_checkout ?? default,
+                        rsv_status = r.rsv_status,
+                        payment_amount = r.payment.payment_amount ?? 0
+                    })
+                    .ToListAsync();
+
+            foreach (var booking in bookings)
+            {
+                Console.WriteLine($"Bookings: {System.Text.Json.JsonSerializer.Serialize(booking)}");
+            }
+
             return bookings;
         }
 
@@ -87,11 +92,13 @@ namespace Oasis.Library
                 .Include(r => r.room)
                     .ThenInclude(room => room.roomtype)
                 .Include(r => r.payment)
+                .Include(r => r.review)
                 .Where(r => r.guest_id == guestId && r.room != null && r.payment != null)
                 .Select(r => new GuestBooking
                 {
                     rsv_id = r.rsv_id,
                     room_no = r.room.room_no ?? 0,
+                    review_id = r.review != null ? r.review.review_id : 0,
                     type_category = r.room.roomtype.type_category ?? string.Empty,
                     rsv_checkin = r.rsv_checkin ?? default,
                     rsv_checkout = r.rsv_checkout ?? default,

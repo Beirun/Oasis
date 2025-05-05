@@ -3,6 +3,8 @@
     public class GuestBooking
     {
         public int rsv_id { get; set; }
+        public int room_id { get; set; }
+        public int review_id { get; set; }
         public int room_no { get; set; }
         public string type_category { get; set; }
         public DateOnly rsv_checkin { get; set; }

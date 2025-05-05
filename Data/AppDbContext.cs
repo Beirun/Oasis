@@ -248,7 +248,7 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.staff).WithMany(p => p.payment).HasForeignKey(d => d.staff_id);
 
             entity.HasOne(d => d.reservation).WithOne(p => p.payment)
-                .HasForeignKey<Reservation>(d => d.rsv_id)
+                .HasForeignKey<Reservation>(d => d.payment_id)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
         });
@@ -272,6 +272,7 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.guest).WithMany(p => p.reservation).HasForeignKey(d => d.guest_id);
 
             entity.HasOne(d => d.room).WithMany(p => p.reservation).HasForeignKey(d => d.room_id);
+            //entity.HasOne(d => d.payment).WithOne(p => p.reservation).HasForeignKey<Payment>(d => d.payment_id);
         });
 
         modelBuilder.Entity<Review>(entity =>
@@ -286,11 +287,12 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.review_date).HasColumnName("review_date");
             entity.Property(e => e.review_feedback).HasColumnName("review_feedback");
             entity.Property(e => e.review_rating).HasColumnName("review_rating");
-            entity.Property(e => e.room_id).HasColumnName("room_id");
+            entity.Property(e => e.rsv_id).HasColumnName("rsv_id");
 
             entity.HasOne(d => d.guest).WithMany(p => p.review).HasForeignKey(d => d.guest_id);
 
-            entity.HasOne(d => d.room).WithMany(p => p.review).HasForeignKey(d => d.room_id);
+            entity.HasOne(d => d.reservation).WithOne(p => p.review)
+                .HasForeignKey<Review>(d => d.rsv_id);
         });
 
         modelBuilder.Entity<Room>(entity =>
