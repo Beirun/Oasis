@@ -506,6 +506,7 @@
 	{
 		room = await RoomService.getRandomRoomFromType(roomType!);
 		int payment_id = await PaymentService.AddPayment(Convert.ToDouble(roomPrice!), DateTime.Now,0);
+		AppState.SetSuccessPayment(card ? "Credit/Debit Card" : "Digital Wallet", cardNumber, DateTime.Now, cardholder_name, Convert.ToDouble(roomPrice!), room.room_no.ToString());
 		bool successReservation = await ReservationService.AddReservation("online",checkInDate ?? DateOnly.MinValue, checkOutDate ?? DateOnly.MinValue,currentUser.user_id,room.room_id,payment_id);
 		
 		if(successReservation) Navigation.NavigateTo("/payment/success");

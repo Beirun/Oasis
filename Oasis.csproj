@@ -20,6 +20,7 @@
     </PackageReference>
     <PackageReference Include="PSC.Blazor.Components.Chartjs" Version="8.0.8" />
     <PackageReference Include="Sysinfocus.AspNetCore.Components" Version="0.0.2.4" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
