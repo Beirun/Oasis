@@ -1,6 +1,7 @@
 @page "/housekeeper/rooms/standard"
 @rendermode InteractiveServer
 @using Oasis.Data.Models
+@using Oasis.Data.Object
 @using Oasis.State
 @using Oasis.Library
 @inject AppState AppState
@@ -13,63 +14,85 @@
             <NavLink href="/housekeeper/rooms">
                 <Icon Name="arrow_back" Size="35px" />
             </NavLink>
-            <p class="p-6 text-2xl font-bold">Standard Rooms</p>
+            <p class="p-6 text-2xl font-bold">Suite Rooms</p>
         </div>
         <div class="mt-3 flex flex-row">
             <div class="border-0 box-content h-120 w-5/5 rounded-lg bg-white">
-                <table class="min-w-full table-auto">
-                    <thead>
-                        <tr class="bg-gray-100 text-left text-sm text-gray-600 uppercase">
-                            <th class="px-6 py-4">Room No.</th>
-                            <th class="px-6 py-4">Floor</th>
-                            <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var room in rooms)
-                        {
-                            <tr class="border-b">
-                                <td class="px-6 py-4 font-medium text-gray-900">@room.room_no</td>
-                                <td class="px-6 py-4 text-gray-700">Floor @(room.room_no / 100)</td>
-                                <td class="px-6 py-4">
-                                    @if (room.room_status == "Needs Cleaning")
-                                    {
-                                        <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">Uncleaned</span>
-                                    }
-                                    else if (room.room_status == "Being Cleaned")
-                                    {
-                                        <span class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">Being Cleaned</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">Clean</span>
-                                    }
-                                </td>
-                                <td class="px-6 py-4">
-                                    @if (room.room_status == "Needs Cleaning")
-                                    {
-                                        <button class="rounded-full bg-blue-500 px-4 py-1 text-sm text-white hover:bg-blue-600 cursor-pointer"
-                                        @onclick="() => StartCleaning(room.room_id)">
-                                            Start
-                                        </button>
-                                    }
-                                    else if (room.room_status == "Being Cleaned")
-                                    {
-                                        <button class="rounded-full bg-green-500 px-4 py-1 text-sm text-white hover:bg-green-600"
-                                        @onclick="() => MarkAsClean(room.room_id)">
-                                            Mark as Clean
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-gray-500">No action needed</span>
-                                    }
-                                </td>
+                @if (rooms.Any())
+                {
+                    <table class="min-w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-100 text-left text-sm text-gray-600 uppercase">
+                                <th class="px-6 py-4 w-1/5">Room No.</th>
+                                <th class="px-6 py-4 w-1/5">Floor</th>
+                                <th class="px-6 py-4 w-1/5 pl-12">Status</th>
+                                <th class="px-6 py-4 w-1/5 pl-16">Start Time</th>
+                                <th class="px-6 py-4 w-1/5"></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 space-y-2 py-2">
+                            @foreach (var room in rooms)
+                            {
+                                <tr class="">
+                                    <td class="pl-12 px-6 py-4 font-medium text-gray-900">@room.room_no</td>
+                                    <td class="px-6 py-4 text-gray-700">Floor @(room.room_no / 100)</td>
+                                    <td class="px-6 py-4">
+                                        @if (room.room_status == "Needs Cleaning")
+                                        {
+                                            <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">Uncleaned</span>
+                                        }
+                                        else if (room.room_status == "Being Cleaned")
+                                        {
+                                            <span class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">Being Cleaned</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">Clean</span>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if (room.room_status == "Needs Cleaning")
+                                        {
+                                            <span class="text-gray-500">-</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-gray-500">@room.housekeeping_starttime?.ToString("hh:mm tt")</span>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if (room.room_status == "Needs Cleaning")
+                                        {
+                                            <button class="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 cursor-pointer transition-all duration-300"
+                                                    @onclick="() => StartCleaning(room.room_id)">
+                                                Start
+                                            </button>
+                                        }
+                                        else if (room.room_status == "Being Cleaned")
+                                        {
+                                            <button class="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 cursor-pointer transition-all duration-300"
+                                                    @onclick="() => MarkAsClean(room.room_id)">
+                                                Mark as Cleaned
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-gray-500">No action needed</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="h-full flex flex-col items-center justify-center p-12">
+                        <Icon Name="check_circle" Color="Green" Size="96px" Class="text-green-500 mb-4" />
+                        <p class="text-lg font-medium text-gray-700">All clean!</p>
+                        <p class="text-sm text-gray-500">All deluxe rooms are currently clean and ready</p>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -79,17 +102,15 @@
 </div>
 
 @code {
-    private List<Room> rooms = new List<Room>();
+    private List<HouseKeepingRoom> rooms = new List<HouseKeepingRoom>();
 
     protected override async Task OnInitializedAsync()
     {
-        rooms = await RoomService.GetRoomsByType("Standard");
-        rooms = rooms.Where(r => r.room_status == "Needs Cleaning" || r.room_status == "Being Cleaned").ToList();
+        rooms = await HouseKeepingService.GetHouseKeepingRooms("Standard");
     }
 
     private async Task StartCleaning(int roomId)
     {
-        // Call service to update room status to "Being Cleaned"
         HouseKeeping houseKeeping = new HouseKeeping();
         houseKeeping.room_id = roomId;
         houseKeeping.staff_id = AppState.CurrentUser.user_id;
@@ -103,6 +124,7 @@
     private async Task MarkAsClean(int roomId)
     {
         await HouseKeepingService.UpdateHouseKeeping(roomId);
+        await RoomService.UpdateRoomStatus(roomId, "Available");
         // Refresh the list
         await OnInitializedAsync();
     }
