@@ -235,7 +235,7 @@
 
     protected override async Task OnInitializedAsync(){
         baseStaffs = await StaffService.GetStaffs();
-        staffs = baseStaffs;
+        staffs = baseStaffs.OrderByDescending(s=>s.staff_id).ToList();
         totalStaff = staffs.Count;
         filteredStaffs = staffs;
         BarChartInitialize();
