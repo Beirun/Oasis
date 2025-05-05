@@ -90,6 +90,8 @@ namespace Oasis.Library
                 {
                     room_id = hk.room_id ?? 0,
                     staff_id = hk.staff_id ?? 0,
+                    user_fname = hk.staff != null ? hk.staff.user.user_fname : string.Empty,
+                    user_lname = hk.staff != null ? hk.staff.user.user_lname : string.Empty,
                     room_no = hk.room.room_no ?? 0,
                     room_status = hk.room.room_status ?? string.Empty,
                     housekeeping_starttime = hk.housekeeping_starttime,
