@@ -7,18 +7,23 @@
 @using Oasis.Data.Models
 @using Microsoft.EntityFrameworkCore
 @using Oasis.State
+@using Oasis.Library
+@inject GuestServices guests
+@inject PaymentServices payments
+@inject RoomServices roomsServices
+@inject ReservationServices reservations
 @inject NavigationManager NavigationManager
+@inject StaffServices staffs
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
     <div class="w-4/5 flex justify-evenly items-stretch font-montserrat">
         <div class="w-4/5 flex flex-col">
-            <div class="w-full h-40 flex justify-center">
+            <div class="w-full h-25 flex justify-center">
                 <div class="w-full bg-white h-full rounded-2xl flex justify-evenly">
                     <div class="w-full h-4/5 flex justify-evenly">
                         <div class="w-3/5 h-full ml-5 flex flex-col items-start">
                             <p class="w-full">Total Guests</p>
-                            <p class="text-2xl w-full">-</p>
-                            <p class="w-full">-</p>
+                            <p class="text-2xl w-full font-bold">@(totalGuests)</p>
                         </div>
                         <div class="w-1/7 h-full mr-3">
                             <div class="bg-[#DBEAFE] flex justify-center w-full rounded">
@@ -32,8 +37,7 @@
                     <div class="w-full h-4/5 flex justify-evenly">
                         <div class="w-3/5 h-full ml-5 flex flex-col items-start">
                             <p class="w-full">Daily Income</p>
-                            <p class="text-2xl w-full">-</p>
-                            <p class="w-full">-</p>
+                            <p class="text-2xl w-full font-bold">P@(todaysIncome.ToString("N2"))</p>
                         </div>
                         <div class="w-1/7 h-full mr-3">
                             <div class="bg-[#D1FAE5] flex justify-center w-full rounded">
@@ -47,8 +51,7 @@
                     <div class="w-full h-4/5 flex justify-evenly">
                         <div class="w-3/5 h-full ml-5 flex flex-col items-start">
                             <p class="w-full">Room Occupancy</p>
-                            <p class="text-2xl w-full">-</p>
-                            <p class="w-full">-</p>
+                            <p class="text-2xl w-full font-bold">@(occupiedRooms.ToString("N2"))%</p>
                         </div>
                         <div class="w-1/7 h-full mr-3">
                             <div class="bg-[#EDE9FE] flex justify-center w-full rounded">
@@ -62,8 +65,7 @@
                     <div class="w-full h-4/5 flex justify-evenly">
                         <div class="w-3/5 h-full ml-5 flex flex-col items-start">
                             <p class="w-full ">Reservations</p>
-                            <p class="text-2xl w-full">-</p>
-                            <p class="w-full">-</p>
+                            <p class="text-2xl w-full font-bold">@(totalReservations)</p>
                         </div>
                         <div class="w-1/7 h-full mr-3">
                             <div class="bg-[#FFEDD5] flex justify-center w-full rounded">
@@ -98,31 +100,46 @@
                 <table class="w-full">
                     <tr class="w-full">
                         <td>Guest</td>
-                        <td>Room</td>
+                        <td>Room No.</td>
+                        <td>Room Type</td>
                         <td>Check In</td>
                         <td>Check Out</td>
-                        <td>Status</td>
                     </tr>
+                    @foreach (var checkin in recentCheckIns)
+                    {
+                        <tr>
+                            <td>@(checkin.user_fname) @(checkin.user_lname)</td>
+                            <td>@(checkin.room_no)</td>
+                            <td>@(checkin.type_category)</td>
+                            <td>@(checkin.rsv_checkin)</td>
+                            <td>@(checkin.rsv_checkout)</td>
+                        </tr>
+                    }
                 </table>
             </div>
         </div>
         @* right div >> *@
         <div class="w-2/5 h-full flex flex-col">
-            <div class="w-full h-200 bg-white rounded-2xl flex flex-col p-5">
+            <div class="w-full h-185 bg-white rounded-2xl flex flex-col p-5">
                 <p class="text-3xl font-bold w-full">New Members</p>
             </div>
             <div class="w-full h-108 bg-white rounded-2xl flex flex-col p-5">
                 <p class="text-3xl font-bold w-full">New Staffs</p>
-                <div class="w-full flex justify-between mt-5">
-                    <div class="flex ml-2">
-                        <img src="#" alt="dp" />
-                        <p>Name</p>
-                    </div>
-                    <div class="mr-2">
-                        Role
-                    </div>
-                </div>
-                <div class="w-full h-[1px] bg-gray-300"></div>
+                @foreach (var staff in recentStaffs)
+                {
+
+                    <table class="w-full h-20 flex justify-between border-b border-gray-300">
+                        <tr class="w-full flex justify-between">
+                            <td class="flex ml-2">
+                                <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                <p>@(staff.user_fname) @(staff.user_lname)</p>
+                            </td>
+                            <td class="mr-2">
+                                @(staff.position)
+                            </td>
+                        </tr>
+                    </table>
+                }
             </div>
         </div>
 
@@ -134,6 +151,12 @@
     private PSC.Blazor.Components.Chartjs.Chart _chart;
     private List<Bookings> rooms = new List<Bookings>();
     private List<string> roomTypes = new List<string> { "Standard", "Deluxe", "Suite" };
+    private int totalGuests = 0;
+    private double todaysIncome = 0;
+    private double occupiedRooms = 0;
+    private int totalReservations = 0;
+    private List<StaffInformation> recentStaffs = new List<StaffInformation>();
+    private List<Booking> recentCheckIns = new List<Booking>();
 
     public void BarChartInitialize()
     {
@@ -187,5 +210,15 @@
     protected override async Task OnInitializedAsync()
     {
         BarChartInitialize();
+        List<Booking> allReservations = new List<Booking>();
+        allReservations = await reservations.GetReservations();
+
+        totalGuests = (await guests.getGuests()).Count();
+        todaysIncome = await payments.GetTodaysIncome();
+        occupiedRooms = await roomsServices.GetOccupancyPercentage();
+        totalReservations = allReservations.Count();
+        recentStaffs = (await staffs.GetStaffs()).OrderByDescending(s => s.staff_id).ToList().GetRange(0,5);
+        recentCheckIns = allReservations.Where(rc => rc.rsv_status == "Checked In").ToList();
+        Console.WriteLine("recent checkins: ", recentCheckIns);
     }
 }

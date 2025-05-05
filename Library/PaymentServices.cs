@@ -78,6 +78,17 @@ namespace Oasis.Library
             }
             return 0;
         }
+        public async Task<double> GetTodaysIncome()
+        {
+            DateTime today = DateTime.Today; // Gets today's date at 00:00:00
+
+            var todaysIncome = await _context.Payment
+                .Where(p => p.payment_date.HasValue &&
+                       p.payment_date.Value.Date == today) // Filter payments for today
+                .SumAsync(p => p.payment_amount); // Sum all amounts
+
+            return todaysIncome ?? 0; // Return 0 if null (no payments today)
+        }
 
         //private void getReceipt()
         //{
