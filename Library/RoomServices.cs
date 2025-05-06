@@ -85,6 +85,17 @@ namespace Oasis.Library
             }
         }
 
+        public async Task<Dictionary<string, int>> GetNumberOfBookedRoomsPerType()
+        {
+            var rooms = await _context.Room
+                .Where(r => r.room_status == "Unavailable" || r.room_status == "Reserved")
+                .GroupBy(r => r.roomtype!.type_category)
+                .Select(g => new { Type = g.Key, Count = g.Count() })
+                .ToListAsync();
+
+            return rooms.ToDictionary(r => r.Type, r => r.Count);
+        }
+
         public async Task<double> GetOccupancyPercentage()
         {
             // Get total number of rooms

@@ -196,7 +196,7 @@
     private string chartColor = "#0062FF";
     private string? lineOption, barOption;
 
-    public void BarChartInitialize()
+    public void BarChartInitialize(Dictionary<string,int> data)
     {
         var option = new
         {
@@ -213,18 +213,18 @@
             yAxis = new
             {
                 type = "category",
-                data = new[] { "Standard", "Deluxe", "Suite"}
+                data = data.Keys.ToArray()
             },
             series = new[]
     {
         new
         {
             type = "bar",
-            data = new[] { 150, 230, 224},
+            data = data.Values.ToArray(),
             itemStyle = new
             {
-                color = chartColor, // Red bars
-                borderColor = chartColor, // White borders
+                color = chartColor,
+                borderColor = chartColor, 
                 borderWidth = 1
             },
             barWidth = "60%", // Adjust bar thickness
@@ -243,21 +243,21 @@
         Console.WriteLine(barOption);
     }
 
-    public void LineChartInitialize()
+    public void LineChartInitialize(Dictionary<string, double> data)
     {
-        
+
         var option = new
         {
             tooltip = new
             {
                 trigger = "axis",
-                formatter = "{c}" // Shows "Month: Value" on hover
+                formatter = "{b}: {c}" // Shows "Month: Value" on hover
             },
             xAxis = new
             {
                 type = "category",
-                data = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
-            },
+                data = data.Keys.ToArray()
+    },
             yAxis = new
             {
                 type = "value"
@@ -267,25 +267,19 @@
         new
         {
             type = "line",
-            data = new[] { 150, 230, 224, 218, 135, 147, 260, 200, 180, 190, 210, 220 },
+            data = data.Values.ToArray(),
             symbolSize = 12, // Makes dots bigger (default is 4)
             itemStyle = new
             {
-                color = chartColor, // Red dots
-                borderColor = chartColor, // Optional: White border for contrast
-                borderWidth = 5 // Optional: Border thickness
+                color = chartColor, 
+                borderColor = chartColor, 
+                borderWidth = 5 
             },
             lineStyle = new
             {
                 color = chartColor,
                 width = 3 // Thicker line (default is 1)
             },
-            // label = new Optional: Display values directly on the dots
-            // {
-            //     show = true,
-            //     position = "top",
-            //     formatter = "{c}" Shows the raw value
-            // }
         }
     }
         };
@@ -298,7 +292,7 @@
     protected override async Task OnInitializedAsync()
     {
         List<Booking> allReservations = new List<Booking>();
-        
+
 
         allReservations = await reservations.GetReservations();
         guestList = await guestServices.getUserGuests();
@@ -311,7 +305,15 @@
         recentStaffs = (await staffs.GetStaffs()).OrderByDescending(s => s.staff_id).ToList().GetRange(0,5);
         recentCheckIns = allReservations.Where(rc => rc.rsv_status == "Checked In").ToList().GetRange(0, Math.Min(recentCheckIns.Count(),4));
         Console.WriteLine("recent checkins: ", recentCheckIns);
-        LineChartInitialize();
-        BarChartInitialize();
+        Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
+        Dictionary<string, int> bookedRoomsPerRoomType = new Dictionary<string, int>();
+        bookedRoomsPerRoomType = await roomsServices.GetNumberOfBookedRoomsPerType();
+        incomePerMonth = await payments.GetMonthlyIncome();
+        foreach(var room in bookedRoomsPerRoomType)
+        {
+            Console.WriteLine($"{room.Key}: {room.Value}");
+        }
+        LineChartInitialize(incomePerMonth);
+        BarChartInitialize(bookedRoomsPerRoomType);
     }
 }

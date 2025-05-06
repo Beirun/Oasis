@@ -89,50 +89,31 @@ namespace Oasis.Library
 
             return todaysIncome ?? 0; // Return 0 if null (no payments today)
         }
+        public async Task<Dictionary<string, double>> GetMonthlyIncome()
+        {
+            // Step 1: Fetch raw data from the database (grouped by Year & Month)
+            var monthlyData = await _context.Payment
+                .Where(p => p.payment_date.HasValue && p.payment_amount.HasValue)
+                .GroupBy(p => new { p.payment_date.Value.Year, p.payment_date.Value.Month })
+                .OrderBy(g => g.Key.Year)
+                .ThenBy(g => g.Key.Month)
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    TotalIncome = g.Sum(p => p.payment_amount.Value)
+                })
+                .ToListAsync(); // Execute the query and bring data to memory
 
-        //private void getReceipt()
-        //{
-        //    String text = "PARKING RECEIPT";
-        //    int intWidth = 600;
-        //    int intHeight = 1000;
+            // Step 2: Format the month names on the client side
+            var monthlyIncome = monthlyData
+                .ToDictionary(
+                    x => new DateTime(x.Year, x.Month, 1).ToString("MMMM yyyy"), // "May 2025"
+                    x => x.TotalIncome
+                );
 
-        //    bmp = new Bitmap(intWidth, intHeight);
-        //    Graphics g = Graphics.FromImage(bmp);
-        //    g.Clear(Color.White);
-        //    g.SmoothingMode = SmoothingMode.HighQuality;
-        //    g.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-        //    Brush brush = new SolidBrush(Color.Black);
-        //    Font font = new Font("Cascadia Code", 50, FontStyle.Bold, GraphicsUnit.Pixel);
-        //    SizeF size = g.MeasureString(text, font);
-        //    Pen pen = new Pen(Color.Black, 4);
-        //    using (Image image = Image.FromFile("C:\\Users\\Beirun\\source\\repos\\ParkInParkOut\\ParkInParkOut\\Resources\\parknabaireceipt.png"))
-        //    {
-        //        g.DrawImage(image, new Point(image.Width / 2, 25));
-        //    }
-        //    g.DrawLine(pen, 25, 245 - size.Height, 575, 245 - size.Height);
-        //    g.DrawLine(pen, 25, 225 + size.Height, 575, 225 + size.Height);
-        //    g.DrawString(text, font, brush, (intWidth - size.Width) / 2, 210, StringFormat.GenericDefault);
-
-        //    font = new Font("Cascadia Code", 20, FontStyle.Regular, GraphicsUnit.Pixel);
-        //    g.DrawString("PARK IN TIME", font, brush, 25, 350, StringFormat.GenericDefault);
-        //    g.DrawString(parkInTime.ToString().ToUpper(), font, brush, getXPosition(g, parkInTime.ToString().ToUpper(), font), 350, StringFormat.GenericDefault);
-
-        //    g.DrawString("PARK OUT TIME", font, brush, 25, 410, StringFormat.GenericDefault);
-        //    g.DrawString(parkOutTime.ToString().ToUpper(), font, brush, getXPosition(g, parkOutTime.ToString().ToUpper(), font), 410, StringFormat.GenericDefault);
-
-        //    g.DrawString("PLATE NUMBER", font, brush, 25, 470, StringFormat.GenericDefault);
-        //    g.DrawString(plateNumber.ToUpper(), font, brush, getXPosition(g, plateNumber.ToUpper(), font), 470, StringFormat.GenericDefault);
-
-        //    g.DrawString("VEHICLE TYPE", font, brush, 25, 530, StringFormat.GenericDefault);
-        //    g.DrawString(vehicleType.ToUpper(), font, brush, getXPosition(g, vehicleType.ToUpper(), font), 530, StringFormat.GenericDefault);
-
-        //    g.DrawString("VEHICLE BRAND", font, brush, 25, 590, StringFormat.GenericDefault);
-        //    g.DrawString(vehicleBrand.ToUpper(), font, brush, getXPosition(g, vehicleBrand.ToUpper(), font), 590, StringFormat.GenericDefault);
-
-        //    g.DrawString("PARKING SLOT", font, brush, 25, 650, StringFormat.GenericDefault);
-        //    g.DrawString(parkingSlot.ToUpper(), font, brush, getXPosition(g, parkingSlot.ToUpper(), font), 650, StringFormat.GenericDefault);
-        //}
+            return monthlyIncome;
+        }
 
 
     }
