@@ -1,4 +1,5 @@
 ﻿@page "/dashboard/admin"
+@* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
 @rendermode InteractiveServer
 @using Oasis.Components.ui
 @using Oasis.Library
@@ -7,6 +8,7 @@
 @using Oasis.Data.Models
 @using Microsoft.EntityFrameworkCore
 @using Oasis.State
+@using System.Text.Json
 @using Oasis.Library
 @inject GuestServices guestServices
 @inject PaymentServices payments
@@ -81,12 +83,24 @@
                     <p class="text-3xl font-bold w-full">Total Income</p>
 
                 </div>
+                <CustomChart>
+                    <div class="w-full absolute -ml-10   -mt-12  overflow-hidden">
+                        <Chart Option="@lineOption" Width="1100px" Height="400px" />
+
+                    </div>
+                </CustomChart>
+
             </div>
             <div class="w-full h-100 bg-white rounded-2xl flex flex-col p-5">
                 <p class="text-3xl font-bold w-full">Booked Rooms</p>
-                <div class="w-full flex-grow h-full bg-red-400">
+                <div class="w-full flex-grow h-full ">
+                    <CustomChart>
+                        <div class="w-full absolute -ml-10   -mt-12  overflow-hidden">
+                            <Chart Option="@barOption" Width="1100px" Height="400px" />
 
-                    <PSC.Blazor.Components.Chartjs.Chart Config="_config" @ref="_chart"></PSC.Blazor.Components.Chartjs.Chart>
+                        </div>
+                    </CustomChart>
+                    @* <PSC.Blazor.Components.Chartjs.Chart Config="_config" @ref="_chart"></PSC.Blazor.Components.Chartjs.Chart> *@
                 </div>
 
             </div>
@@ -164,9 +178,12 @@
     </div>
 </div>
 
+
+
 @code {
-    private BarChartConfig _config;
-    private PSC.Blazor.Components.Chartjs.Chart _chart;
+
+    // private BarChartConfig _config;
+    // private PSC.Blazor.Components.Chartjs.Chart _chart;
     private List<Bookings> rooms = new List<Bookings>();
     private List<string> roomTypes = new List<string> { "Standard", "Deluxe", "Suite" };
     private int totalGuests = 0;
@@ -176,62 +193,106 @@
     private List<StaffInformation> recentStaffs = new List<StaffInformation>();
     private List<Booking> recentCheckIns = new List<Booking>();
     private List<UserGuest> guestList = new List<UserGuest>();
+    private string chartColor = "#0062FF";
+    private string? lineOption, barOption;
 
-
-    public void BarChartInitialize()
+    public void BarChartInitialize(Dictionary<string,int> data)
     {
-        _config = new BarChartConfig()
-            {
-                Options = new Options()
-                {
-                    Responsive = true, // Ensure chart is responsive
-                    MaintainAspectRatio = false, // Don't maintain aspect ratio
-                    IndexAxis = "y",
-                    Plugins = new Plugins()
-                    {
-                        Legend = new Legend()
-                        {
-                            Display = false,
-                            Position = LegendPosition.Right
-                        }
-                    },
-                    Scales = new Dictionary<string, Axis>()
+        var option = new
         {
+            tooltip = new
             {
-                Scales.XAxisId, new Axis()
-                {
-                    Stacked = true,
-                    Ticks = new Ticks()
-                    {
-                        MaxRotation = 0,
-                        MinRotation = 0
-                    }
-                }
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }, // Better hover effect
+                formatter = "{b}: {c}" // Shows "Month: Value"
             },
+            xAxis = new
             {
-                Scales.YAxisId, new Axis()
-                {
-                    Stacked = true
-                }
+                type = "value" 
+            },
+            yAxis = new
+            {
+                type = "category",
+                data = data.Keys.ToArray()
+            },
+            series = new[]
+    {
+        new
+        {
+            type = "bar",
+            data = data.Values.ToArray(),
+            itemStyle = new
+            {
+                color = chartColor,
+                borderColor = chartColor, 
+                borderWidth = 1
+            },
+            barWidth = "60%", // Adjust bar thickness
+            label = new
+            {
+                show = true,
+                position = "right", // Values on the right of bars
+                formatter = "{c}"
             }
         }
-                }
-            };
-        _config.Data.Labels = new List<string>() { "Standard", "Deluxe", "Suite" };
-        _config.Data.Datasets.Add(new BarDataset()
-            {
+    }
+        };
 
-                Label = "Value",
-                BackgroundColor = new List<string>() { "rgba(0,98,255,1" },
-                BorderColor = new List<string>() { "rgba(0,98,255,1" },
-            });
+
+        barOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(barOption);
     }
 
+    public void LineChartInitialize(Dictionary<string, double> data)
+    {
+
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                formatter = "{b}: {c}" // Shows "Month: Value" on hover
+            },
+            xAxis = new
+            {
+                type = "category",
+                data = data.Keys.ToArray()
+    },
+            yAxis = new
+            {
+                type = "value"
+            },
+            series = new[]
+    {
+        new
+        {
+            type = "line",
+            data = data.Values.ToArray(),
+            symbolSize = 12, // Makes dots bigger (default is 4)
+            itemStyle = new
+            {
+                color = chartColor, 
+                borderColor = chartColor, 
+                borderWidth = 5 
+            },
+            lineStyle = new
+            {
+                color = chartColor,
+                width = 3 // Thicker line (default is 1)
+            },
+        }
+    }
+        };
+
+
+        lineOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(lineOption);
+
+    }
     protected override async Task OnInitializedAsync()
     {
-        BarChartInitialize();
         List<Booking> allReservations = new List<Booking>();
-        
+
 
         allReservations = await reservations.GetReservations();
         guestList = await guestServices.getUserGuests();
@@ -244,5 +305,15 @@
         recentStaffs = (await staffs.GetStaffs()).OrderByDescending(s => s.staff_id).ToList().GetRange(0,5);
         recentCheckIns = allReservations.Where(rc => rc.rsv_status == "Checked In").ToList().GetRange(0, Math.Min(recentCheckIns.Count(),4));
         Console.WriteLine("recent checkins: ", recentCheckIns);
+        Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
+        Dictionary<string, int> bookedRoomsPerRoomType = new Dictionary<string, int>();
+        bookedRoomsPerRoomType = await roomsServices.GetNumberOfBookedRoomsPerType();
+        incomePerMonth = await payments.GetMonthlyIncome();
+        foreach(var room in bookedRoomsPerRoomType)
+        {
+            Console.WriteLine($"{room.Key}: {room.Value}");
+        }
+        LineChartInitialize(incomePerMonth);
+        BarChartInitialize(bookedRoomsPerRoomType);
     }
 }

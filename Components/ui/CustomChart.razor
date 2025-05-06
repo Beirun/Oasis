@@ -1,0 +1,20 @@
+﻿@if (!IsPrerendering)
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool IsPrerendering = true;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsPrerendering = false;
+            StateHasChanged();
+        }
+    }
+}

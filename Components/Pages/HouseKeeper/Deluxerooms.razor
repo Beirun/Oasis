@@ -68,7 +68,7 @@
                                                 Start
                                             </button>
                                         }
-                                        else if (room.room_status == "Being Cleaned")
+                                        else if (room.room_status == "Being Cleaned" && room.staff_id == AppState.CurrentUser.user_id)
                                         {
                                             <button class="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 cursor-pointer transition-all duration-300"
                                                     @onclick="() => MarkAsClean(room.room_id)">

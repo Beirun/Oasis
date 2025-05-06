@@ -10,7 +10,7 @@
 @using Oasis.Data.Models
 @using Microsoft.EntityFrameworkCore
 @using System.Drawing
-
+@using System.Text.Json
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
 
@@ -26,8 +26,13 @@
             <div class=" font-bold text-gray-800 font-montserrat w-full h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Staff</p>
                 <div class="relative h-10">
+                    <CustomChart>
+                        <div class="w-full absolute -ml-10   -mt-12  ">
+                            <Chart Option="@barOption" Width="1220px" Height="250px" />
 
-                    <PSC.Blazor.Components.Chartjs.Chart  Config="_config" @ref="_chart"></PSC.Blazor.Components.Chartjs.Chart>
+                        </div>
+                    </CustomChart>
+                    @* <PSC.Blazor.Components.Chartjs.Chart  Config="_config" @ref="_chart"></PSC.Blazor.Components.Chartjs.Chart> *@
                 </div>
             </div>
         </div>
@@ -188,8 +193,8 @@
 
 
 @code {
-    private BarChartConfig _config;
-    private PSC.Blazor.Components.Chartjs.Chart _chart;
+    // private BarChartConfig _config;
+    // private PSC.Blazor.Components.Chartjs.Chart _chart;
     private Color color = Color.FromArgb(255, 0, 98, 255);
     private List<StaffInformation> baseStaffs = new List<StaffInformation>();
     private List<StaffInformation> staffs = new List<StaffInformation>();
@@ -213,7 +218,54 @@
             FilterStaffs();
         }
     }
+    private string chartColor = "#0062FF";
+    private string?  barOption;
+    public void BarChartInitialize()
+    {
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }, // Better hover effect
+                formatter = "{b}: {c}" // Shows "Month: Value"
+            },
+            xAxis = new
+            {
+                type = "value" // Numeric axis (horizontal)
+            },
+            yAxis = new
+            {
+                type = "category", // Categories (months) on vertical axis
+                data = new[] { "Receptionist", "HouseKeeper" }
+            },
+            series = new[]
+    {
+        new
+        {
+            type = "bar",
+            data = new[] { 150, 230 },
+            itemStyle = new
+            {
+                color = chartColor, 
+                borderColor = chartColor, 
+                borderWidth = 1
+            },
+            barWidth = "60%", // Adjust bar thickness
+            label = new
+            {
+                show = true,
+                position = "right", // Values on the right of bars
+                formatter = "{c}"
+            }
+        }
+    }
+        };
 
+
+        barOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(barOption);
+    }
     private void FilterStaffs()
     {
         if (string.IsNullOrWhiteSpace(search))
@@ -242,53 +294,53 @@
 
     }
 
-    public void BarChartInitialize()
-    {
-        _config = new BarChartConfig()
-            {
-                Options = new Options()
-                {
-                    IndexAxis = "y",
-                    Plugins = new Plugins()
-                    {
-                        Legend = new Legend()
-                        {
-                            Display = false,
-                            Position = LegendPosition.Right
-                        }
-                    },
-                    Scales = new Dictionary<string, Axis>()
-        {
-            {
-                Scales.XAxisId, new Axis()
-                {
-                    Stacked = true,
-                    Ticks = new Ticks()
-                    {
-                        MaxRotation = 0,
-                        MinRotation = 0
-                    }
-                }
-            },
-            {
-                Scales.YAxisId, new Axis()
-                {
-                    Stacked = true
-                }
-            }
-        }
-                }
-            };
-        _config.Data.Labels = new List<string> () {"HouseKeeper", "Receptionist"};
-        _config.Data.Datasets.Add(new BarDataset()
-            {
+    // public void BarChartInitialize()
+    // {
+    //     _config = new BarChartConfig()
+    //         {
+    //             Options = new Options()
+    //             {
+    //                 IndexAxis = "y",
+    //                 Plugins = new Plugins()
+    //                 {
+    //                     Legend = new Legend()
+    //                     {
+    //                         Display = false,
+    //                         Position = LegendPosition.Right
+    //                     }
+    //                 },
+    //                 Scales = new Dictionary<string, Axis>()
+    //     {
+    //         {
+    //             Scales.XAxisId, new Axis()
+    //             {
+    //                 Stacked = true,
+    //                 Ticks = new Ticks()
+    //                 {
+    //                     MaxRotation = 0,
+    //                     MinRotation = 0
+    //                 }
+    //             }
+    //         },
+    //         {
+    //             Scales.YAxisId, new Axis()
+    //             {
+    //                 Stacked = true
+    //             }
+    //         }
+    //     }
+    //             }
+    //         };
+    //     _config.Data.Labels = new List<string> () {"HouseKeeper", "Receptionist"};
+    //     _config.Data.Datasets.Add(new BarDataset()
+    //         {
 
-                Label = "Value",
-                BackgroundColor = new List<string>() { "rgba(0,98,255,1" },
-                BorderColor = new List<string>() { "rgba(0,98,255,1" },
-                Data = new List<decimal?>() { baseStaffs.Where(s => s.position == "HouseKeeper").Count(), baseStaffs.Where(s => s.position == "Receptionist").Count() },
-            });
-    }
+    //             Label = "Value",
+    //             BackgroundColor = new List<string>() { "rgba(0,98,255,1" },
+    //             BorderColor = new List<string>() { "rgba(0,98,255,1" },
+    //             Data = new List<decimal?>() { baseStaffs.Where(s => s.position == "HouseKeeper").Count(), baseStaffs.Where(s => s.position == "Receptionist").Count() },
+    //         });
+    // }
 
     private bool IsNewStaffDialogOpen = false;
 
@@ -328,7 +380,7 @@
                 staffs = staffs.Where(s => s.position == selectedFilter).ToList();
             }
             filteredStaffs = staffs;
-            BarChartInitialize();
+            // BarChartInitialize();
             CloseNewStaffDialog();
         }
     }
@@ -386,7 +438,7 @@
                 staffs = staffs.Where(s => s.position == selectedFilter).ToList();
             }
             filteredStaffs = staffs;
-            BarChartInitialize();
+            // BarChartInitialize();
 
             CloseEditStaffDialog();
         }

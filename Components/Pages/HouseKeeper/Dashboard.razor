@@ -5,6 +5,8 @@
 @using Oasis.Data.Models
 @inject HouseKeepingServices housekeepingServices
 @inject RoomServices roomServices
+@using Oasis.Components.ui
+@using System.Text.Json
 <div class="bg-background font-montserrat flex h-screen max-w-screen flex-col">
     <Navbar />
     <div class="h-full w-4/5 z-1">
@@ -32,12 +34,24 @@
                     </div>
                 </div>
                 <div class="border-0 h-full w-full h-75 rounded-2xl bg-white p-2">
-                    <p class="p-6 text-3xl font-bold">Cleaned Weekly</p>
+                    <p class="px-4 pb-4 pt-2 text-3xl font-bold">Cleaned Weekly</p>
+                    <CustomChart>
+                        <div class="w-[1000px] absolute -ml-15   -mt-15 ">
+                            <Chart Option="@lineOption" Width="1040px" Height="330px" />
+
+                        </div>
+                    </CustomChart>
                 </div>
 
             </div>
             <div class="border-0 box-content h-full w-2/5 rounded-2xl bg-white">
                 <p class="p-6 text-3xl font-bold">Rooms Cleaned</p>
+                <CustomChart>
+                    <div class="w-[720px] absolute -ml-5 -mt-17.5 ">
+                        <Chart Option="@verticalBarOption" Width="660px" Height="420px" />
+
+                    </div>
+                </CustomChart>
             </div>
         </div>
         <div class="mt-3 flex flex-row z-1 mb-5">
@@ -91,12 +105,114 @@
     private List<Room> toBeCleaned = new List<Room>();
     private int allCleanedRoomsCount = 0;
     private int roomsToBeCleaned = 0;
+    private string chartColor = "#0062FF";
+    private string? lineOption, verticalBarOption;
+    public void LineChartInitialize()
+    {
 
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                formatter = "{c}" // Shows "Month: Value" on hover
+            },
+            xAxis = new
+            {
+                type = "category",
+                data = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" }
+            },
+            yAxis = new
+            {
+                type = "value"
+            },
+            series = new[]
+    {
+    new
+    {
+        type = "line",
+        data = new[] { 150, 230, 224, 218, 135, 147, 260 },
+        symbolSize = 12, // Makes dots bigger (default is 4)
+        itemStyle = new
+        {
+            color = chartColor, // Red dots
+            borderColor = chartColor, // Optional: White border for contrast
+            borderWidth = 5 // Optional: Border thickness
+        },
+        lineStyle = new
+        {
+            color = chartColor,
+            width = 3 // Thicker line (default is 1)
+        },
+        // label = new Optional: Display values directly on the dots
+        // {
+        //     show = true,
+        //     position = "top",
+        //     formatter = "{c}" Shows the raw value
+        // }
+    }
+}
+        };
+
+
+        lineOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(lineOption);
+
+    }
+
+    public void VerticalBarChartInitialize()
+    {
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }, // Better hover effect
+                formatter = "{b}: {c}" // Shows "Month: Value"
+            },
+            yAxis = new
+            {
+                type = "value"
+            },
+            xAxis = new
+            {
+                type = "category",
+                data = new[] { "Standard", "Deluxe", "Suite" }
+            },
+            series = new[]
+    {
+    new
+    {
+        type = "bar",
+        data = new[] { 150, 230, 224},
+        itemStyle = new
+        {
+            color = chartColor, // Red bars
+            borderColor = chartColor, // White borders
+            borderWidth = 1
+        },
+        barWidth = "60%", // Adjust bar thickness
+        label = new
+        {
+            show = true,
+            position = "top", // Values on the right of bars
+            formatter = "{c}"
+        }
+    }
+}
+        };
+
+
+        verticalBarOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(verticalBarOption);
+    }
     protected override async Task OnInitializedAsync()
     {
         allCleanedRoomsCount = (await housekeepingServices.GetRecentlyCleanedRooms()).Count();
         roomsToBeCleaned = await roomServices.GetNumberOfRoomsByStatus("Needs Cleaning");
         cleanedRooms = await housekeepingServices.GetRecentlyCleanedRooms(5);
         Console.WriteLine($"cleaned rooms: {System.Text.Json.JsonSerializer.Serialize(cleanedRooms)}");
+        LineChartInitialize();
+        VerticalBarChartInitialize();
     }
 }
