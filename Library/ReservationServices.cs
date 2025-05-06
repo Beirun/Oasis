@@ -25,6 +25,7 @@ namespace Oasis.Library
                     .Select(r => new Booking
                     {
                         rsv_id = r.rsv_id,
+                        user_id = r.guest.user.user_id,
                         user_email = r.guest.user.user_email,
                         user_fname = r.guest.user.user_fname,
                         user_lname = r.guest.user.user_lname,
