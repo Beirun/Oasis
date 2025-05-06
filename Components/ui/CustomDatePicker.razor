@@ -10,7 +10,7 @@
            @onchange="OnDateChanged"
            @onclick="ShowDatePicker"
            @onblur="() => IsFocused = false"
-           class="peer w-full py-2 block pl-10 bg-transparent border-b-2 border-gray-500
+           class="peer w-full py-2 block @(IncludeIcon ?? true ? "pl-10" : "pl-2")  bg-transparent border-b-2 border-gray-500
                   @((Value.ToString() == "1 Jan 0001" || string.IsNullOrEmpty(Value.ToString())) ? "text-transparent" :
                   IsFocused ? "text-primary [&::-webkit-datetime-edit-month-field]:text-primary [&::-webkit-datetime-edit-day-field]:text-primary [&::-webkit-datetime-edit-year-field]:text-primary" :
                   @*"*@
@@ -31,7 +31,7 @@
     <div class="absolute bottom-0 left-0 w-full h-[1px] border-b-2 border-primary/75 bg-primary/75 transition-transform duration-300 origin-center
                 @(IsFocused ? "scale-x-100" : "scale-x-0")"></div>
 
-    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+    <div class="@(IncludeIcon ?? true ? "" : "opacity-0") absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
         <svg class="w-5 h-5 @(IsFocused ? "text-primary" : (Value.ToString() == "1 Jan 0001" || string.IsNullOrEmpty(Value.ToString())) ? " text-gray-500" : "")" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
              fill="currentColor" viewBox="0 0 20 20">
             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
@@ -42,6 +42,7 @@
 @code {
     [Parameter] public string? Id { get; set; }
     [Parameter] public string? Class { get; set; } = "";
+    [Parameter] public bool? IncludeIcon { get; set; } = true;
     [Parameter] public string? Placeholder { get; set; } = "";
     [Parameter] public DateOnly? Value { get; set; }
     [Parameter] public DateOnly? MinDate { get; set; }

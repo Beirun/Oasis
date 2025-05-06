@@ -521,6 +521,12 @@
 		notification.notif_status = "unread";
 		notification.user_id = currentUser.user_id;
 		await NotificationService.AddNotification(notification);
+		Oasis.Data.Models.Notification notificationToReceptionist = new Oasis.Data.Models.Notification();
+		notificationToReceptionist.notif_title = "Reservation Extended";
+		notificationToReceptionist.notif_content = $"Reservation by {currentUser.user_fname} {currentUser.user_lname} has been extended.";
+		notificationToReceptionist.notif_date = DateTime.Now;
+		notificationToReceptionist.notif_status = "unread";
+		await NotificationService.AddNotificationToStaffByPosition(notificationToReceptionist, "Receptionist");
 		if(successReservation) Navigation.NavigateTo("/payment/success");
 		
 	}

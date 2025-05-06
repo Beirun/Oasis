@@ -45,6 +45,7 @@ builder.Services.AddScoped<ReservationServices>();
 builder.Services.AddScoped<HouseKeepingServices>();
 builder.Services.AddScoped<ReviewServices>();
 builder.Services.AddScoped<NotificationSevices>();
+builder.Services.AddScoped<UserServices>();
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<UserState>();
