@@ -9,52 +9,51 @@
 @inject ReservationServices ReservationService
 
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background font-montserrat">
-    <Navbar/>
+    <Navbar />
 
     <div class="w-[75%] flex flex-col justify-between items-center my-4">
         <div class="flex flex-row w-full justify-between">
             <div class="w-[51%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Weekly Check-Ins</p>
-
                 </div>
             </div>
             <div class="w-[49%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Check-Ins</p>
-
                 </div>
             </div>
         </div>
         <div class="flex flex-row w-full">
             <div class="w-full flex justify-between">
                 <div class="flex">
-
-
                     <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
-                    <input type="text" name="name" placeholder="Search Check-Ins"
-                    class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+                    <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Check-Ins"
+                           class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
 
-                    @* <div class="flex flex-col"> *@
-                    @*   <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'> *@
-                    @*   </div> *@
+                    <div class="flex flex-col">
+                        <div class="inset-0 fixed z-20 " style="@(IsFilterDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleFilterDropdown'>
+                        </div>
 
-                    @*   <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")"> *@
-                    @*       @foreach (var position in staffPositions) *@
-                    @*       { *@
-                    @*           <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li> *@
-                    @*       } *@
-                    @*   </ul> *@
-                    <button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
-                    @* </div> *@
+                        <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsFilterDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                            <li @onclick='() => FilterByStatus("All")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">All Bookings</li>
+                            <li @onclick='() => FilterByStatus("Pending")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Pending</li>
+                            <li @onclick='() => FilterByStatus("Confirmed")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Confirmed</li>
+                            <li @onclick='() => FilterByStatus("Checked In")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Checked In</li>
+                            <li @onclick='() => FilterByStatus("Checked Out")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Checked Out</li>
+                            <li @onclick='() => FilterByStatus("Cancelled")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Cancelled</li>
+                        </ul>
+                        <button @onclick="ToggleFilterDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10">
+                            <Icon Name="Filter_List" Size="30px" /> Filter
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
     <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
     <div class="w-[75%] bg-white p-5 shadow-gray-500/50 border-b-2 divide-gray-400 rounded-2xl">
-        <table class="w-full text-sm rounded-2xl  divide-y-2 divide-gray-300">
+        <table class="w-full text-sm rounded-2xl divide-y-2 divide-gray-300">
             <tr class="w-full text-[#6B7280] border-b-2 border-gray-400">
                 <td class="h-10">Guest</td>
                 <td class="h-10">Room</td>
@@ -63,51 +62,150 @@
                 <td class="h-10">Check Out</td>
                 <td class="h-10">Status</td>
             </tr>
-            @foreach (var booking in bookings)
+
+            @if (filteredBookings.Count > 0)
             {
-                <tr class="h-20 ">
-                    <td class="flex flex-row h-20 justify-center">
-                        <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
-                        <div class="flex flex-col justify-between w-full">
-                            <p class="w-full -mb-4 font-semibold">@booking.user_fname @booking.user_lname</p>
-                            <p class="w-full text-[#6B7280]">@booking.user_email</p>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="w-full">Room @booking.room_no</p>
-                    </td>
-                    <td>
-                        <p class="w-full">@booking.type_category</p>
-                    </td>
-                    <td>
-                        <p class="w-full">@booking.rsv_checkin</p>
-                    </td>
-                    <td>
-                        <p class="w-full">@booking.rsv_checkout</p>
-                    </td>
-                    <td>
-                        <div class="w-25 h-[25px] bg-primary flex justify-center p-2 rounded-full">
-                            <p class="text-white">@booking.rsv_status</p>
+                @foreach (var booking in filteredBookings)
+                {
+                    <tr class="h-20 ">
+                        <td class="flex flex-row h-20 justify-center">
+                            <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                            <div class="flex flex-col justify-between w-full">
+                                <p class="w-full -mb-4 font-semibold">@booking.user_fname @booking.user_lname</p>
+                                <p class="w-full text-[#6B7280]">@booking.user_email</p>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="w-full">Room @booking.room_no</p>
+                        </td>
+                        <td>
+                            <p class="w-full">@booking.type_category</p>
+                        </td>
+                        <td>
+                            <p class="w-full">@booking.rsv_checkin</p>
+                        </td>
+                        <td>
+                            <p class="w-full">@booking.rsv_checkout</p>
+                        </td>
+                        <td>
+                            <div class="w-30 h-[25px] flex justify-center p-2 rounded-full @GetStatusColor(booking.rsv_status)">
+                                <p class="text-white">@booking.rsv_status</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="py-10 text-center">
+                        <div class="flex flex-col items-center justify-center">
+                            <Icon Name="Search_Off" Size="80px" Color="#9CA3AF" />
+                            <p class="text-xl text-gray-500 mt-4">No bookings found</p>
+                            <p class="text-gray-400">Try adjusting your search or filter criteria</p>
+                            @if (!string.IsNullOrEmpty(_search) || currentStatusFilter != "All")
+                            {
+                                <button @onclick="ResetFilters" class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition-colors">
+                                    Reset Filters
+                                </button>
+                            }
                         </div>
                     </td>
                 </tr>
             }
-            
         </table>
     </div>
-
 </div>
 
 @code {
     private List<Booking> bookings = new List<Booking>();
+    private List<Booking> filteredBookings = new List<Booking>();
+    public bool IsFilterDropdownOpen { get; set; } = false;
+    public string currentStatusFilter { get; set; } = "All";
+    public string _search = "";
+
+    private string Search
+    {
+        get => _search;
+        set
+        {
+            _search = value;
+            FilterBySearch(_search);
+        }
+    }
+    private void ResetFilters()
+    {
+        _search = "";
+        currentStatusFilter = "All";
+        filteredBookings = bookings.ToList();
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        
-        
         bookings = await ReservationService.GetReservations();
+        filteredBookings = bookings;
         Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(bookings));
-
     }
 
+    private void ToggleFilterDropdown()
+    {
+        IsFilterDropdownOpen = !IsFilterDropdownOpen;
+    }
+
+    private void FilterByStatus(string status)
+    {
+        currentStatusFilter = status;
+        if (status == "All")
+        {
+            filteredBookings = bookings.ToList();
+        }
+        else
+        {
+            filteredBookings = bookings.Where(b => b.rsv_status == status).ToList();
+        }
+        IsFilterDropdownOpen = false;
+    }
+
+    private string GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Booked" => "bg-blue-400",
+            "Checked In" => "bg-green-400",
+            "Checked Out" => "bg-gray-400",
+            "Cancelled" => "bg-red-400",
+            _ => "bg-primary"
+        };
+    }
+
+    private void FilterBySearch(string search)
+    {
+        if (string.IsNullOrEmpty(search.Trim()))
+        {
+            // If no search term, apply the current status filter
+            FilterByStatus(currentStatusFilter);
+        }
+        else
+        {
+            // Apply both search and status filter
+            var filtered = bookings.Where(b =>
+                b.user_fname.ToLower().Contains(search.ToLower()) ||
+                b.user_lname.ToLower().Contains(search.ToLower()) ||
+                (b.user_email == null ? "" : b.user_email).ToLower().Contains(search.ToLower()) ||
+                $"Room {b.room_no}".ToLower().Contains(search.ToLower()) ||
+                b.type_category.ToLower().Contains(search.ToLower()) ||
+                b.rsv_checkin.ToString().ToLower().Contains(search.ToLower()) ||
+                b.rsv_checkout.ToString().ToLower().Contains(search.ToLower()) ||
+                b.rsv_status.ToLower().Contains(search.ToLower())
+            ).ToList();
+
+            if (currentStatusFilter != "All")
+            {
+                filtered = filtered.Where(b => b.rsv_status == currentStatusFilter).ToList();
+            }
+
+            filteredBookings = filtered;
+        }
+    }
 }
