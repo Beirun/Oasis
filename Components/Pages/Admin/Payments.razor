@@ -12,13 +12,13 @@
         <div class="w-full flex flex-row items-start">
             <div class="font-bold text-gray-800 font-montserrat w-[45%] h-65 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Total Income</p>
-                <p class="text-8xl ml-5 text-[#2563EB]"><span class="text-5xl ml-2">@(payments.Sum(p => p.payment_amount).ToString("N2")) <span class="text-sm">PHP</span></span></p>
+                <p class="text-8xl mt-10 ml-5 text-[#2563EB]"><span class="text-8xl flex ml-2">@(FormatNumber(payments.Sum(p => p.payment_amount))) <span class="text-sm">PHP</span></span></p>
             </div>
             <div class=" font-bold text-gray-800 font-montserrat w-full h-65 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Income</p>
                 <div class="w-full">
                     <CustomChart>
-                        <div class="w-[1000px] absolute -ml-20   -mt-10 ">
+                        <div class="w-[1000px] absolute -ml-16   -mt-10 ">
                             <Chart Option="@lineOption" Width="1100px" Height="280px" />
 
                         </div>
@@ -127,7 +127,7 @@
     }    //OnInitializedAsync
     private string chartColor = "#0062FF";
     private string? lineOption;
-    public void LineChartInitialize()
+    public void LineChartInitialize(Dictionary<string, double> data)
     {
 
         var option = new
@@ -140,7 +140,7 @@
             xAxis = new
             {
                 type = "category",
-                data = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+                data = data.Keys.ToArray()
             },
             yAxis = new
             {
@@ -151,7 +151,7 @@
     new
     {
         type = "line",
-        data = new[] { 150, 230, 224, 218, 135, 147, 260, 200, 180, 190, 210, 220 },
+        data = data.Values.ToArray(),
         symbolSize = 12, // Makes dots bigger (default is 4)
         itemStyle = new
         {
@@ -173,12 +173,35 @@
         Console.WriteLine(lineOption);
 
     }
+    public string FormatNumber(double number)
+    {
+        const double Thousand = 1_000;
+        const double Million = 1_000_000;
+
+        if (Math.Abs(number) < Thousand)
+        {
+            return number.ToString("0");
+        }
+        else if (Math.Abs(number) < Million)
+        {
+            double thousands = number / Thousand;
+            return thousands.ToString("0.#") + "K";
+        }
+        else
+        {
+            double millions = number / Million;
+            return millions.ToString("0.#") + "M";
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         payments = await PaymentService.GetPayments();
-        filteredPayments = payments;
+        filteredPayments = payments.OrderByDescending(p => p.payment_date).ToList();
         Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(payments));
-        LineChartInitialize();
+        Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
+        incomePerMonth = await PaymentService.GetMonthlyIncome();
+
+        LineChartInitialize(incomePerMonth);
     }
 
     private void ToggleDropdown()
@@ -189,14 +212,14 @@
     //filter payments by newest via the payment_id
     private void FilterByNewest()
     {
-        filteredPayments = payments.OrderBy(p => p.payment_id).ToList();
+        filteredPayments = payments.OrderByDescending(p => p.payment_date).ToList();
         currentFilter = "Newest";
         ToggleDropdown();
     }
     //filter payments by oldest via the payment_id
     private void FilterByOldest()
     {
-        filteredPayments = payments.OrderByDescending(p => p.payment_id).ToList();
+        filteredPayments = payments.OrderBy(p => p.payment_date).ToList();
         currentFilter = "Oldest";
         ToggleDropdown();
     }
@@ -220,8 +243,8 @@
     {
         if (string.IsNullOrEmpty(search.Trim()))
         {
-            if (currentFilter == "Newest") filteredPayments = payments.OrderBy(p => p.payment_id).ToList();
-            else if (currentFilter == "Oldest") filteredPayments = payments.OrderByDescending(p => p.payment_id).ToList();
+            if (currentFilter == "Newest") filteredPayments = payments.OrderByDescending(p => p.payment_date).ToList();
+            else if (currentFilter == "Oldest") filteredPayments = payments.OrderBy(p => p.payment_date).ToList();
             else if (currentFilter == "Lowest Payment") filteredPayments = payments.OrderBy(p => p.payment_amount).ToList();
             else if (currentFilter == "Highest Payment") filteredPayments = payments.OrderByDescending(p => p.payment_amount).ToList();
             else payments = payments.OrderBy(p => p.payment_id).ToList();

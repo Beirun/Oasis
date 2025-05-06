@@ -84,19 +84,18 @@
 
                 </div>
                 <CustomChart>
-                    <div class="w-full absolute -ml-10   -mt-12  overflow-hidden">
-                        <Chart Option="@lineOption" Width="1100px" Height="400px" />
-
+                    <div class="w-[1300px] absolute -ml-10   -mt-12  overflow-hidden">
+                        <Chart Option="@lineOption" Width="1200px" Height="400px" />
                     </div>
                 </CustomChart>
 
             </div>
-            <div class="w-full h-100 bg-white rounded-2xl flex flex-col p-5">
+            <div class="w-[1100px] h-100 bg-white rounded-2xl flex flex-col p-5">
                 <p class="text-3xl font-bold w-full">Booked Rooms</p>
                 <div class="w-full flex-grow h-full ">
                     <CustomChart>
-                        <div class="w-full absolute -ml-10   -mt-12  overflow-hidden">
-                            <Chart Option="@barOption" Width="1100px" Height="400px" />
+                        <div class="w-full absolute -ml-15   -mt-12  overflow-hidden">
+                            <Chart Option="@barOption" Width="1200px" Height="400px" />
 
                         </div>
                     </CustomChart>
@@ -305,9 +304,9 @@
         recentStaffs = (await staffs.GetStaffs()).OrderByDescending(s => s.staff_id).ToList().GetRange(0,5);
         recentCheckIns = allReservations.Where(rc => rc.rsv_status == "Checked In").ToList().GetRange(0, Math.Min(recentCheckIns.Count(),4));
         Console.WriteLine("recent checkins: ", recentCheckIns);
-        Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
         Dictionary<string, int> bookedRoomsPerRoomType = new Dictionary<string, int>();
         bookedRoomsPerRoomType = await roomsServices.GetNumberOfBookedRoomsPerType();
+        Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
         incomePerMonth = await payments.GetMonthlyIncome();
         foreach(var room in bookedRoomsPerRoomType)
         {

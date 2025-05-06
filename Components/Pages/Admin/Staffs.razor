@@ -39,34 +39,34 @@
         <div class="w-full flex justify-between">
             <div class="flex">
 
-            
-            <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
-            <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Staff"
-                   class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
-            @if (selectedFilter != "")
-            {
-                <div class=" ml-97 pr-2 absolute text-white flex w-27.5 justify-end">
-                    <div class="bg-primary px-4 py-2 rounded-[20px] text-xs flex">
-                        @selectedFilter
-                        <Icon onclick='() => RemoveFilter()' Name="Close" Color="White" Size="16px" class="cursor-pointer -ml-2 -mr-1" />
-                    </div>
-                </div>
-            }
-            <div class="flex flex-col">
-                <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'>
-                </div>
 
-                <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
-                    @foreach (var position in staffPositions)
-                    {
-                        <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li>
-                    }
-                </ul>
-                <button @onclick="OpenDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
-            </div>
+                <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
+                <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search Staff"
+                class="@(selectedFilter == "" ? "" : selectedFilter == "HouseKeeper" ? "pr-35" : "pr-34" ) shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+                @if (selectedFilter != "")
+                {
+                    <div class=" ml-97 pr-2 absolute text-white flex w-27.5 justify-end">
+                        <div class="bg-primary px-4 py-2 rounded-[20px] text-xs flex">
+                            @selectedFilter
+                            <Icon onclick='() => RemoveFilter()' Name="Close" Color="White" Size="16px" class="cursor-pointer -ml-2 -mr-1" />
+                        </div>
+                    </div>
+                }
+                <div class="flex flex-col">
+                    <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'>
+                    </div>
+
+                    <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                        @foreach (var position in staffPositions)
+                        {
+                            <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li>
+                        }
+                    </ul>
+                    <button @onclick="OpenDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
+                </div>
             </div>
             <div>
-            <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
+                <button @onclick="OpenNewStaffDialog" class="border-2 border-primary cursor-pointer hover:bg-primary/70 active:bg-primary/90 shadow-sm shadow-gray-500/50 flex justify-center items-center text-white/90 p-2 pr-6 pl-4 rounded-md hover:bg-primary/80 hover:text-white/80 bg-primary transition-colors duration-200"><Icon Name="Add" size="30px" Class="focus:outline-none" Color="white" />Add New Staff</button>
             </div>
         </div>
     </div>
@@ -220,7 +220,7 @@
     }
     private string chartColor = "#0062FF";
     private string?  barOption;
-    public void BarChartInitialize()
+    public void BarChartInitialize(Dictionary<string,int> data)
     {
         var option = new
         {
@@ -237,14 +237,14 @@
             yAxis = new
             {
                 type = "category", // Categories (months) on vertical axis
-                data = new[] { "Receptionist", "HouseKeeper" }
+                data = data.Keys.ToArray()
             },
             series = new[]
     {
         new
         {
             type = "bar",
-            data = new[] { 150, 230 },
+            data = data.Values.ToArray(),
             itemStyle = new
             {
                 color = chartColor, 
@@ -290,57 +290,14 @@
         staffs = baseStaffs.OrderByDescending(s=>s.staff_id).ToList();
         totalStaff = staffs.Count;
         filteredStaffs = staffs;
-        BarChartInitialize();
+        Dictionary<string, int> staffCount = new Dictionary<string, int>();
+        staffCount = await StaffService.GetNumberOfStaffByPosition();
+
+        BarChartInitialize(staffCount);
 
     }
 
-    // public void BarChartInitialize()
-    // {
-    //     _config = new BarChartConfig()
-    //         {
-    //             Options = new Options()
-    //             {
-    //                 IndexAxis = "y",
-    //                 Plugins = new Plugins()
-    //                 {
-    //                     Legend = new Legend()
-    //                     {
-    //                         Display = false,
-    //                         Position = LegendPosition.Right
-    //                     }
-    //                 },
-    //                 Scales = new Dictionary<string, Axis>()
-    //     {
-    //         {
-    //             Scales.XAxisId, new Axis()
-    //             {
-    //                 Stacked = true,
-    //                 Ticks = new Ticks()
-    //                 {
-    //                     MaxRotation = 0,
-    //                     MinRotation = 0
-    //                 }
-    //             }
-    //         },
-    //         {
-    //             Scales.YAxisId, new Axis()
-    //             {
-    //                 Stacked = true
-    //             }
-    //         }
-    //     }
-    //             }
-    //         };
-    //     _config.Data.Labels = new List<string> () {"HouseKeeper", "Receptionist"};
-    //     _config.Data.Datasets.Add(new BarDataset()
-    //         {
-
-    //             Label = "Value",
-    //             BackgroundColor = new List<string>() { "rgba(0,98,255,1" },
-    //             BorderColor = new List<string>() { "rgba(0,98,255,1" },
-    //             Data = new List<decimal?>() { baseStaffs.Where(s => s.position == "HouseKeeper").Count(), baseStaffs.Where(s => s.position == "Receptionist").Count() },
-    //         });
-    // }
+    
 
     private bool IsNewStaffDialogOpen = false;
 
@@ -369,9 +326,7 @@
         bool success = await StaffService.AddStaff(newStaff,staffPosition);
         if (success){
 
-            baseStaffs = await StaffService.GetStaffs();
-            staffs = baseStaffs;
-            totalStaff = staffs.Count;
+            await OnInitializedAsync();
             newStaff = new User();
             staffPosition = "";
             confirmPassword = "";
@@ -428,9 +383,7 @@
         if (success)
         {
 
-            baseStaffs = await StaffService.GetStaffs();
-            staffs = baseStaffs;
-            totalStaff = staffs.Count;
+            await OnInitializedAsync();
             editStaff = new User();
             editStaffPosition = "";
             if (selectedFilter != "")

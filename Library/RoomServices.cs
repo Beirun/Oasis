@@ -95,6 +95,21 @@ namespace Oasis.Library
 
             return rooms.ToDictionary(r => r.Type, r => r.Count);
         }
+        public async Task<Dictionary<string, int>> GetTotalNumberOfReservationsPerType()
+        {
+            var reservations = await _context.Reservation
+                .Include(r => r.room)
+                    .ThenInclude(room => room.roomtype)
+                .GroupBy(r => r.room.roomtype.type_category)  // Group by room type category
+                .Select(g => new
+                {
+                    Type = g.Key,
+                    Count = g.Count()  // Count reservations per type
+                })
+                .ToListAsync();
+
+            return reservations.ToDictionary(r => r.Type, r => r.Count);
+        }
 
         public async Task<double> GetOccupancyPercentage()
         {
