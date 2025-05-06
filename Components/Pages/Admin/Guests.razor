@@ -5,11 +5,13 @@
 @inject GuestServices GuestService
 @using Oasis.State
 @inject NavigationManager NavigationManager
+@using Oasis.Components.ui
+@using System.Text.Json
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background">
     <Navbar />
     <div class="w-[75%] flex flex-col justify-between items-center my-4">
         <div class="w-full flex flex-row items-start">
-            <div class="font-bold text-gray-800 font-montserrat w-1/4 h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+            <div class="font-bold text-gray-800 font-montserrat w-3/8 h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Total Guests</p>
                 <p class="w-full text-9xl ml-5 flex flex-col items-start justify-start text-[#2563EB]">
                     <span class="w-full mt-2">@guests.Count</span>
@@ -18,6 +20,12 @@
             <div class="font-bold text-gray-800 font-montserrat w-full h-55 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <p class="text-2xl w-full">Registered Guests</p>
                 <!-- Chart or statistics can be added here later -->
+                <CustomChart>
+                    <div class="w-[1200px] absolute -ml-20   -mt-11 ">
+                        <Chart Option="@lineOption" Width="1180px" Height="250px" />
+
+                    </div>
+                </CustomChart>
             </div>
         </div>
         <div class="w-full flex justify-between">
@@ -159,12 +167,66 @@
     private bool IsViewProfileDialogOpen = false;
     private bool IsSortDropdownOpen = false;
     private User? selectedGuest = null;
+    private string chartColor = "#0062FF";
+    private string? lineOption;
+    public void LineChartInitialize()
+    {
 
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                formatter = "{c}" // Shows "Month: Value" on hover
+            },
+            xAxis = new
+            {
+                type = "category",
+                data = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+            },
+            yAxis = new
+            {
+                type = "value"
+            },
+            series = new[]
+    {
+    new
+    {
+        type = "line",
+        data = new[] { 150, 230, 224, 218, 135, 147, 260, 200, 180, 190, 210, 220 },
+        symbolSize = 12, // Makes dots bigger (default is 4)
+        itemStyle = new
+        {
+            color = chartColor, // Red dots
+            borderColor = chartColor, // Optional: White border for contrast
+            borderWidth = 5 // Optional: Border thickness
+        },
+        lineStyle = new
+        {
+            color = chartColor,
+            width = 3 // Thicker line (default is 1)
+        },
+        // label = new Optional: Display values directly on the dots
+        // {
+        //     show = true,
+        //     position = "top",
+        //     formatter = "{c}" Shows the raw value
+        // }
+    }
+}
+        };
+
+
+        lineOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(lineOption);
+
+    }
     protected override async Task OnInitializedAsync()
     {
        
         guests = await GuestService.getGuests();
         filteredGuests = guests;
+        LineChartInitialize();
     }
 
     private void FilterGuests()

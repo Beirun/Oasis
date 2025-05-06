@@ -1,5 +1,7 @@
 ﻿@page "/bookings/all"
 @rendermode InteractiveServer
+@using Oasis.Components.ui
+@using System.Text.Json
 @using Oasis.Library;
 @using Oasis.State;
 @using Oasis.Data.Object;
@@ -13,16 +15,31 @@
 
     <div class="w-[75%] flex flex-col justify-between items-center my-4">
         <div class="flex flex-row w-full justify-between">
-            <div class="w-[51%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+            <div class="w-[51%] h-80 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Weekly Check-Ins</p>
+                </div>
+                <div class="w-full">
+                    <CustomChart>
+                        <div class="w-[720px] absolute -ml-10 -mt-7.25 ">
+                            <Chart Option="@verticalBarOption" Width="800px" Height="310px" />
 
+                        </div>
+                    </CustomChart>
                 </div>
             </div>
-            <div class="w-[49%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
-                <div class="w-full flex flex-col">
+            <div class="w-[49%] h-80 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
+                <div class="w- flex flex-col">
                     <p class="text-3xl font-bold w-full">Check-Ins</p>
+                    
+                </div>
+                <div class="w-full">
+                    <CustomChart>
+                        <div class="w-[720px] absolute -ml-6   -mt-12 ">
+                            <Chart Option="@horizontalBarOption" Width="740px" Height="310px" />
 
+                        </div>
+                    </CustomChart>
                 </div>
             </div>
         </div>
@@ -100,14 +117,125 @@
 
 @code {
     private List<Booking> bookings = new List<Booking>();
+    private string chartColor = "#0062FF";
+    private string? verticalBarOption, horizontalBarOption;
+
+    public void HorizontalBarChartInitialize()
+    {
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }, // Better hover effect
+                formatter = "{b}: {c}" // Shows "Month: Value"
+            },
+            xAxis = new
+            {
+                type = "value"
+            },
+            yAxis = new
+            {
+                type = "category",
+                data = new[] { "Standard", "Deluxe", "Suite" }
+            },
+            series = new[]
+    {
+        new
+        {
+            type = "bar",
+            data = new[] { 150, 230, 224},
+            itemStyle = new
+            {
+                color = chartColor, // Red bars
+                borderColor = chartColor, // White borders
+                borderWidth = 1
+            },
+            barWidth = "60%", // Adjust bar thickness
+            label = new
+            {
+                show = true,
+                position = "right", // Values on the right of bars
+                formatter = "{c}"
+            }
+        }
+    }
+        };
+
+
+        horizontalBarOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(horizontalBarOption);
+    }
+    public void VerticalBarChartInitialize()
+    {
+        
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }
+            },
+            legend = new
+            {
+                data = new[] { "Booked", "Checked-In", "Checked-Out", "Cancelled" },
+                right = "70", 
+                top = "0"
+            },
+            xAxis = new
+            {
+                type = "category",
+                data = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" }
+            },
+            yAxis = new
+            {
+                type = "value"
+            },
+            series = new[]
+    {
+        new
+        {
+            name = "Booked",
+            type = "bar",
+            data = new[] { 120, 132, 101, 134, 90, 230, 210 },
+            itemStyle = new { color = "#0062FF" }
+        },
+        new
+        {
+            name = "Checked-In",
+            type = "bar",
+            data = new[] { 220, 182, 191, 234, 290, 330, 310 },
+            itemStyle = new { color = "#4A3AFF" } 
+        },
+        new
+        {
+            name = "Checked-Out",
+            type = "bar",
+            data = new[] { 150, 232, 201, 154, 190, 330, 410 },
+            itemStyle = new { color = "#E0C6FD" }
+        },
+        new
+        {
+            name = "Cancelled",
+            type = "bar",
+            data = new[] { 320, 332, 301, 334, 390, 330, 320 },
+            itemStyle = new { color = "#93AAFD" }
+        }
+    }
+        };
+
+
+        verticalBarOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(verticalBarOption);
+    }
+
 
     protected override async Task OnInitializedAsync()
     {
-        
-        
         bookings = await ReservationService.GetReservations();
         Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(bookings));
-
+        HorizontalBarChartInitialize();
+        VerticalBarChartInitialize();
     }
 
 }
