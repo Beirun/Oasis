@@ -54,7 +54,10 @@
                 }
                 else
                 {
-                    <div class="p-4 text-center text-gray-500">
+                    <h4 class="p-3 bg-primary text-center text-white font-semibold text-base">
+                        Notifications (@notifications.Count)
+                    </h4>
+                    <div class="p-4 h-50 flex items-center justify-center text-gray-500">
                         No notifications available
                     </div>
                 }
@@ -76,7 +79,7 @@
             <div class="inset-0 fixed z-20" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleDropdown'>
             </div>
 
-            <ul class="divide-y divide-gray-300 z-21 absolute right-0 mt-2 bg-white rounded-md shadow-lg shadow-black/50 overflow-hidden transition-all duration-200 w-48" style="@(IsDropdownOpen ? "opacity: 1; transform: translateY(0);" : "opacity: 0; transform: translateY(-10px); pointer-events:none;")">
+            <ul class="divide-y divide-gray-300 z-21 absolute right-1 mt-15 bg-white rounded-md shadow-lg shadow-black/50 overflow-hidden transition-all duration-200 w-48" style="@(IsDropdownOpen ? "opacity: 1; transform: translateY(0);" : "opacity: 0; transform: translateY(-10px); pointer-events:none;")">
                 <li @onclick='() => NavigationManager.NavigateTo("/profile/admin")' class="p-3 hover:bg-gray-100 text-gray-700 cursor-pointer transition-colors duration-150 flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

@@ -15,6 +15,7 @@
 @inject RoomServices RoomService
 @inject PaymentServices PaymentService
 @inject GuestServices GuestService
+@inject NotificationSevices NotificationService
 <div class="w-screen min-h-screen flex flex-col bg-background font-montserrat">
     <Navbar />
 
@@ -884,7 +885,13 @@
     private async Task CancelBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
-
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Reservation Cancelled";
+        notification.notif_content = $"Your booked room {room.room_no} has been cancelled.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        notification.user_id = selectedBooking.user_id;
+        await NotificationService.AddNotification(notification);
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();
@@ -893,6 +900,13 @@
     private async Task CheckInBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked In");
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Checked In Success";
+        notification.notif_content = $"You have successfully checked-in in room {room.room_no}.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        notification.user_id = selectedBooking.user_id;
+        await NotificationService.AddNotification(notification);
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();
@@ -901,6 +915,19 @@
     private async Task CheckOutBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked Out");
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Checked Out Success";
+        notification.notif_content = $"You have successfully checked-out in room {room.room_no}.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        notification.user_id = selectedBooking.user_id;
+        await NotificationService.AddNotification(notification);
+        Oasis.Data.Models.Notification notificationToHousekeeping = new Oasis.Data.Models.Notification();
+        notificationToHousekeeping.notif_title = "New Uncleaned Room";
+        notificationToHousekeeping.notif_content = $"A guest just ckecked-out in room {room.room_no}.";
+        notificationToHousekeeping.notif_date = DateTime.Now;
+        notificationToHousekeeping.notif_status = "unread";
+        await NotificationService.AddNotificationToStaffByPosition(notificationToHousekeeping, "HouseKeeper");
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         CloseBookingDialog();
@@ -957,6 +984,13 @@
 
             if (success)
             {
+                Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+                notification.notif_title = "Reservation Extended";
+                notification.notif_content = $"Reservation by {selectedBooking.user_fname} {selectedBooking.user_lname} has been extended.";
+                notification.notif_date = DateTime.Now;
+                notification.notif_status = "unread";
+                notification.user_id = selectedBooking.user_id;
+                await NotificationService.AddNotification(notification);
                 // Refresh bookings
                 bookings = await ReservationService.GetReservations();
                 filteredBookings = bookings;
@@ -1224,7 +1258,13 @@
             // await ReservationService.AddReservation(booking);
 
             
-
+            Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+            notification.notif_title = "Reservation Success";
+            notification.notif_content = $"You have successfully booked room {room.room_no} for the period of {checkInDate} to {checkOutDate}.";
+            notification.notif_date = DateTime.Now;
+            notification.notif_status = "unread";
+            notification.user_id = guestUser.user_id;
+            await NotificationService.AddNotification(notification);
             CloseAddBookingDialog();
             bookings = await ReservationService.GetReservations();
 

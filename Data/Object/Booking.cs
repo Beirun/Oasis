@@ -3,6 +3,7 @@
     public class Booking
     {
         public int rsv_id { get; set; }
+        public int user_id { get; set; }
         public string user_email { get; set; }
         public string user_fname { get; set; }
         public string user_lname { get; set; }

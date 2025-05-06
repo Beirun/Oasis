@@ -1,6 +1,8 @@
 ﻿@page "/feedback/all"
 @rendermode InteractiveServer
 @using Oasis.State
+@using Oasis.Components.ui
+@using System.Text.Json
 @inject NavigationManager NavigationManager
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background font-montserrat">
     <Navbar/>
@@ -9,13 +11,23 @@
             <div class="w-[51%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Average Ratings</p>
+                    <CustomChart>
+                        <div class="w-[720px] absolute -ml-6   -mt-6 ">
+                            <Chart Option="@horizontalBarOption" Width="780px" Height="280px" />
 
+                        </div>
+                    </CustomChart>
                 </div>
             </div>
             <div class="w-[49%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Room Ratings</p>
+                    <CustomChart>
+                        <div class="w-[720px] absolute -ml-10  -mt-3">
+                            <Chart Option="@verticalBarOption" Width="790px" Height="275px" />
 
+                        </div>
+                    </CustomChart>
                 </div>
             </div>
         </div>
@@ -26,7 +38,7 @@
 
                     <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
                     <input type="text" name="name" placeholder="Search review..."
-                           class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+                    class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
 
                     @* <div class="flex flex-col"> *@
                     @*   <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'> *@
@@ -56,8 +68,8 @@
                     <p>(stars) rating</p>
                     <p class="text-sm">comment</p>
                 </div>
-            <div>
-                <p class="text-sm text-gray-400">time elapsed</p>
+                <div>
+                    <p class="text-sm text-gray-400">time elapsed</p>
 
                 </div>
             </div>
@@ -70,9 +82,114 @@
 </div>
 
 @code {
+    private string chartColor = "#0062FF";
+    private string? verticalBarOption, horizontalBarOption;
+
+    public void HorizontalBarChartInitialize()
+    {
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }, // Better hover effect
+                formatter = "{b}: {c}" // Shows "Month: Value"
+            },
+            xAxis = new
+            {
+                type = "value"
+            },
+            yAxis = new
+            {
+                type = "category",
+                data = new[] { "Standard", "Deluxe", "Suite" }
+            },
+            series = new[]
+    {
+    new
+    {
+        type = "bar",
+        data = new[] { 150, 230, 224},
+        itemStyle = new
+        {
+            color = chartColor, 
+            borderColor = chartColor, 
+            borderWidth = 1
+        },
+        barWidth = "60%", // Adjust bar thickness
+        label = new
+        {
+            show = true,
+            position = "right", 
+            formatter = "{c}"
+        }
+    }
+}
+        };
+
+
+        horizontalBarOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(horizontalBarOption);
+    }
+    public void VerticalBarChartInitialize()
+    {
+
+        var option = new
+        {
+            tooltip = new
+            {
+                trigger = "axis",
+                axisPointer = new { type = "shadow" }
+            },
+            legend = new
+            {
+                data = new[] { "Standard", "Deluxe", "Suite" },
+                right = "210",
+                top = "20"
+            },
+            xAxis = new
+            {
+                type = "category",
+                data = new[] { 1, 2, 3, 4, 5}
+            },
+            yAxis = new
+            {
+                type = "value"
+            },
+            series = new[]
+    {
+        new
+        {
+            name = "Standard",
+            type = "bar",
+            data = new[] { 120, 132, 101, 134, 90},
+            itemStyle = new { color = "#0062FF" }
+        },
+        new
+        {
+            name = "Deluxe",
+            type = "bar",
+            data = new[] { 220, 182, 191, 234, 290},
+            itemStyle = new { color = "#4A3AFF" }
+        },
+        new
+        {
+            name = "Suite",
+            type = "bar",
+            data = new[] { 150, 232, 201, 154, 190 },
+            itemStyle = new { color = "#E0C6FD" }
+        }
+    }
+        };
+
+
+        verticalBarOption = JsonSerializer.Serialize(option);
+        Console.WriteLine(verticalBarOption);
+    }
     protected override async Task OnInitializedAsync()
     {
-       
+        HorizontalBarChartInitialize();  
+        VerticalBarChartInitialize();
     }
 
 }
