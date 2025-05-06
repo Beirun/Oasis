@@ -98,6 +98,7 @@ namespace Oasis.Library
                 .Select(r => new GuestBooking
                 {
                     rsv_id = r.rsv_id,
+                    room_id = r.room_id ?? 0,
                     room_no = r.room.room_no ?? 0,
                     review_id = r.review != null ? r.review.review_id : 0,
                     type_category = r.room.roomtype.type_category ?? string.Empty,
@@ -169,6 +170,54 @@ namespace Oasis.Library
                 Console.WriteLine($"Error extending reservation: {ex.Message}");
                 return false;
             }
+        }
+        public async Task<Dictionary<string, Dictionary<string, int>>> GetBookingsPast7Days()
+        {
+            var today = DateTime.Today;
+            var sevenDaysAgo = today.AddDays(-6); // Last 7 days (including today)
+
+            var bookings = await _context.Reservation
+                .Where(r => r.rsv_checkin >= DateOnly.FromDateTime(sevenDaysAgo) &&
+                            r.rsv_checkin <= DateOnly.FromDateTime(today))
+                .ToListAsync();
+
+            var result = new Dictionary<string, Dictionary<string, int>>();
+
+            // Initialize dictionary with past 7 days
+            for (int i = 0; i < 7; i++)
+            {
+                var date = today.AddDays(-i);
+                var dayName = date.DayOfWeek.ToString(); // Just the day name
+
+                result[dayName] = new Dictionary<string, int>
+        {
+            { "Booked", 0 },
+            { "Checked In", 0 },
+            { "Checked Out", 0 },
+            { "Cancelled", 0 }
+        };
+            }
+
+            // Count bookings by status for each day
+            foreach (var booking in bookings)
+            {
+                if (booking.rsv_checkin.HasValue)
+                {
+                    var bookingDate = booking.rsv_checkin.Value.ToDateTime(TimeOnly.MinValue);
+                    var dayName = bookingDate.DayOfWeek.ToString(); // Just the day name
+                    var status = booking.rsv_status ?? "Booked";
+
+                    if (result.ContainsKey(dayName) && result[dayName].ContainsKey(status))
+                    {
+                        result[dayName][status]++;
+                    }
+                }
+            }
+
+            // Reverse order to show most recent day first
+            return result
+                .OrderBy(kvp => Array.IndexOf(Enum.GetNames(typeof(DayOfWeek)), kvp.Key))
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
     }

@@ -3,7 +3,12 @@
 @using Oasis.State
 @using Oasis.Components.ui
 @using System.Text.Json
+@using Oasis.Data.Object
+@using Oasis.Library
+
 @inject NavigationManager NavigationManager
+@inject ReviewServices ReviewService
+
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background font-montserrat">
     <Navbar/>
     <div class="w-[75%] flex flex-col justify-between items-center my-4">
@@ -59,31 +64,35 @@
 
     </div>
     <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
-    <div class="w-[75%] bg-white p-5 shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
-        <div class="w-full h-20">
-            <div class="flex flex-row justify-between">
-                <div class="size-10 w-10 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
-                <div class="w-full">
-                    <p class="font-bold">Name</p>
-                    <p>(stars) rating</p>
-                    <p class="text-sm">comment</p>
+    <div class="w-[75%] mb-4 bg-white p-5 shadow-gray-500 rounded-2xl">
+        <div class="w-full flex flex-col">
+            @foreach (var review in roomTypeReviews)
+            {
+                <div class="w-full border border-gray-200 rounded-lg p-6 shadow-md w-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold">@review.user_fname @review.user_lname</h3>
+                            <p class="text-sm text-gray-500">@review.review_date?.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                        <div class="flex">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span class="text-xl @(i <= review.review_rating ? "text-yellow-400" : "text-gray-300")">★</span>
+                            }
+                        </div>
+                    </div>
+                    <p class="text-gray-700">@review.review_feedback</p>
                 </div>
-                <div>
-                    <p class="text-sm text-gray-400">time elapsed</p>
-
-                </div>
-            </div>
+            }
         </div>
-        @* check if it's the last data, then don't show this >>> *@
-        <div class="w-full py-4">
-            <div class="w-full h-[1px] bg-gray-300"></div>
-        </div>
+        
     </div>
 </div>
 
 @code {
     private string chartColor = "#0062FF";
     private string? verticalBarOption, horizontalBarOption;
+    private List<RoomTypeReview> roomTypeReviews = new List<RoomTypeReview>();
 
     public void HorizontalBarChartInitialize()
     {
@@ -188,6 +197,7 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        roomTypeReviews = await ReviewService.GetRoomReviews();
         HorizontalBarChartInitialize();  
         VerticalBarChartInitialize();
     }

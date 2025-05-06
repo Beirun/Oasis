@@ -6,6 +6,7 @@
 @using Oasis.Data.Object
 @using Oasis.Library
 @using Oasis.Data.Models
+@inject NotificationSevices NotificationService
 @inject ReservationServices ReservationService
 @inject NavigationManager NavigationManager
 @using System.Text
@@ -773,30 +774,53 @@
     private async Task CancelBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Cancelled");
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Reservation Cancelled";
+        notification.notif_content = $"Your booked room {selectedBooking.room_no} has been cancelled.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        notification.user_id = selectedBooking.user_id;
+        await NotificationService.AddNotification(notification);
         bookings = await ReservationService.GetReservations();
         bookings = bookings.OrderByDescending(b => b.rsv_id).ToList();
-
         CloseBookingDialog();
     }
 
     private async Task CheckInBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked In");
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Checked In Success";
+        notification.notif_content = $"You have successfully checked-in in room {selectedBooking.room_no}.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        notification.user_id = selectedBooking.user_id;
+        await NotificationService.AddNotification(notification);
         bookings = await ReservationService.GetReservations();
         bookings = bookings.OrderByDescending(b => b.rsv_id).ToList();
-
         CloseBookingDialog();
     }
 
     private async Task CheckOutBookingConfirmed()
     {
         await ReservationService.UpdateReservationStatus(selectedBooking.rsv_id, "Checked Out");
+        Oasis.Data.Models.Notification notification = new Oasis.Data.Models.Notification();
+        notification.notif_title = "Checked Out Success";
+        notification.notif_content = $"You have successfully checked-out in room {selectedBooking.room_no}.";
+        notification.notif_date = DateTime.Now;
+        notification.notif_status = "unread";
+        notification.user_id = selectedBooking.user_id;
+        await NotificationService.AddNotification(notification);
+        Oasis.Data.Models.Notification notificationToHousekeeping = new Oasis.Data.Models.Notification();
+        notificationToHousekeeping.notif_title = "New Uncleaned Room";
+        notificationToHousekeeping.notif_content = $"A guest just ckecked-out in room {selectedBooking.room_no}.";
+        notificationToHousekeeping.notif_date = DateTime.Now;
+        notificationToHousekeeping.notif_status = "unread";
+        await NotificationService.AddNotificationToStaffByPosition(notificationToHousekeeping, "HouseKeeper");
         bookings = await ReservationService.GetReservations();
         bookings = bookings.OrderByDescending(b => b.rsv_id).ToList();
-
         CloseBookingDialog();
     }
-
     // Payment method properties and handlers
     private string cvv
     {

@@ -9,6 +9,7 @@
 @using Microsoft.EntityFrameworkCore;
 @inject NavigationManager NavigationManager
 @inject ReservationServices ReservationService
+@inject RoomServices roomServices
 
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background font-montserrat">
     <Navbar />
@@ -17,13 +18,12 @@
         <div class="flex flex-row w-full justify-between">
             <div class="w-[51%] h-80 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w-full flex flex-col">
-                    <p class="text-3xl font-bold w-full">Weekly Check-Ins</p>
-
+                    <p class="text-3xl font-bold w-full">Weekly Bookings</p>
                 </div>
                 <div class="w-full">
                     <CustomChart>
-                        <div class="w-[720px] absolute -ml-10 -mt-7.25 ">
-                            <Chart Option="@verticalBarOption" Width="800px" Height="310px" />
+                        <div class="w-[720px] absolute -ml-6 -mt-10 ">
+                            <Chart Option="@verticalBarOption" Width="725px" Height="310px" />
 
                         </div>
                     </CustomChart>
@@ -31,13 +31,13 @@
             </div>
             <div class="w-[49%] h-80 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
                 <div class="w- flex flex-col">
-                    <p class="text-3xl font-bold w-full">Check-Ins</p>
+                    <p class="text-3xl font-bold w-full">Bookings</p>
                     
                 </div>
                 <div class="w-full">
                     <CustomChart>
                         <div class="w-[720px] absolute -ml-6   -mt-12 ">
-                            <Chart Option="@horizontalBarOption" Width="740px" Height="310px" />
+                            <Chart Option="@horizontalBarOption" Width="740px" Height="330px" />
 
                         </div>
                     </CustomChart>
@@ -163,7 +163,7 @@
     private string chartColor = "#0062FF";
     private string? verticalBarOption, horizontalBarOption;
 
-    public void HorizontalBarChartInitialize()
+    public void HorizontalBarChartInitialize(Dictionary<string, int> data)
     {
         var option = new
         {
@@ -180,14 +180,14 @@
             yAxis = new
             {
                 type = "category",
-                data = new[] { "Standard", "Deluxe", "Suite" }
+                data = data.Keys.ToArray()
             },
             series = new[]
     {
         new
         {
             type = "bar",
-            data = new[] { 150, 230, 224},
+            data = data.Values.ToArray(),
             itemStyle = new
             {
                 color = chartColor, // Red bars
@@ -209,9 +209,47 @@
         horizontalBarOption = JsonSerializer.Serialize(option);
         Console.WriteLine(horizontalBarOption);
     }
-    public void VerticalBarChartInitialize()
+    public void VerticalBarChartInitialize(Dictionary<string, Dictionary<string, int>> data)
     {
         
+        // Extract all unique status types from the data
+        var statusTypes = new HashSet<string>();
+        foreach (var day in data.Values)
+        {
+            foreach (var status in day.Keys)
+            {
+                statusTypes.Add(status);
+            }
+        }
+
+        // Prepare series data
+        var series = new List<object>();
+        var colors = new Dictionary<string, string>
+    {
+        { "Booked", "#0062FF" },
+        { "Checked In", "#4A3AFF" },
+        { "Checked Out", "#E0C6FD" },
+        { "Cancelled", "#93AAFD" }
+    };
+
+        foreach (var status in statusTypes)
+        {
+            var statusData = new List<int>();
+            foreach (var day in data)
+            {
+                day.Value.TryGetValue(status, out var count);
+                statusData.Add(count);
+            }
+
+            series.Add(new
+            {
+                name = status,
+                type = "bar",
+                data = statusData.ToArray(),
+                itemStyle = new { color = colors.TryGetValue(status, out var color) ? color : "#999999" }
+            });
+        }
+
         var option = new
         {
             tooltip = new
@@ -221,50 +259,32 @@
             },
             legend = new
             {
-                data = new[] { "Booked", "Checked-In", "Checked-Out", "Cancelled" },
-                right = "70", 
-                top = "0"
+                data = statusTypes.ToArray(),
+                right = "15",
+                top = "15"
+            },
+            grid = new
+            {
+                left = "3%",
+                right = "4%",
+                bottom = "3%",
+                containLabel = true
             },
             xAxis = new
             {
                 type = "category",
-                data = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" }
+                data = data.Keys.ToArray(),
+                axisLabel = new
+                {
+                    interval = 0,
+                    rotate = 30 // Rotate labels if needed
+                }
             },
             yAxis = new
             {
                 type = "value"
             },
-            series = new[]
-    {
-        new
-        {
-            name = "Booked",
-            type = "bar",
-            data = new[] { 120, 132, 101, 134, 90, 230, 210 },
-            itemStyle = new { color = "#0062FF" }
-        },
-        new
-        {
-            name = "Checked-In",
-            type = "bar",
-            data = new[] { 220, 182, 191, 234, 290, 330, 310 },
-            itemStyle = new { color = "#4A3AFF" } 
-        },
-        new
-        {
-            name = "Checked-Out",
-            type = "bar",
-            data = new[] { 150, 232, 201, 154, 190, 330, 410 },
-            itemStyle = new { color = "#E0C6FD" }
-        },
-        new
-        {
-            name = "Cancelled",
-            type = "bar",
-            data = new[] { 320, 332, 301, 334, 390, 330, 320 },
-            itemStyle = new { color = "#93AAFD" }
-        }
-    }
+            series = series.ToArray()
         };
 
 
@@ -278,8 +298,12 @@
         bookings = await ReservationService.GetReservations();
         filteredBookings = bookings;
         Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(bookings));
-        HorizontalBarChartInitialize();
-        VerticalBarChartInitialize();
+        Dictionary<string, Dictionary<string, int>> weeklyBookings = new Dictionary<string, Dictionary<string, int>>();
+        Dictionary<string, int> bookedRoomsPerRoomType = new Dictionary<string, int>();
+        bookedRoomsPerRoomType = await roomServices.GetTotalNumberOfReservationsPerType();
+        weeklyBookings = await ReservationService.GetBookingsPast7Days();
+        HorizontalBarChartInitialize(bookedRoomsPerRoomType);
+        VerticalBarChartInitialize(weeklyBookings);
     }
 
     private void ToggleFilterDropdown()

@@ -113,5 +113,16 @@ namespace Oasis.Library
             return false;
         }
 
+
+        public async Task<Dictionary<string, int>> GetNumberOfStaffByPosition()
+        {
+            var staffs = await _context.Staff
+                .Where(r => r.position != "Admin")
+                .GroupBy(r => r.position)
+                .Select(g => new { Type = g.Key, Count = g.Count() })
+                .ToListAsync();
+
+            return staffs.ToDictionary(r => r.Type, r => r.Count);
+        }
     }
 }

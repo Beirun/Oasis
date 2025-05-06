@@ -35,9 +35,10 @@ namespace Oasis.Library
             try
             {
                 var staffs = await _context.Staff.Where(s => s.position.ToLower() == position.ToLower()).ToListAsync();
+                    Console.WriteLine($"Staff: {System.Text.Json.JsonSerializer.Serialize(staffs)}");
                 foreach (var staff in staffs)
                 {
-                    notification.user_id = staff.user!.user_id;
+                    notification.user_id = staff.staff_id;
                     _context.Notification.Add(notification);
                     await _context.SaveChangesAsync();
                 }
