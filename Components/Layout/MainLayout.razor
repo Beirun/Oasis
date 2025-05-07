@@ -1,8 +1,12 @@
 ﻿@inherits LayoutComponentBase
-
+@using Oasis.State
+@inject SonnerState toast
 @inject Initialization init
 
 <div class="page light" @onclick="init.HandleMainLayoutClickEvent">
+ 
+
+
     @Body
 </div>
 
@@ -14,6 +18,7 @@
 
 @code
 {
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // This initializes the theme for the components.

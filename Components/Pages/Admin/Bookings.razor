@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
-    <div class="w-[75%] bg-white p-5 shadow-gray-500/50 border-b-2 divide-gray-400 rounded-2xl">
+    <div class="w-[75%] mb-8 bg-white p-5 shadow-gray-500/50 border-b-2 divide-gray-400 rounded-2xl">
         <table class="w-full text-sm rounded-2xl divide-y-2 divide-gray-300">
             <tr class="w-full text-[#6B7280] border-b-2 border-gray-400">
                 <td class="h-10">Guest</td>
@@ -89,7 +89,7 @@
                 {
                     <tr class="h-20 ">
                         <td class="flex flex-row h-20 justify-center">
-                            <div class="size-10 w-11 rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                            <div class="size-10 w-11 rounded-full bg-cover bg-white border-2 border-gray-500 shadow-md" style="background-image: url(@(booking.user_gender?.ToLower() == "male" ? "male-guest.png" : "female-guest.png"))"></div>
                             <div class="flex flex-col justify-between w-full">
                                 <p class="w-full -mb-4 font-semibold">@booking.user_fname @booking.user_lname</p>
                                 <p class="w-full text-[#6B7280]">@booking.user_email</p>

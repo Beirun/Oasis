@@ -53,6 +53,26 @@ namespace Oasis.Library
 
             return review;
         }
+        public async Task<Dictionary<string, double>> GetAverageRatingsPerRoomType()
+        {
+            var averageRatings = await _context.Review
+                .Include(r => r.reservation)  // Include reservation
+                    .ThenInclude(rsv => rsv.room)  // Then include room from reservation
+                        .ThenInclude(room => room.roomtype)  // Then include roomtype from room
+                .Where(r => r.review_rating != null)  // Only include reviews with ratings
+                .GroupBy(r => r.reservation.room.roomtype.type_category)  // Group by room type
+                .Select(g => new
+                {
+                    RoomType = g.Key,
+                    AverageRating = g.Average(r => r.review_rating.Value)  // Calculate average
+                })
+                .ToListAsync();
+
+            return averageRatings.ToDictionary(
+                x => x.RoomType,
+                x => Math.Round(x.AverageRating, 2)  // Round to 2 decimal places
+            );
+        }
         public async Task<List<RoomTypeReview>> GetRoomReviews()
         {
             var review = await _context.Review
@@ -76,6 +96,59 @@ namespace Oasis.Library
                 ).ToListAsync();
 
             return review;
+        }
+
+        public async Task<Dictionary<int, Dictionary<string, int>>> GetRatingCountsByRoomType()
+        {
+            var ratingCounts = await _context.Review
+                .Include(r => r.reservation)
+                    .ThenInclude(rsv => rsv.room)
+                        .ThenInclude(room => room.roomtype)
+                .Where(r => r.review_rating != null && r.review_rating >= 1 && r.review_rating <= 5)
+                .GroupBy(r => new
+                {
+                    Rating = r.review_rating.Value,
+                    RoomType = r.reservation.room.roomtype.type_category
+                })
+                .Select(g => new
+                {
+                    g.Key.Rating,
+                    g.Key.RoomType,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            // Initialize result dictionary with all rating levels
+            var result = Enumerable.Range(1, 5).ToDictionary(
+                rating => rating,
+                rating => new Dictionary<string, int>()
+            );
+
+            // Get all room types
+            var allRoomTypes = await _context.RoomType
+                .Select(rt => rt.type_category)
+                .Distinct()
+                .ToListAsync();
+
+            // Initialize each rating level with all room types (count = 0)
+            foreach (var ratingDict in result.Values)
+            {
+                foreach (var roomType in allRoomTypes)
+                {
+                    ratingDict[roomType] = 0;
+                }
+            }
+
+            // Populate with actual counts
+            foreach (var item in ratingCounts)
+            {
+                if (result.ContainsKey(item.Rating))
+                {
+                    result[item.Rating][item.RoomType] = item.Count;
+                }
+            }
+
+            return result;
         }
 
     }

@@ -71,7 +71,7 @@
                 }
                 else
                 {
-                   
+
                     <div class="w-full pl-5">
                         <div class="px-4 pt-8 flex">
                             <img src="icons/mail.png" class="w-5" />
@@ -127,7 +127,7 @@
                             <div class="p-2 border-b border-gray-300">@selectedGuest?.user_lname</div>
                         </div>
                     </div>
-                       
+
                     <div class="w-105 mt-5">
                         <label class="text-sm text-gray-500">Email</label>
                         <div class="p-2 border-b border-gray-300">@selectedGuest?.user_email:</div>
@@ -169,7 +169,7 @@
     private User? selectedGuest = null;
     private string chartColor = "#0062FF";
     private string? lineOption;
-    public void LineChartInitialize()
+    public void LineChartInitialize(Dictionary<string, int> data)
     {
 
         var option = new
@@ -177,12 +177,12 @@
             tooltip = new
             {
                 trigger = "axis",
-                formatter = "{c}" // Shows "Month: Value" on hover
+                formatter = "{b}: {c}" // Shows "Month: Value" on hover
             },
             xAxis = new
             {
                 type = "category",
-                data = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+                data = data.Keys.ToArray()
             },
             yAxis = new
             {
@@ -193,7 +193,7 @@
     new
     {
         type = "line",
-        data = new[] { 150, 230, 224, 218, 135, 147, 260, 200, 180, 190, 210, 220 },
+        data = data.Values.ToArray(),
         symbolSize = 12, // Makes dots bigger (default is 4)
         itemStyle = new
         {
@@ -217,10 +217,17 @@
     }
     protected override async Task OnInitializedAsync()
     {
-       
+
         guests = await GuestService.getGuests();
         filteredGuests = guests;
-        LineChartInitialize();
+        Dictionary<string, int> guestsPerMonth = new Dictionary<string, int>();
+
+        guestsPerMonth = await GuestService.GetMonthlyGuestRegistrations();
+        foreach (var month in guestsPerMonth)
+        {
+            Console.WriteLine($"{month.Key}: {month.Value}");
+        }
+        LineChartInitialize(guestsPerMonth);
     }
 
     private void FilterGuests()

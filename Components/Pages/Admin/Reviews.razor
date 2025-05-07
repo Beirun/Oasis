@@ -17,8 +17,8 @@
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Average Ratings</p>
                     <CustomChart>
-                        <div class="w-[720px] absolute -ml-6   -mt-6 ">
-                            <Chart Option="@horizontalBarOption" Width="780px" Height="280px" />
+                        <div class="w-[720px] absolute -ml-6  ">
+                            <Chart Option="@horizontalBarOption" Width="780px" Height="250px" />
 
                         </div>
                     </CustomChart>
@@ -28,8 +28,8 @@
                 <div class="w-full flex flex-col">
                     <p class="text-3xl font-bold w-full">Room Ratings</p>
                     <CustomChart>
-                        <div class="w-[720px] absolute -ml-10  -mt-3">
-                            <Chart Option="@verticalBarOption" Width="790px" Height="275px" />
+                        <div class="w-[720px] ml-2 absolute ">
+                            <Chart Option="@verticalBarOption" Width="700px" Height="215px" />
 
                         </div>
                     </CustomChart>
@@ -64,7 +64,7 @@
 
     </div>
     <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
-    <div class="w-[75%] mb-4 bg-white p-5 shadow-gray-500 rounded-2xl">
+    <div class="w-[75%] mb-8 bg-white p-5 shadow-gray-500 rounded-2xl">
         <div class="w-full flex flex-col">
             @foreach (var review in roomTypeReviews)
             {
@@ -85,7 +85,7 @@
                 </div>
             }
         </div>
-        
+
     </div>
 </div>
 
@@ -94,7 +94,7 @@
     private string? verticalBarOption, horizontalBarOption;
     private List<RoomTypeReview> roomTypeReviews = new List<RoomTypeReview>();
 
-    public void HorizontalBarChartInitialize()
+    public void HorizontalBarChartInitialize(Dictionary<string, double> data)
     {
         var option = new
         {
@@ -111,14 +111,14 @@
             yAxis = new
             {
                 type = "category",
-                data = new[] { "Standard", "Deluxe", "Suite" }
+                data = data.Keys.ToArray(),
             },
             series = new[]
     {
     new
     {
         type = "bar",
-        data = new[] { 150, 230, 224},
+        data = data.Values.ToArray(),
         itemStyle = new
         {
             color = chartColor, 
@@ -140,8 +140,39 @@
         horizontalBarOption = JsonSerializer.Serialize(option);
         Console.WriteLine(horizontalBarOption);
     }
-    public void VerticalBarChartInitialize()
+    public void VerticalBarChartInitialize(Dictionary<int, Dictionary<string, int>> data)
     {
+        // Extract all room types from the first rating level (they should be the same for all)
+        var roomTypes = data.First().Value.Keys.ToArray();
+
+        // Prepare series data for each room type
+        var series = new List<object>();
+
+        // Color mapping for each room type
+        var colors = new Dictionary<string, string>
+    {
+        { "Standard", "#0062FF" },
+        { "Deluxe", "#4A3AFF" },
+        { "Suite", "#E0C6FD" }
+        // Add more room types and colors as needed
+    };
+
+        foreach (var roomType in roomTypes)
+        {
+            // Get the counts for this room type across all ratings (1-5)
+            var counts = data
+                .OrderBy(r => r.Key) // Ensure ratings are ordered 1-5
+                .Select(r => r.Value.TryGetValue(roomType, out var count) ? count : 0)
+                .ToArray();
+
+            series.Add(new
+            {
+                name = roomType,
+                type = "bar",
+                data = counts,
+                itemStyle = new { color = colors.TryGetValue(roomType, out var color) ? color : "#999999" }
+            });
+        }
 
         var option = new
         {
@@ -152,54 +183,50 @@
             },
             legend = new
             {
-                data = new[] { "Standard", "Deluxe", "Suite" },
-                right = "210",
-                top = "20"
+                data = roomTypes,
+                right = "50",
+                top = "10"
+            },
+            grid = new
+            {
+                left = "3%",
+                right = "4%",
+                bottom = "3%",
+                containLabel = true
             },
             xAxis = new
             {
                 type = "category",
-                data = new[] { 1, 2, 3, 4, 5}
+                data = data.Keys.OrderBy(r => r).Select(r => r.ToString()).ToArray(),
+                axisLabel = new
+                {
+                    interval = 0
+                }
             },
             yAxis = new
             {
-                type = "value"
+                type = "value",
             },
-            series = new[]
-    {
-        new
-        {
-            name = "Standard",
-            type = "bar",
-            data = new[] { 120, 132, 101, 134, 90},
-            itemStyle = new { color = "#0062FF" }
-        },
-        new
-        {
-            name = "Deluxe",
-            type = "bar",
-            data = new[] { 220, 182, 191, 234, 290},
-            itemStyle = new { color = "#4A3AFF" }
-        },
-        new
-        {
-            name = "Suite",
-            type = "bar",
-            data = new[] { 150, 232, 201, 154, 190 },
-            itemStyle = new { color = "#E0C6FD" }
-        }
-    }
+            series = series.ToArray()
         };
 
+        verticalBarOption = JsonSerializer.Serialize(option, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            });
 
-        verticalBarOption = JsonSerializer.Serialize(option);
         Console.WriteLine(verticalBarOption);
     }
     protected override async Task OnInitializedAsync()
     {
+        Dictionary<string, double> averageRatings = new Dictionary<string, double>();
+        Dictionary<int, Dictionary<string, int>> roomRatings = new Dictionary<int, Dictionary<string, int>>();
+        averageRatings = await ReviewService.GetAverageRatingsPerRoomType();
         roomTypeReviews = await ReviewService.GetRoomReviews();
-        HorizontalBarChartInitialize();  
-        VerticalBarChartInitialize();
+        roomRatings = await ReviewService.GetRatingCountsByRoomType();
+        HorizontalBarChartInitialize(averageRatings);  
+        VerticalBarChartInitialize(roomRatings);
     }
 
 }

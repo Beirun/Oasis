@@ -20,32 +20,47 @@ namespace Oasis.Library
         public async Task AddNotification(Notification notification)
         {
             try
-            { 
+            {
+                // No need to check notif_id - DB will handle it
                 _context.Notification.Add(notification);
                 await _context.SaveChangesAsync();
-            
             }
-            catch 
+            catch (Exception ex)
             {
-                return;
+                Console.WriteLine($"Error in AddNotification: {ex.Message}");
+                throw;
             }
         }
         public async Task AddNotificationToStaffByPosition(Notification notification, string position)
         {
             try
             {
-                var staffs = await _context.Staff.Where(s => s.position.ToLower() == position.ToLower()).ToListAsync();
-                    Console.WriteLine($"Staff: {System.Text.Json.JsonSerializer.Serialize(staffs)}");
+                var staffs = await _context.Staff
+                    .Where(s => s.position.ToLower() == position.ToLower())
+                    .ToListAsync();
+
                 foreach (var staff in staffs)
                 {
-                    notification.user_id = staff.staff_id;
-                    _context.Notification.Add(notification);
-                    await _context.SaveChangesAsync();
+                    // Create a NEW notification for each staff member
+                    var staffNotification = new Notification
+                    {
+                        notif_title = notification.notif_title,
+                        notif_content = notification.notif_content,
+                        notif_date = notification.notif_date,
+                        notif_status = notification.notif_status,
+                        user_id = staff.staff_id
+                    };
+
+                    _context.Notification.Add(staffNotification);
                 }
+
+                await _context.SaveChangesAsync(); // Save once after the loop
             }
-            catch
+            catch (Exception ex)
             {
-                return;
+                // Log the exception instead of silently swallowing it
+                Console.WriteLine($"Error in AddNotificationToStaffByPosition: {ex.Message}");
+                throw; // Re-throw or handle appropriately
             }
         }
         public async Task<bool> UpdateNotification(Notification notification)

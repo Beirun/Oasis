@@ -11,6 +11,17 @@ namespace Oasis.Library
             _context = context;
         }
 
+        //is user male or female
+        public async Task<bool> isMale(int id)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(u => u.user_id == id);
+            if (user.user_gender.ToLower() == "Male".ToLower())
+            {
+                return true;
+            }
+            return false;
+        }
+
         //update User
         public async Task updateUser(User user)
         {

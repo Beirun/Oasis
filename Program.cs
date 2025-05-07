@@ -33,6 +33,7 @@ builder.Services.AddRazorPages()
     });
 
 builder.Services.AddSingleton<AppState>(); // Add this line
+builder.Services.AddSingleton<SonnerState>(); // Add this line
 
 
 builder.Services.AddScoped<AmenityServices>();

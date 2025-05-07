@@ -26,6 +26,7 @@ namespace Oasis.Library
                     {
                         rsv_id = r.rsv_id,
                         user_id = r.guest.user.user_id,
+                        user_gender = r.guest.user.user_gender,
                         user_email = r.guest.user.user_email,
                         user_fname = r.guest.user.user_fname,
                         user_lname = r.guest.user.user_lname,
@@ -183,11 +184,11 @@ namespace Oasis.Library
 
             var result = new Dictionary<string, Dictionary<string, int>>();
 
-            // Initialize dictionary with past 7 days
-            for (int i = 0; i < 7; i++)
+            // Initialize dictionary with past 7 days in reverse order
+            for (int i = 6; i >= 0; i--) // Start from 6 days ago and go forward to today
             {
                 var date = today.AddDays(-i);
-                var dayName = date.DayOfWeek.ToString(); // Just the day name
+                var dayName = date.DayOfWeek.ToString();
 
                 result[dayName] = new Dictionary<string, int>
         {
@@ -204,20 +205,26 @@ namespace Oasis.Library
                 if (booking.rsv_checkin.HasValue)
                 {
                     var bookingDate = booking.rsv_checkin.Value.ToDateTime(TimeOnly.MinValue);
-                    var dayName = bookingDate.DayOfWeek.ToString(); // Just the day name
+                    var dayName = bookingDate.DayOfWeek.ToString();
                     var status = booking.rsv_status ?? "Booked";
 
-                    if (result.ContainsKey(dayName) && result[dayName].ContainsKey(status))
+                    if (result.ContainsKey(dayName))
                     {
-                        result[dayName][status]++;
+                        if (result[dayName].ContainsKey(status))
+                        {
+                            result[dayName][status]++;
+                        }
+                        else
+                        {
+                            // Handle unexpected status values
+                            result[dayName][status] = 1;
+                        }
                     }
                 }
             }
 
-            // Reverse order to show most recent day first
-            return result
-                .OrderBy(kvp => Array.IndexOf(Enum.GetNames(typeof(DayOfWeek)), kvp.Key))
-                .ToDictionary(pair => pair.Key, pair => pair.Value);
+            // The dictionary is already in the correct order (oldest to newest)
+            return result;
         }
 
     }

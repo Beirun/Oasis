@@ -1,4 +1,5 @@
 ﻿@page "/book/standard"
+@inject IJSRuntime JSRuntime
 @rendermode InteractiveServer
 @using Oasis.Components.Layout
 @using Oasis.Components.ui
@@ -215,4 +216,11 @@
 		AppState.SetCheckInDate(checkInDate, checkOutDate);
         Navigation.NavigateTo("/payment");
     }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
+		}
+	}
 }

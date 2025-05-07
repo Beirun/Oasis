@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Oasis.Data;
 using Oasis.Data.Models;
 using Oasis.Data.Object;
+using System.Globalization;
 namespace Oasis.Library
 {
     public class HouseKeepingServices
@@ -90,6 +91,7 @@ namespace Oasis.Library
                 {
                     room_id = hk.room_id ?? 0,
                     staff_id = hk.staff_id ?? 0,
+                    user_gender = hk.staff != null ? hk.staff.user.user_gender : string.Empty,
                     user_fname = hk.staff != null ? hk.staff.user.user_fname : string.Empty,
                     user_lname = hk.staff != null ? hk.staff.user.user_lname : string.Empty,
                     room_no = hk.room.room_no ?? 0,
@@ -100,6 +102,66 @@ namespace Oasis.Library
                 .ToListAsync();
 
             return recentlyCleanedRooms;
+        }
+        public async Task<Dictionary<string, int>> GetRoomsCleanedByType()
+        {
+            // Assuming your Room model has a RoomType property
+            var result = await _context.HouseKeeping
+                .Include(hk => hk.room) // Include the room data
+                .Where(hk => hk.housekeeping_endtime != null) // Only count completed cleanings
+                .GroupBy(hk => hk.room.roomtype) // Group by room type
+                .Select(g => new
+                {
+                    RoomType = g.Key,
+                    Count = g.Count()
+                })
+                .ToDictionaryAsync(
+                    x => x.RoomType.type_category,
+                    x => x.Count
+                );
+
+            return result;
+        }
+        public async Task<Dictionary<string, int>> GetRoomsCleanedLast7Days()
+        {
+            // Get today's date at midnight (start of day)
+            var endDate = DateTime.Today.AddDays(1); // Include all of today
+            var startDate = endDate.AddDays(-7); // 7 days back from today (including today)
+
+            // Get cleaned rooms in this period
+            var cleanedRooms = await _context.HouseKeeping
+                .Where(hk => hk.housekeeping_endtime != null &&
+                            hk.housekeeping_endtime >= startDate &&
+                            hk.housekeeping_endtime < endDate)
+                .ToListAsync();
+
+            // Generate all days in the period (past 7 days including today)
+            var allDays = Enumerable.Range(0, 7)
+                .Select(offset => endDate.AddDays(-offset - 1)) // -1 to include today
+                .OrderBy(date => date) // Sort chronologically
+                .ToList();
+
+            // Group and count by day
+            var dailyCounts = allDays
+                .GroupJoin(cleanedRooms,
+                    day => day.Date,
+                    room => room.housekeeping_endtime.Value.Date,
+                    (day, rooms) => new
+                    {
+                        Day = day,
+                        Count = rooms.Count()
+                    })
+                .ToDictionary(
+                    x => x.Day.ToString("ddd, MMM dd"), // Format like "Wed, May 07"
+                    x => x.Count
+                );
+
+            // Reorder to show most recent day last
+            var orderedResult = dailyCounts
+                .OrderBy(kvp => DateTime.ParseExact(kvp.Key, "ddd, MMM dd", CultureInfo.InvariantCulture))
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            return orderedResult;
         }
     }
 }
