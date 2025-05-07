@@ -116,8 +116,6 @@
                             <td>Check In</td>
                             <td>Check Out</td>
                         </tr>
-                        @for (var i=1; i <= 4; i++)
-                        {
 
                             @foreach (var checkin in recentCheckIns)
                             {
@@ -129,7 +127,7 @@
                                     <td>@(checkin.rsv_checkout)</td>
                                 </tr>
                             }
-                        }
+                        
 
                     </table>
 
