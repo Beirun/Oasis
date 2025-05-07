@@ -41,6 +41,7 @@ namespace Oasis.Library
                         {
                             review_id = r.review_id,
                             rsv_id = r.reservation.rsv_id,
+                            type_category = r.reservation.room.roomtype.type_category,
                             guest_id  = r.guest.guest_id,
                             user_fname = r.guest.user.user_fname,
                             user_lname = r.guest.user.user_lname,
@@ -84,6 +85,7 @@ namespace Oasis.Library
                         .Select(r => new RoomTypeReview
                         {
                             review_id = r.review_id,
+                            type_category = r.reservation.room.roomtype.type_category,
                             rsv_id = r.reservation.rsv_id,
                             guest_id = r.guest.guest_id,
                             user_fname = r.guest.user.user_fname,
