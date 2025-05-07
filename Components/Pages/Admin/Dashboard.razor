@@ -115,10 +115,8 @@
                             <td>Check In</td>
                             <td>Check Out</td>
                         </tr>
-                        @for (var i=1; i <= 4; i++)
-                        {
-
-                            @foreach (var checkin in recentCheckIns)
+                        
+                            @foreach (var checkin in recentCheckIns.GetRange(0, Math.Min(recentCheckIns.Count(), 4)))
                             {
                                 <tr class="h-7">
                                     <td>@(checkin.user_fname) @(checkin.user_lname)</td>
@@ -128,7 +126,6 @@
                                     <td>@(checkin.rsv_checkout)</td>
                                 </tr>
                             }
-                        }
 
                     </table>
 
@@ -256,7 +253,7 @@
             {
                 type = "category",
                 data = data.Keys.ToArray()
-    },
+            },
             yAxis = new
             {
                 type = "value"
@@ -294,6 +291,7 @@
 
 
         allReservations = await reservations.GetReservations();
+        // Console.WriteLine($"allReservations: {System.Text.Json.JsonSerializer.Serialize(allReservations)}");
         guestList = await guestServices.getUserGuests();
 
 
@@ -302,16 +300,23 @@
         occupiedRooms = await roomsServices.GetOccupancyPercentage();
         totalReservations = allReservations.Count();
         recentStaffs = (await staffs.GetStaffs()).OrderByDescending(s => s.staff_id).ToList().GetRange(0,5);
-        recentCheckIns = allReservations.Where(rc => rc.rsv_status == "Checked In").ToList().GetRange(0, Math.Min(recentCheckIns.Count(),4));
-        Console.WriteLine("recent checkins: ", recentCheckIns);
+        foreach(var room in allReservations)
+        {
+            Console.WriteLine($"room: {System.Text.Json.JsonSerializer.Serialize(room)}");
+        }
+        // recentCheckIns = allReservations.FindAll(rc => rc.rsv_status.ToLower() == "Checked In".ToLower()).ToList().GetRange(0, Math.Min(recentCheckIns.Count(), 4));
+        recentCheckIns = allReservations.FindAll(rc => rc.rsv_status.ToLower() == "Checked In".ToLower()).ToList();
+        Console.WriteLine($"recentCheckIns: {System.Text.Json.JsonSerializer.Serialize(recentCheckIns)}");
+        Console.WriteLine("Test");
+        // Console.WriteLine("recent checkins: ", recentCheckIns);
         Dictionary<string, int> bookedRoomsPerRoomType = new Dictionary<string, int>();
         bookedRoomsPerRoomType = await roomsServices.GetTotalNumberOfReservationsPerType();
         Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
         incomePerMonth = await payments.GetMonthlyIncome();
-        foreach(var room in bookedRoomsPerRoomType)
-        {
-            Console.WriteLine($"{room.Key}: {room.Value}");
-        }
+        // foreach(var room in bookedRoomsPerRoomType)
+        // {
+        //     Console.WriteLine($"{room.Key}: {room.Value}");
+        // }
         LineChartInitialize(incomePerMonth);
         BarChartInitialize(bookedRoomsPerRoomType);
     }

@@ -4,6 +4,7 @@
     {
         public int review_id { get; set; }
         public int? rsv_id { get; set; }
+        public string? type_category { get; set; }
         public int? guest_id { get; set; }
         public string user_fname { get; set; }
         public string user_lname { get; set; }

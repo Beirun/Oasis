@@ -10,7 +10,7 @@
 @inject ReviewServices ReviewService
 
 <div class="w-screen min-h-screen flex flex-col justify-start bg-background font-montserrat">
-    <Navbar/>
+    <Navbar />
     <div class="w-[75%] flex flex-col justify-between items-center my-4">
         <div class="flex flex-row w-full justify-between">
             <div class="w-[51%] h-60 bg-white p-5 shadow-xs shadow-gray-500/50 border-b-2 border-gray-400 rounded-2xl">
@@ -19,7 +19,6 @@
                     <CustomChart>
                         <div class="w-[720px] absolute -ml-6  ">
                             <Chart Option="@horizontalBarOption" Width="780px" Height="250px" />
-
                         </div>
                     </CustomChart>
                 </div>
@@ -30,7 +29,6 @@
                     <CustomChart>
                         <div class="w-[720px] ml-2 absolute ">
                             <Chart Option="@verticalBarOption" Width="700px" Height="215px" />
-
                         </div>
                     </CustomChart>
                 </div>
@@ -39,40 +37,52 @@
         <div class="flex flex-row w-full">
             <div class="w-full flex justify-between">
                 <div class="flex">
-
-
                     <Icon Name="Search" size="30px" Color="gray" Class="absolute ml-4 pointer-events-none focus:outline-none" />
-                    <input type="text" name="name" placeholder="Search review..."
-                    class=" shadow-xs shadow-gray-500/50  duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
+                    <input @bind="Search" @bind:event="oninput" type="text" name="name" placeholder="Search review..."
+                           class="shadow-xs shadow-gray-500/50 duration-250 bg-white focus:outline-none w-175 pl-12.5 text-lg p-2 px-4 rounded-md border-b-2 border-gray-400 focus:border-gray-500" />
 
-                    @* <div class="flex flex-col"> *@
-                    @*   <div class="inset-0 fixed z-20 " style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='CloseDropdown'> *@
-                    @*   </div> *@
-
-                    @*   <ul class="z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")"> *@
-                    @*       @foreach (var position in staffPositions) *@
-                    @*       { *@
-                    @*           <li @onclick="() => SelectFilter(position)" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">@position</li> *@
-                    @*       } *@
-                    @*   </ul> *@
-                    <button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6 ml-10"> <Icon Name="Filter_List" Size="30px" /> Filter</button>
-                    <button class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-3 ml-10"> <Icon Name="swap_vert" Size="30px" /> Sort by</button>
+                    @* <div class="flex flex-col ml-10"> *@
+                    @*     <div class="inset-0 fixed z-20" style="@(IsFilterDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleFilterDropdown'> *@
+                    @*     </div> *@
+                    @*     <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsFilterDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")"> *@
+                    @*         <li @onclick='() => FilterByRoomType(null)' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">All Room Types</li> *@
+                    @*         <li @onclick='() => FilterByRoomType(" Standard")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Standard</li> *@
+                    @*         <li @onclick='() => FilterByRoomType(" Deluxe")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Deluxe</li> *@
+                    @*         <li @onclick='() => FilterByRoomType(" Suite")' class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Suite</li> *@
+                    @*     </ul> *@
+                    @*     <button @onclick="ToggleFilterDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6"> *@
+                    @*         <Icon Name="Filter_List" Size="30px" /> Filter *@
+                    @*     </button> *@
                     @* </div> *@
+
+                    <div class="flex flex-col ml-10">
+                        <div class="inset-0 fixed z-20" style="@(IsSortDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")" @onclick='ToggleSortDropdown'>
+                        </div>
+                        <ul class="divide-y divide-gray-300 z-21 absolute mt-13 bg-[#fafafa] rounded-md shadow-md shadow-black/50 overflow-hidden transition-all duration-200" style="@(IsSortDropdownOpen ? "opacity: 1;" : "opacity: 0; pointer-events:none;")">
+                            <li @onclick="() => SortByNewest()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Newest</li>
+                            <li @onclick="() => SortByOldest()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Oldest</li>
+                            <li @onclick="() => SortByHighestRating()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Highest Rating</li>
+                            <li @onclick="() => SortByLowestRating()" class="p-2 px-4 hover:bg-primary/40 hover:text-gray-800 px-6 hover:text-gray-100 cursor-pointer transition-all duration-200">Lowest Rating</li>
+                        </ul>
+                        <button @onclick="ToggleSortDropdown" class="cursor-pointer transition-all duration-200 hover:bg-white/20 bg-white shadow-sm shadow-gray-500/50 flex justify-center items-center focus:outline-none border-b-2 border-gray-400 p-2 rounded-md px-6">
+                            <Icon Name="swap_vert" Size="30px" /> Sort by
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
     <div class="w-[75%] h-[1px] bg-[#C0C0C0]"></div>
     <div class="w-[75%] mb-8 bg-white p-5 shadow-gray-500 rounded-2xl">
         <div class="w-full flex flex-col">
-            @foreach (var review in roomTypeReviews)
+            @foreach (var review in filteredReviews)
             {
-                <div class="w-full border border-gray-200 rounded-lg p-6 shadow-md w-300">
+                <div class="w-full border border-gray-200 rounded-lg p-6 shadow-md w-300 mb-4">
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <h3 class="text-lg font-semibold">@review.user_fname @review.user_lname</h3>
                             <p class="text-sm text-gray-500">@review.review_date?.ToString("MMMM dd, yyyy")</p>
+                            <p class="text-sm text-gray-500">Room Type: @review.type_category</p>
                         </div>
                         <div class="flex">
                             @for (int i = 1; i <= 5; i++)
@@ -85,7 +95,6 @@
                 </div>
             }
         </div>
-
     </div>
 </div>
 
@@ -93,6 +102,114 @@
     private string chartColor = "#0062FF";
     private string? verticalBarOption, horizontalBarOption;
     private List<RoomTypeReview> roomTypeReviews = new List<RoomTypeReview>();
+    private List<RoomTypeReview> filteredReviews = new List<RoomTypeReview>();
+
+    public bool IsFilterDropdownOpen { get; set; } = false;
+    public bool IsSortDropdownOpen { get; set; } = false;
+    public string currentRoomTypeFilter { get; set; } = "";
+    public string currentSort { get; set; } = "Newest";
+
+    public string _search = "";
+    private string Search
+    {
+        get => _search;
+        set
+        {
+            _search = value;
+            ApplyFilters();
+        }
+    }
+
+    private void ToggleFilterDropdown()
+    {
+        IsFilterDropdownOpen = !IsFilterDropdownOpen;
+        if (IsFilterDropdownOpen) IsSortDropdownOpen = false;
+    }
+
+    private void ToggleSortDropdown()
+    {
+        IsSortDropdownOpen = !IsSortDropdownOpen;
+        if (IsSortDropdownOpen) IsFilterDropdownOpen = false;
+    }
+
+    private void FilterByRoomType(string? roomType)
+    {
+        currentRoomTypeFilter = roomType ?? "";
+        ApplyFilters();
+        ToggleFilterDropdown();
+    }
+
+    private void SortByNewest()
+    {
+        currentSort = "Newest";
+        ApplyFilters();
+        ToggleSortDropdown();
+    }
+
+    private void SortByOldest()
+    {
+        currentSort = "Oldest";
+        ApplyFilters();
+        ToggleSortDropdown();
+    }
+
+    private void SortByHighestRating()
+    {
+        currentSort = "Highest Rating";
+        ApplyFilters();
+        ToggleSortDropdown();
+    }
+
+    private void SortByLowestRating()
+    {
+        currentSort = "Lowest Rating";
+        ApplyFilters();
+        ToggleSortDropdown();
+    }
+
+    private void ApplyFilters()
+    {
+        // Apply search filter
+        var filtered = roomTypeReviews;
+
+        if (!string.IsNullOrEmpty(_search))
+        {
+            filtered = filtered.Where(r =>
+                (r.user_fname + " " + r.user_lname).ToLower().Contains(_search.ToLower()) ||
+                r.review_feedback.ToLower().Contains(_search.ToLower()) ||
+                r.type_category.ToLower().Contains(_search.ToLower()) ||
+                r.review_rating.ToString().Contains(_search)
+            ).ToList();
+        }
+
+        // Apply room type filter
+        if (!string.IsNullOrEmpty(currentRoomTypeFilter))
+        {
+            filtered = filtered.Where(r => r.type_category == currentRoomTypeFilter).ToList();
+        }
+
+        // Apply sorting
+        switch (currentSort)
+        {
+            case "Newest":
+                filtered = filtered.OrderByDescending(r => r.review_date).ToList();
+                break;
+            case "Oldest":
+                filtered = filtered.OrderBy(r => r.review_date).ToList();
+                break;
+            case "Highest Rating":
+                filtered = filtered.OrderByDescending(r => r.review_rating).ToList();
+                break;
+            case "Lowest Rating":
+                filtered = filtered.OrderBy(r => r.review_rating).ToList();
+                break;
+            default:
+                filtered = filtered.OrderByDescending(r => r.review_date).ToList();
+                break;
+        }
+
+        filteredReviews = filtered;
+    }
 
     public void HorizontalBarChartInitialize(Dictionary<string, double> data)
     {
@@ -101,8 +218,8 @@
             tooltip = new
             {
                 trigger = "axis",
-                axisPointer = new { type = "shadow" }, // Better hover effect
-                formatter = "{b}: {c}" // Shows "Month: Value"
+                axisPointer = new { type = "shadow" },
+                formatter = "{b}: {c}"
             },
             xAxis = new
             {
@@ -114,54 +231,47 @@
                 data = data.Keys.ToArray(),
             },
             series = new[]
-    {
-    new
-    {
-        type = "bar",
-        data = data.Values.ToArray(),
-        itemStyle = new
-        {
-            color = chartColor, 
-            borderColor = chartColor, 
-            borderWidth = 1
-        },
-        barWidth = "60%", // Adjust bar thickness
-        label = new
-        {
-            show = true,
-            position = "right", 
-            formatter = "{c}"
-        }
-    }
-}
+            {
+                new
+                {
+                    type = "bar",
+                    data = data.Values.ToArray(),
+                    itemStyle = new
+                    {
+                        color = chartColor,
+                        borderColor = chartColor,
+                        borderWidth = 1
+                    },
+                    barWidth = "60%",
+                    label = new
+                    {
+                        show = true,
+                        position = "right",
+                        formatter = "{c}"
+                    }
+                }
+            }
         };
 
-
         horizontalBarOption = JsonSerializer.Serialize(option);
-        Console.WriteLine(horizontalBarOption);
     }
+
     public void VerticalBarChartInitialize(Dictionary<int, Dictionary<string, int>> data)
     {
-        // Extract all room types from the first rating level (they should be the same for all)
         var roomTypes = data.First().Value.Keys.ToArray();
-
-        // Prepare series data for each room type
         var series = new List<object>();
 
-        // Color mapping for each room type
         var colors = new Dictionary<string, string>
-    {
-        { "Standard", "#0062FF" },
-        { "Deluxe", "#4A3AFF" },
-        { "Suite", "#E0C6FD" }
-        // Add more room types and colors as needed
-    };
+        {
+            { "Standard", "#0062FF" },
+            { "Deluxe", "#4A3AFF" },
+            { "Suite", "#E0C6FD" }
+        };
 
         foreach (var roomType in roomTypes)
         {
-            // Get the counts for this room type across all ratings (1-5)
             var counts = data
-                .OrderBy(r => r.Key) // Ensure ratings are ordered 1-5
+                .OrderBy(r => r.Key)
                 .Select(r => r.Value.TryGetValue(roomType, out var count) ? count : 0)
                 .ToArray();
 
@@ -215,18 +325,17 @@
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true
             });
-
-        Console.WriteLine(verticalBarOption);
     }
+
     protected override async Task OnInitializedAsync()
     {
         Dictionary<string, double> averageRatings = new Dictionary<string, double>();
         Dictionary<int, Dictionary<string, int>> roomRatings = new Dictionary<int, Dictionary<string, int>>();
         averageRatings = await ReviewService.GetAverageRatingsPerRoomType();
         roomTypeReviews = await ReviewService.GetRoomReviews();
+        filteredReviews = roomTypeReviews.OrderByDescending(r => r.review_date).ToList();
         roomRatings = await ReviewService.GetRatingCountsByRoomType();
-        HorizontalBarChartInitialize(averageRatings);  
+        HorizontalBarChartInitialize(averageRatings);
         VerticalBarChartInitialize(roomRatings);
     }
-
 }
