@@ -141,10 +141,10 @@
                 <p class="text-3xl font-bold w-full">New Guests</p>
                 <div class="h-full w-full overflow-y-scroll">
                     @* for loop here *@
-                    @foreach (var guest in guestList)
+                    @foreach (var guest in guestList.GetRange(5,Math.Min(5,guestList.Count())))
                     {
                         <div class="w-full bg-gray-200 flex p-5 rounded-lg mb-2">
-                            <div class="h-15 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                            <div class="h-15 aspect-square rounded-full bg-gray-100 border-2 border-gray-300 shadow-md bg-cover" style="background-image: url('@(guest.user_gender == "Male" ? "/male-guest.png" : "/female-guest.png")'); bg-cover"></div>
                             <div class="flex flex-col w-full -space-y-3">
                                 <p class="w-full text-xl font-bold">@guest.user_fname @guest.user_lname</p>
                                 <p class="w-full">Joined on @guest.registration_date</p>
@@ -162,7 +162,7 @@
                     <table class="w-full h-20 flex justify-between border-b border-gray-300">
                         <tr class="w-full flex justify-between">
                             <td class="flex ml-2">
-                                <div class="h-10 aspect-square rounded-full bg-[url('/clouds.png')] bg-cover"></div>
+                                <div class="h-10 aspect-square rounded-full bg-cover border-2 border-gray-400" style="background-image: url('@(staff.position == "HouseKeeper" ? staff.user_gender == "Male" ? "/male-housekeeper.png" : "/female-housekeeper.png" : staff.user_gender == "Male" ? "/male-receptionist.png" : "/female-receptionist.png")')"></div>
                                 <p>@(staff.user_fname) @(staff.user_lname)</p>
                             </td>
                             <td class="mr-2">
@@ -207,11 +207,11 @@
             },
             xAxis = new
             {
-                type = "value" 
+                type = "value" // Numeric axis (horizontal)
             },
             yAxis = new
             {
-                type = "category",
+                type = "category", // Categories (months) on vertical axis
                 data = data.Keys.ToArray()
             },
             series = new[]
@@ -223,7 +223,7 @@
             itemStyle = new
             {
                 color = chartColor,
-                borderColor = chartColor, 
+                borderColor = chartColor,
                 borderWidth = 1
             },
             barWidth = "60%", // Adjust bar thickness
@@ -305,7 +305,7 @@
         recentCheckIns = allReservations.Where(rc => rc.rsv_status == "Checked In").ToList().GetRange(0, Math.Min(recentCheckIns.Count(),4));
         Console.WriteLine("recent checkins: ", recentCheckIns);
         Dictionary<string, int> bookedRoomsPerRoomType = new Dictionary<string, int>();
-        bookedRoomsPerRoomType = await roomsServices.GetNumberOfBookedRoomsPerType();
+        bookedRoomsPerRoomType = await roomsServices.GetTotalNumberOfReservationsPerType();
         Dictionary<string, double> incomePerMonth = new Dictionary<string, double>();
         incomePerMonth = await payments.GetMonthlyIncome();
         foreach(var room in bookedRoomsPerRoomType)

@@ -9,81 +9,85 @@
 @inject HouseKeepingServices HouseKeepingService
 <div class="bg-background font-montserrat flex h-screen w-screen flex-col">
     <Navbar />
-    <div class="h-full w-3/5 z-1">
+    <div class="h-full w-3/5 z-1 mx-auto">
         <div class="flex h-15 w-full">
             <NavLink href="/housekeeper/rooms">
                 <Icon Name="arrow_back" Size="35px" />
             </NavLink>
-            <p class="p-6 text-2xl font-bold">Suite Rooms</p>
+            <p class="p-6 text-2xl font-bold">Deluxe Rooms</p>
         </div>
         <div class="mt-3 flex flex-row">
-            <div class="border-0 box-content h-120 w-5/5 rounded-lg bg-white">
+            <div class="border-0 box-content rounded-lg bg-white w-full ">
                 @if (rooms.Any())
                 {
-                    <table class="min-w-full table-auto">
-                        <thead>
-                            <tr class="bg-gray-100 text-left text-sm text-gray-600 uppercase">
-                                <th class="px-6 py-4 w-1/5">Room No.</th>
-                                <th class="px-6 py-4 w-1/5">Floor</th>
-                                <th class="px-6 py-4 w-1/5 pl-12">Status</th>
-                                <th class="px-6 py-4 w-1/5 pl-16">Start Time</th>
-                                <th class="px-6 py-4 w-1/5"></th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 space-y-2 py-2">
-                            @foreach (var room in rooms)
-                            {
-                                <tr class="">
-                                    <td class="pl-12 px-6 py-4 font-medium text-gray-900">@room.room_no</td>
-                                    <td class="px-6 py-4 text-gray-700">Floor @(room.room_no / 100)</td>
-                                    <td class="px-6 py-4">
-                                        @if (room.room_status == "Needs Cleaning")
-                                        {
-                                            <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">Uncleaned</span>
-                                        }
-                                        else if (room.room_status == "Being Cleaned")
-                                        {
-                                            <span class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">Being Cleaned</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">Clean</span>
-                                        }
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        @if (room.room_status == "Needs Cleaning")
-                                        {
-                                            <span class="text-gray-500">-</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-gray-500">@room.housekeeping_starttime?.ToString("hh:mm tt")</span>
-                                        }
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        @if (room.room_status == "Needs Cleaning")
-                                        {
-                                            <button class="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 cursor-pointer transition-all duration-300"
-                                                    @onclick="() => StartCleaning(room.room_id)">
-                                                Start
-                                            </button>
-                                        }
-                                        else if (room.room_status == "Being Cleaned" && room.staff_id == AppState.CurrentUser.user_id)
-                                        {
-                                            <button class="rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 cursor-pointer transition-all duration-300"
-                                                    @onclick="() => MarkAsClean(room.room_id)">
-                                                Mark as Cleaned
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-gray-500">No action needed</span>
-                                        }
-                                    </td>
+                    <div class="overflow-y-auto max-h-[calc(100vh-280px)]  rounded-t-lg">
+                        <!-- Added scrollable container with max height -->
+                        <table class="min-w-full table-auto">
+                            <thead class="sticky top-0 bg-gray-100">
+                                <!-- Made header sticky -->
+                                <tr class="text-left text-sm text-gray-600 uppercase">
+                                    <th class="px-6 py-4 w-1/5">Room No.</th>
+                                    <th class="px-6 py-4 w-1/5">Floor</th>
+                                    <th class="px-6 py-4 w-1/5 text-center">Status</th>
+                                    <th class="px-6 py-4 w-1/5 pl-18">Start Time</th>
+                                    <th class="px-6 py-4 w-1/5 text-center">Action</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach (var room in rooms)
+                                {
+                                    <tr>
+                                        <td class="pl-12 px-6 py-4 font-medium text-gray-900">@room.room_no</td>
+                                        <td class="px-6 py-4 text-gray-700">Floor @(room.room_no / 100)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if (room.room_status == "Needs Cleaning")
+                                            {
+                                                <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">Uncleaned</span>
+                                            }
+                                            else if (room.room_status == "Being Cleaned")
+                                            {
+                                                <span class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-600">Being Cleaned</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">Clean</span>
+                                            }
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if (room.room_status == "Needs Cleaning")
+                                            {
+                                                <span class="text-gray-500">-</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-gray-500">@room.housekeeping_starttime?.ToString("hh:mm tt")</span>
+                                            }
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @if (room.room_status == "Needs Cleaning")
+                                            {
+                                                <button class="rounded-md w-40 bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 cursor-pointer transition-all duration-300"
+                                                        @onclick="() => StartCleaning(room.room_id)">
+                                                    Start
+                                                </button>
+                                            }
+                                            else if (room.room_status == "Being Cleaned" && room.staff_id == AppState.CurrentUser.user_id)
+                                            {
+                                                <button class="rounded-md w-40 bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 cursor-pointer transition-all duration-300"
+                                                        @onclick="() => MarkAsClean(room.room_id)">
+                                                    Mark as Cleaned
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-gray-500 pl-2">No action needed</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 }
                 else
                 {
@@ -117,7 +121,6 @@
         houseKeeping.housekeeping_starttime = DateTime.Now;
         await HouseKeepingService.AddHouseKeeping(houseKeeping);
         await RoomService.UpdateRoomStatus(roomId, "Being Cleaned");
-        // Refresh the list
         await OnInitializedAsync();
     }
 
@@ -125,7 +128,6 @@
     {
         await HouseKeepingService.UpdateHouseKeeping(roomId);
         await RoomService.UpdateRoomStatus(roomId, "Available");
-        // Refresh the list
         await OnInitializedAsync();
     }
 }

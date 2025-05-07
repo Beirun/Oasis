@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Oasis.Data;
 using Oasis.Data.Models;
 using Oasis.Data.Object;
+using System.Globalization;
 namespace Oasis.Library
 {
 
@@ -31,6 +32,7 @@ namespace Oasis.Library
                     user_id = u.user_id,
                     user_fname = u.user_fname,
                     user_lname = u.user_lname,
+                    user_gender= u.user_gender,
                     registration_date = u.guest.registration_date
 
                 }
@@ -85,6 +87,57 @@ namespace Oasis.Library
                 return true;
             }
             return false;
+        }
+       
+        public async Task<Dictionary<string, int>> GetMonthlyGuestRegistrations()
+        {
+            // Calculate date range (past 12 months from current date)
+            var endDate = DateTime.Now;
+            var startDate = endDate.AddMonths(-11).Date; // 12 months total (inclusive)
+
+            // Step 1: Fetch raw data from the database (grouped by Year & Month)
+            var monthlyData = await _context.Guest
+                .Where(g => g.registration_date != null &&
+                            g.registration_date >= startDate &&
+                            g.registration_date <= endDate)
+                .GroupBy(g => new {
+                    Year = g.registration_date.Value.Year,
+                    Month = g.registration_date.Value.Month
+                })
+                .OrderBy(g => g.Key.Year)
+                .ThenBy(g => g.Key.Month)
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    GuestCount = g.Count()
+                })
+                .ToListAsync();
+
+            // Step 2: Generate all months in the past 12 months (including those with zero registrations)
+            var allMonthsInRange = Enumerable.Range(0, 12)
+                .Select(offset => endDate.AddMonths(-offset))
+                .Select(date => new DateTime(date.Year, date.Month, 1))
+                .Distinct()
+                .OrderBy(date => date)
+                .ToList();
+
+            // Step 3: Combine with actual data and use abbreviated month format
+            var monthlyGuestCounts = allMonthsInRange
+                .GroupJoin(monthlyData,
+                    date => new { date.Year, date.Month },
+                    data => new { data.Year, data.Month },
+                    (date, data) => new
+                    {
+                        Date = date,
+                        Count = data.Select(x => x.GuestCount).FirstOrDefault()
+                    })
+                .ToDictionary(
+                    x => x.Date.ToString("MMM yyyy", CultureInfo.InvariantCulture), // "Dec 2025" format
+                    x => x.Count
+                );
+
+            return monthlyGuestCounts;
         }
     }
 }

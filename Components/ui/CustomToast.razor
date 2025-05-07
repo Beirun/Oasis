@@ -1,0 +1,24 @@
+﻿@using Oasis.State
+@inject SonnerState toast
+@rendermode InteractiveServer
+
+<Toast Show="@toast.show" Style="padding: 0">
+    <div class="flex" style="@(toast.type == "error" ? "background-color:#B40000 !important; color: #FFFFFF !important" : "background-color:#0C7500 !important; color: #FFFFFF !important" ); padding: 1rem">
+        <div class="flex-col g4">
+            <p class="text-md" style="background-color: inherit; color: inherit">@toast.title</p>
+            <p class="text-sm">@toast.message</p>
+        </div>
+    </div>
+</Toast>
+
+@code {
+    protected override void OnInitialized()
+    {
+        toast.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        toast.OnChange -= StateHasChanged;
+    }
+}

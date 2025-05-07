@@ -41,6 +41,7 @@ namespace Oasis.Library
                         .Select(p => new Oasis.Data.Object.Payment
                         {
                             payment_id = p.payment_id,
+                            user_gender = p.reservation.guest.user.user_gender,
                             user_email = p.reservation.guest.user.user_email,
                             user_fname = p.reservation.guest.user.user_fname,
                             user_lname = p.reservation.guest.user.user_lname,

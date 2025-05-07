@@ -91,7 +91,7 @@
                 </li>
             </ul>
 
-            <img @onclick="ToggleDropdown" src="/female-receptionist.png" alt="Profile" class="w-9 h-9 rounded-full cursor-pointer object-cover" />
+            <img @onclick="ToggleDropdown" src="@(AppState.CurrentUser?.user_gender?.ToLower() == "male" ? "/male-guest.png" : "/female-guest.png")" alt="Profile" class="w-9 h-9 rounded-full cursor-pointer object-cover bg-white border-2 border-gray-500 shadow-md" />
         </div>
     </div>
 </div>

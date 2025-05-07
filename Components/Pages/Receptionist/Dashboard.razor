@@ -209,7 +209,7 @@
                 @foreach (var booking in bookings.GetRange(0, Math.Min(bookings.Count,9)))
                 {
                     <div class='w-[100%] h-19 bg-[#E5E7EB] -mb-2 rounded-md mt-5.5 flex px-3 justify-between '>
-                        <div class='size-10 w-11 rounded-full bg-[url("/clouds.png")] bg-cover '></div>
+                        <div class='size-10 w-11 rounded-full  bg-cover bg-white border-2 border-gray-500 shadow-md' style="background-image: url(@(booking.user_gender?.ToLower() == "male" ? "male-guest.png" : "female-guest.png"))"></div>
                         <div class='flex flex-col w-35'>
                             <p class='w-full -mb-5 font-semibold text-xs'>@booking.user_fname @booking.user_lname</p>
                             <p class='w-full -mb-5 text-[#6B7280] text-xs'>@booking.type_category Room</p>

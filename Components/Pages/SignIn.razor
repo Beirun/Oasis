@@ -2,6 +2,7 @@
 @inject AppState appState
 @inject SignInServices SignInService
 @inject NavigationManager Navigation
+@inject SonnerState toast
 @inject UserState UserState
 @using Data.Models
 @using Oasis.Library
@@ -9,6 +10,29 @@
 @using Microsoft.EntityFrameworkCore
 @rendermode InteractiveServer
 @using Oasis.Components.ui
+@* <Toast Show="@toast.show" Style="padding: 0"> *@
+@*     <div class="flex" style="@(toast.type == "error" ? "background-color:#B40000 !important; color: #FFFFFF !important" : "background-color:#0C7500 !important; color: #FFFFFF !important" ); padding: 1rem"> *@
+@*         <div class="flex-col g4"> *@
+@*             <p class="text-md" style="background-color: inherit; color: inherit">@toast.title</p> *@
+@*             <p class="text-sm">@toast.message</p> *@
+@*         </div> *@
+@*     </div> *@
+@* </Toast> *@
+@* @if (toast.show) *@
+@* { *@
+@*     <div class="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"> *@
+@*         <div class="toast @toast.type" *@
+@*              style="@(toast.type == "error" ? "background-color:#B40000; color: #FFFFFF" : "background-color:#0C7500; color: #FFFFFF"); *@
+@*                     padding: 1rem; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); min-width: 300px;"> *@
+@*             <div class="toast-header"> *@
+@*                 <strong class="me-auto">@toast.title</strong> *@
+@*             </div> *@
+@*             <div class="toast-body"> *@
+@*                 @toast.message *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* } *@
 <div class="h-screen w-screen flex justify-center items-center bg-[url('clouds.png')] bg-cover">
     <div class="h-6/7 w-2/3 bg-[#e8e8e8] flex rounded-lg shadow-md shadow-gray-600/50">
         <div class="h-full w-1/2 flex flex-col items-center justify-center">
@@ -21,7 +45,7 @@
 
             </div>
             <div class="flex flex-col gap-10 justify-center items-center w-100 my-15 h-10">
-                <button @onclick="Login" type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 flex items-center justify-center transition-colors duration-300 cursor-pointer">
+                <button @onclick="LoginGuest" type="submit" class="w-85 h-full rounded-md text-white bg-[#0040a6] hover:bg-[#0040a6]/80 flex items-center justify-center transition-colors duration-300 cursor-pointer">
                     @if(isSigningIn){
                         <spane>Signing In</spane>
                     }else
@@ -89,7 +113,9 @@
         // string userType = await SignInService.getUserType(email);
         if (!result.Key){
             // ShowSonner("Login Failed", result.Value);
+            toast.Error("Login Failed", result.Value);
             Console.WriteLine(result.Value);
+            Console.WriteLine($"Error: {toast.message}");
             isSigningIn = false;
             return;
         }
@@ -99,6 +125,8 @@
         appState.SetCurrentUser(user);
         appState.SetCurrentUserType(result.Value);
         isSigningIn = false;
+            toast.Success("Login Success", "Logged in successfully");
+            Console.WriteLine(toast.message);
         Navigation.NavigateTo("/dashboard/" + result.Value.ToLower());
     }
 

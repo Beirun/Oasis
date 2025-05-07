@@ -3,6 +3,7 @@
     public class Payment
     {
         public int payment_id { get; set; }
+        public string user_gender { get; set; }
         public string user_email { get; set; }
         public string user_fname { get; set; }
         public string user_lname { get; set; }
