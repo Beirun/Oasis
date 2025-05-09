@@ -4,6 +4,8 @@
 @inject AppState AppState
 @inject UserServices UserService
 @inject UserState UserState
+@inject ToastServices ToastService
+@using Oasis.Data.Object
 @using Oasis.Library
 @using Oasis.Data.Models
 @using Oasis.Components.ui
@@ -185,6 +187,7 @@
         AppState.SetCurrentUser(currentUser);
         originalUser = currentUser;
         await UserState.SetCurrentUserAsync(currentUser);
+        ToastService.ShowToast("Account Updated successfully!", ToastLevel.Success, "Update Success!");
 
         EditProfile("cancel");
     }

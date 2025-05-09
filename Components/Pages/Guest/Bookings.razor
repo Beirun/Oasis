@@ -1,9 +1,11 @@
 @page "/bookings"
 @rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @inject ReviewServices ReviewService
 @inject NotificationSevices NotificationService
 @inject ReservationServices ReservationService
+@inject ToastServices ToastService
 @inject UserState UserState
 @inject AppState AppState
 @using Oasis.State
@@ -529,6 +531,13 @@
             _mobileNumber = formatted.ToString();
         }
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
+        }
+    }
     private void SelectPaymentMethod(string method)
     {
         paymentMethod = method;
@@ -623,6 +632,7 @@
         {
             case "cancel":
                 await CancelBookingConfirmed();
+                ToastService.ShowToast("Cancelled booking successfully!", ToastLevel.Success, "Cancelled Success!");
                 break;
             case "checkin":
                 await CheckInBookingConfirmed();
@@ -693,6 +703,7 @@
                 await NotificationService.AddNotificationToStaffByPosition(notification, "Receptionist");
                 // Refresh bookings
                 guestBookings = await ReservationService.GetReservationsByGuestId(AppState.CurrentUser.user_id);
+                ToastService.ShowToast("Booking extended successfully!", ToastLevel.Success, "Booking Extension Success!");
 
 
                 // Reset state
@@ -809,6 +820,8 @@
         notification.notif_date = DateTime.Now;
         notification.notif_status = "unread";
         await NotificationService.AddNotificationToStaffByPosition(notification, "Admin");
+        ToastService.ShowToast("Review submitted successfully!", ToastLevel.Success, "Review Success!");
+
         currentRating = 0;
         reviewText = string.Empty;
         CloseReviewDialog();

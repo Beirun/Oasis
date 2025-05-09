@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject StaffServices StaffService
+@inject ToastServices ToastService
 @inject Initialization init
 @using Oasis.Components.ui
 @using Oasis.Library
@@ -335,6 +336,8 @@
                 staffs = staffs.Where(s => s.position == selectedFilter).ToList();
             }
             filteredStaffs = staffs;
+            ToastService.ShowToast("Staff added successfully!", ToastLevel.Success, "Staff Creation Success!");
+
             // BarChartInitialize();
             CloseNewStaffDialog();
         }
@@ -392,6 +395,7 @@
             }
             filteredStaffs = staffs;
             // BarChartInitialize();
+            ToastService.ShowToast("Staff Updated successfully!", ToastLevel.Success, "Update Success!");
 
             CloseEditStaffDialog();
         }

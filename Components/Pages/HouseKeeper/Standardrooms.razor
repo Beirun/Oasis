@@ -7,6 +7,7 @@
 @inject AppState AppState
 @inject RoomServices RoomService
 @inject HouseKeepingServices HouseKeepingService
+@inject ToastServices ToastService
 <div class="bg-background font-montserrat flex h-screen w-screen flex-col">
     <Navbar />
     <div class="h-full w-3/5 z-1 mx-auto">
@@ -121,6 +122,8 @@
         houseKeeping.housekeeping_starttime = DateTime.Now;
         await HouseKeepingService.AddHouseKeeping(houseKeeping);
         await RoomService.UpdateRoomStatus(roomId, "Being Cleaned");
+        ToastService.ShowToast("Room cleaning started successfully!", ToastLevel.Success, "Room Cleaning Started!");
+
         await OnInitializedAsync();
     }
 
@@ -128,6 +131,8 @@
     {
         await HouseKeepingService.UpdateHouseKeeping(roomId);
         await RoomService.UpdateRoomStatus(roomId, "Available");
+        ToastService.ShowToast("Room cleaned successfully!", ToastLevel.Success, "Cleaning Success!");
+
         await OnInitializedAsync();
     }
 }
