@@ -8,6 +8,7 @@
 @inject AmenityServices AmenityService
 @inject AppState AppState
 @inject NotificationSevices NotificationService
+@inject ToastServices ToastService
 @using Oasis.State;
 @using Oasis.Data.Models;
 @using Oasis.Data.Object;
@@ -124,7 +125,7 @@
 						}
 						else if (cardNumber.Length > 0 && (cardNumber[0] == '5' || cardNumber[0] == '2')){
 							<img src="icons/visa.png" alt="visa"/>
-							<img src="icons/selected-mastercard.png" alt="mastercard"/>
+							<img src="icons/selected-mastercard.png"  alt="mastercard"/>
 						}else
 						{
 							<img src="icons/visa.png" alt="visa" />
@@ -527,6 +528,7 @@
 		notificationToReceptionist.notif_date = DateTime.Now;
 		notificationToReceptionist.notif_status = "unread";
 		await NotificationService.AddNotificationToStaffByPosition(notificationToReceptionist, "Receptionist");
+		ToastService.ShowToast("You have successfully booked a room!", ToastLevel.Success, "Payment Succcessful!");
 		if(successReservation) Navigation.NavigateTo("/payment/success");
 		
 	}

@@ -2,12 +2,15 @@
 @using Oasis.State
 @inject SonnerState toast
 @inject Initialization init
+@using Oasis.Components.ui
 
 <div class="page light" @onclick="init.HandleMainLayoutClickEvent">
  
+     <Toaster />
 
 
     @Body
+
 </div>
 
 <div id="blazor-error-ui">

@@ -1,11 +1,13 @@
-﻿<div class="flex w-[85%]  justify-center">
+﻿
+@* Custom Carousel *@
+<div class="flex w-[85%]  justify-center">
     @for (int i = 0; i < 5; i++)
     {
         <div style="background-image: url(@img[i]);" class="
                     bg-cover bg-center 
-                    @(Math.Abs(2-i) == 2 ? "w-124 h-150 z-20" : Math.Abs(2-i) == 1 ? "w-132 h-160 z-40" : "w-145 h-175 z-60")
+                    @getClass(i)
                     flex-shrink-0
-                    @(i <2 ? "-mr-70" : i !=2 ? "-ml-70" : "")"
+                    @getMargin(i)"
         ></div>
     }
 </div>
@@ -13,4 +15,13 @@
 @code {
     [Parameter] public List<string> img { get; set; } = new();
     bool IsFocused { get; set; } = false;
+
+    private string getClass(int i)
+    {
+        return Math.Abs(2 - i) == 2 ? "w-124 h-150 z-20" : Math.Abs(2 - i) == 1 ? "w-132 h-160 z-40" : "w-145 h-175 z-60";
+    }
+    private string getMargin(int i)
+    {
+        return i < 2 ? "-mr-70" : i != 2 ? "-ml-70" : "";
+    }
 }

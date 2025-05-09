@@ -6,6 +6,7 @@
 @using Oasis.Library
 @inject AppState AppState
 @inject RoomServices RoomService
+@inject ToastServices ToastService
 @inject HouseKeepingServices HouseKeepingService
 <div class="bg-background font-montserrat flex h-screen w-screen flex-col">
     <Navbar />
@@ -121,6 +122,8 @@
         houseKeeping.housekeeping_starttime = DateTime.Now;
         await HouseKeepingService.AddHouseKeeping(houseKeeping);
         await RoomService.UpdateRoomStatus(roomId, "Being Cleaned");
+        ToastService.ShowToast("Room cleaning started successfully!", ToastLevel.Success, "Room Cleaning Started!");
+
         await OnInitializedAsync();
     }
 
@@ -128,6 +131,7 @@
     {
         await HouseKeepingService.UpdateHouseKeeping(roomId);
         await RoomService.UpdateRoomStatus(roomId, "Available");
+        ToastService.ShowToast("Room cleaned successfully!", ToastLevel.Success, "Cleaning Success!");
         await OnInitializedAsync();
     }
 }

@@ -1,0 +1,55 @@
+﻿@page "/test"
+@inject ToastServices ToastService
+@using Oasis.Library
+@rendermode InteractiveServer
+@using Oasis.Data.Object;
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, Blazor Toasts!</h1>
+
+<div class="space-x-2 mt-4">
+    <button class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            @onclick='() => ToastService.ShowToast("This is a default toast message.")'>
+        Show Default
+    </button>
+    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            @onclick='() => ToastService.ShowToast("Here is some information.", ToastLevel.Info, "Information")'>
+        Show Info
+    </button>
+    <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            @onclick='() => ToastService.ShowToast("Operation completed successfully!", ToastLevel.Success, "Success!")'>
+        Show Success
+    </button>
+    <button class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+            @onclick='() => ToastService.ShowToast("Something might need your attention.", ToastLevel.Warning, "Warning", 7000)'>
+        Show Warning (7s)
+    </button>
+    <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            @onclick='() => ToastService.ShowToast("An error occurred while processing.", ToastLevel.Error, "Error", 0)'>
+        Show Error (Persistent)
+    </button>
+    <button @onclick="ToggleDarkMode" class="fixed bottom-4 left-4 p-2 bg-gray-700 text-white rounded">
+        Toggle Dark
+    </button>
+
+    
+
+</div>
+@code {
+    [Inject] IJSRuntime JSRuntime { get; set; }
+    private bool isDarkMode = false;
+
+    private async Task ToggleDarkMode()
+    {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode)
+        {
+            await JSRuntime.InvokeVoidAsync("eval", "document.documentElement.classList.add('dark')");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("eval", "document.documentElement.classList.remove('dark')");
+        }
+    }
+}

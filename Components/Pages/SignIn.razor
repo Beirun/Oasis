@@ -1,10 +1,12 @@
 ﻿@page "/signin"
 @inject AppState appState
 @inject SignInServices SignInService
+@inject ToastServices ToastService
 @inject NavigationManager Navigation
 @inject SonnerState toast
 @inject UserState UserState
 @using Data.Models
+@using Data.Object
 @using Oasis.Library
 @using Oasis.State
 @using Microsoft.EntityFrameworkCore
@@ -113,6 +115,7 @@
         // string userType = await SignInService.getUserType(email);
         if (!result.Key){
             // ShowSonner("Login Failed", result.Value);
+        ToastService.ShowToast(result.Value, ToastLevel.Error, "Login Failed");
             toast.Error("Login Failed", result.Value);
             Console.WriteLine(result.Value);
             Console.WriteLine($"Error: {toast.message}");
@@ -125,8 +128,9 @@
         appState.SetCurrentUser(user);
         appState.SetCurrentUserType(result.Value);
         isSigningIn = false;
-            toast.Success("Login Success", "Logged in successfully");
+            // toast.Success("Login Success", "Logged in successfully");
             Console.WriteLine(toast.message);
+        ToastService.ShowToast("Logged in successfully!", ToastLevel.Success, "Login Success");
         Navigation.NavigateTo("/dashboard/" + result.Value.ToLower());
     }
 

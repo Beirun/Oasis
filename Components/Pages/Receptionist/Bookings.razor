@@ -16,6 +16,8 @@
 @inject PaymentServices PaymentService
 @inject GuestServices GuestService
 @inject NotificationSevices NotificationService
+@inject ToastServices ToastService
+
 <div class="w-screen min-h-screen flex flex-col bg-background font-montserrat">
     <Navbar />
 
@@ -870,13 +872,18 @@
         {
             case "cancel":
                 await CancelBookingConfirmed();
+                ToastService.ShowToast("Cancelled booking successfully!", ToastLevel.Success, "Cancelled Success!");
+
                 break;
             case "checkin":
                 Console.WriteLine("checkin");
+                ToastService.ShowToast("Guest checked-in successfully!", ToastLevel.Success, "Check-In Success!");
                 await CheckInBookingConfirmed();
+
                 break;
             case "checkout":
                 await CheckOutBookingConfirmed();
+                ToastService.ShowToast("Guest has checked-out successfully!", ToastLevel.Success, "Check-Out Success!");
                 break;
         }
         CloseConfirmationDialog();
@@ -995,6 +1002,8 @@
                 // Refresh bookings
                 bookings = await ReservationService.GetReservations();
                 filteredBookings = bookings;
+                ToastService.ShowToast("Booking extended successfully!", ToastLevel.Success, "Booking Extension Success!");
+
 
                 // Reset state
                 CloseExtendBookingDialog();

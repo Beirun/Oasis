@@ -1,0 +1,194 @@
+﻿@* Components/Toaster.razor *@
+@inject ToastServices ToastService
+@using Oasis.Library @* Make sure this namespace is correct for ToastInstance, ToastService *@
+@using Oasis.Data.Object
+@implements IDisposable
+@rendermode InteractiveServer
+
+@{
+    // This section is primarily for direct rendering logic
+    // We will calculate currentVisibleToasts in the @code block where needed for logic,
+    // and can recalculate for rendering if the list is modified.
+    var allToastsCountForRender = ToastService.GetToasts().Count(); // For the counter
+    var toastsToRender = ToastService.GetToasts()
+                                    .OrderByDescending(t => t.Timestamp)
+                                    .Take(MaxVisibleStackedToasts)
+                                    .ToList();
+}
+
+<div class="fixed bottom-25 right-6 z-50 w-full max-w-sm "
+     style="perspective: 1000px;">
+
+    @for (int i = 0; i < toastsToRender.Count; i++) // Use toastsToRender
+    {
+        var toast = toastsToRender[i];
+        var isTopMost = i == 0;
+        var zIndex = toastsToRender.Count - i;
+
+        var scaleFactor = 1.0;
+        var translateOffset = i * 8;
+
+        string toastOpacityString;
+        // Access _enteringTopToastId and _isApplyingEntryStyles from @code block
+        bool isCurrentlyEntering = isTopMost && toast.Id == _enteringTopToastId && _isApplyingEntryStyles;
+
+        if (isTopMost)
+        {
+            if (toast.IsFadingOut)
+            {
+                toastOpacityString = "0";
+            }
+            else if (isCurrentlyEntering)
+            {
+                toastOpacityString = "0";
+            }
+            else
+            {
+                toastOpacityString = "1";
+            }
+        }
+        else
+        {
+            var calculatedOpacityForStacked = (1 - (i * 0.3));
+            if (calculatedOpacityForStacked < 0.2) calculatedOpacityForStacked = 0.2;
+            toastOpacityString = calculatedOpacityForStacked.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        <div @key="toast.Id"
+             class="toast absolute inset-x-0 rounded-lg shadow-lg p-4 flex items-start gap-3 w-full transition-all duration-300 ease-in-out origin-bottom
+                    @(toast.GetBaseClasses())
+                    @(toast.IsFadingOut && isTopMost ? "opacity-0 translate-y-full scale-95" : "")"
+             style="z-index: @zIndex;
+                    transform: translate(@(translateOffset)px, -@(translateOffset)px) scale(@scaleFactor.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                    opacity: @toastOpacityString;
+                    pointer-events: @(isTopMost ? "auto" : "none");">
+
+            @if (isTopMost)
+            {
+                @* Content for topmost toast *@
+                @if (!string.IsNullOrEmpty(toast.GetIconSvg()))
+                {
+                    <div class="flex-shrink-0 pt-0.5">@((MarkupString)toast.GetIconSvg())</div>
+                }
+                <div class="flex-grow">
+                    @if (!string.IsNullOrWhiteSpace(toast.Title))
+                    {
+                        <p class="text-sm font-semibold @(toast.GetTitleTextColor())">@toast.Title</p>
+                    }
+                    <p class="text-sm @(toast.GetMessageTextColor()) @(!string.IsNullOrWhiteSpace(toast.Title) ? "mt-0.5" : "")">@toast.Message</p>
+                </div>
+                <div class="flex-shrink-0 ml-auto">
+                    <button type="button" @onclick="() => CloseToast(toast.Id)" class="inline-flex focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-md p-1 -m-1 @(toast.GetCloseButtonColors())">
+                        <span class="sr-only">Close</span><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="h-12 w-full"></div>
+            }
+        </div>
+    }
+
+    @* Optional: Display a counter if there are more toasts than visually stacked *@
+    @if (allToastsCountForRender > toastsToRender.Count && toastsToRender.Any())
+    {
+        var remainingCount = allToastsCountForRender - toastsToRender.Count;
+        var baseStyleToastForCounter = toastsToRender.Last();
+
+        var counterTranslateOffset = toastsToRender.Count * 8;
+        var counterScaleFactor = 1.0;
+
+        <div class="absolute inset-x-0 rounded-lg shadow-md flex items-center justify-center @(baseStyleToastForCounter.GetBaseClasses())"
+             style="z-index: 0; transform: translate(@(counterTranslateOffset)px, -@(counterTranslateOffset)px) scale(@counterScaleFactor.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)); opacity: 0.3; height: 40px; pointer-events: none;">
+            <span class="text-xs @(baseStyleToastForCounter.GetMessageTextColor())"> + @remainingCount more </span>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int MaxVisibleStackedToasts { get; set; } = 4;
+
+    private Guid? _enteringTopToastId = null;
+    private bool _isApplyingEntryStyles = false;
+
+    // Property to hold the current list of toasts, accessible in the @code block
+    private List<ToastInstance> CurrentVisibleToastsList { get; set; } = new List<ToastInstance>();
+
+
+    protected override void OnInitialized()
+    {
+        ToastService.OnToastsChanged += HandleToastsChanged;
+        UpdateCurrentVisibleToasts(); // Initial calculation
+    }
+
+    private void UpdateCurrentVisibleToasts()
+    {
+        CurrentVisibleToastsList = ToastService.GetToasts()
+                                        .OrderByDescending(t => t.Timestamp)
+                                        .Take(MaxVisibleStackedToasts)
+                                        .ToList();
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var currentTopToastInstance = CurrentVisibleToastsList.FirstOrDefault();
+
+        if (currentTopToastInstance != null)
+        {
+            // Scenario 1: A brand new toast has appeared at the top.
+            if (currentTopToastInstance.Id != _enteringTopToastId)
+            {
+                _enteringTopToastId = currentTopToastInstance.Id;
+                _isApplyingEntryStyles = true; // Prepare for initial render (opacity 0)
+
+                // The render triggered by HandleToastsChanged will use _isApplyingEntryStyles = true.
+                // Now, we schedule the "flip" to opacity 1.
+                // This needs to happen AFTER the current render cycle completes.
+                // We use Task.Run with a delay to achieve this separation.
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(20); // Small delay to ensure first render is done
+                    await InvokeAsync(() =>
+                    { // Ensure UI updates on the sync context
+                        if (CurrentVisibleToastsList.FirstOrDefault()?.Id == _enteringTopToastId) // Still the same toast?
+                        {
+                            _isApplyingEntryStyles = false; // Now flip to apply opacity 1
+                            StateHasChanged(); // Trigger re-render for opacity 1 -> animation
+                        }
+                    });
+                });
+            }
+        }
+        else if (_enteringTopToastId != null) // All toasts cleared
+        {
+            _enteringTopToastId = null;
+            _isApplyingEntryStyles = false;
+        }
+        await base.OnParametersSetAsync();
+    }
+
+    private async void HandleToastsChanged()
+    {
+        UpdateCurrentVisibleToasts(); // Update the list used by logic
+        await InvokeAsync(StateHasChanged); // This will trigger re-render AND OnParametersSetAsync
+    }
+
+    private async Task CloseToast(Guid toastId)
+    {
+        // Recalculate top toast directly from service to ensure freshness
+        var topToastFromService = ToastService.GetToasts().OrderByDescending(t => t.Timestamp).FirstOrDefault();
+        if (topToastFromService != null && topToastFromService.Id == toastId)
+        {
+            await ToastService.RemoveToastWithAnimation(toastId);
+            // HandleToastsChanged will be invoked by the service event
+        }
+    }
+
+    public void Dispose()
+    {
+        ToastService.OnToastsChanged -= HandleToastsChanged;
+    }
+}
